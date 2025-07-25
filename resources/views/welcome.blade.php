@@ -1,277 +1,3223 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BOXCARS | HTML Template | Home Page 01</title>
+    <!-- Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="css/slick.css">
+    <link href="css/mmenu.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
-        <title>Laravel</title>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+</head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+<body>
 
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */@layer theme{:root,:host{--font-sans:'Instrument Sans',ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-serif:ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--color-red-50:oklch(.971 .013 17.38);--color-red-100:oklch(.936 .032 17.717);--color-red-200:oklch(.885 .062 18.334);--color-red-300:oklch(.808 .114 19.571);--color-red-400:oklch(.704 .191 22.216);--color-red-500:oklch(.637 .237 25.331);--color-red-600:oklch(.577 .245 27.325);--color-red-700:oklch(.505 .213 27.518);--color-red-800:oklch(.444 .177 26.899);--color-red-900:oklch(.396 .141 25.723);--color-red-950:oklch(.258 .092 26.042);--color-orange-50:oklch(.98 .016 73.684);--color-orange-100:oklch(.954 .038 75.164);--color-orange-200:oklch(.901 .076 70.697);--color-orange-300:oklch(.837 .128 66.29);--color-orange-400:oklch(.75 .183 55.934);--color-orange-500:oklch(.705 .213 47.604);--color-orange-600:oklch(.646 .222 41.116);--color-orange-700:oklch(.553 .195 38.402);--color-orange-800:oklch(.47 .157 37.304);--color-orange-900:oklch(.408 .123 38.172);--color-orange-950:oklch(.266 .079 36.259);--color-amber-50:oklch(.987 .022 95.277);--color-amber-100:oklch(.962 .059 95.617);--color-amber-200:oklch(.924 .12 95.746);--color-amber-300:oklch(.879 .169 91.605);--color-amber-400:oklch(.828 .189 84.429);--color-amber-500:oklch(.769 .188 70.08);--color-amber-600:oklch(.666 .179 58.318);--color-amber-700:oklch(.555 .163 48.998);--color-amber-800:oklch(.473 .137 46.201);--color-amber-900:oklch(.414 .112 45.904);--color-amber-950:oklch(.279 .077 45.635);--color-yellow-50:oklch(.987 .026 102.212);--color-yellow-100:oklch(.973 .071 103.193);--color-yellow-200:oklch(.945 .129 101.54);--color-yellow-300:oklch(.905 .182 98.111);--color-yellow-400:oklch(.852 .199 91.936);--color-yellow-500:oklch(.795 .184 86.047);--color-yellow-600:oklch(.681 .162 75.834);--color-yellow-700:oklch(.554 .135 66.442);--color-yellow-800:oklch(.476 .114 61.907);--color-yellow-900:oklch(.421 .095 57.708);--color-yellow-950:oklch(.286 .066 53.813);--color-lime-50:oklch(.986 .031 120.757);--color-lime-100:oklch(.967 .067 122.328);--color-lime-200:oklch(.938 .127 124.321);--color-lime-300:oklch(.897 .196 126.665);--color-lime-400:oklch(.841 .238 128.85);--color-lime-500:oklch(.768 .233 130.85);--color-lime-600:oklch(.648 .2 131.684);--color-lime-700:oklch(.532 .157 131.589);--color-lime-800:oklch(.453 .124 130.933);--color-lime-900:oklch(.405 .101 131.063);--color-lime-950:oklch(.274 .072 132.109);--color-green-50:oklch(.982 .018 155.826);--color-green-100:oklch(.962 .044 156.743);--color-green-200:oklch(.925 .084 155.995);--color-green-300:oklch(.871 .15 154.449);--color-green-400:oklch(.792 .209 151.711);--color-green-500:oklch(.723 .219 149.579);--color-green-600:oklch(.627 .194 149.214);--color-green-700:oklch(.527 .154 150.069);--color-green-800:oklch(.448 .119 151.328);--color-green-900:oklch(.393 .095 152.535);--color-green-950:oklch(.266 .065 152.934);--color-emerald-50:oklch(.979 .021 166.113);--color-emerald-100:oklch(.95 .052 163.051);--color-emerald-200:oklch(.905 .093 164.15);--color-emerald-300:oklch(.845 .143 164.978);--color-emerald-400:oklch(.765 .177 163.223);--color-emerald-500:oklch(.696 .17 162.48);--color-emerald-600:oklch(.596 .145 163.225);--color-emerald-700:oklch(.508 .118 165.612);--color-emerald-800:oklch(.432 .095 166.913);--color-emerald-900:oklch(.378 .077 168.94);--color-emerald-950:oklch(.262 .051 172.552);--color-teal-50:oklch(.984 .014 180.72);--color-teal-100:oklch(.953 .051 180.801);--color-teal-200:oklch(.91 .096 180.426);--color-teal-300:oklch(.855 .138 181.071);--color-teal-400:oklch(.777 .152 181.912);--color-teal-500:oklch(.704 .14 182.503);--color-teal-600:oklch(.6 .118 184.704);--color-teal-700:oklch(.511 .096 186.391);--color-teal-800:oklch(.437 .078 188.216);--color-teal-900:oklch(.386 .063 188.416);--color-teal-950:oklch(.277 .046 192.524);--color-cyan-50:oklch(.984 .019 200.873);--color-cyan-100:oklch(.956 .045 203.388);--color-cyan-200:oklch(.917 .08 205.041);--color-cyan-300:oklch(.865 .127 207.078);--color-cyan-400:oklch(.789 .154 211.53);--color-cyan-500:oklch(.715 .143 215.221);--color-cyan-600:oklch(.609 .126 221.723);--color-cyan-700:oklch(.52 .105 223.128);--color-cyan-800:oklch(.45 .085 224.283);--color-cyan-900:oklch(.398 .07 227.392);--color-cyan-950:oklch(.302 .056 229.695);--color-sky-50:oklch(.977 .013 236.62);--color-sky-100:oklch(.951 .026 236.824);--color-sky-200:oklch(.901 .058 230.902);--color-sky-300:oklch(.828 .111 230.318);--color-sky-400:oklch(.746 .16 232.661);--color-sky-500:oklch(.685 .169 237.323);--color-sky-600:oklch(.588 .158 241.966);--color-sky-700:oklch(.5 .134 242.749);--color-sky-800:oklch(.443 .11 240.79);--color-sky-900:oklch(.391 .09 240.876);--color-sky-950:oklch(.293 .066 243.157);--color-blue-50:oklch(.97 .014 254.604);--color-blue-100:oklch(.932 .032 255.585);--color-blue-200:oklch(.882 .059 254.128);--color-blue-300:oklch(.809 .105 251.813);--color-blue-400:oklch(.707 .165 254.624);--color-blue-500:oklch(.623 .214 259.815);--color-blue-600:oklch(.546 .245 262.881);--color-blue-700:oklch(.488 .243 264.376);--color-blue-800:oklch(.424 .199 265.638);--color-blue-900:oklch(.379 .146 265.522);--color-blue-950:oklch(.282 .091 267.935);--color-indigo-50:oklch(.962 .018 272.314);--color-indigo-100:oklch(.93 .034 272.788);--color-indigo-200:oklch(.87 .065 274.039);--color-indigo-300:oklch(.785 .115 274.713);--color-indigo-400:oklch(.673 .182 276.935);--color-indigo-500:oklch(.585 .233 277.117);--color-indigo-600:oklch(.511 .262 276.966);--color-indigo-700:oklch(.457 .24 277.023);--color-indigo-800:oklch(.398 .195 277.366);--color-indigo-900:oklch(.359 .144 278.697);--color-indigo-950:oklch(.257 .09 281.288);--color-violet-50:oklch(.969 .016 293.756);--color-violet-100:oklch(.943 .029 294.588);--color-violet-200:oklch(.894 .057 293.283);--color-violet-300:oklch(.811 .111 293.571);--color-violet-400:oklch(.702 .183 293.541);--color-violet-500:oklch(.606 .25 292.717);--color-violet-600:oklch(.541 .281 293.009);--color-violet-700:oklch(.491 .27 292.581);--color-violet-800:oklch(.432 .232 292.759);--color-violet-900:oklch(.38 .189 293.745);--color-violet-950:oklch(.283 .141 291.089);--color-purple-50:oklch(.977 .014 308.299);--color-purple-100:oklch(.946 .033 307.174);--color-purple-200:oklch(.902 .063 306.703);--color-purple-300:oklch(.827 .119 306.383);--color-purple-400:oklch(.714 .203 305.504);--color-purple-500:oklch(.627 .265 303.9);--color-purple-600:oklch(.558 .288 302.321);--color-purple-700:oklch(.496 .265 301.924);--color-purple-800:oklch(.438 .218 303.724);--color-purple-900:oklch(.381 .176 304.987);--color-purple-950:oklch(.291 .149 302.717);--color-fuchsia-50:oklch(.977 .017 320.058);--color-fuchsia-100:oklch(.952 .037 318.852);--color-fuchsia-200:oklch(.903 .076 319.62);--color-fuchsia-300:oklch(.833 .145 321.434);--color-fuchsia-400:oklch(.74 .238 322.16);--color-fuchsia-500:oklch(.667 .295 322.15);--color-fuchsia-600:oklch(.591 .293 322.896);--color-fuchsia-700:oklch(.518 .253 323.949);--color-fuchsia-800:oklch(.452 .211 324.591);--color-fuchsia-900:oklch(.401 .17 325.612);--color-fuchsia-950:oklch(.293 .136 325.661);--color-pink-50:oklch(.971 .014 343.198);--color-pink-100:oklch(.948 .028 342.258);--color-pink-200:oklch(.899 .061 343.231);--color-pink-300:oklch(.823 .12 346.018);--color-pink-400:oklch(.718 .202 349.761);--color-pink-500:oklch(.656 .241 354.308);--color-pink-600:oklch(.592 .249 .584);--color-pink-700:oklch(.525 .223 3.958);--color-pink-800:oklch(.459 .187 3.815);--color-pink-900:oklch(.408 .153 2.432);--color-pink-950:oklch(.284 .109 3.907);--color-rose-50:oklch(.969 .015 12.422);--color-rose-100:oklch(.941 .03 12.58);--color-rose-200:oklch(.892 .058 10.001);--color-rose-300:oklch(.81 .117 11.638);--color-rose-400:oklch(.712 .194 13.428);--color-rose-500:oklch(.645 .246 16.439);--color-rose-600:oklch(.586 .253 17.585);--color-rose-700:oklch(.514 .222 16.935);--color-rose-800:oklch(.455 .188 13.697);--color-rose-900:oklch(.41 .159 10.272);--color-rose-950:oklch(.271 .105 12.094);--color-slate-50:oklch(.984 .003 247.858);--color-slate-100:oklch(.968 .007 247.896);--color-slate-200:oklch(.929 .013 255.508);--color-slate-300:oklch(.869 .022 252.894);--color-slate-400:oklch(.704 .04 256.788);--color-slate-500:oklch(.554 .046 257.417);--color-slate-600:oklch(.446 .043 257.281);--color-slate-700:oklch(.372 .044 257.287);--color-slate-800:oklch(.279 .041 260.031);--color-slate-900:oklch(.208 .042 265.755);--color-slate-950:oklch(.129 .042 264.695);--color-gray-50:oklch(.985 .002 247.839);--color-gray-100:oklch(.967 .003 264.542);--color-gray-200:oklch(.928 .006 264.531);--color-gray-300:oklch(.872 .01 258.338);--color-gray-400:oklch(.707 .022 261.325);--color-gray-500:oklch(.551 .027 264.364);--color-gray-600:oklch(.446 .03 256.802);--color-gray-700:oklch(.373 .034 259.733);--color-gray-800:oklch(.278 .033 256.848);--color-gray-900:oklch(.21 .034 264.665);--color-gray-950:oklch(.13 .028 261.692);--color-zinc-50:oklch(.985 0 0);--color-zinc-100:oklch(.967 .001 286.375);--color-zinc-200:oklch(.92 .004 286.32);--color-zinc-300:oklch(.871 .006 286.286);--color-zinc-400:oklch(.705 .015 286.067);--color-zinc-500:oklch(.552 .016 285.938);--color-zinc-600:oklch(.442 .017 285.786);--color-zinc-700:oklch(.37 .013 285.805);--color-zinc-800:oklch(.274 .006 286.033);--color-zinc-900:oklch(.21 .006 285.885);--color-zinc-950:oklch(.141 .005 285.823);--color-neutral-50:oklch(.985 0 0);--color-neutral-100:oklch(.97 0 0);--color-neutral-200:oklch(.922 0 0);--color-neutral-300:oklch(.87 0 0);--color-neutral-400:oklch(.708 0 0);--color-neutral-500:oklch(.556 0 0);--color-neutral-600:oklch(.439 0 0);--color-neutral-700:oklch(.371 0 0);--color-neutral-800:oklch(.269 0 0);--color-neutral-900:oklch(.205 0 0);--color-neutral-950:oklch(.145 0 0);--color-stone-50:oklch(.985 .001 106.423);--color-stone-100:oklch(.97 .001 106.424);--color-stone-200:oklch(.923 .003 48.717);--color-stone-300:oklch(.869 .005 56.366);--color-stone-400:oklch(.709 .01 56.259);--color-stone-500:oklch(.553 .013 58.071);--color-stone-600:oklch(.444 .011 73.639);--color-stone-700:oklch(.374 .01 67.558);--color-stone-800:oklch(.268 .007 34.298);--color-stone-900:oklch(.216 .006 56.043);--color-stone-950:oklch(.147 .004 49.25);--color-black:#000;--color-white:#fff;--spacing:.25rem;--breakpoint-sm:40rem;--breakpoint-md:48rem;--breakpoint-lg:64rem;--breakpoint-xl:80rem;--breakpoint-2xl:96rem;--container-3xs:16rem;--container-2xs:18rem;--container-xs:20rem;--container-sm:24rem;--container-md:28rem;--container-lg:32rem;--container-xl:36rem;--container-2xl:42rem;--container-3xl:48rem;--container-4xl:56rem;--container-5xl:64rem;--container-6xl:72rem;--container-7xl:80rem;--text-xs:.75rem;--text-xs--line-height:calc(1/.75);--text-sm:.875rem;--text-sm--line-height:calc(1.25/.875);--text-base:1rem;--text-base--line-height: 1.5 ;--text-lg:1.125rem;--text-lg--line-height:calc(1.75/1.125);--text-xl:1.25rem;--text-xl--line-height:calc(1.75/1.25);--text-2xl:1.5rem;--text-2xl--line-height:calc(2/1.5);--text-3xl:1.875rem;--text-3xl--line-height: 1.2 ;--text-4xl:2.25rem;--text-4xl--line-height:calc(2.5/2.25);--text-5xl:3rem;--text-5xl--line-height:1;--text-6xl:3.75rem;--text-6xl--line-height:1;--text-7xl:4.5rem;--text-7xl--line-height:1;--text-8xl:6rem;--text-8xl--line-height:1;--text-9xl:8rem;--text-9xl--line-height:1;--font-weight-thin:100;--font-weight-extralight:200;--font-weight-light:300;--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--font-weight-extrabold:800;--font-weight-black:900;--tracking-tighter:-.05em;--tracking-tight:-.025em;--tracking-normal:0em;--tracking-wide:.025em;--tracking-wider:.05em;--tracking-widest:.1em;--leading-tight:1.25;--leading-snug:1.375;--leading-normal:1.5;--leading-relaxed:1.625;--leading-loose:2;--radius-xs:.125rem;--radius-sm:.25rem;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--radius-2xl:1rem;--radius-3xl:1.5rem;--radius-4xl:2rem;--shadow-2xs:0 1px #0000000d;--shadow-xs:0 1px 2px 0 #0000000d;--shadow-sm:0 1px 3px 0 #0000001a,0 1px 2px -1px #0000001a;--shadow-md:0 4px 6px -1px #0000001a,0 2px 4px -2px #0000001a;--shadow-lg:0 10px 15px -3px #0000001a,0 4px 6px -4px #0000001a;--shadow-xl:0 20px 25px -5px #0000001a,0 8px 10px -6px #0000001a;--shadow-2xl:0 25px 50px -12px #00000040;--inset-shadow-2xs:inset 0 1px #0000000d;--inset-shadow-xs:inset 0 1px 1px #0000000d;--inset-shadow-sm:inset 0 2px 4px #0000000d;--drop-shadow-xs:0 1px 1px #0000000d;--drop-shadow-sm:0 1px 2px #00000026;--drop-shadow-md:0 3px 3px #0000001f;--drop-shadow-lg:0 4px 4px #00000026;--drop-shadow-xl:0 9px 7px #0000001a;--drop-shadow-2xl:0 25px 25px #00000026;--ease-in:cubic-bezier(.4,0,1,1);--ease-out:cubic-bezier(0,0,.2,1);--ease-in-out:cubic-bezier(.4,0,.2,1);--animate-spin:spin 1s linear infinite;--animate-ping:ping 1s cubic-bezier(0,0,.2,1)infinite;--animate-pulse:pulse 2s cubic-bezier(.4,0,.6,1)infinite;--animate-bounce:bounce 1s infinite;--blur-xs:4px;--blur-sm:8px;--blur-md:12px;--blur-lg:16px;--blur-xl:24px;--blur-2xl:40px;--blur-3xl:64px;--perspective-dramatic:100px;--perspective-near:300px;--perspective-normal:500px;--perspective-midrange:800px;--perspective-distant:1200px;--aspect-video:16/9;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4,0,.2,1);--default-font-family:var(--font-sans);--default-font-feature-settings:var(--font-sans--font-feature-settings);--default-font-variation-settings:var(--font-sans--font-variation-settings);--default-mono-font-family:var(--font-mono);--default-mono-font-feature-settings:var(--font-mono--font-feature-settings);--default-mono-font-variation-settings:var(--font-mono--font-variation-settings)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}body{line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1;color:color-mix(in oklab,currentColor 50%,transparent)}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){-webkit-appearance:button;-moz-appearance:button;appearance:button}::file-selector-button{-webkit-appearance:button;-moz-appearance:button;appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.absolute{position:absolute}.relative{position:relative}.static{position:static}.inset-0{inset:calc(var(--spacing)*0)}.-mt-\[4\.9rem\]{margin-top:-4.9rem}.-mb-px{margin-bottom:-1px}.mb-1{margin-bottom:calc(var(--spacing)*1)}.mb-2{margin-bottom:calc(var(--spacing)*2)}.mb-4{margin-bottom:calc(var(--spacing)*4)}.mb-6{margin-bottom:calc(var(--spacing)*6)}.-ml-8{margin-left:calc(var(--spacing)*-8)}.flex{display:flex}.hidden{display:none}.inline-block{display:inline-block}.inline-flex{display:inline-flex}.table{display:table}.aspect-\[335\/376\]{aspect-ratio:335/376}.h-1{height:calc(var(--spacing)*1)}.h-1\.5{height:calc(var(--spacing)*1.5)}.h-2{height:calc(var(--spacing)*2)}.h-2\.5{height:calc(var(--spacing)*2.5)}.h-3{height:calc(var(--spacing)*3)}.h-3\.5{height:calc(var(--spacing)*3.5)}.h-14{height:calc(var(--spacing)*14)}.h-14\.5{height:calc(var(--spacing)*14.5)}.min-h-screen{min-height:100vh}.w-1{width:calc(var(--spacing)*1)}.w-1\.5{width:calc(var(--spacing)*1.5)}.w-2{width:calc(var(--spacing)*2)}.w-2\.5{width:calc(var(--spacing)*2.5)}.w-3{width:calc(var(--spacing)*3)}.w-3\.5{width:calc(var(--spacing)*3.5)}.w-\[448px\]{width:448px}.w-full{width:100%}.max-w-\[335px\]{max-width:335px}.max-w-none{max-width:none}.flex-1{flex:1}.shrink-0{flex-shrink:0}.translate-y-0{--tw-translate-y:calc(var(--spacing)*0);translate:var(--tw-translate-x)var(--tw-translate-y)}.transform{transform:var(--tw-rotate-x)var(--tw-rotate-y)var(--tw-rotate-z)var(--tw-skew-x)var(--tw-skew-y)}.flex-col{flex-direction:column}.flex-col-reverse{flex-direction:column-reverse}.items-center{align-items:center}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}.gap-3{gap:calc(var(--spacing)*3)}.gap-4{gap:calc(var(--spacing)*4)}:where(.space-x-1>:not(:last-child)){--tw-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing)*1)*var(--tw-space-x-reverse));margin-inline-end:calc(calc(var(--spacing)*1)*calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:3.40282e38px}.rounded-sm{border-radius:var(--radius-sm)}.rounded-t-lg{border-top-left-radius:var(--radius-lg);border-top-right-radius:var(--radius-lg)}.rounded-br-lg{border-bottom-right-radius:var(--radius-lg)}.rounded-bl-lg{border-bottom-left-radius:var(--radius-lg)}.border{border-style:var(--tw-border-style);border-width:1px}.border-\[\#19140035\]{border-color:#19140035}.border-\[\#e3e3e0\]{border-color:#e3e3e0}.border-black{border-color:var(--color-black)}.border-transparent{border-color:#0000}.bg-\[\#1b1b18\]{background-color:#1b1b18}.bg-\[\#FDFDFC\]{background-color:#fdfdfc}.bg-\[\#dbdbd7\]{background-color:#dbdbd7}.bg-\[\#fff2f2\]{background-color:#fff2f2}.bg-white{background-color:var(--color-white)}.p-6{padding:calc(var(--spacing)*6)}.px-5{padding-inline:calc(var(--spacing)*5)}.py-1{padding-block:calc(var(--spacing)*1)}.py-1\.5{padding-block:calc(var(--spacing)*1.5)}.py-2{padding-block:calc(var(--spacing)*2)}.pb-12{padding-bottom:calc(var(--spacing)*12)}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-\[13px\]{font-size:13px}.leading-\[20px\]{--tw-leading:20px;line-height:20px}.leading-normal{--tw-leading:var(--leading-normal);line-height:var(--leading-normal)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.text-\[\#1b1b18\]{color:#1b1b18}.text-\[\#706f6c\]{color:#706f6c}.text-\[\#F53003\],.text-\[\#f53003\]{color:#f53003}.text-white{color:var(--color-white)}.underline{text-decoration-line:underline}.underline-offset-4{text-underline-offset:4px}.opacity-100{opacity:1}.shadow-\[0px_0px_1px_0px_rgba\(0\,0\,0\,0\.03\)\,0px_1px_2px_0px_rgba\(0\,0\,0\,0\.06\)\]{--tw-shadow:0px 0px 1px 0px var(--tw-shadow-color,#00000008),0px 1px 2px 0px var(--tw-shadow-color,#0000000f);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[inset_0px_0px_0px_1px_rgba\(26\,26\,0\,0\.16\)\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#1a1a0029);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.\!filter{filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)!important}.filter{filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-opacity{transition-property:opacity;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.delay-300{transition-delay:.3s}.duration-750{--tw-duration:.75s;transition-duration:.75s}.not-has-\[nav\]\:hidden:not(:has(:is(nav))){display:none}.before\:absolute:before{content:var(--tw-content);position:absolute}.before\:top-0:before{content:var(--tw-content);top:calc(var(--spacing)*0)}.before\:top-1\/2:before{content:var(--tw-content);top:50%}.before\:bottom-0:before{content:var(--tw-content);bottom:calc(var(--spacing)*0)}.before\:bottom-1\/2:before{content:var(--tw-content);bottom:50%}.before\:left-\[0\.4rem\]:before{content:var(--tw-content);left:.4rem}.before\:border-l:before{content:var(--tw-content);border-left-style:var(--tw-border-style);border-left-width:1px}.before\:border-\[\#e3e3e0\]:before{content:var(--tw-content);border-color:#e3e3e0}@media (hover:hover){.hover\:border-\[\#1915014a\]:hover{border-color:#1915014a}.hover\:border-\[\#19140035\]:hover{border-color:#19140035}.hover\:border-black:hover{border-color:var(--color-black)}.hover\:bg-black:hover{background-color:var(--color-black)}}@media (width>=64rem){.lg\:-mt-\[6\.6rem\]{margin-top:-6.6rem}.lg\:mb-0{margin-bottom:calc(var(--spacing)*0)}.lg\:mb-6{margin-bottom:calc(var(--spacing)*6)}.lg\:-ml-px{margin-left:-1px}.lg\:ml-0{margin-left:calc(var(--spacing)*0)}.lg\:block{display:block}.lg\:aspect-auto{aspect-ratio:auto}.lg\:w-\[438px\]{width:438px}.lg\:max-w-4xl{max-width:var(--container-4xl)}.lg\:grow{flex-grow:1}.lg\:flex-row{flex-direction:row}.lg\:justify-center{justify-content:center}.lg\:rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.lg\:rounded-tl-lg{border-top-left-radius:var(--radius-lg)}.lg\:rounded-r-lg{border-top-right-radius:var(--radius-lg);border-bottom-right-radius:var(--radius-lg)}.lg\:rounded-br-none{border-bottom-right-radius:0}.lg\:p-8{padding:calc(var(--spacing)*8)}.lg\:p-20{padding:calc(var(--spacing)*20)}}@media (prefers-color-scheme:dark){.dark\:block{display:block}.dark\:hidden{display:none}.dark\:border-\[\#3E3E3A\]{border-color:#3e3e3a}.dark\:border-\[\#eeeeec\]{border-color:#eeeeec}.dark\:bg-\[\#0a0a0a\]{background-color:#0a0a0a}.dark\:bg-\[\#1D0002\]{background-color:#1d0002}.dark\:bg-\[\#3E3E3A\]{background-color:#3e3e3a}.dark\:bg-\[\#161615\]{background-color:#161615}.dark\:bg-\[\#eeeeec\]{background-color:#eeeeec}.dark\:text-\[\#1C1C1A\]{color:#1c1c1a}.dark\:text-\[\#A1A09A\]{color:#a1a09a}.dark\:text-\[\#EDEDEC\]{color:#ededec}.dark\:text-\[\#F61500\]{color:#f61500}.dark\:text-\[\#FF4433\]{color:#f43}.dark\:shadow-\[inset_0px_0px_0px_1px_\#fffaed2d\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#fffaed2d);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.dark\:before\:border-\[\#3E3E3A\]:before{content:var(--tw-content);border-color:#3e3e3a}@media (hover:hover){.dark\:hover\:border-\[\#3E3E3A\]:hover{border-color:#3e3e3a}.dark\:hover\:border-\[\#62605b\]:hover{border-color:#62605b}.dark\:hover\:border-white:hover{border-color:var(--color-white)}.dark\:hover\:bg-white:hover{background-color:var(--color-white)}}}@starting-style{.starting\:translate-y-4{--tw-translate-y:calc(var(--spacing)*4);translate:var(--tw-translate-x)var(--tw-translate-y)}}@starting-style{.starting\:translate-y-6{--tw-translate-y:calc(var(--spacing)*6);translate:var(--tw-translate-x)var(--tw-translate-y)}}@starting-style{.starting\:opacity-0{opacity:0}}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes ping{75%,to{opacity:0;transform:scale(2)}}@keyframes pulse{50%{opacity:.5}}@keyframes bounce{0%,to{animation-timing-function:cubic-bezier(.8,0,1,1);transform:translateY(-25%)}50%{animation-timing-function:cubic-bezier(0,0,.2,1);transform:none}}@property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-y{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-z{syntax:"*";inherits:false;initial-value:0}@property --tw-rotate-x{syntax:"*";inherits:false;initial-value:rotateX(0)}@property --tw-rotate-y{syntax:"*";inherits:false;initial-value:rotateY(0)}@property --tw-rotate-z{syntax:"*";inherits:false;initial-value:rotateZ(0)}@property --tw-skew-x{syntax:"*";inherits:false;initial-value:skewX(0)}@property --tw-skew-y{syntax:"*";inherits:false;initial-value:skewY(0)}@property --tw-space-x-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-duration{syntax:"*";inherits:false}@property --tw-content{syntax:"*";inherits:false;initial-value:""}
-            </style>
-        @endif
-    </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
+<div class="boxcar-wrapper">
 
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-            <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Laravel has an incredibly rich ecosystem. <br>We suggest starting with the following.</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
+    <!-- Main Header-->
+    <header class="boxcar-header header-style-v1 header-default">
+        <div class="header-inner">
+            <div class="inner-container">
+                <!-- Main box -->
+                <div class="c-box">
+                    <div class="logo-inner">
+                        <div class="logo"><a href="index.html"><img src="images/logo.svg" alt="" title="Boxcar"></a></div>
+                        <!-- <div class="search-btn">
+                            <a href="#" class="search">
+                                <span class="icon">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
+                                    </svg>
                                 </span>
-                            </span>
-                            <span>
-                                Read the
-                                <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Documentation</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
+                                 Search Cars eg. Audi Q7</a>
+                        </div> -->
+                        <div class="layout-search">
+                            <div class="search-box">
+                                <svg class="icon"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
+                                </svg>
+                                <input type="search" placeholder="Search Cars eg. Audi Q7" class="show-search" name="name" tabindex="2" value="" aria-required="true" required="">
+
+                            </div>
+                            <div class="box-content-search" id="box-content-search">
+                                <ul class="box-car-search">
+                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                            <div class="box-img">
+                                                <img src="images/resource/car-search.jpg" alt="img">
+                                            </div>
+                                            <div class="info">
+                                                <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
+                                                <span class="price">$399</span>
+                                            </div>
+                                        </a></li>
+                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                            <div class="box-img">
+                                                <img src="images/resource/car-search.jpg" alt="img">
+                                            </div>
+                                            <div class="info">
+                                                <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
+                                                <span class="price">$399</span>
+                                            </div>
+                                        </a></li>
+                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                            <div class="box-img">
+                                                <img src="images/resource/car-search.jpg" alt="img">
+                                            </div>
+                                            <div class="info">
+                                                <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
+                                                <span class="price">$399</span>
+                                            </div>
+                                        </a></li>
+                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                            <div class="box-img">
+                                                <img src="images/resource/car-search.jpg" alt="img">
+                                            </div>
+                                            <div class="info">
+                                                <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
+                                                <span class="price">$399</span>
+                                            </div>
+                                        </a></li>
+                                </ul>
+                                <a href="inventory-page-single.html" class="btn-view-search">
+                                    View Details
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_3114_6864)">
+                                            <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_3114_6864">
+                                                <rect width="14" height="14" fill="white"/>
+                                            </clipPath>
+                                        </defs>
                                     </svg>
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Nav Box-->
+                    <div class="nav-out-bar">
+                        <nav class="nav main-menu">
+                            <ul class="navigation" id="navbar">
+                                <li class="current-dropdown current"><span>Home <i class="fa-solid fa-angle-down"></i></span>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Home 01</a></li>
+                                        <li><a href="index-2.html">Home 02</a></li>
+                                        <li><a href="index-3.html">Home 03</a></li>
+                                        <li><a href="index-4.html">Home 04</a></li>
+                                        <li><a href="index-5.html">Home 05</a></li>
+                                        <li><a href="index-6.html">Home 06</a></li>
+                                        <li><a href="index-7.html">Home 07</a></li>
+                                        <li><a href="index-8.html">Home 08</a></li>
+                                        <li><a href="index-9.html">Home 09</a></li>
+                                        <li><a href="index-10.html">Home 10</a></li>
+                                    </ul>
+                                </li>
+                                <li class="current-dropdown"><span>Inventory <i class="fa-solid fa-angle-down"></i></span>
+                                    <div class="mega-menu">
+                                        <div class="mega-column">
+                                            <h3>Inventory List</h3>
+                                            <ul>
+                                                <li><a href="inventory-list-01.html" title="">Inventory List v1</a></li>
+                                                <li><a href="inventory-list-02.html" title="">Inventory List v2</a></li>
+                                                <li><a href="inventory-map-cards.html" title="">Map - Cards</a></li>
+                                                <li><a href="inventory-map-rows.html" title="">Map - Rows</a></li>
+                                                <li><a href="inventory-sidebar-rows.html" title="">Sidebar - Rows</a></li>
+                                                <li><a href="inventory-sidebar-cards.html" title="">Sidebar - Cards</a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="mega-column">
+                                            <h3>Inventory Single</h3>
+                                            <ul>
+                                                <li><a href="inventory-page-single.html" title="">Inventory Single v1</a></li>
+                                                <li><a href="inventory-page-single-v2.html" title="">Inventory Single v2</a></li>
+                                                <li><a href="inventory-page-single-v3.html" title="">Inventory Single v3</a></li>
+                                                <li><a href="inventory-page-single-v4.html" title="">Inventory Single v4</a></li>
+                                                <li><a href="inventory-page-single-v5.html" title="">Inventory Single v5</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-column">
+                                            <h3>Popular Makes</h3>
+                                            <ul>
+                                                <li><a href="inventory-page-single.html" title="">Audi</a></li>
+                                                <li><a href="inventory-page-single.html" title="">BMW</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Ford</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Honda</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Land Rover</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Mercedes-Benz</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-column">
+                                            <h3>Type</h3>
+                                            <ul>
+                                                <li><a href="inventory-page-single.html" title="">Sedan</a></li>
+                                                <li><a href="inventory-page-single.html" title="">SUVs</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Sport Coupe</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Convertible</a></li>
+                                                <li><a href="inventory-page-single.html" title="">Wagon</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="current-dropdown"><span>Blog <i class="fa-solid fa-angle-down"></i></span>
+                                    <ul class="dropdown">
+                                        <li><a href="blog-list-01.html">Blog List 01</a></li>
+                                        <li><a href="blog-list-02.html">Blog List 02</a></li>
+                                        <li><a href="blog-list-03.html">Blog List 03</a></li>
+                                        <li><a href="blog-single.html">Blog Single</a></li>
+                                    </ul>
+                                </li>
+                                <li class="current-dropdown"><span>Shop <i class="fa-solid fa-angle-down"></i></span>
+                                    <ul class="dropdown">
+                                        <li><a href="shop-list.html">Shop List</a></li>
+                                        <li><a href="shop-single.html">Shop Single</a></li>
+                                        <li><a href="cart.html">Cart</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                    </ul>
+                                </li>
+                                <li class="current-dropdown right-one"><span>Pages <i class="fa-solid fa-angle-down"></i></span>
+                                    <ul class="dropdown">
+                                        <li class="nav-sub"><a href="#">Dashboard <i class="fa fa-angle-right"></i></a>
+                                            <ul class="dropdown deep subnav-menu">
+                                                <li><a href="dashboard.html" title="">Dashboard</a></li>
+                                                <li><a href="my-listings.html" title="">My Listings</a></li>
+                                                <li><a href="add-listings.html" title="">Add Listings</a></li>
+                                                <li><a href="favorite.html" title="">Favorites</a></li>
+                                                <li><a href="saved.html" title="">Saved Search</a></li>
+                                                <li><a href="messages.html" title="">Messages</a></li>
+                                                <li><a href="profile.html" title="">Profile</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="about.html">About</a></li>
+                                        <li><a href="contact.html">Services</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="faq.html">FAQs</a></li>
+                                        <li><a href="pricing.html">Pricing</a></li>
+                                        <li><a href="terms.html">Terms</a></li>
+                                        <li><a href="team-list.html">Team List</a></li>
+                                        <li><a href="team-single.html">Team Single</a></li>
+                                        <li><a href="dealer.html">Dealer List</a></li>
+                                        <li><a href="dealer-single.html">Dealer Single</a></li>
+                                        <li><a href="loan-calculator.html">Loan Calculator</a></li>
+                                        <li><a href="compare.html">Compare</a></li>
+                                        <li><a href="404.html">404</a></li>
+                                        <li><a href="invoice.html">Invoice</a></li>
+                                        <li><a href="ui-elements.html">UI Elements</a></li>
+
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- Main Menu End-->
+                    </div>
+
+                    <div class="right-box">
+                        <a href="login.html" title="" class="box-account">
+                            <span class="icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_147_6490)">
+                                        <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
+                                        <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_147_6490">
+                                            <rect width="16" height="16" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
                             </span>
-                        </li>
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:bottom-1/2 before:top-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Watch video tutorials at
-                                <a href="https://laracasts.com" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Laracasts</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
-                                Deploy now
+                            Sign in</a>
+                        <div class="btn">
+                            <a href="add-listings.html" class="header-btn-two">Add Listing</a>
+                        </div>
+                        <div class="mobile-navigation">
+                            <a href="#nav-mobile" title="">
+                                <!-- <i class="fa fa-bars"></i> -->
+                                <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="22" height="2" fill="white"/>
+                                    <rect y="9" width="22" height="2" fill="white"/>
+                                </svg>
+
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
-                    {{-- Laravel Logo --}}
-                    <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
-                        <path d="M110.256 41.6337C108.061 38.1275 104.945 35.3731 100.905 33.3681C96.8667 31.3647 92.8016 30.3618 88.7131 30.3618C83.4247 30.3618 78.5885 31.3389 74.201 33.2923C69.8111 35.2456 66.0474 37.928 62.9059 41.3333C59.7643 44.7401 57.3198 48.6726 55.5754 53.1293C53.8287 57.589 52.9572 62.274 52.9572 67.1813C52.9572 72.1925 53.8287 76.8995 55.5754 81.3069C57.3191 85.7173 59.7636 89.6241 62.9059 93.0293C66.0474 96.4361 69.8119 99.1155 74.201 101.069C78.5885 103.022 83.4247 103.999 88.7131 103.999C92.8016 103.999 96.8667 102.997 100.905 100.994C104.945 98.9911 108.061 96.2359 110.256 92.7282V102.195H126.563V32.1642H110.256V41.6337ZM108.76 75.7472C107.762 78.4531 106.366 80.8078 104.572 82.8112C102.776 84.8161 100.606 86.4183 98.0637 87.6206C95.5202 88.823 92.7004 89.4238 89.6103 89.4238C86.5178 89.4238 83.7252 88.823 81.2324 87.6206C78.7388 86.4183 76.5949 84.8161 74.7998 82.8112C73.004 80.8078 71.6319 78.4531 70.6856 75.7472C69.7356 73.0421 69.2644 70.1868 69.2644 67.1821C69.2644 64.1758 69.7356 61.3205 70.6856 58.6154C71.6319 55.9102 73.004 53.5571 74.7998 51.5522C76.5949 49.5495 78.738 47.9451 81.2324 46.7427C83.7252 45.5404 86.5178 44.9396 89.6103 44.9396C92.7012 44.9396 95.5202 45.5404 98.0637 46.7427C100.606 47.9451 102.776 49.5487 104.572 51.5522C106.367 53.5571 107.762 55.9102 108.76 58.6154C109.756 61.3205 110.256 64.1758 110.256 67.1821C110.256 70.1868 109.756 73.0421 108.76 75.7472Z" fill="currentColor" />
-                        <path d="M242.805 41.6337C240.611 38.1275 237.494 35.3731 233.455 33.3681C229.416 31.3647 225.351 30.3618 221.262 30.3618C215.974 30.3618 211.138 31.3389 206.75 33.2923C202.36 35.2456 198.597 37.928 195.455 41.3333C192.314 44.7401 189.869 48.6726 188.125 53.1293C186.378 57.589 185.507 62.274 185.507 67.1813C185.507 72.1925 186.378 76.8995 188.125 81.3069C189.868 85.7173 192.313 89.6241 195.455 93.0293C198.597 96.4361 202.361 99.1155 206.75 101.069C211.138 103.022 215.974 103.999 221.262 103.999C225.351 103.999 229.416 102.997 233.455 100.994C237.494 98.9911 240.611 96.2359 242.805 92.7282V102.195H259.112V32.1642H242.805V41.6337ZM241.31 75.7472C240.312 78.4531 238.916 80.8078 237.122 82.8112C235.326 84.8161 233.156 86.4183 230.614 87.6206C228.07 88.823 225.251 89.4238 222.16 89.4238C219.068 89.4238 216.275 88.823 213.782 87.6206C211.289 86.4183 209.145 84.8161 207.35 82.8112C205.554 80.8078 204.182 78.4531 203.236 75.7472C202.286 73.0421 201.814 70.1868 201.814 67.1821C201.814 64.1758 202.286 61.3205 203.236 58.6154C204.182 55.9102 205.554 53.5571 207.35 51.5522C209.145 49.5495 211.288 47.9451 213.782 46.7427C216.275 45.5404 219.068 44.9396 222.16 44.9396C225.251 44.9396 228.07 45.5404 230.614 46.7427C233.156 47.9451 235.326 49.5487 237.122 51.5522C238.917 53.5571 240.312 55.9102 241.31 58.6154C242.306 61.3205 242.806 64.1758 242.806 67.1821C242.805 70.1868 242.305 73.0421 241.31 75.7472Z" fill="currentColor" />
-                        <path d="M438 -3H421.694V102.197H438V-3Z" fill="currentColor" />
-                        <path d="M139.43 102.197H155.735V48.2834H183.712V32.1665H139.43V102.197Z" fill="currentColor" />
-                        <path d="M324.49 32.1665L303.995 85.794L283.498 32.1665H266.983L293.748 102.197H314.242L341.006 32.1665H324.49Z" fill="currentColor" />
-                        <path d="M376.571 30.3656C356.603 30.3656 340.797 46.8497 340.797 67.1828C340.797 89.6597 356.094 104 378.661 104C391.29 104 399.354 99.1488 409.206 88.5848L398.189 80.0226C398.183 80.031 389.874 90.9895 377.468 90.9895C363.048 90.9895 356.977 79.3111 356.977 73.269H411.075C413.917 50.1328 398.775 30.3656 376.571 30.3656ZM357.02 61.0967C357.145 59.7487 359.023 43.3761 376.442 43.3761C393.861 43.3761 395.978 59.7464 396.099 61.0967H357.02Z" fill="currentColor" />
-                    </svg>
-
-                    {{-- Light Mode 12 SVG --}}
-                    <svg class="w-[448px] max-w-none relative -mt-[4.9rem] -ml-8 lg:ml-0 lg:-mt-[6.6rem] dark:hidden" viewBox="0 0 440 376" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" fill="black" />
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" fill="black" />
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" fill="#F8B803" />
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" fill="#F8B803" />
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" fill="#F0ACB8" />
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" fill="#F0ACB8" />
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g style="mix-blend-mode: plus-darker" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M230.951 281.792L231.282 281.793C238.128 274.907 248.453 265.823 262.256 254.539C275.617 243.256 285.666 234.267 292.402 227.573C299.027 220.688 303.554 213.421 305.983 205.771C308.412 198.12 307.253 190.183 302.504 181.959C297.203 172.778 289.749 165.415 280.142 159.868C270.645 154.13 260.596 151.26 249.995 151.26C239.615 151.26 232.823 154.033 229.621 159.579C226.309 164.934 227.413 172.393 232.935 181.956L168.335 181.954C159.058 165.888 155.082 151.543 156.407 138.92C157.953 126.298 164.247 116.544 175.289 109.659C186.442 102.583 201.294 99.045 219.846 99.0457C239.281 99.0464 258.551 102.585 277.655 109.663C296.649 116.549 313.986 126.303 329.667 138.927C345.349 151.551 357.827 165.895 367.104 181.961C375.718 196.88 379.528 209.981 378.535 221.265C377.762 232.549 374.063 242.399 367.438 250.814C361.033 259.229 351.095 269.557 337.624 281.796L419.782 281.8L448.605 331.719L259.774 331.712L230.951 281.792Z" fill="#F3BEC7" />
-                            <path d="M51.8063 152.402L28.9479 152.401L-0.0411453 102.195L85.7608 102.198L218.282 331.711L155.339 331.709L51.8063 152.402Z" fill="#F3BEC7" />
-                            <path d="M230.951 281.792L231.282 281.793C238.128 274.907 248.453 265.823 262.256 254.539C275.617 243.256 285.666 234.267 292.402 227.573C299.027 220.688 303.554 213.421 305.983 205.771C308.412 198.12 307.253 190.183 302.504 181.959C297.203 172.778 289.749 165.415 280.142 159.868C270.645 154.13 260.596 151.26 249.995 151.26C239.615 151.26 232.823 154.033 229.621 159.579C226.309 164.934 227.413 172.393 232.935 181.956L168.335 181.954C159.058 165.888 155.082 151.543 156.407 138.92C157.953 126.298 164.247 116.544 175.289 109.659C186.442 102.583 201.294 99.045 219.846 99.0457C239.281 99.0464 258.551 102.585 277.655 109.663C296.649 116.549 313.986 126.303 329.667 138.927C345.349 151.551 357.827 165.895 367.104 181.961C375.718 196.88 379.528 209.981 378.535 221.265C377.762 232.549 374.063 242.399 367.438 250.814C361.033 259.229 351.095 269.557 337.624 281.796L419.782 281.8L448.605 331.719L259.774 331.712L230.951 281.792Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M51.8063 152.402L28.9479 152.401L-0.0411453 102.195L85.7608 102.198L218.282 331.711L155.339 331.709L51.8063 152.402Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.467 355.363L188.798 355.363C195.644 348.478 205.969 339.393 219.772 328.11C233.133 316.826 243.181 307.837 249.917 301.144C253.696 297.217 256.792 293.166 259.205 288.991C261.024 285.845 262.455 282.628 263.499 279.341C265.928 271.691 264.768 263.753 260.02 255.529C254.719 246.349 247.265 238.985 237.657 233.438C228.16 227.7 218.111 224.831 207.51 224.83C197.13 224.83 190.339 227.603 187.137 233.149C183.824 238.504 184.929 245.963 190.45 255.527L125.851 255.524C116.574 239.458 112.598 225.114 113.923 212.491C114.615 206.836 116.261 201.756 118.859 197.253C122.061 191.704 126.709 187.03 132.805 183.229C143.958 176.153 158.81 172.615 177.362 172.616C196.797 172.617 216.067 176.156 235.171 183.233C254.164 190.119 271.502 199.874 287.183 212.497C302.864 225.121 315.343 239.466 324.62 255.532C333.233 270.45 337.044 283.551 336.05 294.835C335.46 303.459 333.16 311.245 329.151 318.194C327.915 320.337 326.515 322.4 324.953 324.384C318.549 332.799 308.611 343.127 295.139 355.367L377.297 355.37L406.121 405.289L217.29 405.282L188.467 355.363Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M345.247 111.915C329.566 99.2919 312.229 89.5371 293.235 82.6512L235.167 183.228C254.161 190.114 271.498 199.869 287.179 212.492L345.247 111.915Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M382.686 154.964C373.41 138.898 360.931 124.553 345.25 111.93L287.182 212.506C302.863 225.13 315.342 239.475 324.618 255.541L382.686 154.964Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M293.243 82.6472C274.139 75.57 254.869 72.031 235.434 72.0303L177.366 172.607C196.801 172.608 216.071 176.147 235.175 183.224L293.243 82.6472Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M394.118 194.257C395.112 182.973 391.301 169.872 382.688 154.953L324.619 255.53C333.233 270.448 337.044 283.55 336.05 294.834L394.118 194.257Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M235.432 72.0311C216.88 72.0304 202.027 75.5681 190.875 82.6442L132.806 183.221C143.959 176.145 158.812 172.607 177.363 172.608L235.432 72.0311Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M265.59 124.25C276.191 124.251 286.24 127.12 295.737 132.858L237.669 233.435C228.172 227.697 218.123 224.828 207.522 224.827L265.59 124.25Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M295.719 132.859C305.326 138.406 312.78 145.77 318.081 154.95L260.013 255.527C254.712 246.347 247.258 238.983 237.651 233.436L295.719 132.859Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M387.218 217.608C391.227 210.66 393.527 202.874 394.117 194.25L336.049 294.827C335.459 303.451 333.159 311.237 329.15 318.185L387.218 217.608Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M245.211 132.577C248.413 127.03 255.204 124.257 265.584 124.258L207.516 224.835C197.136 224.834 190.345 227.607 187.143 233.154L245.211 132.577Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M318.094 154.945C322.842 163.17 324.002 171.107 321.573 178.757L263.505 279.334C265.934 271.684 264.774 263.746 260.026 255.522L318.094 154.945Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M176.925 96.6737C180.127 91.1249 184.776 86.4503 190.871 82.6499L132.803 183.227C126.708 187.027 122.059 191.702 118.857 197.25L176.925 96.6737Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M387.226 217.606C385.989 219.749 384.59 221.813 383.028 223.797L324.96 324.373C326.522 322.39 327.921 320.326 329.157 318.183L387.226 217.606Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M317.269 188.408C319.087 185.262 320.519 182.045 321.562 178.758L263.494 279.335C262.451 282.622 261.019 285.839 259.201 288.985L317.269 188.408Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M245.208 132.573C241.895 137.928 243 145.387 248.522 154.95L190.454 255.527C184.932 245.964 183.827 238.505 187.14 233.15L245.208 132.573Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M176.93 96.6719C174.331 101.175 172.686 106.255 171.993 111.91L113.925 212.487C114.618 206.831 116.263 201.752 118.862 197.249L176.93 96.6719Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M317.266 188.413C314.853 192.589 311.757 196.64 307.978 200.566L249.91 301.143C253.689 297.216 256.785 293.166 259.198 288.99L317.266 188.413Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M464.198 304.708L435.375 254.789L377.307 355.366L406.13 405.285L464.198 304.708Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M353.209 254.787C366.68 242.548 376.618 232.22 383.023 223.805L324.955 324.382C318.55 332.797 308.612 343.124 295.141 355.364L353.209 254.787Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M435.37 254.787L353.212 254.784L295.144 355.361L377.302 355.364L435.37 254.787Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M183.921 154.947L248.521 154.95L190.453 255.527L125.853 255.524L183.921 154.947Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M171.992 111.914C170.668 124.537 174.643 138.881 183.92 154.947L125.852 255.524C116.575 239.458 112.599 225.114 113.924 212.491L171.992 111.914Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M307.987 200.562C301.251 207.256 291.203 216.244 277.842 227.528L219.774 328.105C233.135 316.821 243.183 307.832 249.919 301.139L307.987 200.562Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M15.5469 75.1797L44.5359 125.386L-13.5321 225.963L-42.5212 175.756L15.5469 75.1797Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M277.836 227.536C264.033 238.82 253.708 247.904 246.862 254.789L188.794 355.366C195.64 348.481 205.965 339.397 219.768 328.113L277.836 227.536Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M275.358 304.706L464.189 304.713L406.12 405.29L217.29 405.283L275.358 304.706Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M44.5279 125.39L67.3864 125.39L9.31834 225.967L-13.5401 225.966L44.5279 125.39Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M101.341 75.1911L233.863 304.705L175.795 405.282L43.2733 175.768L101.341 75.1911ZM15.5431 75.19L-42.525 175.767L43.277 175.77L101.345 75.1932L15.5431 75.19Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M246.866 254.784L246.534 254.784L188.466 355.361L188.798 355.361L246.866 254.784Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M246.539 254.781L275.362 304.701L217.294 405.277L188.471 355.358L246.539 254.781Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M67.3906 125.391L170.923 304.698L112.855 405.275L9.32257 225.967L67.3906 125.391Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M170.921 304.699L233.865 304.701L175.797 405.278L112.853 405.276L170.921 304.699Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" fill="#F0ACB8" />
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="round" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" fill="#F0ACB8" />
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                    </svg>
-
-                    {{-- Dark Mode 12 SVG --}}
-                    <svg class="w-[448px] max-w-none relative -mt-[4.9rem] -ml-8 lg:ml-0 lg:-mt-[6.6rem] hidden dark:block" viewBox="0 0 440 376" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" fill="black"/>
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" fill="black"/>
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" fill="#391800"/>
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" fill="#391800"/>
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" fill="#733000"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" fill="#733000"/>
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.726 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.467 355.363L188.798 355.363C195.644 348.478 205.969 339.393 219.772 328.11C233.133 316.826 243.181 307.837 249.917 301.144C253.696 297.217 256.792 293.166 259.205 288.991C261.024 285.845 262.455 282.628 263.499 279.341C265.928 271.691 264.768 263.753 260.02 255.529C254.719 246.349 247.265 238.985 237.657 233.438C228.16 227.7 218.111 224.831 207.51 224.83C197.13 224.83 190.339 227.603 187.137 233.149C183.824 238.504 184.929 245.963 190.45 255.527L125.851 255.524C116.574 239.458 112.598 225.114 113.923 212.491C114.615 206.836 116.261 201.756 118.859 197.253C122.061 191.704 126.709 187.03 132.805 183.229C143.958 176.153 158.81 172.615 177.362 172.616C196.797 172.617 216.067 176.156 235.171 183.233C254.164 190.119 271.502 199.874 287.183 212.497C302.864 225.121 315.343 239.466 324.62 255.532C333.233 270.45 337.044 283.551 336.05 294.835C335.46 303.459 333.16 311.245 329.151 318.194C327.915 320.337 326.515 322.4 324.953 324.384C318.549 332.799 308.611 343.127 295.139 355.367L377.297 355.37L406.121 405.289L217.29 405.282L188.467 355.363Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M345.247 111.915C329.566 99.2919 312.229 89.5371 293.235 82.6512L235.167 183.228C254.161 190.114 271.498 199.869 287.179 212.492L345.247 111.915Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M382.686 154.964C373.41 138.898 360.931 124.553 345.25 111.93L287.182 212.506C302.863 225.13 315.342 239.475 324.618 255.541L382.686 154.964Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M293.243 82.6472C274.139 75.57 254.869 72.031 235.434 72.0303L177.366 172.607C196.801 172.608 216.071 176.147 235.175 183.224L293.243 82.6472Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M394.118 194.257C395.112 182.973 391.301 169.872 382.688 154.953L324.619 255.53C333.233 270.448 337.044 283.55 336.05 294.834L394.118 194.257Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M235.432 72.0311C216.88 72.0304 202.027 75.5681 190.875 82.6442L132.806 183.221C143.959 176.145 158.812 172.607 177.363 172.608L235.432 72.0311Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M265.59 124.25C276.191 124.251 286.24 127.12 295.737 132.858L237.669 233.435C228.172 227.697 218.123 224.828 207.522 224.827L265.59 124.25Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M295.719 132.859C305.326 138.406 312.78 145.77 318.081 154.95L260.013 255.527C254.712 246.347 247.258 238.983 237.651 233.436L295.719 132.859Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M387.218 217.608C391.227 210.66 393.527 202.874 394.117 194.25L336.049 294.827C335.459 303.451 333.159 311.237 329.15 318.185L387.218 217.608Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M245.211 132.577C248.413 127.03 255.204 124.257 265.584 124.258L207.516 224.835C197.136 224.834 190.345 227.607 187.143 233.154L245.211 132.577Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M318.094 154.945C322.842 163.17 324.002 171.107 321.573 178.757L263.505 279.334C265.934 271.684 264.774 263.746 260.026 255.522L318.094 154.945Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M176.925 96.6737C180.127 91.1249 184.776 86.4503 190.871 82.6499L132.803 183.227C126.708 187.027 122.059 191.702 118.857 197.25L176.925 96.6737Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M387.226 217.606C385.989 219.749 384.59 221.813 383.028 223.797L324.96 324.373C326.522 322.39 327.921 320.326 329.157 318.183L387.226 217.606Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M317.269 188.408C319.087 185.262 320.519 182.045 321.562 178.758L263.494 279.335C262.451 282.622 261.019 285.839 259.201 288.985L317.269 188.408Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M245.208 132.573C241.895 137.928 243 145.387 248.522 154.95L190.454 255.527C184.932 245.964 183.827 238.505 187.14 233.15L245.208 132.573Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M176.93 96.6719C174.331 101.175 172.686 106.255 171.993 111.91L113.925 212.487C114.618 206.831 116.263 201.752 118.862 197.249L176.93 96.6719Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M317.266 188.413C314.853 192.589 311.757 196.64 307.978 200.566L249.91 301.143C253.689 297.216 256.785 293.166 259.198 288.99L317.266 188.413Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M464.198 304.708L435.375 254.789L377.307 355.366L406.13 405.285L464.198 304.708Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M353.209 254.787C366.68 242.548 376.618 232.22 383.023 223.805L324.955 324.382C318.55 332.797 308.612 343.124 295.141 355.364L353.209 254.787Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M435.37 254.787L353.212 254.784L295.144 355.361L377.302 355.364L435.37 254.787Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M183.921 154.947L248.521 154.95L190.453 255.527L125.853 255.524L183.921 154.947Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M171.992 111.914C170.668 124.537 174.643 138.881 183.92 154.947L125.852 255.524C116.575 239.458 112.599 225.114 113.924 212.491L171.992 111.914Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M307.987 200.562C301.251 207.256 291.203 216.244 277.842 227.528L219.774 328.105C233.135 316.821 243.183 307.832 249.919 301.139L307.987 200.562Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M15.5469 75.1797L44.5359 125.386L-13.5321 225.963L-42.5212 175.756L15.5469 75.1797Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M277.836 227.536C264.033 238.82 253.708 247.904 246.862 254.789L188.794 355.366C195.64 348.481 205.965 339.397 219.768 328.113L277.836 227.536Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M275.358 304.706L464.189 304.713L406.12 405.29L217.29 405.283L275.358 304.706Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M44.5279 125.39L67.3864 125.39L9.31834 225.967L-13.5401 225.966L44.5279 125.39Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M101.341 75.1911L233.863 304.705L175.795 405.282L43.2733 175.768L101.341 75.1911ZM15.5431 75.19L-42.525 175.767L43.277 175.77L101.345 75.1932L15.5431 75.19Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M246.866 254.784L246.534 254.784L188.466 355.361L188.798 355.361L246.866 254.784Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M246.539 254.781L275.362 304.701L217.294 405.277L188.471 355.358L246.539 254.781Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M67.3906 125.391L170.923 304.698L112.855 405.275L9.32257 225.967L67.3906 125.391Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M170.921 304.699L233.865 304.701L175.797 405.278L112.853 405.276L170.921 304.699Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" fill="#4B0600"/>
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="round"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" fill="#4B0600"/>
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                    </svg>
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
-                </div>
-            </main>
+                <!-- Mobile Menu  -->
+            </div>
         </div>
 
-        @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
-        @endif
-    </body>
+        <!-- Header Search -->
+        <div class="search-popup">
+            <span class="search-back-drop"></span>
+            <button class="close-search"><span class="fa fa-times"></span></button>
+
+            <div class="search-inner">
+                <form method="post" action="index.html">
+                    <div class="form-group">
+                        <input type="search" name="search-field" value="" placeholder="Search..." required="">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- End Header Search -->
+
+        <div id="nav-mobile"></div>
+    </header>
+    <!-- End header-section -->
+
+    <!-- BANNER SECTION -->
+    <section class="boxcar-banner-section-v1">
+        <div class="container">
+            <div class="banner-content">
+                <span class="wow fadeInUp">Find cars for sale and for rent near you</span>
+                <h2 class="wow fadeInUp" data-wow-delay="100ms">Find Your Perfect Car</h2>
+                <div class="form-tabs">
+                    <ul class="form-tabs-list wow fadeInUp" data-wow-delay="200ms">
+                        <li class="current" data-tab="tab-1">All</li>
+                        <li data-tab="tab-2">New</li>
+                        <li data-tab="tab-3">Used</li>
+                    </ul>
+                    <div class="form-tab-content">
+                        <div class="form-tab-content wow fadeInUp" data-wow-delay="300ms">
+                            <div class="form-tab-pane current" id="tab-1">
+                                <form>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Makes</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>Audi</li>
+                                                <li>Honda</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Models</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>A3</li>
+                                                <li>Accord</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Price</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>200$</li>
+                                                <li>300$</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-submit">
+                                        <button type="submit" formaction="https://creativelayers.net/themes/boxcar-html/inventory-list-01.html" class="theme-btn"><i class="flaticon-search"></i>Search 9451 Cars</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="form-tab-pane" id="tab-2">
+                                <form>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Makes</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>Audi</li>
+                                                <li>Honda</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Models</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>A3</li>
+                                                <li>Accord</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Price</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>200$</li>
+                                                <li>300$</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-submit">
+                                        <button type="submit" class="theme-btn">Search 9451 Cars</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="form-tab-pane" id="tab-3">
+                                <form>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Makes</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>Audi</li>
+                                                <li>Honda</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes line-r">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Models</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>A3</li>
+                                                <li>Accord</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form_boxes">
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Price</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>200$</li>
+                                                <li>300$</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-submit">
+                                        <button type="submit" class="theme-btn">Search 9451 Cars</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <span class="wow fadeInUp" data-wow-delay="400ms">Or Browse Featured Model</span>
+                        <ul class="model-links">
+                            <li>
+                                <a href="#" title="">
+                                    <i class="flaticon-car"></i>
+                                    SUV
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="">
+                                    <i class="flaticon-car-1"></i>
+                                    Sedan
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="">
+                                    <i class="flaticon-van"></i>
+                                    Hatchback
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="">
+                                    <i class="flaticon-convertible-car"></i>
+                                    Coupe
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="">
+                                    <i class="flaticon-electric-car-1"></i>
+                                    Hybrid
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- BANNER SECTION END -->
+
+    <!-- brand section -->
+    <section class="boxcar-brand-section section-radius-top bg-1">
+        <div class="boxcar-container">
+            <div class="boxcar-title">
+                <h2 class="wow fadeInUp">Explore Our Premium Brands</h2>
+                <a href="inventory-list-01.html" class="btn-title">Show All Brands<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none"><g clip-path="url(#clip0_601_3199)"><path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path></g><defs><clippath id="clip0_601_3199"><rect width="14" height="14" fill="white"></rect></clippath></defs></svg></a>
+            </div>
+            <div class="row">
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-1.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">Audi</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-2.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">BMW</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-3.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">ford</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="300ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-4.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">Mercedes Benz</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="400ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-5.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">Peugeot</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- cars-block -->
+                <div class="cars-block style-1 col-lg-2 col-md-6 col-sm-6">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="500ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="inventory-list-01.html"><img src="images/resource/brand-6.png" alt=""></a></figure>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title"><a href="inventory-list-01.html">Volkswagen</a></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End brand section -->
+
+    <!-- cars-section-three -->
+    <section class="cars-section-three">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2>Explore All Vehicles</h2>
+                <a href="inventory-list-01.html" class="btn-title">View All<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                        <g clip-path="url(#clip0_601_243)">
+                            <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_601_243">
+                                <rect width="14" height="14" fill="white"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+            <nav class="wow fadeInUp" data-wow-delay="100ms">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">New cars</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Used Cars</button>
+                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">In Stock</button>
+                </div>
+            </nav>
+        </div>
+
+        <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row car-slider-three slider-layout-1" data-preview="4.8">
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                </div>
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></figure>
+
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="row car-slider-three slider-layout-1" data-preview="4.8">
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                </div>
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></figure>
+
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="row car-slider-three slider-layout-1" data-preview="4.8">
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                </div>
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></figure>
+                                    <figure class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></figure>
+
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+
+                                <span>Low Mileage</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box two">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <span>Great Price</span>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- car-block-three -->
+                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="slider-thumb">
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
+                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                </div>
+                                <a href="#" title="" class="icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
+                                        <g clip-path="url(#clip0_601_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_601_1274">
+                                                <rect width="12" height="12" fill="white"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
+                                <ul>
+                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
+                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End shop section two -->
+
+    <!-- pricing section -->
+    <section class="boxcar-pricing-section pb-0 pt-0">
+        <div class="large-container">
+            <div class="row g-0">
+                <!-- image-column -->
+                <div class="image-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <div class="image-box">
+                            <figure class="image"><a href="#"><img src="images/resource/pricing1-1.jpg" alt=""></a></figure>
+                            <a href="https://www.youtube.com/watch?v=AC1cREPIw_o&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0" class="play-now" data-fancybox="gallery" data-caption=""><i class="fa fa-play" aria-hidden="true"></i><span class="ripple"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <div class="boxcar-title wow fadeInUp">
+                            <h2>Get A Fair Price For Your Car Sell To Us Today</h2>
+                            <div class="text">We are committed to providing our customers with exceptional service,
+                                              competitive pricing, and a wide range of.</div>
+                        </div>
+                        <ul class="list-style-one wow fadeInUp" data-wow-delay="100ms">
+                            <li><i class="fa-solid fa-check"></i>We are the UK’s largest provider, with more patrols in more places</li>
+                            <li><i class="fa-solid fa-check"></i>You get 24/7 roadside assistance</li>
+                            <li><i class="fa-solid fa-check"></i>We fix 4 out of 5 cars at the roadside</li>
+                        </ul>
+                        <a href="about.html" class="read-more wow fadeInUp" data-wow-delay="200ms">get started<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                <g clip-path="url(#clip0_634_2156)">
+                                    <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="white"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_634_2156">
+                                        <rect width="14" height="14" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End pricing section -->
+
+    <!-- Fun Fact Section -->
+    <section class="boxcar-fun-fact-section">
+        <div class="large-container">
+            <div class="fact-counter">
+                <div class="row">
+                    <!-- Counter block Two-->
+                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp">
+                        <div class="inner wow fadeInUp">
+                            <div class="content">
+                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="834">0</span>M</div>
+                                <h6 class="counter-title">CARS FOR SALE</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Counter block Two-->
+                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="300ms">
+                        <div class="inner wow fadeInUp" data-wow-delay="100ms">
+                            <div class="content">
+                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="732">0</span>M</div>
+                                <h6 class="counter-title">DEALER REVIEWS</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Counter block Two-->
+                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="600ms">
+                        <div class="inner wow fadeInUp" data-wow-delay="200ms">
+                            <div class="content">
+                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="90">0</span>M</div>
+                                <h6 class="counter-title">VISITORS PER DAY</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Counter block Two-->
+                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="900ms">
+                        <div class="inner wow fadeInUp" data-wow-delay="300ms">
+                            <div class="content">
+                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="236">0</span>M</div>
+                                <h6 class="counter-title">VERIFIED DEALERS</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Fun Fact Section-->
+    <!-- why choose us section -->
+    <section class="why-choose-us-section">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2 class="title">Why Choose Us?</h2>
+            </div>
+            <div class="row">
+                <!-- choose-us-block -->
+                <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp">
+                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="51" height="60" viewbox="0 0 51 60" fill="none">
+                                <g clip-path="url(#clip0_24_628)">
+                                    <path d="M22.9688 52.9676C22.9688 52.732 22.827 52.5195 22.6096 52.4289C20.0682 51.3695 18.2812 48.8627 18.2812 45.9375V23.4375C18.2812 20.5123 20.0682 18.0054 22.6096 16.9461C22.827 16.8555 22.9688 16.6429 22.9688 16.4074V16.4062H18.2812C14.398 16.4062 11.25 19.5543 11.25 23.4375V45.9375C11.25 49.8207 14.398 52.9688 18.2812 52.9688H22.9688V52.9676Z" fill="#EEF1FB"></path>
+                                    <path d="M23.3708 41.3167L36.6292 28.0583" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M30 21.0938L44.0625 2.34375" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M15.9375 2.34375L25.3895 12.9483" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M48.75 30V23.4375C48.75 19.5543 45.602 16.4062 41.7188 16.4062H38.0747C36.4508 13.6159 33.4612 11.7188 30 11.7188C26.5388 11.7188 23.5493 13.6159 21.9253 16.4062H18.2812C14.398 16.4062 11.25 19.5543 11.25 23.4375V45.9375C11.25 49.8207 14.398 52.9688 18.2812 52.9688H21.9253C23.5492 55.7591 26.5388 57.6562 30 57.6562C33.4612 57.6562 36.4507 55.7591 38.0747 52.9688H41.7188C45.602 52.9688 48.75 49.8207 48.75 45.9375V39.375" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_24_628">
+                                        <rect width="51" height="60" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title">Special Financing Offers</h6>
+                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- choose-us-block -->
+                <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
+                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                                <path d="M30 2.34375V7.03125" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M48.75 2.34375L44.0625 7.03125" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M15.4738 36.6607C14.3072 35.4056 13.5938 33.7236 13.5938 31.875C13.5938 30.7464 13.8596 29.68 14.3323 28.7347L19.0198 19.3597C20.1732 17.0529 22.5579 15.4688 25.3125 15.4688H18.2812C15.5266 15.4688 13.142 17.0529 11.9885 19.3597L7.30102 28.7347C6.8284 29.68 6.5625 30.7464 6.5625 31.875C6.5625 33.7236 7.27594 35.4056 8.44254 36.6607L26.5658 56.1592C27.4218 57.0802 28.6436 57.6562 30 57.6562C31.3564 57.6562 32.5782 57.0802 33.4342 56.1593L33.5156 56.0716L15.4738 36.6607Z" fill="#EEF1FB"></path>
+                                <path d="M48.0115 19.3597L52.699 28.7347C53.1716 29.6798 53.4375 30.7464 53.4375 31.875C53.4375 33.7236 52.7241 35.4057 51.5575 36.6608L33.4342 56.1593C32.5782 57.0802 31.3564 57.6562 30 57.6562C28.6436 57.6562 27.4218 57.0802 26.5658 56.1593L8.44254 36.6608C7.27594 35.4057 6.5625 33.7236 6.5625 31.875C6.5625 30.7464 6.8284 29.6798 7.30102 28.7347L11.9885 19.3597C13.142 17.0528 15.5266 15.4688 18.2812 15.4688H41.7188C44.4734 15.4688 46.858 17.0528 48.0115 19.3597Z" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M11.25 2.34375L15.9375 7.03125" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M17.3849 29.5312H42.6151" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M25.3125 24.8438L30 29.5312L34.6875 24.8438" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M30 43.5938V29.7306" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title">Trusted Car Dealership</h6>
+                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- choose-us-block -->
+                <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
+                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                                <g clip-path="url(#clip0_24_681)">
+                                    <path d="M8.75576 36.7478L35.3054 10.198C37.136 8.36741 40.104 8.36741 41.9346 10.198L36.8955 5.15894C35.0649 3.32837 32.097 3.32837 30.2664 5.15894L3.71671 31.7087C1.88613 33.5393 1.88613 36.5073 3.71671 38.3378L8.75576 43.3768C6.92518 41.5462 6.92518 38.5783 8.75576 36.7478Z" fill="#EEF1FB"></path>
+                                    <path d="M50.1537 18.4171C51.9843 20.2477 51.9843 23.2157 50.1537 25.0463L23.6039 51.5959C21.7734 53.4265 18.8054 53.4265 16.9748 51.5959L3.71671 38.3378C1.88613 36.5072 1.88613 33.5392 3.71671 31.7086L30.2664 5.15894C32.097 3.32836 35.0649 3.32836 36.8955 5.15894L43.5247 11.7881L52.9689 2.34387" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M18.9633 31.0458C18.7631 32.4554 19.2051 33.9388 20.2894 35.0231C22.12 36.8537 25.088 36.8537 26.9186 35.0231C28.7492 33.1926 28.7492 30.2246 26.9186 28.394C25.088 26.5634 25.088 23.5954 26.9186 21.7648C28.7492 19.9342 31.7172 19.9342 33.5478 21.7648C34.6321 22.8491 35.0741 24.3325 34.8739 25.7421" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M16.9749 38.3378L20.2894 35.0232" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M33.5476 21.765L36.8621 18.4504" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M43.5938 57.6562L57.6563 43.5937" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_24_681">
+                                        <rect width="60" height="60" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title">Transparent Pricing</h6>
+                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- choose-us-block -->
+                <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="300ms">
+                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                                <path d="M23.5465 4.45312C19.8452 4.45312 16.4904 6.63082 14.9836 10.0114L8.88656 23.6906C5.23148 23.9418 2.34375 26.9843 2.34375 30.7031V36.0938C2.34375 39.3298 4.96711 41.9531 8.20312 41.9531H9.80918C9.81785 41.5022 9.82934 41.0514 9.84375 40.6005C9.4623 39.823 9.24727 38.949 9.24727 38.0245L9.14062 33.8672C9.14062 30.7927 9.76617 29.6094 12.0483 29.1497C13.1331 28.9311 14.0413 28.192 14.4858 27.1786L22.0148 10.0114C23.5215 6.63082 26.8764 4.45312 30.5777 4.45312H23.5465Z" fill="#EEF1FB"></path>
+                                <path d="M8.20312 41.9531C4.96711 41.9531 2.34375 39.3298 2.34375 36.0938V30.7031C2.34375 26.9843 5.23148 23.9418 8.88656 23.6906L14.9836 10.0114C16.4903 6.63082 19.8451 4.45312 23.5465 4.45312H34.2217C37.7441 4.45312 40.9692 6.4275 42.5711 9.56461L45.5859 15.4688M57.6562 30.7031C57.6562 26.8199 54.5082 23.6719 50.625 23.6719H18.6328M28.2422 15.4688V4.57031M32.4609 41.9531H27.1873M20.742 37.2656C18.1532 37.2656 16.0545 39.3643 16.0545 41.9531C16.0545 44.5419 18.1532 46.6406 20.742 46.6406C23.3307 46.6406 25.4295 44.5419 25.4295 41.9531C25.4295 39.3643 23.3309 37.2656 20.742 37.2656Z" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M57.6562 41.6016C57.6562 46.0997 54.0098 49.8047 49.5117 49.8047C45.0136 49.8047 41.3672 46.1583 41.3672 41.6602C41.3672 37.162 45.0722 33.5156 49.5703 33.5156M43.5352 48.1055L36.0938 55.5469" stroke="#FF5CF3" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <div class="content-box">
+                            <h6 class="title">Expert Car Service</h6>
+                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End why choose us section -->
+
+    <!-- cars-section-two -->
+    <section class="cars-section-two">
+        <div class="boxcar-container">
+            <div class="boxcar-title light wow fadeInUp">
+                <h2>Popular Makes</h2>
+                <a href="#" class="btn-title">View All<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                        <g clip-path="url(#clip0_601_675)">
+                            <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_601_675">
+                                <rect width="14" height="14" fill="white"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+            <nav class="wow fadeInUp" data-wow-delay="100ms">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab2" data-bs-toggle="tab" data-bs-target="#nav-home2" type="button" role="tab" aria-controls="nav-home2" aria-selected="true">Audi</button>
+                    <button class="nav-link" id="nav-profile-tab2" data-bs-toggle="tab" data-bs-target="#nav-profile2" type="button" role="tab" aria-controls="nav-profile2" aria-selected="false">BMW</button>
+                    <button class="nav-link" id="nav-contact-tab2" data-bs-toggle="tab" data-bs-target="#nav-contact2" type="button" role="tab" aria-controls="nav-contact2" aria-selected="false">Mercedes</button>
+                </div>
+            </nav>
+
+        </div>
+        <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home2" role="tabpanel" aria-labelledby="nav-home-tab2">
+                <div class="row car-slider slider-layout-1" data-preview="2.3">
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-2.jpg" alt=""></a></figure>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile2" role="tabpanel" aria-labelledby="nav-profile-tab2">
+                <div class="row car-slider slider-layout-1" data-preview="2.3">
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-2.jpg" alt=""></a></figure>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab2">
+                <div class="row car-slider slider-layout-1" data-preview="2.3">
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-2.jpg" alt=""></a></figure>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus </div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-block-two col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image"><a href="#"><img src="images/resource/shop1-1.jpg" alt=""></a></figure>
+                                <span>Low Mileage</span>
+                                <a href="#" class="icon-box">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2806_1274)">
+                                            <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_2806_1274">
+                                                <rect width="12" height="12" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <div class="text">2023 C300e AMG Line Night Ed Premium Plus</div>
+                                <ul>
+                                    <li><i class="flaticon-speedometer"></i>72,925 miles</li>
+                                    <li><i class="flaticon-gasoline-pump"></i>Petrol</li>
+                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>$789</span>
+                                    <small>$399</small>
+                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_1238)">
+                                                <path d="M13.6109 0H5.05533C4.84037 0 4.66642 0.173943 4.66642 0.388901C4.66642 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.11369 13.3362C-0.0382322 13.4881 -0.0382322 13.7342 0.11369 13.8861C0.189632 13.962 0.289164 14 0.388658 14C0.488153 14 0.587648 13.962 0.663627 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                            </g>
+                                            <defs>
+                                                <clippath id="clip0_601_1238">
+                                                    <rect width="14" height="14" fill="white"></rect>
+                                                </clippath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End shop section two -->
+
+    <!-- cars-section -->
+    <section class="cars-section">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2>Shop BoxCar Your Way</h2>
+                <a href="#" class="btn-title">View More<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none"><g clip-path="url(#clip0_601_3199)"><path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path></g><defs><clippath id="clip0_601_3199"><rect width="14" height="14" fill="white"></rect></clippath></defs></svg></a>
+            </div>
+            <ul class="nav nav-tabs wow fadeInUp" data-wow-delay="100ms" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">New Cars For Sale</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Used Cars For Sale</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Browse By Type</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Browse By Brand</button>
+                </li>
+            </ul>
+            <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="shop-cars">
+                        <ul class="cars-list">
+                            <li><a href="#">Used Abarth Cars</a></li>
+                            <li><a href="#">Used Alfa Romeo Cars</a></li>
+                            <li><a href="#">Used Audi Cars</a></li>
+                            <li><a href="#">Used Bentley Cars</a></li>
+                            <li><a href="#">Used BMW Cars</a></li>
+                            <li><a href="#">Used Chevrolet Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Chrysler Cars</a></li>
+                            <li><a href="#">Used Citroen Cars</a></li>
+                            <li><a href="#">Used Cupra Cars</a></li>
+                            <li><a href="#">Used Dacia Cars</a></li>
+                            <li><a href="#">Used DS Cars</a></li>
+                            <li><a href="#">Used Fiat Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Ford Cars</a></li>
+                            <li><a href="#">Used Honda Cars</a></li>
+                            <li><a href="#">Used Hyundai Cars</a></li>
+                            <li><a href="#">Used Infiniti Cars</a></li>
+                            <li><a href="#">Used Jaguar Cars</a></li>
+                            <li><a href="#">Used Jeep Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Kia Cars</a></li>
+                            <li><a href="#">Used Land Rover Cars</a></li>
+                            <li><a href="#">Used Lexus Cars</a></li>
+                            <li><a href="#">Used Mazda Cars</a></li>
+                            <li><a href="#">Used Mercedes-Benz Cars</a></li>
+                            <li><a href="#">Used MG Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Mini Cars</a></li>
+                            <li><a href="#">Used Mitsubishi Cars</a></li>
+                            <li><a href="#">Used Nissan Cars</a></li>
+                            <li><a href="#">Used Peugeot Cars</a></li>
+                            <li><a href="#">Used Porsche Cars</a></li>
+                            <li><a href="#">Used Renault Cars</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="shop-cars">
+                        <ul class="cars-list">
+                            <li><a href="#">Used Abarth Cars</a></li>
+                            <li><a href="#">Used Alfa Romeo Cars</a></li>
+                            <li><a href="#">Used Audi Cars</a></li>
+                            <li><a href="#">Used Bentley Cars</a></li>
+                            <li><a href="#">Used BMW Cars</a></li>
+                            <li><a href="#">Used Chevrolet Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Chrysler Cars</a></li>
+                            <li><a href="#">Used Citroen Cars</a></li>
+                            <li><a href="#">Used Cupra Cars</a></li>
+                            <li><a href="#">Used Dacia Cars</a></li>
+                            <li><a href="#">Used DS Cars</a></li>
+                            <li><a href="#">Used Fiat Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Ford Cars</a></li>
+                            <li><a href="#">Used Honda Cars</a></li>
+                            <li><a href="#">Used Hyundai Cars</a></li>
+                            <li><a href="#">Used Infiniti Cars</a></li>
+                            <li><a href="#">Used Jaguar Cars</a></li>
+                            <li><a href="#">Used Jeep Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Kia Cars</a></li>
+                            <li><a href="#">Used Land Rover Cars</a></li>
+                            <li><a href="#">Used Lexus Cars</a></li>
+                            <li><a href="#">Used Mazda Cars</a></li>
+                            <li><a href="#">Used Mercedes-Benz Cars</a></li>
+                            <li><a href="#">Used MG Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Mini Cars</a></li>
+                            <li><a href="#">Used Mitsubishi Cars</a></li>
+                            <li><a href="#">Used Nissan Cars</a></li>
+                            <li><a href="#">Used Peugeot Cars</a></li>
+                            <li><a href="#">Used Porsche Cars</a></li>
+                            <li><a href="#">Used Renault Cars</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="shop-cars">
+                        <ul class="cars-list">
+                            <li><a href="#">Used Abarth Cars</a></li>
+                            <li><a href="#">Used Alfa Romeo Cars</a></li>
+                            <li><a href="#">Used Audi Cars</a></li>
+                            <li><a href="#">Used Bentley Cars</a></li>
+                            <li><a href="#">Used BMW Cars</a></li>
+                            <li><a href="#">Used Chevrolet Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Chrysler Cars</a></li>
+                            <li><a href="#">Used Citroen Cars</a></li>
+                            <li><a href="#">Used Cupra Cars</a></li>
+                            <li><a href="#">Used Dacia Cars</a></li>
+                            <li><a href="#">Used DS Cars</a></li>
+                            <li><a href="#">Used Fiat Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Ford Cars</a></li>
+                            <li><a href="#">Used Honda Cars</a></li>
+                            <li><a href="#">Used Hyundai Cars</a></li>
+                            <li><a href="#">Used Infiniti Cars</a></li>
+                            <li><a href="#">Used Jaguar Cars</a></li>
+                            <li><a href="#">Used Jeep Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Kia Cars</a></li>
+                            <li><a href="#">Used Land Rover Cars</a></li>
+                            <li><a href="#">Used Lexus Cars</a></li>
+                            <li><a href="#">Used Mazda Cars</a></li>
+                            <li><a href="#">Used Mercedes-Benz Cars</a></li>
+                            <li><a href="#">Used MG Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Mini Cars</a></li>
+                            <li><a href="#">Used Mitsubishi Cars</a></li>
+                            <li><a href="#">Used Nissan Cars</a></li>
+                            <li><a href="#">Used Peugeot Cars</a></li>
+                            <li><a href="#">Used Porsche Cars</a></li>
+                            <li><a href="#">Used Renault Cars</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="shop-cars">
+                        <ul class="cars-list">
+                            <li><a href="#">Used Abarth Cars</a></li>
+                            <li><a href="#">Used Alfa Romeo Cars</a></li>
+                            <li><a href="#">Used Audi Cars</a></li>
+                            <li><a href="#">Used Bentley Cars</a></li>
+                            <li><a href="#">Used BMW Cars</a></li>
+                            <li><a href="#">Used Chevrolet Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Chrysler Cars</a></li>
+                            <li><a href="#">Used Citroen Cars</a></li>
+                            <li><a href="#">Used Cupra Cars</a></li>
+                            <li><a href="#">Used Dacia Cars</a></li>
+                            <li><a href="#">Used DS Cars</a></li>
+                            <li><a href="#">Used Fiat Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Ford Cars</a></li>
+                            <li><a href="#">Used Honda Cars</a></li>
+                            <li><a href="#">Used Hyundai Cars</a></li>
+                            <li><a href="#">Used Infiniti Cars</a></li>
+                            <li><a href="#">Used Jaguar Cars</a></li>
+                            <li><a href="#">Used Jeep Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Kia Cars</a></li>
+                            <li><a href="#">Used Land Rover Cars</a></li>
+                            <li><a href="#">Used Lexus Cars</a></li>
+                            <li><a href="#">Used Mazda Cars</a></li>
+                            <li><a href="#">Used Mercedes-Benz Cars</a></li>
+                            <li><a href="#">Used MG Cars</a></li>
+                        </ul>
+                        <ul class="cars-list">
+                            <li><a href="#">Used Mini Cars</a></li>
+                            <li><a href="#">Used Mitsubishi Cars</a></li>
+                            <li><a href="#">Used Nissan Cars</a></li>
+                            <li><a href="#">Used Peugeot Cars</a></li>
+                            <li><a href="#">Used Porsche Cars</a></li>
+                            <li><a href="#">Used Renault Cars</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End shop section -->
+
+    <!-- boxcar-testimonial-section -->
+    <section class="boxcar-testimonial-section home1">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2>What our customers say</h2>
+                <div class="text">Rated 4.7  / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
+            </div>
+            <div class="testimonial-slider-two">
+                <div class="testimonial-slide-two">
+                    <div class="row">
+                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp">
+                                <div class="image-box">
+                                    <figure class="image"><img src="images/resource/test-1.jpg" alt=""></figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
+                                <ul class="rating">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <span>4.8</span>
+                                </ul>
+                                <h6 class="title">Ali TUFAN</h6>
+                                <span>Designer</span>
+                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
+                                                  a friend because I had great service from my salesman Patrick
+                                                  and all of the team.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide-two">
+                    <div class="row">
+                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp">
+                                <div class="image-box">
+                                    <figure class="image"><img src="images/resource/test-1.jpg" alt=""></figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
+                                <ul class="rating">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <span>4.8</span>
+                                </ul>
+                                <h6 class="title">Ali TUFAN</h6>
+                                <span>Designer</span>
+                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
+                                                  a friend because I had great service from my salesman Patrick
+                                                  and all of the team.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End boxcar-testimonial-section -->
+
+    <!-- blog section -->
+    <section class="blog-section">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2>Latest Blog Posts</h2>
+            </div>
+            <div class="row">
+                <!-- blog-block -->
+                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp">
+                        <div class="image-box">
+                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-1.jpg" alt=""></a></figure>
+                            <span class="date">news</span>
+                        </div>
+                        <div class="content-box">
+                            <ul class="post-info">
+                                <li>Ali Tufan</li>
+                                <li>April 20, 2023</li>
+                            </ul>
+                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-block -->
+                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-2.jpg" alt=""></a></figure>
+                            <span class="date">news</span>
+                        </div>
+                        <div class="content-box">
+                            <ul class="post-info">
+                                <li>Ali Tufan</li>
+                                <li>April 20, 2023</li>
+                            </ul>
+                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-block -->
+                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
+                        <div class="image-box">
+                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-3.jpg" alt=""></a></figure>
+                            <span class="date">news</span>
+                        </div>
+                        <div class="content-box">
+                            <ul class="post-info">
+                                <li>Ali Tufan</li>
+                                <li>April 20, 2023</li>
+                            </ul>
+                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End blog-section -->
+
+    <!-- blog-section-two -->
+    <section class="blog-section-two pt-0 section-radius-bottom bg-white">
+        <div class="boxcar-container">
+            <div class="row">
+                <!-- blog-blockt-two -->
+                <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box wow fadeInUp">
+                        <h3 class="title">Are You Looking <br>For a Car ?</h3>
+                        <div class="text">We are committed to providing our customers with exceptional service.</div>
+                        <a href="pricing.html" class="read-more">Get Started
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                <g clip-path="url(#clip0_601_692)">
+                                    <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_601_692">
+                                        <rect width="14" height="14" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                        </a>
+                        <div class="hover-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewbox="0 0 110 110" fill="none">
+                                <path d="M43.1686 14.8242C36.3829 14.8242 30.2324 18.8167 27.4699 25.0145L16.292 50.093C9.59105 50.5534 4.29688 56.1314 4.29688 62.9492V75.8398C4.29688 81.7725 9.10637 86.582 15.0391 86.582H17.9835C17.9994 85.7553 18.0204 84.9288 18.0469 84.1023C17.3476 82.6768 16.9533 81.0745 16.9533 79.3796L16.7578 71.7578C16.7578 66.1212 17.9046 60.9441 22.0885 60.1012C24.0773 59.7006 25.7424 58.3456 26.5573 56.4876L40.3605 25.0145C43.1228 18.8167 49.2733 14.8242 56.0592 14.8242H43.1686Z" fill="#CEE1F2"></path>
+                                <path d="M94.9609 86.582C100.894 86.582 105.703 81.7725 105.703 75.8398V62.9492C105.703 55.8299 99.9318 50.0586 92.8125 50.0586L79.5736 24.2505C76.6474 18.4688 70.7184 14.8242 64.2383 14.8242H43.1686C36.3829 14.8242 30.2324 18.8167 27.4699 25.0145L16.292 50.093C9.59105 50.5534 4.29688 56.1314 4.29688 62.9492V75.8398C4.29688 81.7725 9.10637 86.582 15.0391 86.582" stroke="#405FF2" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M38.0269 95.1758C42.7731 95.1758 46.6207 91.3282 46.6207 86.582C46.6207 81.8358 42.7731 77.9883 38.0269 77.9883C33.2807 77.9883 29.4332 81.8358 29.4332 86.582C29.4332 91.3282 33.2807 95.1758 38.0269 95.1758Z" stroke="#405FF2" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M63.1641 86.582H49.8433" stroke="#405FF2" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M71.9727 95.1758C76.7189 95.1758 80.5664 91.3282 80.5664 86.582C80.5664 81.8358 76.7189 77.9883 71.9727 77.9883C67.2265 77.9883 63.3789 81.8358 63.3789 86.582C63.3789 91.3282 67.2265 95.1758 71.9727 95.1758Z" stroke="#405FF2" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M51.5608 66.8164L63.5304 55.2099C65.9362 52.8587 64.2729 48.7712 60.9101 48.7712H49.9475C46.5786 48.7712 44.9182 44.6705 47.3367 42.3234L59.7328 30.293" stroke="#FF5CF3" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-blockt-two -->
+                <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box two wow fadeInUp" data-wow-delay="100ms">
+                        <h3 class="title">Do You Want to <br>Sell a Car ?</h3>
+                        <div class="text">We are committed to providing our customers with exceptional service.</div>
+                        <a href="pricing.html" class="read-more">Get Started
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                <g clip-path="url(#clip0_601_692)">
+                                    <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_601_692">
+                                        <rect width="14" height="14" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                        </a>
+                        <div class="hover-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewbox="0 0 110 110" fill="none">
+                                <path d="M17.1875 84.2276V25.7724C17.1875 13.9118 26.779 4.29688 38.6109 4.29688H25.5664C13.7008 4.29688 4.08203 13.9156 4.08203 25.7812V84.2188C4.08203 96.0841 13.7008 105.703 25.5664 105.703H38.6109C26.779 105.703 17.1875 96.0882 17.1875 84.2276Z" fill="#CEE1F2"></path>
+                                <path d="M72.4023 104.506C70.1826 105.281 67.7967 105.703 65.3125 105.703H25.7812C13.9156 105.703 4.29688 96.0841 4.29688 84.2188V25.7812C4.29688 13.9156 13.9156 4.29688 25.7812 4.29688H65.3125C77.1779 4.29688 86.7969 13.9156 86.7969 25.7812V48.3398M54.7852 82.2852H71.1133M21.4844 82.0703L25.4341 86.1614C27.1343 87.8681 29.8912 87.8681 31.5915 86.1614L39.7461 77.7734" stroke="#405FF2" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M105.047 70.0629C100.32 68.2247 97.1951 67.9622 94.8535 67.9622C90.5029 67.9622 87.0117 71.489 87.0117 75.8398C87.0117 80.1906 90.9148 83.7175 96.6917 83.7175C101.681 83.7175 105.703 87.2444 105.703 91.5952C105.703 95.9458 101.961 99.4729 97.6106 99.4729C95.5763 99.4729 91.0458 98.8124 86.582 97.038M96.6797 67.9622V61.0156M96.6797 99.4727V105.703M57.793 57.793V59.5117M34.1602 57.793V59.5117" stroke="#FF5CF4" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M68.5352 36.7383H68.1835C68.1734 36.7146 68.1661 36.6902 68.1557 36.6667L64.3038 28.1203C64.3002 28.1123 64.2967 28.1046 64.2931 28.0966C62.5023 24.1867 58.9291 21.3217 54.734 20.4329C52.2427 19.9053 49.1996 19.5508 45.8829 19.5508C42.6308 19.5508 39.6816 19.8928 37.2649 20.402C33.0507 21.2902 29.4639 24.1577 27.6706 28.0728C27.6669 28.0807 27.6635 28.0887 27.6598 28.0966L23.7974 36.6665C23.7869 36.6899 23.7798 36.7144 23.7697 36.7381H23.418C21.0448 36.7381 19.1211 38.6618 19.1211 41.0349C19.1211 43.4081 21.0448 45.3318 23.418 45.3318V49.303C23.418 54.8137 27.8339 59.2969 33.2617 59.2969H58.6912C64.1193 59.2969 68.5352 54.8137 68.5352 49.3032V45.332C70.9083 45.332 72.832 43.4083 72.832 41.0352C72.832 38.662 70.9083 36.7383 68.5352 36.7383ZM35.4885 31.6415C36.1541 30.1969 37.4799 29.1393 39.0369 28.8112C40.6093 28.4799 42.9015 28.1445 45.8831 28.1445C48.9326 28.1445 51.3212 28.4945 52.953 28.8402C54.4951 29.167 55.811 30.2227 56.4755 31.6654L58.7617 36.7383H33.1914L35.4885 31.6415ZM35.0195 53.0664C32.1718 53.0664 29.8633 50.7579 29.8633 47.9102C29.8633 45.0624 32.1718 42.7539 35.0195 42.7539C37.8673 42.7539 40.1758 45.0624 40.1758 47.9102C40.1758 50.7579 37.8673 53.0664 35.0195 53.0664ZM56.9336 53.0664C54.0858 53.0664 51.7773 50.7579 51.7773 47.9102C51.7773 45.0624 54.0858 42.7539 56.9336 42.7539C59.7813 42.7539 62.0898 45.0624 62.0898 47.9102C62.0898 50.7579 59.7813 53.0664 56.9336 53.0664Z" fill="#FF5CF4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog-section-two -->
+
+    <!-- main footer -->
+    <footer class="boxcar-footer footer-style-one cus-st-1">
+        <div class="footer-top">
+            <div class="boxcar-container">
+                <div class="right-box">
+                    <div class="top-left wow fadeInUp">
+                        <h6 class="title">Join BoxCar</h6>
+                        <div class="text">Receive pricing updates, shopping tips & more!</div>
+                    </div>
+                    <div class="subscribe-form wow fadeInUp" data-wow-delay="100ms">
+                        <form method="post" action="#">
+                            <div class="form-group">
+                                <input type="email" name="email" class="email" value="" placeholder="Your e-mail address" required="">
+                                <button type="button" class="theme-btn btn-style-one hover-light"><span class="btn-title">Sign Up</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widgets-section">
+            <div class="boxcar-container">
+                <div class="row">
+                    <!-- Footer COlumn -->
+                    <div class="footer-column-two col-lg-9 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp">
+                                    <h4 class="widget-title">Useful Links</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="#">FAQs</a></li>
+                                            <li><a href="#">Finance</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
+                                    <h4 class="widget-title">Quick Links</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Get in Touch</a></li>
+                                            <li><a href="#">Help center</a></li>
+                                            <li><a href="#">Live chat</a></li>
+                                            <li><a href="#">How it works</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
+                                    <h4 class="widget-title">Our Brands</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Aston Martin</a></li>
+                                            <li><a href="#">Audi</a></li>
+                                            <li><a href="#">Bentley</a></li>
+                                            <li><a href="#">BMW</a></li>
+                                            <li><a href="#">Bugatti</a></li>
+                                            <li><a href="#">Ferrari</a></li>
+                                            <li><a href="#">Jaguar</a></li>
+                                            <li><a href="#">Lamborghini</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="300ms">
+                                    <h4 class="widget-title">Vehicles Type</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Pickup</a></li>
+                                            <li><a href="#">Coup</a></li>
+                                            <li><a href="#">Family MPV</a></li>
+                                            <li><a href="#">Sedan</a></li>
+                                            <li><a href="#">SUVs</a></li>
+                                            <li><a href="#">Sport Coupe</a></li>
+                                            <li><a href="#">Convertible</a></li>
+                                            <li><a href="#">Wagon</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- footer column -->
+                    <div class="footer-column col-lg-3 col-md-12 col-sm-12">
+                        <div class="footer-widget social-widget wow fadeInUp" data-wow-delay="400ms">
+                            <h4 class="widget-title">Vehicles Type</h4>
+                            <div class="widget-content">
+                                <a href="#" class="store">
+                                    <img src="images/resource/apple.png">
+                                    <span>Download on the</span>
+                                    <h6 class="title">Apple Store</h6>
+                                </a>
+                                <a href="#" class="store two">
+                                    <img src="images/resource/play-2.png">
+                                    <span>Get in on</span>
+                                    <h6 class="title">Google Play</h6>
+                                </a>
+                                <div class="social-icons">
+                                    <h6 class="title">Connect With Us</h6>
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="boxcar-container">
+                <div class="inner-container">
+                    <div class="copyright-text wow fadeInUp">© <a href="#">2024 Boxcars.com. All rights reserved.</a></div>
+
+                    <ul class="footer-nav wow fadeInUp" data-wow-delay="200ms">
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Notice</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End boxcar-footer -->
+
+
+</div><!-- End Page Wrapper -->
+
+      <!-- Scroll To Top -->
+<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+
+<script src="js/jquery.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/slick-animation.min.js"></script>
+<script src="js/jquery.fancybox.js"></script>
+<script src="js/wow.js"></script>
+<script src="js/appear.js"></script>
+<script src="js/mixitup.js"></script>
+<script src="js/knob.js"></script>
+<script src="js/mmenu.js"></script>
+<script src="js/main.js"></script>
+</body>
 </html>

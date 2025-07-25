@@ -8,7 +8,7 @@ License: copyright commercial
 2. Reset
 3. Global Settings
 4. Main Header / TwO
-5. Sticky Header 
+5. Sticky Header
 6. Mobile Menu
 7. Section Title
 8. Main Slider
@@ -22,7 +22,7 @@ License: copyright commercial
 16.  Marquee Section
 17. Fun Fact Section
 18. Testimonial Section / Two
-19. team Section 
+19. team Section
 20, Contact Section / Two
 21. Why Choose Us / Two
 22. News Section / Two
@@ -441,7 +441,7 @@ textarea.form-control {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/*** 
+/***
 
 ====================================================================
 Reset
@@ -456,7 +456,7 @@ Reset
   font-size: 100%;
 }
 
-/*** 
+/***
 
 ====================================================================
 Global Settings
@@ -780,7 +780,7 @@ Scroll To Top style
 }
 
 /*======================
-    Media Play Button 
+    Media Play Button
 ======================*/
 .play-now {
   position: relative;
@@ -1477,7 +1477,7 @@ Scroll To Top style
   border-color: transparent;
 }
 
-/*** 
+/***
 
 ====================================================================
   Search Popup
@@ -1633,7 +1633,7 @@ Scroll To Top style
   transition-delay: 500ms;
 }
 
-/*** 
+/***
 
 ====================================================================
 Main Header
@@ -1956,7 +1956,7 @@ Main Header
   color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-v1
@@ -2321,7 +2321,7 @@ Main Header
   color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-v3
@@ -2689,7 +2689,7 @@ Main Header
   margin-right: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     hheader-style-v4
@@ -3091,7 +3091,7 @@ Main Header
   align-items: center;
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-five
@@ -3133,7 +3133,7 @@ Main Header
   color: var(--theme-color-dark);
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-v7
@@ -3513,7 +3513,7 @@ Main Header
   margin-right: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-v9
@@ -3908,7 +3908,7 @@ Main Header
   margin-right: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     header-style-ten
@@ -4231,7 +4231,7 @@ Main Header
   margin-right: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
 Sticky Header
@@ -4466,7 +4466,7 @@ Sticky Header
   transform: translateY(-50%);
 }
 
-/*** 
+/***
 
 ====================================================================
       Mobile Menu
@@ -4816,7 +4816,7 @@ Sticky Header
   background: rgba(0, 0, 0, 0.5);
 }
 
-/*** 
+/***
 
 ====================================================================
 Section Title
@@ -4890,7 +4890,7 @@ Section Title
   letter-spacing: 1.5px;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section
@@ -4898,7 +4898,7 @@ Section Title
 
 ***/
 .boxcar-banner-section-v1 {
-  background-image: url(../images/banner/banner-page1.jpg);
+  background-image: url(../images/banner/HERO_SCOOTER.webp);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -5297,7 +5297,7 @@ Section Title
   border-bottom: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section two
@@ -5432,7 +5432,7 @@ Section Title
   border-color: #fff;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section four
@@ -5675,7 +5675,7 @@ Section Title
   margin-left: 9px;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section five
@@ -5907,7 +5907,7 @@ Section Title
   border-radius: 15px;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section six
@@ -6036,7 +6036,7 @@ Section Title
   color: #fff;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section seven
@@ -6209,7 +6209,7 @@ Section Title
   line-height: normal;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section homepage 8
@@ -6366,7 +6366,7 @@ Section Title
   top: 2px;
 }
 
-/*** 
+/***
 
 ====================================================================
   banner section
@@ -6654,7 +6654,7 @@ Section Title
   position: relative;
 }
 
-/*** 
+/***
 
 ====================================================================
 	googel-maps-Section
@@ -6670,7 +6670,7 @@ Section Title
   height: 473px;
 }
 
-/*** 
+/***
 
 ====================================================================
     brand section
@@ -6788,7 +6788,7 @@ Section Title
   background: var(--bg-1, #F9FBFC);
 }
 
-/*** 
+/***
 
 ====================================================================
     brand section two
@@ -6848,7 +6848,7 @@ Section Title
   line-height: 27px;
 }
 
-/*** 
+/***
 
 ====================================================================
     brand banner section
@@ -6901,7 +6901,7 @@ Section Title
   top: -3px;
 }
 
-/*** 
+/***
 
 ====================================================================
     brand section-three
@@ -6960,7 +6960,7 @@ Section Title
   text-align: right;
 }
 
-/*** 
+/***
 
 ====================================================================
     boxcar-brand-section-four
@@ -7028,7 +7028,7 @@ Section Title
   margin-bottom: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     brand section five
@@ -7071,7 +7071,7 @@ Section Title
   text-transform: capitalize;
 }
 
-/*** 
+/***
 
 ====================================================================
     brand section six
@@ -7164,7 +7164,7 @@ Section Title
   line-height: 27px;
 }
 
-/*** 
+/***
 
 ====================================================================
     why choose section
@@ -7223,7 +7223,7 @@ Section Title
   max-width: 990px;
 }
 
-/*** 
+/***
 
 ====================================================================
     why choose section tow
@@ -7246,7 +7246,7 @@ Section Title
   margin: 0 auto;
 }
 
-/*** 
+/***
 
 ====================================================================
     why choose section three
@@ -7268,7 +7268,7 @@ Section Title
   padding: 120px 150px 64px;
 }
 
-/*** 
+/***
 
 ====================================================================
     why choose section
@@ -7323,7 +7323,7 @@ Section Title
   line-height: 26px;
 }
 
-/*** 
+/***
 
 ====================================================================
     why choose section five
@@ -7392,7 +7392,7 @@ Section Title
   }
 }
 
-/*** 
+/***
 
 ====================================================================
     testimonial section
@@ -7481,7 +7481,7 @@ Section Title
   margin-right: 80px;
 }
 
-/*** 
+/***
 
 ====================================================================
     testimonial section two
@@ -7645,7 +7645,7 @@ Section Title
   transition: all 0.3s ease;
 }
 
-/*** 
+/***
 
 ====================================================================
     testimonial section three
@@ -7732,7 +7732,7 @@ Section Title
   padding-bottom: 23px;
 }
 
-/*** 
+/***
 
 ====================================================================
     testimonial section four
@@ -7880,7 +7880,7 @@ Section Title
   box-shadow: unset;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section
@@ -8024,7 +8024,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section two
@@ -8092,7 +8092,7 @@ Section Title
   background-color: var(--theme-color1);
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section-three
@@ -8177,7 +8177,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section four
@@ -8364,7 +8364,7 @@ Section Title
   padding: 56px 0 94px 123px;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section-five
@@ -8433,7 +8433,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section six
@@ -8528,7 +8528,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     pricing section seven
@@ -8649,7 +8649,7 @@ Section Title
   margin-left: 9px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section
@@ -8765,7 +8765,7 @@ Section Title
   text-decoration: underline;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section two
@@ -8963,7 +8963,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section three
@@ -9203,7 +9203,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section four
@@ -9520,7 +9520,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section five
@@ -9724,7 +9724,7 @@ Section Title
   fill: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section six
@@ -10037,7 +10037,7 @@ Section Title
 
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section seven
@@ -10238,7 +10238,7 @@ Section Title
   fill: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section eight
@@ -10309,7 +10309,7 @@ Section Title
   background-color: var(--theme-color1);
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section nine
@@ -10513,7 +10513,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section ten
@@ -10709,7 +10709,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section eleven
@@ -10908,7 +10908,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section twelve
@@ -11097,7 +11097,7 @@ Section Title
   fill: var(--theme-color1);
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section thirteen
@@ -11397,7 +11397,7 @@ Section Title
   margin-left: 11px;
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section fourten
@@ -11652,7 +11652,7 @@ Section Title
   color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     shop section fifteen
@@ -12148,7 +12148,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     boxcar-customers-section
@@ -13313,7 +13313,7 @@ Section Title
   padding-right: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     galler-section section
@@ -13384,7 +13384,7 @@ Section Title
   display: inline-block;
 }
 
-/*** 
+/***
 
 ====================================================================
     customer section
@@ -13474,7 +13474,7 @@ Section Title
   overflow: hidden;
 }
 
-/*** 
+/***
 
 ====================================================================
     customer section two
@@ -13561,7 +13561,7 @@ Section Title
   overflow: hidden;
 }
 
-/*** 
+/***
 
 ====================================================================
     Fun Fact Section
@@ -13656,7 +13656,7 @@ Section Title
   text-transform: uppercase;
 }
 
-/*** 
+/***
 
 ====================================================================
     Fun Fact Section
@@ -13729,7 +13729,7 @@ Section Title
   text-transform: uppercase;
 }
 
-/*** 
+/***
 
 ====================================================================
     Fun Fact Section
@@ -13742,7 +13742,7 @@ Section Title
   padding: 55px 156px 29px;
 }
 
-/*** 
+/***
 
 ====================================================================
     news-letter-section
@@ -13822,7 +13822,7 @@ Section Title
   text-transform: capitalize;
 }
 
-/*** 
+/***
 
 ====================================================================
     service section
@@ -13922,7 +13922,7 @@ Section Title
   border-radius: 16px;
 }
 
-/*** 
+/***
 
 ====================================================================
     service section two
@@ -14006,7 +14006,7 @@ Section Title
   right: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     service section three
@@ -14078,7 +14078,7 @@ Section Title
   top: -1px;
 }
 
-/*** 
+/***
 
 ====================================================================
     service inner-section
@@ -14237,7 +14237,7 @@ Section Title
   font-weight: 400;
 }
 
-/*** 
+/***
 
 ====================================================================
     map-section
@@ -14307,7 +14307,7 @@ Section Title
   line-height: 35px;
 }
 
-/*** 
+/***
 
 ====================================================================
     vehicles section
@@ -14379,7 +14379,7 @@ Section Title
   margin-bottom: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     vehicles section
@@ -14445,7 +14445,7 @@ Section Title
   margin-bottom: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     vehicles section three
@@ -14622,7 +14622,7 @@ Section Title
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     team section
@@ -14823,7 +14823,7 @@ Section Title
   font-size: 14px;
 }
 
-/*** 
+/***
 
 ====================================================================
     team section two
@@ -14914,7 +14914,7 @@ Section Title
   white-space: pre;
 }
 
-/*** 
+/***
 
 ====================================================================
     team section three
@@ -14964,7 +14964,7 @@ Section Title
   font-weight: 500;
 }
 
-/*** 
+/***
 
 ====================================================================
     team section four
@@ -15263,7 +15263,7 @@ Section Title
   background-color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     faq-inner-section
@@ -15313,7 +15313,7 @@ Section Title
   color: var(--theme-color-dark);
 }
 
-/*** 
+/***
 
 ====================================================================
     tabs-section
@@ -15393,7 +15393,7 @@ Section Title
   margin-bottom: 26px;
 }
 
-/*** 
+/***
 
 ====================================================================
     blog section
@@ -15585,7 +15585,7 @@ Section Title
   margin-bottom: 0;
 }
 
-/*** 
+/***
 
 ====================================================================
     blog section two
@@ -15660,7 +15660,7 @@ Section Title
   background-color: var(--theme-color-dark);
 }
 
-/*** 
+/***
 
 ====================================================================
     blog section three
@@ -15738,7 +15738,7 @@ Section Title
   margin-left: 7px;
 }
 
-/*** 
+/***
 
 ====================================================================
     blog section four
@@ -16066,7 +16066,7 @@ Section Title
   padding-top: 22px;
 }
 
-/*** 
+/***
 
 ====================================================================
     blog section five
@@ -16919,7 +16919,7 @@ Section Title
   background-color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
     about-inner
@@ -17104,7 +17104,7 @@ Section Title
   color: var(--theme-color1);
 }
 
-/*** 
+/***
 
 ====================================================================
     error-section
@@ -17161,7 +17161,7 @@ Section Title
   top: -1px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dashboard section
@@ -17938,7 +17938,7 @@ Section Title
   margin-left: 9px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dashboard section two
@@ -18016,7 +18016,7 @@ Section Title
   padding: 29px 90px 29px 60px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dashboard section three
@@ -18693,7 +18693,7 @@ Section Title
   border: 1px solid #E1E1E1;
 }
 
-/*** 
+/***
 
 ====================================================================
 Chat Widget
@@ -19579,7 +19579,7 @@ Chat Widget
   }
 }
 
-/*** 
+/***
 
 ====================================================================
     contact-us section
@@ -19863,7 +19863,7 @@ Chat Widget
   padding: 51px 38px 51px 60px;
 }
 
-/*** 
+/***
 
 ====================================================================
     inventory section
@@ -21852,7 +21852,7 @@ Chat Widget
   text-transform: capitalize;
 }
 
-/*** 
+/***
 
 ====================================================================
     checkout-section
@@ -22006,7 +22006,7 @@ Chat Widget
   margin-bottom: 9px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dealler-section
@@ -22138,7 +22138,7 @@ Chat Widget
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dealership-section
@@ -22221,7 +22221,7 @@ Chat Widget
   margin-left: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
     dealership-section
@@ -22870,7 +22870,7 @@ Chat Widget
   font-weight: 500;
 }
 
-/*** 
+/***
 
 ====================================================================
     inspiration section
@@ -22912,7 +22912,7 @@ Chat Widget
   border-color: transparent;
 }
 
-/*** 
+/***
 
 ====================================================================
     inspiration section two
@@ -24513,7 +24513,7 @@ Chat Widget
   color: var(--theme-color-light);
 }
 
-/*** 
+/***
 
 ====================================================================
         calculater-section
@@ -24625,7 +24625,7 @@ Chat Widget
   object-fit: cover;
 }
 
-/*** 
+/***
 
 ====================================================================
         login-section
