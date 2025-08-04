@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('advertisement_type_id')->index();
+            $table->string('title')->nullable();
+            $table->string('price')->nullable();
+            $table->json('specifications')->nullable();
+            $table->text('description')->nullable();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

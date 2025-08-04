@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>BOXCARS | HTML Template | Home Page 01</title>
-    <!-- Stylesheets -->
-    <link href="{{ asset('wizmoto/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('wizmoto/css/slick-theme.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('wizmoto/css/slick.css') }}">
-    <link href="{{ asset('wizmoto/css/mmenu.css') }}" rel="stylesheet">
-    <link href="{{ asset('wizmoto/css/style.css') }}" rel="stylesheet">
+@php use App\Models\AdvertisementType; @endphp
+@extends('master')
 
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
-    <!-- Responsive -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-</head>
-
-<body>
-
-<div class="boxcar-wrapper">
-
+@section('content')
     <!-- Main Header-->
     <header class="boxcar-header header-style-v1 header-default">
         <div class="header-inner">
@@ -28,17 +9,22 @@
                 <!-- Main box -->
                 <div class="c-box">
                     <div class="logo-inner">
-                        <div class="logo"><a href="index.html"><img src="images/logo.svg" alt="" title="Boxcar"></a></div>
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="images/logo.svg" alt="" title="Boxcar">
+                            </a>
+                        </div>
                         <div class="layout-search">
                             <div class="search-box">
-                                <svg class="icon"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
                                 </svg>
                                 <input type="search" placeholder="Search Scooter, Motorbike, Monopattino, Bicycle" class="show-search" name="name" tabindex="2" value="" aria-required="true" required="">
                             </div>
                             <div class="box-content-search" id="box-content-search">
                                 <ul class="box-car-search">
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -46,8 +32,10 @@
                                                 <p class="name">Scooter - Vespa Primavera 125cc 2023</p>
                                                 <span class="price">$25/day</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -55,8 +43,10 @@
                                                 <p class="name">Electric Monopattino - Xiaomi Pro 2</p>
                                                 <span class="price">$10/day</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -64,8 +54,10 @@
                                                 <p class="name">Mountain Bicycle - Trek Marlin 7</p>
                                                 <span class="price">$15/day</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -73,7 +65,8 @@
                                                 <p class="name">Motorbike - Yamaha MT-07</p>
                                                 <span class="price">$35/day</span>
                                             </div>
-                                        </a></li>
+                                        </a>
+                                    </li>
                                 </ul>
                                 <a href="inventory-page-single.html" class="btn-view-search">
                                     View Details
@@ -96,113 +89,35 @@
                     <div class="nav-out-bar">
                         <nav class="nav main-menu">
                             <ul class="navigation" id="navbar">
-                                <li class="current-dropdown current"><span>Home <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown current">
+                                    <span>Home
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <ul class="dropdown">
-                                        <li><a href="index.html">Home 01</a></li>
-                                        <li><a href="index-2.html">Home 02</a></li>
-                                        <li><a href="index-3.html">Home 03</a></li>
-                                        <li><a href="index-4.html">Home 04</a></li>
-                                        <li><a href="index-5.html">Home 05</a></li>
-                                        <li><a href="index-6.html">Home 06</a></li>
-                                        <li><a href="index-7.html">Home 07</a></li>
-                                        <li><a href="index-8.html">Home 08</a></li>
-                                        <li><a href="index-9.html">Home 09</a></li>
-                                        <li><a href="index-10.html">Home 10</a></li>
-                                    </ul>
-                                </li>
-                                <li class="current-dropdown"><span>Inventory <i class="fa-solid fa-angle-down"></i></span>
-                                    <div class="mega-menu">
-                                        <div class="mega-column">
-                                            <h3>Inventory List</h3>
-                                            <ul>
-                                                <li><a href="inventory-list-01.html" title="">Scooter & Bike List v1</a></li>
-                                                <li><a href="inventory-list-02.html" title="">Scooter & Bike List v2</a></li>
-                                                <li><a href="inventory-map-cards.html" title="">Map - Cards</a></li>
-                                                <li><a href="inventory-map-rows.html" title="">Map - Rows</a></li>
-                                                <li><a href="inventory-sidebar-rows.html" title="">Sidebar - Rows</a></li>
-                                                <li><a href="inventory-sidebar-cards.html" title="">Sidebar - Cards</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="mega-column">
-                                            <h3>Inventory Single</h3>
-                                            <ul>
-                                                <li><a href="inventory-page-single.html" title="">Vehicle Single v1</a></li>
-                                                <li><a href="inventory-page-single-v2.html" title="">Vehicle Single v2</a></li>
-                                                <li><a href="inventory-page-single-v3.html" title="">Vehicle Single v3</a></li>
-                                                <li><a href="inventory-page-single-v4.html" title="">Vehicle Single v4</a></li>
-                                                <li><a href="inventory-page-single-v5.html" title="">Vehicle Single v5</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="mega-column">
-                                            <h3>Popular Types</h3>
-                                            <ul>
-                                                <li><a href="inventory-page-single.html" title="">Scooter</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Motorbike</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Electric Monopattino</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Mountain Bike</a></li>
-                                                <li><a href="inventory-page-single.html" title="">City Bike</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Foldable Bike</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="mega-column">
-                                            <h3>Rental Category</h3>
-                                            <ul>
-                                                <li><a href="inventory-page-single.html" title="">Daily Rentals</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Weekly Rentals</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Monthly Rentals</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Tours & Events</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Custom Packages</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="current-dropdown"><span>Blog <i class="fa-solid fa-angle-down"></i></span>
-                                    <ul class="dropdown">
-                                        <li><a href="blog-list-01.html">Blog List 01</a></li>
-                                        <li><a href="blog-list-02.html">Blog List 02</a></li>
-                                        <li><a href="blog-list-03.html">Blog List 03</a></li>
-                                        <li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
-                                </li>
-                                <li class="current-dropdown"><span>Shop <i class="fa-solid fa-angle-down"></i></span>
-                                    <ul class="dropdown">
-                                        <li><a href="shop-list.html">Accessories Shop</a></li>
-                                        <li><a href="shop-single.html">Product Details</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                    </ul>
-                                </li>
-                                <li class="current-dropdown right-one"><span>Pages <i class="fa-solid fa-angle-down"></i></span>
-                                    <ul class="dropdown">
-                                        <li class="nav-sub"><a href="#">Dashboard <i class="fa fa-angle-right"></i></a>
-                                            <ul class="dropdown deep subnav-menu">
-                                                <li><a href="dashboard.html" title="">Dashboard</a></li>
-                                                <li><a href="my-listings.html" title="">My Listings</a></li>
-                                                <li><a href="add-listings.html" title="">Add Scooter/Bike</a></li>
-                                                <li><a href="favorite.html" title="">Favorites</a></li>
-                                                <li><a href="saved.html" title="">Saved Search</a></li>
-                                                <li><a href="messages.html" title="">Messages</a></li>
-                                                <li><a href="profile.html" title="">Profile</a></li>
-                                            </ul>
+                                        <li>
+                                            <a href="index.html">Home 01</a>
                                         </li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="contact.html">Services</a></li>
-                                        <li><a href="login.html">Login</a></li>
-                                        <li><a href="faq.html">FAQs</a></li>
-                                        <li><a href="pricing.html">Pricing</a></li>
-                                        <li><a href="terms.html">Terms</a></li>
-                                        <li><a href="team-list.html">Team List</a></li>
-                                        <li><a href="team-single.html">Team Single</a></li>
-                                        <li><a href="dealer.html">Rental Providers</a></li>
-                                        <li><a href="dealer-single.html">Provider Details</a></li>
-                                        <li><a href="loan-calculator.html">Lease Calculator</a></li>
-                                        <li><a href="compare.html">Compare Vehicles</a></li>
-                                        <li><a href="404.html">404</a></li>
-                                        <li><a href="invoice.html">Invoice</a></li>
-                                        <li><a href="ui-elements.html">UI Elements</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li class="current-dropdown">
+                                    <span>Blog
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
+                                    <ul class="dropdown">
+                                        <li>
+                                            <a href="blog-list-01.html">Blog List 01</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-list-02.html">Blog List 02</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-list-03.html">Blog List 03</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-single.html">Blog Single</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </nav>
                         <!-- Main Menu End-->
@@ -213,7 +128,8 @@
                             <span class="icon">
                                 <!-- SVG ICON -->
                             </span>
-                            Sign in</a>
+                            Sign in
+                        </a>
                         <div class="btn">
                             <a href="add-listings.html" class="header-btn-two">Add Listing</a>
                         </div>
@@ -234,12 +150,15 @@
         <!-- Header Search -->
         <div class="search-popup">
             <span class="search-back-drop"></span>
-            <button class="close-search"><span class="fa fa-times"></span></button>
+            <button class="close-search">
+                <span class="fa fa-times"></span></button>
             <div class="search-inner">
                 <form method="post" action="index.html">
                     <div class="form-group">
                         <input type="search" name="search-field" value="" placeholder="Search Scooters, Motorbikes, Bikes..." required="">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                        <button type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -307,7 +226,9 @@
                                         </div>
                                     </div>
                                     <div class="form-submit">
-                                        <button type="submit" formaction="https://creativelayers.net/themes/boxcar-html/inventory-list-01.html" class="theme-btn"><i class="flaticon-search"></i>Search 9451 Rides</button>
+                                        <button type="submit" formaction="https://creativelayers.net/themes/boxcar-html/inventory-list-01.html" class="theme-btn">
+                                            <i class="flaticon-search"></i>Search 9451 Rides
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -406,36 +327,13 @@
                         </div>
                         <span class="wow fadeInUp" data-wow-delay="400ms">Or Browse Featured Types</span>
                         <ul class="model-links">
-                            <li>
-                                <a href="#" title="">
-                                    <i class="flaticon-car"></i>
-                                    Scooter
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="">
-                                    <i class="flaticon-car-1"></i>
-                                    Motorbike
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="">
-                                    <i class="flaticon-van"></i>
-                                    Bicycle
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="">
-                                    <i class="flaticon-convertible-car"></i>
-                                    Monopattino
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="">
-                                    <i class="flaticon-electric-car-1"></i>
-                                    E-Bike
-                                </a>
-                            </li>
+                            @foreach(AdvertisementType::all() as $at)
+                                <li>
+                                    <a href="#" title="">
+                                        {{ $at->title }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -451,7 +349,8 @@
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
                 <h2>Explore All Vehicles</h2>
-                <a href="inventory-list-01.html" class="btn-title">View All<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                <a href="inventory-list-01.html" class="btn-title">View All
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                         <g clip-path="url(#clip0_601_243)">
                             <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path>
                         </g>
@@ -480,37 +379,43 @@
                             <div class="inner-box">
                                 <div class="image-box">
                                     <div class="slider-thumb">
-                                        <div class="image"><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt=""></a></div>
-                                        <div class="image"><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt=""></a></div>
-                                        <div class="image"><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt=""></a></div>
+                                        <div class="image">
+                                            <a href="#">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="image">
+                                            <a href="#">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="image">
+                                            <a href="#">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70AuHVxLbAz_tuEj2esE9sAEAVauoHJaYCw&s" alt="">
+                                            </a>
+                                        </div>
                                     </div>
-                                    <span>Low Usage</span>
-                                    <a href="#" title="" class="icon-box">
-                                        <!-- آیکن بوک‌مارک بدون تغییر -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
-                                            <g clip-path="url(#clip0_601_1274)">
-                                                <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"></path>
-                                            </g>
-                                            <defs>
-                                                <clippath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"></rect>
-                                                </clippath>
-                                            </defs>
-                                        </svg>
-                                    </a>
                                 </div>
                                 <div class="content-box">
-                                    <h6 class="title"><a href="inventory-page-single-v2.html">Xiaomi Electric Scooter Pro 2</a></h6>
+                                    <h6 class="title">
+                                        <a href="{{ route('advertisements.show', 1) }}">Xiaomi Electric Scooter Pro 2</a>
+                                    </h6>
                                     <div class="text">2023 Edition – Lightweight, Foldable</div>
                                     <ul>
-                                        <li><i class="flaticon-gasoline-pump"></i>1,250 km</li>
-                                        <li><i class="flaticon-speedometer"></i>Electric</li>
-                                        <li><i class="flaticon-gearbox"></i>Manual Fold</li>
+                                        <li>
+                                            <i class="flaticon-gasoline-pump"></i>1,250 km
+                                        </li>
+                                        <li>
+                                            <i class="flaticon-speedometer"></i>Electric
+                                        </li>
+                                        <li>
+                                            <i class="flaticon-gearbox"></i>Manual Fold
+                                        </li>
                                     </ul>
                                     <div class="btn-box">
                                         <span>$450</span>
                                         <small>$349</small>
-                                        <a href="#" class="details">View Details
+                                        <a href="{{ route('advertisements.show', 1) }}" class="details">View Details
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_4346)">
                                                     <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
@@ -536,9 +441,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Low Mileage</span>
                                 <a href="#" title="" class="icon-box">
@@ -555,17 +472,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -585,9 +511,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></figure>
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></figure>
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </figure>
 
                                 </div>
                                 <a href="#" title="" class="icon-box">
@@ -604,17 +542,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -634,9 +581,21 @@
                         <div class="inner-box">
                             <div class="image-box two">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Great Price</span>
                                 <a href="#" title="" class="icon-box">
@@ -653,17 +612,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -683,9 +651,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-4.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -701,17 +681,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -731,9 +720,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <span>Low Mileage</span>
@@ -751,17 +752,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -781,9 +791,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -799,17 +821,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -829,9 +860,21 @@
                         <div class="inner-box">
                             <div class="image-box two">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Great Price</span>
                                 <a href="#" title="" class="icon-box">
@@ -848,17 +891,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -878,9 +930,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-4.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -896,17 +960,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -930,9 +1003,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Low Mileage</span>
                                 <a href="#" title="" class="icon-box">
@@ -949,17 +1034,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v2.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -979,9 +1073,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></figure>
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></figure>
-                                    <figure class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </figure>
+                                    <figure class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </figure>
 
                                 </div>
                                 <a href="#" title="" class="icon-box">
@@ -998,17 +1104,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v3.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1028,9 +1143,21 @@
                         <div class="inner-box">
                             <div class="image-box two">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Great Price</span>
                                 <a href="#" title="" class="icon-box">
@@ -1047,17 +1174,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1077,9 +1213,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-4.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -1095,17 +1243,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1125,9 +1282,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-1.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <span>Low Mileage</span>
@@ -1145,17 +1314,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1175,9 +1353,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -1193,17 +1383,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v4.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1223,9 +1422,21 @@
                         <div class="inner-box">
                             <div class="image-box two">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-3.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-3.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <span>Great Price</span>
                                 <a href="#" title="" class="icon-box">
@@ -1242,17 +1453,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single-v5.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1272,9 +1492,21 @@
                         <div class="inner-box">
                             <div class="image-box">
                                 <div class="slider-thumb">
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-4.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-5.jpg" alt=""></a></div>
-                                    <div class="image"><a href="#"><img src="images/resource/shop3-2.jpg" alt=""></a></div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-4.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-5.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="images/resource/shop3-2.jpg" alt="">
+                                        </a>
+                                    </div>
                                 </div>
                                 <a href="#" title="" class="icon-box">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewbox="0 0 12 12" fill="none">
@@ -1290,17 +1522,26 @@
                                 </a>
                             </div>
                             <div class="content-box">
-                                <h6 class="title"><a href="inventory-page-single.html">Mercedes-Benz, C Class</a></h6>
+                                <h6 class="title">
+                                    <a href="inventory-page-single.html">Mercedes-Benz, C Class</a>
+                                </h6>
                                 <div class="text">2023 C300e AMG Line Night Ed Premiu...</div>
                                 <ul>
-                                    <li><i class="flaticon-gasoline-pump"></i>72,925 miles</li>
-                                    <li><i class="flaticon-speedometer"></i>Petrol</li>
-                                    <li><i class="flaticon-gearbox"></i>Automatic</li>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>72,925 miles
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-speedometer"></i>Petrol
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i>Automatic
+                                    </li>
                                 </ul>
                                 <div class="btn-box">
                                     <span>$789</span>
                                     <small>$399</small>
-                                    <a href="#" class="details">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
+                                    <a href="#" class="details">View Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_601_4346)">
                                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
                                             </g>
@@ -1332,7 +1573,9 @@
                     <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp">
                         <div class="inner wow fadeInUp">
                             <div class="content">
-                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="834">0</span>M</div>
+                                <div class="widget-counter">
+                                    <span class="count-text" data-speed="3000" data-stop="834">0</span>M
+                                </div>
                                 <h6 class="counter-title">CARS FOR SALE</h6>
                             </div>
                         </div>
@@ -1342,7 +1585,9 @@
                     <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="300ms">
                         <div class="inner wow fadeInUp" data-wow-delay="100ms">
                             <div class="content">
-                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="732">0</span>M</div>
+                                <div class="widget-counter">
+                                    <span class="count-text" data-speed="3000" data-stop="732">0</span>M
+                                </div>
                                 <h6 class="counter-title">DEALER REVIEWS</h6>
                             </div>
                         </div>
@@ -1352,7 +1597,9 @@
                     <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="600ms">
                         <div class="inner wow fadeInUp" data-wow-delay="200ms">
                             <div class="content">
-                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="90">0</span>M</div>
+                                <div class="widget-counter">
+                                    <span class="count-text" data-speed="3000" data-stop="90">0</span>M
+                                </div>
                                 <h6 class="counter-title">VISITORS PER DAY</h6>
                             </div>
                         </div>
@@ -1362,7 +1609,9 @@
                     <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="900ms">
                         <div class="inner wow fadeInUp" data-wow-delay="300ms">
                             <div class="content">
-                                <div class="widget-counter"><span class="count-text" data-speed="3000" data-stop="236">0</span>M</div>
+                                <div class="widget-counter">
+                                    <span class="count-text" data-speed="3000" data-stop="236">0</span>M
+                                </div>
                                 <h6 class="counter-title">VERIFIED DEALERS</h6>
                             </div>
                         </div>
@@ -1382,7 +1631,8 @@
                 <!-- choose-us-block -->
                 <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="51" height="60" viewbox="0 0 51 60" fill="none">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="51" height="60" viewbox="0 0 51 60" fill="none">
                                 <g clip-path="url(#clip0_24_628)">
                                     <path d="M22.9688 52.9676C22.9688 52.732 22.827 52.5195 22.6096 52.4289C20.0682 51.3695 18.2812 48.8627 18.2812 45.9375V23.4375C18.2812 20.5123 20.0682 18.0054 22.6096 16.9461C22.827 16.8555 22.9688 16.6429 22.9688 16.4074V16.4062H18.2812C14.398 16.4062 11.25 19.5543 11.25 23.4375V45.9375C11.25 49.8207 14.398 52.9688 18.2812 52.9688H22.9688V52.9676Z" fill="#EEF1FB"></path>
                                     <path d="M23.3708 41.3167L36.6292 28.0583" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1406,7 +1656,8 @@
                 <!-- choose-us-block -->
                 <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
                                 <path d="M30 2.34375V7.03125" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M48.75 2.34375L44.0625 7.03125" stroke="#FF5CF4" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M15.4738 36.6607C14.3072 35.4056 13.5938 33.7236 13.5938 31.875C13.5938 30.7464 13.8596 29.68 14.3323 28.7347L19.0198 19.3597C20.1732 17.0529 22.5579 15.4688 25.3125 15.4688H18.2812C15.5266 15.4688 13.142 17.0529 11.9885 19.3597L7.30102 28.7347C6.8284 29.68 6.5625 30.7464 6.5625 31.875C6.5625 33.7236 7.27594 35.4056 8.44254 36.6607L26.5658 56.1592C27.4218 57.0802 28.6436 57.6562 30 57.6562C31.3564 57.6562 32.5782 57.0802 33.4342 56.1593L33.5156 56.0716L15.4738 36.6607Z" fill="#EEF1FB"></path>
@@ -1426,7 +1677,8 @@
                 <!-- choose-us-block -->
                 <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
                                 <g clip-path="url(#clip0_24_681)">
                                     <path d="M8.75576 36.7478L35.3054 10.198C37.136 8.36741 40.104 8.36741 41.9346 10.198L36.8955 5.15894C35.0649 3.32837 32.097 3.32837 30.2664 5.15894L3.71671 31.7087C1.88613 33.5393 1.88613 36.5073 3.71671 38.3378L8.75576 43.3768C6.92518 41.5462 6.92518 38.5783 8.75576 36.7478Z" fill="#EEF1FB"></path>
                                     <path d="M50.1537 18.4171C51.9843 20.2477 51.9843 23.2157 50.1537 25.0463L23.6039 51.5959C21.7734 53.4265 18.8054 53.4265 16.9748 51.5959L3.71671 38.3378C1.88613 36.5072 1.88613 33.5392 3.71671 31.7086L30.2664 5.15894C32.097 3.32836 35.0649 3.32836 36.8955 5.15894L43.5247 11.7881L52.9689 2.34387" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1451,7 +1703,8 @@
                 <!-- choose-us-block -->
                 <div class="choose-us-block col-lg-3 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp" data-wow-delay="300ms">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewbox="0 0 60 60" fill="none">
                                 <path d="M23.5465 4.45312C19.8452 4.45312 16.4904 6.63082 14.9836 10.0114L8.88656 23.6906C5.23148 23.9418 2.34375 26.9843 2.34375 30.7031V36.0938C2.34375 39.3298 4.96711 41.9531 8.20312 41.9531H9.80918C9.81785 41.5022 9.82934 41.0514 9.84375 40.6005C9.4623 39.823 9.24727 38.949 9.24727 38.0245L9.14062 33.8672C9.14062 30.7927 9.76617 29.6094 12.0483 29.1497C13.1331 28.9311 14.0413 28.192 14.4858 27.1786L22.0148 10.0114C23.5215 6.63082 26.8764 4.45312 30.5777 4.45312H23.5465Z" fill="#EEF1FB"></path>
                                 <path d="M8.20312 41.9531C4.96711 41.9531 2.34375 39.3298 2.34375 36.0938V30.7031C2.34375 26.9843 5.23148 23.9418 8.88656 23.6906L14.9836 10.0114C16.4903 6.63082 19.8451 4.45312 23.5465 4.45312H34.2217C37.7441 4.45312 40.9692 6.4275 42.5711 9.56461L45.5859 15.4688M57.6562 30.7031C57.6562 26.8199 54.5082 23.6719 50.625 23.6719H18.6328M28.2422 15.4688V4.57031M32.4609 41.9531H27.1873M20.742 37.2656C18.1532 37.2656 16.0545 39.3643 16.0545 41.9531C16.0545 44.5419 18.1532 46.6406 20.742 46.6406C23.3307 46.6406 25.4295 44.5419 25.4295 41.9531C25.4295 39.3643 23.3309 37.2656 20.742 37.2656Z" stroke="#405FF2" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M57.6562 41.6016C57.6562 46.0997 54.0098 49.8047 49.5117 49.8047C45.0136 49.8047 41.3672 46.1583 41.3672 41.6602C41.3672 37.162 45.0722 33.5156 49.5703 33.5156M43.5352 48.1055L36.0938 55.5469" stroke="#FF5CF3" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1476,7 +1729,7 @@
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
                 <h2>What our customers say</h2>
-                <div class="text">Rated 4.7  / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
+                <div class="text">Rated 4.7 / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
             </div>
             <div class="testimonial-slider-two">
                 <div class="testimonial-slide-two">
@@ -1484,25 +1737,38 @@
                         <div class="image-column col-lg-4 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp">
                                 <div class="image-box">
-                                    <figure class="image"><img src="images/resource/test-1.jpg" alt=""></figure>
+                                    <figure class="image">
+                                        <img src="images/resource/test-1.jpg" alt="">
+                                    </figure>
                                 </div>
                             </div>
                         </div>
                         <div class="content-column col-lg-8 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
                                 <ul class="rating">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
                                     <span>4.8</span>
                                 </ul>
                                 <h6 class="title">Ali TUFAN</h6>
                                 <span>Designer</span>
                                 <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
                                                   a friend because I had great service from my salesman Patrick
-                                                  and all of the team.</div>
+                                                  and all of the team.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1512,25 +1778,38 @@
                         <div class="image-column col-lg-4 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp">
                                 <div class="image-box">
-                                    <figure class="image"><img src="images/resource/test-1.jpg" alt=""></figure>
+                                    <figure class="image">
+                                        <img src="images/resource/test-1.jpg" alt="">
+                                    </figure>
                                 </div>
                             </div>
                         </div>
                         <div class="content-column col-lg-8 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
                                 <ul class="rating">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
                                     <span>4.8</span>
                                 </ul>
                                 <h6 class="title">Ali TUFAN</h6>
                                 <span>Designer</span>
                                 <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
                                                   a friend because I had great service from my salesman Patrick
-                                                  and all of the team.</div>
+                                                  and all of the team.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1551,7 +1830,11 @@
                 <div class="blog-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp">
                         <div class="image-box">
-                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-1.jpg" alt=""></a></figure>
+                            <figure class="image">
+                                <a href="blog-single.html">
+                                    <img src="images/resource/blog-1.jpg" alt="">
+                                </a>
+                            </figure>
                             <span class="date">news</span>
                         </div>
                         <div class="content-box">
@@ -1559,7 +1842,9 @@
                                 <li>Ali Tufan</li>
                                 <li>April 20, 2023</li>
                             </ul>
-                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                            <h6 class="title">
+                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
+                            </h6>
                         </div>
                     </div>
                 </div>
@@ -1567,7 +1852,11 @@
                 <div class="blog-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
                         <div class="image-box">
-                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-2.jpg" alt=""></a></figure>
+                            <figure class="image">
+                                <a href="blog-single.html">
+                                    <img src="images/resource/blog-2.jpg" alt="">
+                                </a>
+                            </figure>
                             <span class="date">news</span>
                         </div>
                         <div class="content-box">
@@ -1575,7 +1864,9 @@
                                 <li>Ali Tufan</li>
                                 <li>April 20, 2023</li>
                             </ul>
-                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                            <h6 class="title">
+                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
+                            </h6>
                         </div>
                     </div>
                 </div>
@@ -1583,7 +1874,11 @@
                 <div class="blog-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
                         <div class="image-box">
-                            <figure class="image"><a href="blog-single.html"><img src="images/resource/blog-3.jpg" alt=""></a></figure>
+                            <figure class="image">
+                                <a href="blog-single.html">
+                                    <img src="images/resource/blog-3.jpg" alt="">
+                                </a>
+                            </figure>
                             <span class="date">news</span>
                         </div>
                         <div class="content-box">
@@ -1591,7 +1886,9 @@
                                 <li>Ali Tufan</li>
                                 <li>April 20, 2023</li>
                             </ul>
-                            <h6 class="title"><a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a></h6>
+                            <h6 class="title">
+                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
+                            </h6>
                         </div>
                     </div>
                 </div>
@@ -1607,7 +1904,8 @@
                 <!-- blog-blockt-two -->
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp">
-                        <h3 class="title">Are You Looking <br>For a Car ?</h3>
+                        <h3 class="title">Are You Looking
+                            <br>For a Car ?</h3>
                         <div class="text">We are committed to providing our customers with exceptional service.</div>
                         <a href="pricing.html" class="read-more">Get Started
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
@@ -1636,7 +1934,8 @@
                 <!-- blog-blockt-two -->
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box two wow fadeInUp" data-wow-delay="100ms">
-                        <h3 class="title">Do You Want to <br>Sell a Car ?</h3>
+                        <h3 class="title">Do You Want to
+                            <br>Sell a Car ?</h3>
                         <div class="text">We are committed to providing our customers with exceptional service.</div>
                         <a href="pricing.html" class="read-more">Get Started
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
@@ -1665,158 +1964,7 @@
     </section>
     <!-- blog-section-two -->
 
-    <!-- main footer -->
-    <footer class="boxcar-footer footer-style-one cus-st-1">
-        <div class="footer-top">
-            <div class="boxcar-container">
-                <div class="right-box">
-                    <div class="top-left wow fadeInUp">
-                        <h6 class="title">Join BoxCar</h6>
-                        <div class="text">Receive pricing updates, shopping tips & more!</div>
-                    </div>
-                    <div class="subscribe-form wow fadeInUp" data-wow-delay="100ms">
-                        <form method="post" action="#">
-                            <div class="form-group">
-                                <input type="email" name="email" class="email" value="" placeholder="Your e-mail address" required="">
-                                <button type="button" class="theme-btn btn-style-one hover-light"><span class="btn-title">Sign Up</span></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="widgets-section">
-            <div class="boxcar-container">
-                <div class="row">
-                    <!-- Footer COlumn -->
-                    <div class="footer-column-two col-lg-9 col-md-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget links-widget wow fadeInUp">
-                                    <h4 class="widget-title">Useful Links</h4>
-                                    <div class="widget-content">
-                                        <ul class="user-links style-two">
-                                            <li><a href="#">About Us</a></li>
-                                            <li><a href="#">Careers</a></li>
-                                            <li><a href="#">Blog</a></li>
-                                            <li><a href="#">FAQs</a></li>
-                                            <li><a href="#">Finance</a></li>
-                                            <li><a href="#">Contact Us</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
-                                    <h4 class="widget-title">Quick Links</h4>
-                                    <div class="widget-content">
-                                        <ul class="user-links style-two">
-                                            <li><a href="#">Get in Touch</a></li>
-                                            <li><a href="#">Help center</a></li>
-                                            <li><a href="#">Live chat</a></li>
-                                            <li><a href="#">How it works</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
-                                    <h4 class="widget-title">Our Brands</h4>
-                                    <div class="widget-content">
-                                        <ul class="user-links style-two">
-                                            <li><a href="#">Aston Martin</a></li>
-                                            <li><a href="#">Audi</a></li>
-                                            <li><a href="#">Bentley</a></li>
-                                            <li><a href="#">BMW</a></li>
-                                            <li><a href="#">Bugatti</a></li>
-                                            <li><a href="#">Ferrari</a></li>
-                                            <li><a href="#">Jaguar</a></li>
-                                            <li><a href="#">Lamborghini</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="300ms">
-                                    <h4 class="widget-title">Vehicles Type</h4>
-                                    <div class="widget-content">
-                                        <ul class="user-links style-two">
-                                            <li><a href="#">Pickup</a></li>
-                                            <li><a href="#">Coup</a></li>
-                                            <li><a href="#">Family MPV</a></li>
-                                            <li><a href="#">Sedan</a></li>
-                                            <li><a href="#">SUVs</a></li>
-                                            <li><a href="#">Sport Coupe</a></li>
-                                            <li><a href="#">Convertible</a></li>
-                                            <li><a href="#">Wagon</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- footer column -->
-                    <div class="footer-column col-lg-3 col-md-12 col-sm-12">
-                        <div class="footer-widget social-widget wow fadeInUp" data-wow-delay="400ms">
-                            <h4 class="widget-title">Vehicles Type</h4>
-                            <div class="widget-content">
-                                <a href="#" class="store">
-                                    <img src="images/resource/apple.png">
-                                    <span>Download on the</span>
-                                    <h6 class="title">Apple Store</h6>
-                                </a>
-                                <a href="#" class="store two">
-                                    <img src="images/resource/play-2.png">
-                                    <span>Get in on</span>
-                                    <h6 class="title">Google Play</h6>
-                                </a>
-                                <div class="social-icons">
-                                    <h6 class="title">Connect With Us</h6>
-                                    <ul>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--  Footer Bottom -->
-        <div class="footer-bottom">
-            <div class="boxcar-container">
-                <div class="inner-container">
-                    <div class="copyright-text wow fadeInUp">© <a href="#">2024 Boxcars.com. All rights reserved.</a></div>
+    @include('wizmoto.partials.footer')
 
-                    <ul class="footer-nav wow fadeInUp" data-wow-delay="200ms">
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Privacy Notice</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- End boxcar-footer -->
+@endsection
 
-
-</div><!-- End Page Wrapper -->
-      <!-- Scroll To Top -->
-<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
-
-<script src="{{ asset('wizmoto/js/jquery.js') }}"></script>
-<script src="{{ asset('wizmoto/js/popper.min.js') }}"></script>
-<script src="{{ asset('wizmoto/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('wizmoto/js/slick.min.js') }}"></script>
-<script src="{{ asset('wizmoto/js/slick-animation.min.js') }}"></script>
-<script src="{{ asset('wizmoto/js/jquery.fancybox.js') }}"></script>
-<script src="{{ asset('wizmoto/js/wow.js') }}"></script>
-<script src="{{ asset('wizmoto/js/appear.js') }}"></script>
-<script src="{{ asset('wizmoto/js/mixitup.js') }}"></script>
-<script src="{{ asset('wizmoto/js/knob.js') }}"></script>
-<script src="{{ asset('wizmoto/js/mmenu.js') }}"></script>
-<script src="{{ asset('wizmoto/js/main.js') }}"></script>
-</body>
-</html>
