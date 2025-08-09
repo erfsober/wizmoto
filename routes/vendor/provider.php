@@ -1,16 +1,31 @@
 <?php
 
-use App\Http\Controllers\Wizmoto\Provider\Auth\LoginController;
+use App\Http\Controllers\Wizmoto\Provider\Auth\AuthController;
+use App\Http\Controllers\Wizmoto\Provider\Auth\ProviderController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('provider')->group(function(){
-    Route::get('login', [LoginController::class, 'showLoginForm'])->name('provider.login');
-    Route::post('login', [LoginController::class, 'login'])->name('provider.login.submit');
-    Route::post('logout', [LoginController::class, 'logout'])->name('provider.logout');
 
-    Route::middleware('auth:provider')->group(function(){
-        Route::get('/dashboard', function(){
-            return "Provider Dashboard";
-        })->name('provider.dashboard');
+#provider login
+Route::prefix('provider')->name('provider.')->group(function () {
+    Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    // Forgot password
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+    // Reset password
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.store');
+    // Authenticated
+    Route::middleware('auth:provider')->group(function () {
+        Route::get('dashboard', function () {
+            return view('provider.dashboard');
+        })->name('dashboard');
     });
 });
+
+
+Route::get('providers/email/verify/{id}/{hash}', [ProviderController::class, 'emailVerify'])
+     ->middleware(['signed'])
+     ->name('verification.verify');
