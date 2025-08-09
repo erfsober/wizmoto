@@ -3,12 +3,13 @@
 use App\Http\Controllers\Wizmoto\AdvertisementController;
 use App\Http\Controllers\Wizmoto\DashboardController;
 use App\Http\Controllers\Wizmoto\HomeController;
+use App\Http\Controllers\Wizmoto\Provider\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/' , [
     HomeController::class ,
     'index' ,
-]);
+])->name('home');
 // advertisements group
 Route::prefix('advertisements')
      ->group(function () {
@@ -25,4 +26,19 @@ Route::prefix('dashboard')
              'createAdvertisement' ,
          ])->name('dashboard.create-advertisement');
      });
-////user login
+////provider login
+Route::prefix('provider')->name('provider.')->group(function () {
+
+    Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+    // Authenticated
+    Route::middleware('auth:provider')->group(function () {
+        Route::get('dashboard', function () {
+            return view('provider.dashboard');
+        })->name('dashboard');
+
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    });
+});

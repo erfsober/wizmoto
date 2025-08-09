@@ -11,8 +11,6 @@ return new class extends Migration {
             $table->string('username')->nullable()->index();
             $table->string('email')->nullable();
             $table->string('password')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
