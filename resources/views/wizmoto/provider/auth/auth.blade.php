@@ -313,23 +313,13 @@
                                         <label>Password</label>
                                         <input type="password" name="password" placeholder="********">
                                     </div>
-                                 {{--   <div class="btn-box-three">
-                                        <label class="contain">Private seller
-                                            <input type="radio" checked="checked" name="radio">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="contain">Business seller
-                                            <input type="radio" checked="checked" name="radio">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>--}}
                                     <div class="form-submit">
                                         <button type="submit" class="theme-btn">Register <img src="images/arrow.svg" alt="">
                                         </button>
                                     </div>
                                     <div class="btn-box">
                                         <label class="contain">I accept the privacy policy
-                                            <input type="checkbox" checked="checked">
+                                            <input type="checkbox" checked="checked"  name="privacy_policy">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>

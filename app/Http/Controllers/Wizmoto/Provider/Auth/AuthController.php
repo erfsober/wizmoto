@@ -39,6 +39,7 @@ class AuthController extends Controller {
                                'username' => 'required|string|max:255' ,
                                'email' => 'required|email|unique:providers,email' ,
                                'password' => 'required|string|min:6' ,
+                               'privacy_policy' => 'accepted',
                            ]);
         $provider = Provider::query()
                             ->create([
