@@ -249,98 +249,40 @@
                 <div class="form-sec">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Sign in</button>
-                            <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">Register</button>
+                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Reset password</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="tab-pane active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div class="form-box">
-                                <form id="login-form" method="POST" action="{{ route('provider.login') }}" class="active">
+                                <form method="POST" action="{{ route('provider.password.email') }}">
                                     @csrf
-                                    @if($errors->has('login_error'))
-                                        <div class="error">{{ $errors->first('login_error') }}</div>
-                                    @endif
+                                    @error('email')
+                                    <span class="error-message">{{ $message }}</span>
+                                    @enderror
                                     <div class="form_boxes">
                                         <label>Email</label>
                                         <input type="email" name="email" placeholder="Creativelayer088@google.com">
                                     </div>
+                                    @error('password')
+                                    <span class="error-message">{{ $message }}</span>
+                                    @enderror
                                     <div class="form_boxes">
-                                        <label>Password</label>
-                                        <input type="password" name="password" placeholder="********">
+                                        <label>New Password</label>
+                                        <input type="password" name="password" placeholder="New password" required>
                                     </div>
-                                    <div class="btn-box">
-                                        <label class="contain">Remember
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <a href="{{ route('provider.password.request') }}" class="pasword-btn">Forgotten password?</a>
+                                    @error('password_confirmation')
+                                    <span class="error-message">{{ $message }}</span>
+                                    @enderror
+                                    <div class="form_boxes">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="password_confirmation" placeholder="Confirm new password" required>
                                     </div>
                                     <div class="form-submit">
-                                        <button type="submit" class="theme-btn">Login <img src="images/arrow.svg" alt="">
+                                        <button type="submit" class="theme-btn">Reset Password<img src="images/arrow.svg" alt="">
                                         </button>
                                     </div>
                                 </form>
-                                <div class="btn-box-two">
-                                    <span>OR</span>
-                                    <div class="social-btns">
-                                        <a href="#" class="fb-btn"><i class="fa-brands fa-facebook-f"></i>Continue Facebook</a>
-                                        <a href="#" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <div class="form-box two">
-                                <form id="register-form" method="POST" action="{{ route('provider.register') }}">
-                                    @csrf
-                                    @if($errors->any() && !$errors->has('login_error'))
-                                        <div class="error">
-                                            @foreach ($errors->all() as $error)
-                                                <div>{{ $error }}</div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                    <div class="form_boxes">
-                                        <label>Username</label>
-                                        <input type="text" name="username" placeholder="Creativelayer088">
-                                    </div>
-                                    <div class="form_boxes">
-                                        <label>Email</label>
-                                        <input type="email" name="email" placeholder="Creative@gmail.com">
-                                    </div>
-                                    <div class="form_boxes">
-                                        <label>Password</label>
-                                        <input type="password" name="password" placeholder="********">
-                                    </div>
-                                 {{--   <div class="btn-box-three">
-                                        <label class="contain">Private seller
-                                            <input type="radio" checked="checked" name="radio">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="contain">Business seller
-                                            <input type="radio" checked="checked" name="radio">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>--}}
-                                    <div class="form-submit">
-                                        <button type="submit" class="theme-btn">Register <img src="images/arrow.svg" alt="">
-                                        </button>
-                                    </div>
-                                    <div class="btn-box">
-                                        <label class="contain">I accept the privacy policy
-                                            <input type="checkbox" checked="checked">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </form>
-                                <div class="btn-box-two">
-                                    <span>OR</span>
-                                    <div class="social-btns">
-                                        <a href="#" class="fb-btn"><i class="fa-brands fa-facebook-f"></i>Continue Facebook</a>
-                                        <a href="#" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
