@@ -263,11 +263,11 @@
                                     @endif
                                     <div class="form_boxes">
                                         <label>Email</label>
-                                        <input type="email" name="email" placeholder="Creativelayer088@google.com">
+                                        <input type="email" name="email" placeholder="">
                                     </div>
                                     <div class="form_boxes">
                                         <label>Password</label>
-                                        <input type="password" name="password" placeholder="********">
+                                        <input type="password" name="password" placeholder="">
                                     </div>
                                     <div class="btn-box">
                                         <label class="contain">Remember
@@ -303,15 +303,15 @@
                                     @endif
                                     <div class="form_boxes">
                                         <label>Username</label>
-                                        <input type="text" name="username" placeholder="Creativelayer088">
+                                        <input type="text" name="username" placeholder="">
                                     </div>
                                     <div class="form_boxes">
                                         <label>Email</label>
-                                        <input type="email" name="email" placeholder="Creative@gmail.com">
+                                        <input type="email" name="email" placeholder="">
                                     </div>
                                     <div class="form_boxes">
                                         <label>Password</label>
-                                        <input type="password" name="password" placeholder="********">
+                                        <input type="password" name="password" placeholder="">
                                     </div>
                                     <div class="form-submit">
                                         <button type="submit" class="theme-btn">Register <img src="images/arrow.svg" alt="">
