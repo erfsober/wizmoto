@@ -4,7 +4,6 @@
         <div class="inner-column">
             <div class="list-title">
                 <h3 class="title">Create advertisement</h3>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur.</div>
             </div>
             <div class="form-box">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -14,38 +13,54 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <form class="row">
-                            <div class="form-column col-lg-6">
+
+                        <form class="row" action="{{ route('dashboard.store-advertisement') }}" method="POST" id="advertisementForm">
+                            @csrf
+                            {{--Vehicle data--}}
+                            <h6>Vehicle data</h6>
+                            <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Type</label>
-                                    {{-- bootstrap select --}}
-                                    <div class="drop-menu active">
-                                        <select name="type" class="form-select">
-                                            <option value="car">Car</option>
-                                            <option value="bike">Bike</option>
-                                            <option value="truck">Truck</option>
-                                            <option value="scooter">Scooter</option>
-                                        </select>
+                                    <label>Brand</label>
+                                    <div class="drop-menu" id="brand-dropdown">
+                                        <div class="select">
+                                            <span>Select Brand</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="brand_id" id="brand_id_input">
+                                        <ul class="dropdown" style="display: none;">
+                                            @foreach($brands as $brand)
+                                                <li data-id="{{ $brand->id }}">{{$brand->name}}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-column col-lg-6">
-                                <div class="form_boxes v2">
-                                    <label>Title</label>
-                                    <div class="drop-menu active">
-                                        <input type="text" name="title">
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Model</label>
+                                    <div class="drop-menu" id="model-dropdown">
+                                        <div class="select">
+                                            <span>Select</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="vehicle_model_id" id="vehicle_model_id_input">
+                                        <ul class="dropdown" style="display: none;" id="model-select">
+
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-column col-lg-6">
+                            <div class="form-column col-lg-12">
                                 <div class="form_boxes v2">
-                                    <label>Price</label>
+                                    <label>Version</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="price">
+                                        <input type="text" name="version">
                                     </div>
                                 </div>
                             </div>
 
+                            {{--Characteristics--}}
+                            <h6>Characteristics</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>Address</label>
@@ -137,3 +152,57 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $('#brand-dropdown ul.dropdown').on('click', 'li', function () {
+            let brandId = $(this).data('id');
+            loadModels(brandId);
+        });
+        // Handle brand selection
+        function loadModels(brandId) {
+            let url = "{{ route('vehicle-models.get-models-based-on-brand', ':brandId') }}";
+            url = url.replace(':brandId', brandId);
+
+            $('#model-dropdown .select span').text('Select');
+            $('#vehicle_model_id_input').val('');
+            $('#model-dropdown ul.dropdown').empty();
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                dataType: 'json',
+                success: function (models) {
+                    let $modelDropdown = $('#model-dropdown ul.dropdown');
+                    $modelDropdown.empty();
+
+                    if (models.length === 0) {
+                        $modelDropdown.append('<li>No models available</li>');
+                    } else {
+                        $.each(models, function (index, model) {
+                            $modelDropdown.append('<li data-id="' + index + '">' + model + '</li>');
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching models:', error);
+                }
+            });
+        }
+
+        $(document).on('click', '.drop-menu ul.dropdown li', function (e) {
+            e.stopPropagation();
+
+            let $dropdown = $(this).closest('.drop-menu');
+            let selectedText = $(this).text().trim();
+            let selectedId   = $(this).data('id') || '';
+
+            // Update only the clicked dropdown's span + hidden input
+            $dropdown.find('.select span').first().text(selectedText);
+            $dropdown.find('input[type="hidden"]').val(selectedId).trigger('change');
+
+            // Close that dropdown only
+            $dropdown.find('ul.dropdown').hide();
+        });
+    </script>
+@endpush

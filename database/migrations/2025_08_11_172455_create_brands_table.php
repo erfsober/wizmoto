@@ -6,14 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up (): void {
-        Schema::create('advertisement_types' , function ( Blueprint $table ) {
+        Schema::create('brands' , function ( Blueprint $table ) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('name')->nullable(); // e.g. 'Piaggio', 'Vespa', 'Yamaha'
+            $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->timestamps();
         });
     }
 
     public function down (): void {
-        Schema::dropIfExists('advertisement_types');
+        Schema::dropIfExists('makes');
     }
 };

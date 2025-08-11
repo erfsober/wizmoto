@@ -6,14 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up (): void {
-        Schema::create('advertisement_types' , function ( Blueprint $table ) {
+        Schema::create('equipment' , function ( Blueprint $table ) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('title')
+                  ->nullable();
             $table->timestamps();
         });
     }
 
     public function down (): void {
-        Schema::dropIfExists('advertisement_types');
+        Schema::dropIfExists('equipment');
     }
 };

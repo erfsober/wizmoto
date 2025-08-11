@@ -8,4 +8,5 @@
     @yield('content')
 </div>
 @include('wizmoto.partials.scripts')
+@stack('scripts')
 </body>
