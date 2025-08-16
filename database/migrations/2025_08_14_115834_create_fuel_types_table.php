@@ -6,15 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up (): void {
-        Schema::create('equipment' , function ( Blueprint $table ) {
+        Schema::create('fuel_types', function (Blueprint $table) {
             $table->id();
+            $table->string('code', 10)->nullable();
             $table->string('name')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
         });
     }
 
     public function down (): void {
-        Schema::dropIfExists('equipment');
+        Schema::dropIfExists('fuel_types');
     }
 };

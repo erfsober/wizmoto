@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\category;
 use App\Models\Equipment;
 use Illuminate\Database\Seeder;
 
 class EquipmentSeeder extends Seeder {
     public function run (): void {
+        $scooterCategory = Category::where('name', 'Scooter')->first();
+
         $equipmentItems = [
             'Helmet' ,
             'ABS' ,
@@ -25,10 +28,7 @@ class EquipmentSeeder extends Seeder {
             'Bluetooth Connectivity' ,
         ];
         foreach ( $equipmentItems as $item ) {
-            Equipment::updateOrCreate([ 'title' => $item ] , [
-                                                               'created_at' => now() ,
-                                                               'updated_at' => now(),
-                                                           ]);
+            Equipment::updateOrCreate([ 'name' => $item ,'category_id'=>$scooterCategory->id]);
         }
     }
 }
