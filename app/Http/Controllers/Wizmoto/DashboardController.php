@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Wizmoto;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdvertisementType;
 use App\Models\Brand;
-use App\Models\category;
 use App\Models\Equipment;
 use App\Models\FuelType;
 use App\Models\VehicleBody;
@@ -13,20 +13,20 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
-        $category = category::query()
-                            ->where('name' , 'scooter')
+        $category = AdvertisementType::query()
+                            ->where('title' , 'scooter')
                             ->first();
-        $brands = Brand::where('category_id' , $category->id)
+        $brands = Brand::where('advertisement_type_id' , $category->id)
                        ->get();
-        $vehicleBodies = VehicleBody::where('category_id' , $category->id)
+        $vehicleBodies = VehicleBody::where('advertisement_type_id' , $category->id)
                                     ->get();
         $vehicleColors = VehicleColor::query()
                                      ->get();
         $equipments = Equipment::query()
-                               ->where('category_id' , $category->id)
+                               ->where('advertisement_type_id' , $category->id)
                                ->get();
         $fuelTypes = FuelType::query()
-                             ->where('category_id' , $category->id)
+                             ->where('advertisement_type_id' , $category->id)
                              ->get();
         $internationalPrefixes = [
             '+1' ,

@@ -9,7 +9,7 @@ return new class extends Migration {
         Schema::create('brands' , function ( Blueprint $table ) {
             $table->id();
             $table->string('name')->nullable(); // e.g. 'Piaggio', 'Vespa', 'Yamaha'
-            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('advertisement_type_id')->nullable()->index();
             $table->timestamps();
         });
     }

@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdvertisementType;
 use App\Models\category;
 use App\Models\VehicleBody;
 use Illuminate\Database\Seeder;
 
 class VehicleBodySeeder extends Seeder {
     public function run (): void {
-        $scooterCategory = Category::where('name', 'Scooter')->first();
+        $scooterCategory = AdvertisementType::where('title', 'Scooter')->first();
         $bodies = [
             'Chopper/Cruiser' ,
             'Mopeds' ,
@@ -36,7 +37,7 @@ class VehicleBodySeeder extends Seeder {
             VehicleBody::query()
                        ->create([
                                     'name' => $body ,
-                                    'category_id' => $scooterCategory->id,
+                                    'advertisement_type_id' => $scooterCategory->id,
                                 ]);
         }
     }

@@ -10,7 +10,7 @@ class AdvertisementTypeSeeder extends Seeder {
 
         $types = [
             [
-                'title' => 'Scooter' ,
+                'title' => 'Motor' ,
             ] ,
             [
                 'title' => 'Motorbike' ,
@@ -22,7 +22,7 @@ class AdvertisementTypeSeeder extends Seeder {
                 'title' => 'E.Bike' ,
             ] ,
             [
-                'title' => 'Monopattino' ,
+                'title' => 'Scooter' ,
             ] ,
         ];
         foreach ( $types as $type ) {

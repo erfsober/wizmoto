@@ -9,7 +9,7 @@ return new class extends Migration {
         Schema::create('equipment' , function ( Blueprint $table ) {
             $table->id();
             $table->string('name')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('advertisement_type_id')->nullable()->index();
             $table->timestamps();
         });
     }

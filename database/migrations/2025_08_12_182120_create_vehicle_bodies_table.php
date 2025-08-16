@@ -10,9 +10,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')
                   ->nullable();
-            $table->unsignedBigInteger('category_id')
-                  ->nullable()
-                  ->index();
+            $table->unsignedBigInteger('advertisement_type_id')->nullable()->index();
             $table->timestamps();
         });
     }

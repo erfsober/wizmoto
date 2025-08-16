@@ -8,7 +8,7 @@
             <div class="form-box">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Car Details</button>
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Motor Details</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr class="m-5"/>
+                            <hr class="my-5"/>
                             {{--Characteristics--}}
                             <h6>Characteristics</h6>
                             <div class="form-column col-lg-6">
@@ -104,7 +104,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <hr class="m-5"/>
+                            <hr class="my-5"/>
                             {{-- State--}}
                             <h6>State</h6>
                             <div class="form-column col-lg-6">
@@ -274,7 +274,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr class="my-5"/>
                             {{-- Equipment--}}
                             <h6>Equipment</h6>
                             <div class="form-column col-lg-12 mb-5">
@@ -290,7 +290,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr class="my-5"/>
+
                             {{-- Motor--}}
                             <h6>Motor</h6>
                             <div class="row">

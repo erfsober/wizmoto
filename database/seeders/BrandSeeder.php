@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\category;
+use App\Models\AdvertisementType;
 use App\Models\Brand;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BrandSeeder extends Seeder
@@ -12,7 +11,7 @@ class BrandSeeder extends Seeder
 
     public function run(): void
     {
-        $scooter = Category::where('name', 'Scooter')->first();
+        $scooter = AdvertisementType::where('title', 'Scooter')->first();
 
         $brands = [
             'Piaggio',
@@ -24,7 +23,7 @@ class BrandSeeder extends Seeder
         foreach ($brands as $title) {
             Brand::updateOrCreate([
                                       'name' => $title,
-                                      'category_id' => $scooter->id,
+                                      'advertisement_type_id' => $scooter->id,
                                   ]);
         }
     }
