@@ -13,9 +13,10 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
                         <form class="row" action="{{ route('dashboard.store-advertisement') }}" method="POST" id="advertisementForm">
                             @csrf
+                            <input type="hidden" name="provider_id" value="1">
+                            <input type="hidden" name="advertisement_type_id" value="2">
                             {{--Vehicle data--}}
                             <h6>Vehicle data</h6>
                             <div class="form-column col-lg-6">
@@ -117,8 +118,8 @@
                                         </div>
                                         <input type="hidden" name="vehicle_category">
                                         <ul class="dropdown" style="display: none;">
-                                            <li>Used</li>
-                                            <li>Era</li>
+                                            <li data-id="Used">Used</li>
+                                            <li data-id="Era">Era</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -143,7 +144,7 @@
                                             <input type="hidden" name="registration_month">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
-                                                    <li>{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
+                                                    <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -163,7 +164,7 @@
                                                     $currentYear = date('Y');
                                                 @endphp
                                                 @for($y = $currentYear; $y >= 1990; $y--)
-                                                    <li>{{ $y }}</li>
+                                                    <li data-id="{{ $y }}">{{ $y }}</li>
                                                 @endfor
                                             </ul>
                                         </div>
@@ -182,7 +183,7 @@
                                             <input type="hidden" name="next_review_month">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
-                                                    <li>{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
+                                                    <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -202,7 +203,7 @@
                                                     $currentYear = date('Y');
                                                 @endphp
                                                 @for($y = $currentYear; $y >= 1990; $y--)
-                                                    <li>{{ $y }}</li>
+                                                    <li data-id="{{ $y }}">{{ $y }}</li>
                                                 @endfor
                                             </ul>
                                         </div>
@@ -221,7 +222,7 @@
                                             <input type="hidden" name="last_service_month">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
-                                                    <li>{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
+                                                    <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -241,7 +242,7 @@
                                                     $currentYear = date('Y');
                                                 @endphp
                                                 @for($y = $currentYear; $y >= 1990; $y--)
-                                                    <li>{{ $y }}</li>
+                                                    <li data-id="{{$y}}">{{ $y }}</li>
                                                 @endfor
                                             </ul>
                                         </div>
@@ -436,29 +437,19 @@
                             </div>
                             {{--Photo--}}
                             <h6>Photo</h6>
-                            <div class=" gallery-sec style1" id="media" >
+                            <div class="gallery-sec style1" id="media">
                                 <div class="right-box-three">
                                     <h6 class="title">Gallery</h6>
                                     <div class="gallery-box">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <img src="{{asset("wizmoto/images/resource/list2-1.png")}}">
-                                                <div class="content-box">
-                                                    <ul class="social-icon">
-                                                        <li>
-                                                            <a href="#">
-                                                                <img src="{{asset("wizmoto/images/resource/delet.svg")}}">
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                        <div class="inner-box" id="preview-container">
+
                                             <div class="uplode-box">
                                                 <div class="content-box">
-                                                    <a href="#">
-                                                        <img src="{{asset("wizmoto/images/resource/uplode.svg")}}">
+                                                    <a href="#" id="uploadTrigger">
+                                                        <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
                                                         <span>Upload</span>
                                                     </a>
+                                                    <input type="file" name="images[]" id="fileInput" multiple style="display:none">
                                                 </div>
                                             </div>
                                         </div>
@@ -534,7 +525,7 @@
                                         <input type="hidden" name="international_prefix" id="international_prefix_input">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach($internationalPrefixes as $internationalPrefix)
-                                                <li data-id="{{ $internationalPrefix }}">{{$brand->name}}</li>
+                                                <li data-id="{{ $internationalPrefix }}">{{$internationalPrefix}}</li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -565,11 +556,10 @@
                                 </div>
                             </div>
 
-
-
                             <div class="col-lg-12">
                                 <div class="form-submit">
-                                    <button type="submit" class="theme-btn">Submit <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <button type="submit" class="theme-btn">Submit
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_711_3214)">
                                                 <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="white"></path>
                                             </g>
@@ -591,6 +581,38 @@
 @endsection
 @push('styles')
     <style>
+        #preview-container{
+            align-items: center;
+        }
+        /* Wrapper for each uploaded image */
+        #preview-container .image-box {
+            position: relative;
+            width: 180px; /* fixed width */
+            height: 180px; /* fixed height */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 8px;
+            background: #f5f5f5; /* background for better look */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Image scaling nicely inside box */
+        #preview-container .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover; /* fills box without distortion */
+            border-radius: 6px;
+        }
+
+        #preview-container .image-box .content-box {
+
+            top: 20%;
+            left: 80%;
+        }
+
         .color-picker {
             display: flex;
             flex-wrap: wrap;
@@ -701,4 +723,101 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function() {
+            const selectedFiles = [];
+
+            // Upload button
+            $("#uploadTrigger").click(function(e) {
+                e.preventDefault();
+                $("#fileInput").click();
+            });
+
+            // File select
+            $("#fileInput").on("change", function(e) {
+                Array.from(this.files).forEach(file => {
+                    selectedFiles.push(file);
+                    const reader = new FileReader();
+
+                    reader.onload = function(event) {
+                        const div = $(`
+                    <div class="image-box">
+                        <img src="${event.target.result}">
+                        <div class="content-box">
+                            <ul class="social-icon">
+                                <li>
+                                    <a href="#" class="delete-btn">
+                                        <img src="{{ asset('wizmoto/images/resource/delet.svg') }}">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="images_order[]" value="${file.name}">
+                    </div>
+                `);
+
+                        $("#preview-container").find(".uplode-box").before(div);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+                $(this).val("");
+            });
+
+            // Delete handler
+            $("#preview-container").on("click", ".delete-btn", function(e) {
+                e.preventDefault();
+                $(this).closest(".image-box").remove();
+            });
+
+            // Make images sortable but **upload box fixed**
+            $("#preview-container").sortable({
+                items: ".image-box",        // only image boxes are draggable
+                cancel: ".uplode-box",      // upload box cannot be dragged
+                placeholder: "image-box-placeholder",
+                tolerance: "pointer",       // makes drag smooth
+                helper: "clone",            // avoids element sticking
+                start: function(e, ui) {
+                    ui.placeholder.height(ui.item.height());
+                    ui.placeholder.width(ui.item.width());
+                }
+            }).disableSelection();
+
+            $("#advertisementForm").submit(function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+
+                selectedFiles.forEach(file => {
+                    formData.append('images[]', file);
+                });
+
+                // Optional: send the order
+                $("#preview-container .image-box").each(function(i) {
+                    formData.append(`images_order[${i}]`, $(this).find("img").attr("alt"));
+                });
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: $(this).attr("method"),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: 'advertisement created successfully!',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    },
+                    error: function(err) {
+                        console.error(err);
+                    }
+                });
+            });
+        });
+    </script>
+
 @endpush

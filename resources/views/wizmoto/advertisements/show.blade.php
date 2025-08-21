@@ -7,10 +7,14 @@
                 <!-- Main box -->
                 <div class="c-box">
                     <div class="logo-inner">
-                        <div class="logo"><a href="index.html"><img src="images/logo.svg" alt="" title="Boxcar"></a></div>
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="images/logo.svg" alt="" title="Wizmoto">
+                            </a>
+                        </div>
                         <div class="layout-search style1">
                             <div class="search-box">
-                                <svg class="icon"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
                                 </svg>
                                 <input type="search" placeholder="Search Cars eg. Audi Q7" class="show-search" name="name" tabindex="2" value="" aria-required="true" required="">
@@ -18,7 +22,8 @@
                             </div>
                             <div class="box-content-search" id="box-content-search">
                                 <ul class="box-car-search">
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -26,8 +31,10 @@
                                                 <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
                                                 <span class="price">$399</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -35,8 +42,10 @@
                                                 <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
                                                 <span class="price">$399</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -44,8 +53,10 @@
                                                 <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
                                                 <span class="price">$399</span>
                                             </div>
-                                        </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="inventory-page-single.html" class="car-search-item">
                                             <div class="box-img">
                                                 <img src="images/resource/car-search.jpg" alt="img">
                                             </div>
@@ -53,7 +64,8 @@
                                                 <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
                                                 <span class="price">$399</span>
                                             </div>
-                                        </a></li>
+                                        </a>
+                                    </li>
                                 </ul>
                                 <a href="inventory-page-single.html" class="btn-view-search">
                                     View Details
@@ -76,114 +88,257 @@
                     <div class="nav-out-bar">
                         <nav class="nav main-menu">
                             <ul class="navigation" id="navbar">
-                                <li class="current-dropdown current"><span>Home <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown current">
+                                    <span>Home
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <ul class="dropdown">
-                                        <li><a href="index.html">Home 01</a></li>
-                                        <li><a href="index-2.html">Home 02</a></li>
-                                        <li><a href="index-3.html">Home 03</a></li>
-                                        <li><a href="index-4.html">Home 04</a></li>
-                                        <li><a href="index-5.html">Home 05</a></li>
-                                        <li><a href="index-6.html">Home 06</a></li>
-                                        <li><a href="index-7.html">Home 07</a></li>
-                                        <li><a href="index-8.html">Home 08</a></li>
-                                        <li><a href="index-9.html">Home 09</a></li>
-                                        <li><a href="index-10.html">Home 10</a></li>
+                                        <li>
+                                            <a href="index.html">Home 01</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-2.html">Home 02</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-3.html">Home 03</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-4.html">Home 04</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-5.html">Home 05</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-6.html">Home 06</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-7.html">Home 07</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-8.html">Home 08</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-9.html">Home 09</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-10.html">Home 10</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li class="current-dropdown"><span>Inventory <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown">
+                                    <span>Inventory
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <div class="mega-menu">
                                         <div class="mega-column">
                                             <h3>Inventory List</h3>
                                             <ul>
-                                                <li><a href="inventory-list-01.html" title="">Inventory List v1</a></li>
-                                                <li><a href="inventory-list-02.html" title="">Inventory List v2</a></li>
-                                                <li><a href="inventory-map-cards.html" title="">Map - Cards</a></li>
-                                                <li><a href="inventory-map-rows.html" title="">Map - Rows</a></li>
-                                                <li><a href="inventory-sidebar-rows.html" title="">Sidebar - Rows</a></li>
-                                                <li><a href="inventory-sidebar-cards.html" title="">Sidebar - Cards</a></li>
+                                                <li>
+                                                    <a href="inventory-list-01.html" title="">Inventory List v1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-list-02.html" title="">Inventory List v2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-map-cards.html" title="">Map - Cards</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-map-rows.html" title="">Map - Rows</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-sidebar-rows.html" title="">Sidebar - Rows</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-sidebar-cards.html" title="">Sidebar - Cards</a>
+                                                </li>
 
                                             </ul>
                                         </div>
                                         <div class="mega-column">
                                             <h3>Inventory Single</h3>
                                             <ul>
-                                                <li><a href="inventory-page-single.html" title="">Inventory Single v1</a></li>
-                                                <li><a href="inventory-page-single-v2.html" title="">Inventory Single v2</a></li>
-                                                <li><a href="inventory-page-single-v3.html" title="">Inventory Single v3</a></li>
-                                                <li><a href="inventory-page-single-v4.html" title="">Inventory Single v4</a></li>
-                                                <li><a href="inventory-page-single-v5.html" title="">Inventory Single v5</a></li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Inventory Single v1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single-v2.html" title="">Inventory Single v2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single-v3.html" title="">Inventory Single v3</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single-v4.html" title="">Inventory Single v4</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single-v5.html" title="">Inventory Single v5</a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="mega-column">
                                             <h3>Popular Makes</h3>
                                             <ul>
-                                                <li><a href="inventory-page-single.html" title="">Audi</a></li>
-                                                <li><a href="inventory-page-single.html" title="">BMW</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Ford</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Honda</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Land Rover</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Mercedes-Benz</a></li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Audi</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">BMW</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Ford</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Honda</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Land Rover</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Mercedes-Benz</a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="mega-column">
                                             <h3>Type</h3>
                                             <ul>
-                                                <li><a href="inventory-page-single.html" title="">Sedan</a></li>
-                                                <li><a href="inventory-page-single.html" title="">SUVs</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Sport Coupe</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Convertible</a></li>
-                                                <li><a href="inventory-page-single.html" title="">Wagon</a></li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Sedan</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">SUVs</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Sport Coupe</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Convertible</a>
+                                                </li>
+                                                <li>
+                                                    <a href="inventory-page-single.html" title="">Wagon</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="current-dropdown"><span>Blog <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown">
+                                    <span>Blog
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <ul class="dropdown">
-                                        <li><a href="blog-list-01.html">Blog List 01</a></li>
-                                        <li><a href="blog-list-02.html">Blog List 02</a></li>
-                                        <li><a href="blog-list-03.html">Blog List 03</a></li>
-                                        <li><a href="blog-single.html">Blog Single</a></li>
+                                        <li>
+                                            <a href="blog-list-01.html">Blog List 01</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-list-02.html">Blog List 02</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-list-03.html">Blog List 03</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-single.html">Blog Single</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li class="current-dropdown"><span>Shop <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown">
+                                    <span>Shop
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <ul class="dropdown">
-                                        <li><a href="shop-list.html">Shop List</a></li>
-                                        <li><a href="shop-single.html">Shop Single</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li>
+                                            <a href="shop-list.html">Shop List</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop-single.html">Shop Single</a>
+                                        </li>
+                                        <li>
+                                            <a href="cart.html">Cart</a>
+                                        </li>
+                                        <li>
+                                            <a href="checkout.html">Checkout</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li class="current-dropdown right-one"><span>Pages <i class="fa-solid fa-angle-down"></i></span>
+                                <li class="current-dropdown right-one">
+                                    <span>Pages
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
                                     <ul class="dropdown">
-                                        <li class="nav-sub"><a>Dashboard <i class="fa fa-angle-right"></i></a>
+                                        <li class="nav-sub">
+                                            <a>Dashboard
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
                                             <ul class="dropdown deep subnav-menu">
-                                                <li><a href="dashboard.html" title="">Dashboard</a></li>
-                                                <li><a href="my-listings.html" title="">My Listings</a></li>
-                                                <li><a href="add-listings.html" title="">Add Listings</a></li>
-                                                <li><a href="favorite.html" title="">Favorites</a></li>
-                                                <li><a href="saved.html" title="">Saved Search</a></li>
-                                                <li><a href="messages.html" title="">Messages</a></li>
-                                                <li><a href="profile.html" title="">Profile</a></li>
+                                                <li>
+                                                    <a href="dashboard.html" title="">Dashboard</a>
+                                                </li>
+                                                <li>
+                                                    <a href="my-listings.html" title="">My Listings</a>
+                                                </li>
+                                                <li>
+                                                    <a href="add-listings.html" title="">Add Listings</a>
+                                                </li>
+                                                <li>
+                                                    <a href="favorite.html" title="">Favorites</a>
+                                                </li>
+                                                <li>
+                                                    <a href="saved.html" title="">Saved Search</a>
+                                                </li>
+                                                <li>
+                                                    <a href="messages.html" title="">Messages</a>
+                                                </li>
+                                                <li>
+                                                    <a href="profile.html" title="">Profile</a>
+                                                </li>
                                             </ul>
                                         </li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="contact.html">Services</a></li>
-                                        <li><a href="login.html">Login</a></li>
-                                        <li><a href="faq.html">FAQs</a></li>
-                                        <li><a href="pricing.html">Pricing</a></li>
-                                        <li><a href="terms.html">Terms</a></li>
-                                        <li><a href="team-list.html">Team List</a></li>
-                                        <li><a href="team-single.html">Team Single</a></li>
-                                        <li><a href="dealer.html">Dealer List</a></li>
-                                        <li><a href="dealer-single.html">Dealer Single</a></li>
-                                        <li><a href="loan-calculator.html">Loan Calculator</a></li>
-                                        <li><a href="compare.html">Compare</a></li>
-                                        <li><a href="404.html">404</a></li>
-                                        <li><a href="invoice.html">Invoice</a></li>
-                                        <li><a href="ui-elements.html">UI Elements</a></li>
+                                        <li>
+                                            <a href="about.html">About</a>
+                                        </li>
+                                        <li>
+                                            <a href="contact.html">Services</a>
+                                        </li>
+                                        <li>
+                                            <a href="login.html">Login</a>
+                                        </li>
+                                        <li>
+                                            <a href="faq.html">FAQs</a>
+                                        </li>
+                                        <li>
+                                            <a href="pricing.html">Pricing</a>
+                                        </li>
+                                        <li>
+                                            <a href="terms.html">Terms</a>
+                                        </li>
+                                        <li>
+                                            <a href="team-list.html">Team List</a>
+                                        </li>
+                                        <li>
+                                            <a href="team-single.html">Team Single</a>
+                                        </li>
+                                        <li>
+                                            <a href="dealer.html">Dealer List</a>
+                                        </li>
+                                        <li>
+                                            <a href="dealer-single.html">Dealer Single</a>
+                                        </li>
+                                        <li>
+                                            <a href="loan-calculator.html">Loan Calculator</a>
+                                        </li>
+                                        <li>
+                                            <a href="compare.html">Compare</a>
+                                        </li>
+                                        <li>
+                                            <a href="404.html">404</a>
+                                        </li>
+                                        <li>
+                                            <a href="invoice.html">Invoice</a>
+                                        </li>
+                                        <li>
+                                            <a href="ui-elements.html">UI Elements</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a>
+                                <li>
+                                    <a href="contact.html">Contact</a>
                                 </li>
                             </ul>
                         </nav>
@@ -205,7 +360,8 @@
                                     </defs>
                                 </svg>
                             </div>
-                            Sign in</a>
+                            Sign in
+                        </a>
                         <div class="btn">
                             <a href="add-listing-page.html" class="header-btn-two btn-anim">Add Listing</a>
                         </div>
@@ -226,13 +382,16 @@
         <!-- Header Search -->
         <div class="search-popup">
             <span class="search-back-drop"></span>
-            <button class="close-search"><span class="fa fa-times"></span></button>
+            <button class="close-search">
+                <span class="fa fa-times"></span></button>
 
             <div class="search-inner">
                 <form method="post" action="index.html">
                     <div class="form-group">
                         <input type="search" name="search-field" value="" placeholder="Search..." required="">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                        <button type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -248,25 +407,32 @@
         <div class="boxcar-container">
             <div class="boxcar-title-three">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><span>Cars for Sale</span></li>
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li><span>Motors for Sale</span></li>
                 </ul>
-                <h2>Volvo XC90</h2>
-                <div class="text">2.0 D5 PowerPulse Momentum 5dr AWD Geartronic Estate</div>
+                <h2>{{$advertisement->brand?->name}}{{' '}}{{$advertisement->vehicleModel?->name}}</h2>
+                <div class="text">{{$advertisement->version_model}}</div>
                 <div class="content-box">
-                    <h3 class="title">$45,900</h3>
+                    <h3 class="title">${{$advertisement->final_price}}</h3>
                 </div>
             </div>
             <div class="gallery-sec">
                 <div class="row">
                     <div class="image-column item1 col-lg-7 col-md-12 col-sm-12">
                         <div class="inner-column">
+                            @php $images = $advertisement->getMedia('covers'); @endphp
                             <div class="image-box">
-                                <figure class="image"><a href="images/resource/inventory1-1.jpg" data-fancybox="gallery"><img src="images/resource/inventory1-1.jpg" alt=""></a></figure>
+                                <figure class="image">
+                                    <a href="{{ $images->first()->getUrl() }}" data-fancybox="gallery">
+                                        <img src="{{ $images->first()->getUrl() }}" alt="">
+                                    </a>
+                                </figure>
                                 <div class="content-box">
                                     <ul class="video-list">
-                                        <li><a href="https://www.youtube.com/watch?v=7e90gBu4pas" data-fancybox="gallery2"><img src="images/resource/video1-1.svg">Video</a></li>
-                                        <li><a href="#"><img src="images/resource/video1-2.svg">360 View</a></li>
+                                        {{--                                        <li><a href="https://www.youtube.com/watch?v=7e90gBu4pas" data-fancybox="gallery2"><img src="images/resource/video1-1.svg">Video</a></li>--}}
+                                        {{--                                        <li><a href="#"><img src="images/resource/video1-2.svg">360 View</a></li>--}}
                                     </ul>
                                 </div>
                             </div>
@@ -274,38 +440,21 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12">
                         <div class="row">
-                            <div class="image-column-two item2 col-6">
-                                <div class="inner-column">
-                                    <div class="image-box">
-                                        <figure class="image"><a href="images/resource/car-single-1.png" data-fancybox="gallery"  class="fancybox" ><img src="images/resource/inventory1-2.jpg" alt=""></a></figure>
 
+                            @foreach($images->skip(1) as $image)
+                                <div class="image-column-two item2 col-6">
+                                    <div class="inner-column">
+                                        <div class="image-box">
+                                            <figure class="image">
+                                                <a href="{{ $image->getUrl() }}" data-fancybox="gallery" class="fancybox">
+                                                    <img src="{{ $image->getUrl() }}" alt="">
+                                                </a>
+                                            </figure>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="image-column-two item3 col-6">
-                                <div class="inner-column">
-                                    <div class="image-box">
-                                        <figure class="image"><a href="images/resource/car-single-2.png" data-fancybox="gallery"><img src="images/resource/inventory1-3.png" alt=""></a></figure>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="image-column-two item4 col-6">
-                                <div class="inner-column">
-                                    <div class="image-box">
-                                        <figure class="image"><a href="images/resource/car-single-3.png" data-fancybox="gallery"><img src="images/resource/inventory1-4.jpg" alt=""></a></figure>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="image-column-two item5 col-6">
-                                <div class="inner-column">
-                                    <div class="image-box">
-                                        <figure class="image"><a href="images/resource/car-single-4.png" data-fancybox="gallery"><img src="images/resource/inventory1-5.png" alt=""></a></figure>
-
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -316,46 +465,105 @@
                     <div class="inner-column">
                         <!-- overview-sec -->
                         <div class="overview-sec">
-                            <h4 class="title">Car Overview</h4>
+                            <h4 class="title">Motor Overview</h4>
                             <div class="row">
+                                {{-- Left Column --}}
                                 <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                     <div class="inner-column">
                                         <ul class="list">
-                                            <li><span><img src="images/resource/insep1-1.svg">Body</span>SUV</li>
-                                            <li><span><img src="images/resource/insep1-2.svg">Mileage</span>28.000 miles</li>
-                                            <li><span><img src="images/resource/insep1-3.svg">Fuel Type</span>Petrol</li>
-                                            <li><span><img src="images/resource/insep1-4.svg">Year</span>2023</li>
-                                            <li><span><img src="images/resource/insep1-5.svg">Transmission</span>Automatics</li>
-                                            <li><span><img src="images/resource/insep1-6.svg">Drive Type</span>Front Wheel Drive</li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body
+                                                </span>
+                                                {{ $advertisement->vehicleBody?->name ?? 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Color
+                                                </span>
+                                                {{ $advertisement->vehicleColor?->name ?? 'N/A' }}
+                                                @if($advertisement->is_metallic_paint)
+                                                    <small>(Metallic)</small>
+                                                @endif
+                                            </li>
+
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
+                                                </span>
+                                                {{ $advertisement->fuelType?->name ?? 'N/A' }}
+                                            </li>
+
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Transmission
+                                                </span>
+                                                {{ $advertisement->motor_change ?? 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Engine Size
+                                                </span>
+                                                {{ $advertisement->motor_displacement ? $advertisement->motor_displacement . ' cc' : 'N/A' }}
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
+
+                                {{-- Right Column --}}
                                 <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                     <div class="inner-column">
                                         <ul class="list">
-                                            <li><span><img src="images/resource/insep1-7.svg">Condition</span>Used</li>
-                                            <li><span><img src="images/resource/insep1-8.svg">Engine Size</span>4.8L</li>
-                                            <li><span><img src="images/resource/insep1-9.svg">Doors</span>5-door</li>
-                                            <li><span><img src="images/resource/insep1-10.svg">Cylinders</span>6</li>
-                                            <li><span><img src="images/resource/insep1-11.svg">Color</span>Blue</li>
-                                            <li><span><img src="images/resource/insep1-12.svg">VIN</span>ZN682AVA2P7429564</li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">Condition
+                                                </span>
+                                                {{ $advertisement->vehicle_category ?? 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">Mileage
+                                                </span>
+                                                {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}"> Registration Year
+                                                </span>
+                                                {{ $advertisement->registration_year ?? 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}"> Last Service Year
+                                                </span>
+                                                {{ $advertisement->last_service_year ?? 'N/A' }}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">Cylinders
+                                                </span>
+                                                {{ $advertisement->motor_cylinders ?? 'N/A' }}
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <!-- description-sec -->
                         <div class="description-sec">
                             <h4 class="title">Description</h4>
-                            <div class="text two">dddd</div>
+                            <div class="text two">{{$advertisement->description}}</div>
                         </div>
 
                         <div class="location-box">
                             <h4 class="title">Location</h4>
-                            <div class="text">Ford Shirley, 361 - 369 Stratford Road, Shirley, Solihull, B90 3BS
-                                              Open today 9am - 6pm
+                            <div class="text">
+                                {{ $advertisement->city ?? '' }} {{ $advertisement->zip_code ?? '' }}
                             </div>
-                            <a href="#" class="brand-btn">Get Directions<svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewbox="0 0 15 14" fill="none">
+                            <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}" target="_blank" class="brand-btn">
+                                Get Directions
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewbox="0 0 15 14" fill="none">
                                     <g clip-path="url(#clip0_881_14440)">
                                         <path d="M14.1111 0H5.55558C5.34062 0 5.16668 0.173943 5.16668 0.388901C5.16668 0.603859 5.34062 0.777802 5.55558 0.777802H13.1723L0.613941 13.3362C0.46202 13.4881 0.46202 13.7342 0.613941 13.8861C0.689884 13.962 0.789415 14 0.88891 14C0.988405 14 1.0879 13.962 1.16388 13.8861L13.7222 1.3277V8.94447C13.7222 9.15943 13.8962 9.33337 14.1111 9.33337C14.3261 9.33337 14.5 9.15943 14.5 8.94447V0.388901C14.5 0.173943 14.3261 0 14.1111 0Z" fill="#405FF2"></path>
                                     </g>
@@ -366,9 +574,8 @@
                                     </defs>
                                 </svg>
                             </a>
-                            <div class="goole-iframe">
-                                <iframe src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&t=&z=14&ie=UTF8&iwloc=B&output=embed">
-                                </iframe>
+                            <div class="google-iframe">
+                                <iframe src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}&t=&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
                             </div>
                         </div>
                     </div>
@@ -380,46 +587,60 @@
                                 <img src="images/resource/volvo.svg">
                             </div>
                             <div class="content-box">
-                                <h6 class="title">Volvo Cars Marin</h6>
-                                <div class="text">619 Francisco Blvd E, San Rafael, CA 94901</div>
+                                {{-- Dealer / Provider Name (assuming from provider relation) --}}
+                                <h6 class="title">{{ $advertisement->provider->name ?? 'Unknown Dealer' }}</h6>
+
+                                {{-- Address --}}
+                                <div class="text">
+                                    {{ $advertisement->city ?? '' }}
+                                    {{ $advertisement->zip_code ? ', ' . $advertisement->zip_code : '' }}
+                                </div>
+
+                                {{-- Contact List --}}
                                 <ul class="contact-list">
-                                    <li><a href="#"><div class="image-box"><img src="images/resource/phone1-1.svg"></div>Get Directions</a></li>
-                                    <li><a href="#"><div class="image-box"><img src="images/resource/phone1-2.svg"></div>+76 956 039 967</a></li>
+                                    {{-- Directions --}}
+                                    <li>
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}" target="_blank">
+                                            <div class="image-box">
+                                                <img src="{{ asset('wizmoto/images/resource/phone1-1.svg') }}">
+                                            </div>
+                                            Get Directions
+                                        </a>
+                                    </li>
+
+                                    {{-- Phone (only if allowed) --}}
+                                    @if($advertisement->show_phone && $advertisement->telephone)
+                                        <li>
+                                            <a href="tel:{{ $advertisement->international_prefix }}{{ $advertisement->prefix }}{{ $advertisement->telephone }}">
+                                                <div class="image-box">
+                                                    <img src="{{ asset('wizmoto/images/resource/phone1-2.svg') }}">
+                                                </div>
+                                                {{ $advertisement->international_prefix }} {{ $advertisement->prefix }} {{ $advertisement->telephone }}
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
+
+                                {{-- Buttons --}}
                                 <div class="btn-box">
-                                    <a href="#" class="side-btn">Message Dealer<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_881_7563)">
-                                                <path d="M13.6111 0H5.05558C4.84062 0 4.66668 0.173943 4.66668 0.388901C4.66668 0.603859 4.84062 0.777802 5.05558 0.777802H12.6723L0.113941 13.3362C-0.0379805 13.4881 -0.0379805 13.7342 0.113941 13.8861C0.189884 13.962 0.289415 14 0.38891 14C0.488405 14 0.5879 13.962 0.663879 13.8861L13.2222 1.3277V8.94447C13.2222 9.15943 13.3962 9.33337 13.6111 9.33337C13.8261 9.33337 14 9.15943 14 8.94447V0.388901C14 0.173943 13.8261 0 13.6111 0Z" fill="white"></path>
-                                            </g>
-                                            <defs>
-                                                <clippath id="clip0_881_7563">
-                                                    <rect width="14" height="14" fill="white"></rect>
-                                                </clippath>
-                                            </defs>
+{{--                                    <a href="{{ route('dealer.message', $advertisement->provider_id) }}" class="side-btn">Message Dealer--}}
+{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">--}}
+{{--                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="white"></path>--}}
+{{--                                        </svg>--}}
+{{--                                    </a>--}}
+
+                                    <a href="https://wa.me/{{ $advertisement->international_prefix }}{{ $advertisement->telephone }}" class="side-btn two" target="_blank">
+                                        Chat Via Whatsapp
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
                                         </svg>
                                     </a>
-                                    <a href="#" class="side-btn two">Chat Via Whatsapp<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_881_8744)">
-                                                <path d="M13.6111 0H5.05558C4.84062 0 4.66668 0.173943 4.66668 0.388901C4.66668 0.603859 4.84062 0.777802 5.05558 0.777802H12.6723L0.113941 13.3362C-0.0379805 13.4881 -0.0379805 13.7342 0.113941 13.8861C0.189884 13.962 0.289415 14 0.38891 14C0.488405 14 0.5879 13.962 0.663879 13.8861L13.2222 1.3277V8.94447C13.2222 9.15943 13.3962 9.33337 13.6111 9.33337C13.8261 9.33337 14 9.15943 14 8.94447V0.388901C14 0.173943 13.8261 0 13.6111 0Z" fill="#60C961"></path>
-                                            </g>
-                                            <defs>
-                                                <clippath id="clip0_881_8744">
-                                                    <rect width="14" height="14" fill="white"></rect>
-                                                </clippath>
-                                            </defs>
-                                        </svg>
-                                    </a>
-                                    <a href="#" class="side-btn-three">View all stock at this dealer<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_881_10193)">
-                                                <path d="M13.6111 0H5.05558C4.84062 0 4.66668 0.173943 4.66668 0.388901C4.66668 0.603859 4.84062 0.777802 5.05558 0.777802H12.6723L0.113941 13.3362C-0.0379805 13.4881 -0.0379805 13.7342 0.113941 13.8861C0.189884 13.962 0.289415 14 0.38891 14C0.488405 14 0.5879 13.962 0.663879 13.8861L13.2222 1.3277V8.94447C13.2222 9.15943 13.3962 9.33337 13.6111 9.33337C13.8261 9.33337 14 9.15943 14 8.94447V0.388901C14 0.173943 13.8261 0 13.6111 0Z" fill="#050B20"></path>
-                                            </g>
-                                            <defs>
-                                                <clippath id="clip0_881_10193">
-                                                    <rect width="14" height="14" fill="white"></rect>
-                                                </clippath>
-                                            </defs>
-                                        </svg>
-                                    </a>
+
+{{--                                    <a href="{{ route('dealer.stock', $advertisement->provider_id) }}" class="side-btn-three">View all stock at this dealer--}}
+{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">--}}
+{{--                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>--}}
+{{--                                        </svg>--}}
+{{--                                    </a>--}}
                                 </div>
                             </div>
                         </div>
@@ -437,3 +658,10 @@
     @include('wizmoto.partials.footer')
 
 @endsection
+
+@push('styles')
+    <style>
+
+    </style>
+
+@endpush

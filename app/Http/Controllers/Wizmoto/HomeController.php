@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Wizmoto;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
-use Illuminate\Http\Request;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     public function index () {
-        $advertisements = Advertisement::all();
+        $newAdvertisements = Advertisement::query()
+                                          ->latest()
+                                          ->limit(12)
+                                          ->get();
+        $usedAdvertisements = Advertisement::query()
+                                          ->where('vehicle_category' , 'Used')
+                                          ->latest()
+                                          ->limit(12)
+                                          ->get();
 
-        return view('wizmoto.home.index', compact('advertisements'));
+        return view('wizmoto.home.index' , compact('newAdvertisements','usedAdvertisements'));
     }
 }

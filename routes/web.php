@@ -24,6 +24,7 @@ Route::prefix('dashboard')
      ->group(function () {
          Route::get('/create-advertisement' , [ DashboardController::class , 'createAdvertisement' , ])->name('dashboard.create-advertisement');
          Route::post('/store-advertisement' , [ DashboardController::class , 'storeAdvertisement' , ])->name('dashboard.store-advertisement');
+
      });
 
 require( __DIR__ . '/vendor/provider.php' );

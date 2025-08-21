@@ -10,3 +10,5 @@
 <script src="{{ asset('wizmoto/js/knob.js') }}"></script>
 <script src="{{ asset('wizmoto/js/mmenu.js') }}"></script>
 <script src="{{ asset('wizmoto/js/main.js') }}"></script>
+<script src="{{ asset('wizmoto/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('wizmoto/js/swalalert.min.js') }}"></script>
