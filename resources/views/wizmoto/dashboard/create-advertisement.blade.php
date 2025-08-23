@@ -20,6 +20,7 @@
                             {{--Vehicle data--}}
                             <h6>Vehicle data</h6>
                             <div class="form-column col-lg-6">
+                                <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Brand</label>
                                     <div class="drop-menu" id="brand-dropdown">
@@ -37,6 +38,7 @@
                                 </div>
                             </div>
                             <div class="form-column col-lg-6">
+                                <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Model</label>
                                     <div class="drop-menu" id="model-dropdown">
@@ -55,7 +57,7 @@
                                 <div class="form_boxes v2">
                                     <label>Version</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="version">
+                                        <input type="text" name="version_model">
                                     </div>
                                 </div>
                             </div>
@@ -63,8 +65,9 @@
                             {{--Characteristics--}}
                             <h6>Characteristics</h6>
                             <div class="form-column col-lg-6">
+                                <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Brand</label>
+                                    <label>BodyWork</label>
                                     <div class="drop-menu" id="brand-dropdown">
                                         <div class="select">
                                             <span>Select BodyWork</span>
@@ -87,8 +90,8 @@
                                             <div class="color-item">
                                                 <input type="radio"
                                                        id="color-{{ $color->id }}"
-                                                       name="bodyColor"
-                                                       value="{{ $color->name }}">
+                                                       name="color_id"
+                                                       value="{{ $color->id }}">
                                                 <label for="color-{{ $color->id }}" class="color-circle"
                                                        style="background-color: {{ $color->hex_code }}"></label>
                                                 <span class="color-label">{{ $color->name }}</span>
@@ -128,7 +131,7 @@
                                 <div class="form_boxes v2">
                                     <label>Mileage</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="Mileage" placeholder="Km">
+                                        <input type="text" name="mileage" placeholder="Km">
                                     </div>
                                 </div>
                             </div>
@@ -416,7 +419,7 @@
                                             <span>Select Emissions class</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="fuel_type_id">
+                                        <input type="hidden" name="emissions_class">
                                         <ul class="dropdown" style="display: none;">
                                             @php
                                                 $emissionsClasses=[
@@ -581,6 +584,22 @@
 @endsection
 @push('styles')
     <style>
+
+        .input-error,
+        .drop-menu-error {
+            border: 1px solid #dc2626 !important; /* red border */
+            border-radius: 4px;
+            padding: 10px; /* adjust as needed */
+        }
+
+        /* Error message below form box */
+        .error-text {
+            font-size: 0.875rem; /* small */
+            color: #dc2626;      /* red */
+            display: block;
+            margin-top: 4px;
+        }
+
         #preview-container{
             align-items: center;
         }
@@ -690,6 +709,7 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function (models) {
+
                     let $modelDropdown = $('#model-dropdown ul.dropdown');
                     $modelDropdown.empty();
 
@@ -697,6 +717,7 @@
                         $modelDropdown.append('<li>No models available</li>');
                     } else {
                         $.each(models, function (index, model) {
+
                             $modelDropdown.append('<li data-id="' + index + '">' + model + '</li>');
                         });
                     }
@@ -738,11 +759,12 @@
                 Array.from(this.files).forEach(file => {
                     selectedFiles.push(file);
                     const reader = new FileReader();
+                    let index = selectedFiles.length - 1;
 
                     reader.onload = function(event) {
                         const div = $(`
-                    <div class="image-box">
-                        <img src="${event.target.result}">
+                    <div class="image-box" data-index="${index}">
+                        <img src="${event.target.result}" alt="preview">
                         <div class="content-box">
                             <ul class="social-icon">
                                 <li>
@@ -767,7 +789,17 @@
             // Delete handler
             $("#preview-container").on("click", ".delete-btn", function(e) {
                 e.preventDefault();
-                $(this).closest(".image-box").remove();
+                const box = $(this).closest(".image-box");
+                const index = box.data("index");
+                box.remove();
+
+                // Remove the file from array
+                selectedFiles.splice(index, 1);
+
+                // Re-sync indexes on remaining previews
+                $("#preview-container .image-box").each(function(i) {
+                    $(this).attr("data-index", i);
+                });
             });
 
             // Make images sortable but **upload box fixed**
@@ -785,6 +817,7 @@
 
             $("#advertisementForm").submit(function(e) {
                 e.preventDefault();
+
                 const formData = new FormData(this);
 
                 selectedFiles.forEach(file => {
@@ -812,12 +845,54 @@
                             timer: 3000
                         });
                     },
-                    error: function(err) {
-                        console.error(err);
+                    error: function(xhr) {
+                        $('.error-text').text('');
+                        $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
+
+                        if (xhr.status === 422) {
+                            showValidationErrors(xhr.responseJSON.errors);
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Something went wrong!',
+                                text: 'Please try again later.'
+                            });
+                        }
                     }
                 });
             });
         });
+
+        function showValidationErrors(errors) {
+            // Clear previous
+            $('.error-text').text('');
+            $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
+
+            for (let field in errors) {
+                let $input = $('[name="' + field + '"]');
+                let $formBox = $input.closest('.form_boxes');
+
+                // Show error message below form box
+                $formBox.closest('.form-column').find('.error-text').text(errors[field][0]);
+
+                // Highlight form box
+                if ($input.attr('type') === 'hidden') {
+                    $formBox.addClass('drop-menu-error'); // dropdowns
+                } else {
+                    $formBox.addClass('input-error');     // text inputs
+                }
+            }
+
+            // Scroll to first error
+            let $firstError = $('.input-error, .drop-menu-error').first();
+            if ($firstError.length) {
+                $('html, body').animate({
+                    scrollTop: $firstError.offset().top - 50
+                }, 500);
+            }
+        }
+
     </script>
 
 @endpush

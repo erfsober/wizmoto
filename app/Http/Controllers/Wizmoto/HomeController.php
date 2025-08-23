@@ -19,4 +19,9 @@ class HomeController extends Controller {
 
         return view('wizmoto.home.index' , compact('newAdvertisements','usedAdvertisements'));
     }
+    public function inventoryList () {
+        $advertisements = Advertisement::query()->get();
+
+        return view('wizmoto.home.inventory-list' , compact('advertisements'));
+    }
 }

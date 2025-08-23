@@ -11,6 +11,10 @@ Route::get('/' , [
     HomeController::class ,
     'index' ,
 ])->name('home');
+Route::get('/inventory-list' , [
+    HomeController::class ,
+    'inventoryList' ,
+])->name('inventory-list');
 // advertisements group
 Route::prefix('advertisements')
      ->group(function () {

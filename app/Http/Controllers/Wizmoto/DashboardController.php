@@ -11,14 +11,12 @@ use App\Models\Equipment;
 use App\Models\FuelType;
 use App\Models\VehicleBody;
 use App\Models\VehicleColor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
         $category = AdvertisementType::query()
-                            ->where('title' , 'scooter')
-                            ->first();
+                                     ->where('title' , 'scooter')
+                                     ->first();
         $brands = Brand::where('advertisement_type_id' , $category->id)
                        ->get();
         $vehicleBodies = VehicleBody::where('advertisement_type_id' , $category->id)
@@ -82,27 +80,33 @@ class DashboardController extends Controller {
             '+90' ,
         ];
 
-        return view('wizmoto.dashboard.create-advertisement' , compact('brands' , 'vehicleBodies' , 'vehicleColors' , 'equipments' , 'fuelTypes','internationalPrefixes'));
+        return view('wizmoto.dashboard.create-advertisement' , compact('brands' , 'vehicleBodies' , 'vehicleColors' , 'equipments' , 'fuelTypes' , 'internationalPrefixes'));
     }
 
     public function storeAdvertisement ( StoreAdvertisementRequest $request ) {
-
-        $advertisement = Advertisement::create($request->validated());
+        $data = $request->validated();
+        $data[ 'is_metallic_paint' ] = $request->has('is_metallic_paint');
+        $data[ 'show_phone' ] = $request->has('show_phone');
+        $data[ 'damaged_vehicle' ] = $request->has('damaged_vehicle');
+        $data[ 'price_negotiable' ] = $request->has('price_negotiable');
+        $data[ 'tax_deductible' ] = $request->has('tax_deductible');
+        $data[ 'coupon_documentation' ] = $request->has('coupon_documentation');
+        $advertisement = Advertisement::create($data);
         if ( $request->hasFile('images') ) {
             foreach ( $request->file('images') as $file ) {
                 $advertisement->addMedia($file)
-                            ->toMediaCollection('covers');
+                              ->toMediaCollection('covers');
             }
         }
 
-
+        if ($request->has('equipments')) {
+            $advertisement->equipments()->sync($request->equipments);
+        }
 
         return response()->json([
-                                    'status' => 'success',
-                                    'message' => 'Advertisement created successfully.',
-                                    'data' => $advertisement,
-                                ], 201);
+                                    'status' => 'success' ,
+                                    'message' => 'Advertisement created successfully.' ,
+                                    'data' => $advertisement ,
+                                ] , 201);
     }
-
-
 }

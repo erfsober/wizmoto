@@ -425,8 +425,8 @@
                             @php $images = $advertisement->getMedia('covers'); @endphp
                             <div class="image-box">
                                 <figure class="image">
-                                    <a href="{{ $images->first()->getUrl() }}" data-fancybox="gallery">
-                                        <img src="{{ $images->first()->getUrl() }}" alt="">
+                                    <a href="{{ $images->first()->getUrl('large') }}" data-fancybox="gallery">
+                                        <img src="{{ $images->first()->getUrl('medium') }}" alt="">
                                     </a>
                                 </figure>
                                 <div class="content-box">
@@ -446,8 +446,12 @@
                                     <div class="inner-column">
                                         <div class="image-box">
                                             <figure class="image">
-                                                <a href="{{ $image->getUrl() }}" data-fancybox="gallery" class="fancybox">
-                                                    <img src="{{ $image->getUrl() }}" alt="">
+                                                <a href="{{ $image->getUrl('large') }}" data-fancybox="gallery" class="fancybox">
+                                                    <img src="{{ $image->getUrl('thumb') }}"
+                                                         srcset="{{ $image->getUrl('thumb') }} 300w, {{ $image->getUrl('preview') }} 800w"
+                                                         sizes="(max-width: 600px) 300px, 800px"
+                                                         loading="lazy"
+                                                         alt="">
                                                 </a>
                                             </figure>
 
