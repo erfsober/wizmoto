@@ -10,7 +10,17 @@ return new class extends Migration {
             $table->id();
             $table->string('username')->nullable()->index();
             $table->string('email')->nullable();
+            $table->string('title')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('address')->nullable();
             $table->string('password')->nullable();
+            $table->string('village')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('city')->nullable();
+            $table->string('show_info_in_advertisement')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();

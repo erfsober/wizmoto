@@ -728,20 +728,6 @@
             });
         }
 
-        $(document).on('click', '.drop-menu ul.dropdown li', function (e) {
-            e.stopPropagation();
-
-            let $dropdown = $(this).closest('.drop-menu');
-            let selectedText = $(this).text().trim();
-            let selectedId = $(this).data('id') || '';
-
-            // Update only the clicked dropdown's span + hidden input
-            $dropdown.find('.select span').first().text(selectedText);
-            $dropdown.find('input[type="hidden"]').val(selectedId).trigger('change');
-
-            // Close that dropdown only
-            $dropdown.find('ul.dropdown').hide();
-        });
 
     </script>
     <script>

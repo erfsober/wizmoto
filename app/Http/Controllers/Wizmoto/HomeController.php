@@ -88,7 +88,7 @@ class HomeController extends Controller {
             // PRICE (final_price is string; cast to decimal)
                                        ->when($request->filled('min_price') , fn ( $q ) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))') , '>=' , (float)$request->min_price))
                                        ->when($request->filled('max_price') , fn ( $q ) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))') , '<=' , (float)$request->max_price))
-                                       ->latest('id')->get();
+                                       ->latest('id')->paginate(10);
 
         return view('wizmoto.home.inventory-list' ,  compact('advertisements' , 'brands' , 'vehicleModels' , 'advertisementTypes' , 'fuelTypes' , 'vehicleBodies','vehicleColors','equipments'));
     }

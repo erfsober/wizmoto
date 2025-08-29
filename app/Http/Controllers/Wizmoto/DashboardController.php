@@ -11,6 +11,7 @@ use App\Models\Equipment;
 use App\Models\FuelType;
 use App\Models\VehicleBody;
 use App\Models\VehicleColor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller {
@@ -111,21 +112,31 @@ class DashboardController extends Controller {
                                 ] , 201);
     }
 
-    public function myAdvertisements () {
+    public function myAdvertisements ( Request $request ) {
         $providerId = Auth::guard('provider')
                           ->id();
-
         $advertisements = Advertisement::query()
-                                       ->where('provider_id' , $providerId)
-                                       ->get();
+                                       ->where('provider_id' , $providerId);
+        // Search
+        if ( $request->filled('search') ) {
+            $advertisements->Where('description' , 'like' , '%' . $request->search . '%');
+        }
+        // Sorting
+        if ( $request->sort === 'oldest' ) {
+            $advertisements->orderBy('created_at');
+        }
+        else {
+            $advertisements->orderByDesc('created_at' );
+        }
+        $advertisements = $advertisements->paginate(10);
 
         return view('wizmoto.dashboard.my-advertisements' , compact('advertisements'));
     }
+
     public function profile () {
         $provider = Auth::guard('provider')
-                          ->user();
+                        ->user();
 
-
-        return view('wizmoto.dashboard.profile',compact('provider') );
+        return view('wizmoto.dashboard.profile' , compact('provider'));
     }
 }
