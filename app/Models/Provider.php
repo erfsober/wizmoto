@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
@@ -21,13 +22,11 @@ class Provider extends Authenticatable implements MustVerifyEmail , HasMedia {
 
     public function registerMediaConversions ( Media $media = null ): void {
         $this->addMediaConversion('thumb')
-             ->width(200)
-             ->height(200)
-             ->sharpen(10);
+             ->width(100)
+             ->height(100);
         $this->addMediaConversion('medium')
              ->width(600)
-             ->height(400)
-             ->sharpen(10);
+             ->height(400);
     }
 
     public static function boot () {
@@ -38,5 +37,9 @@ class Provider extends Authenticatable implements MustVerifyEmail , HasMedia {
                 'email' => $user->email ,
             ]);
         });
+    }
+
+    public function advertisements ():HasMany {
+        return $this->hasMany(Advertisement::class);
     }
 }

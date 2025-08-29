@@ -24,18 +24,13 @@ class Advertisement extends Model implements HasMedia {
              ->quality(70) // compress quality
              ->format('webp');
         $this->addMediaConversion('preview')
-             ->fit(Fit::Crop , 800 , 600)
+             ->fit(Fit::Crop , 800 , 500)
              ->quality(75)
              ->format('webp');
         // Medium image for detail page
-        $this->addMediaConversion('medium')
-             ->fit(Fit::Crop , 1024 , 768)
+        $this->addMediaConversion('square')
+             ->fit(Fit::Crop , 400 , 400)
              ->quality(75)
-             ->format('webp');
-        // Full-size but optimized
-        $this->addMediaConversion('large')
-             ->fit(Fit::Crop , 1920 , 1080)
-             ->quality(80)
              ->format('webp');
     }
 

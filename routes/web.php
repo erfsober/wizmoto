@@ -29,9 +29,10 @@ Route::middleware(["auth"])->prefix('dashboard')
      ->group(function () {
          Route::get('/create-advertisement' , [ DashboardController::class , 'createAdvertisement' , ])->name('dashboard.create-advertisement');
          Route::post('/store-advertisement' , [ DashboardController::class , 'storeAdvertisement' , ])->name('dashboard.store-advertisement');
+         Route::post('/delete-advertisement' , [ DashboardController::class , 'deleteAdvertisement' , ])->name('dashboard.delete-advertisement');
          Route::get('/my-advertisements' , [ DashboardController::class , 'myAdvertisements' , ])->name('dashboard.my-advertisements');
          Route::get('/profile' , [ DashboardController::class , 'profile' , ])->name('dashboard.profile');
-         Route::post('/store-profile' , [ DashboardController::class , 'storeprofile' , ])->name('dashboard.store-profile');
+         Route::post('/update-profile' , [ DashboardController::class , 'updateProfile' , ])->name('dashboard.update-profile');
 
      });
 

@@ -639,9 +639,9 @@
                 <div class="boxcar-title-three wow fadeInUp">
                     <ul class="breadcrumb">
                         <li>
-                            <a href="#">Home</a>
+                            <a href="{{route("home")}}">Home</a>
                         </li>
-                        <li><span>Cars for Sale</span></li>
+                        <li><span>MotorBike for Sale</span></li>
                     </ul>
                     <h2>New and Used MotorBike For Sale</h2>
                 </div>

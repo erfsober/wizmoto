@@ -47,11 +47,11 @@
                         <tbody>
                         @foreach($advertisements as $advertisement)
                             @php $images = $advertisement->getMedia('covers'); @endphp
-                            <tr>
+                            <tr class="advertisement-item">
                                 <td>
                                     <div class="shop-cart-product">
                                         <div class="shop-product-cart-img">
-                                            <img src="{{ $images->first()->getUrl('medium') }}" alt="">
+                                            <img src="{{ $images->first()?->getUrl('square') }}" alt="">
                                         </div>
                                         <div class="shop-product-cart-info">
                                             <h3>
@@ -77,12 +77,12 @@
                                     <span>{{$advertisement->fuelType->name}}</span>
                                 </td>
                                 <td>
-                                    <a href="#" class="remove-cart-item">
+                                    <a href="#" class="remove-cart-item" data-id="{{ $advertisement->id }}" data-url="{{ route('dashboard.delete-advertisement') }}">
                                         <img src="{{asset("wizmoto/images/icons/remove.svg")}}" alt="">
                                     </a>
-                                    <a href="#" class="remove-cart-item">
-                                        <img src="{{asset("wizmoto/images/icons/edit.svg")}}" alt="">
-                                    </a>
+{{--                                    <a href="#" class="remove-cart-item">--}}
+{{--                                        <img src="{{asset("wizmoto/images/icons/edit.svg")}}" alt="">--}}
+{{--                                    </a>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -162,12 +162,8 @@
 @endsection
 @push('scripts')
     <script>
-        // JavaScript (jQuery)
+
         $(document).ready(function() {
-
-
-
-
             // Function to update URL and reload page
             function applyFilters() {
                 let url = window.location.pathname; // keep base url only
@@ -192,17 +188,65 @@
                 // Reload page with proper query string
                 window.location.href = url + '?' + params.toString();
             }
-
-
             // Trigger search on input
             $('#searchInput').on('keypress', function(e) {
                 if (e.key === 'Enter') {
                     applyFilters();
                 }
             });
-
             // Trigger sort change
             $('#sortInput').on('change', applyFilters);
+        });
+        $(document).on('click', '.remove-cart-item', function(e) {
+            e.preventDefault();
+
+            let $btn = $(this);
+            let adId = $btn.data('id');
+            let url = $btn.data('url');
+
+
+            if (!adId) return;
+
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            id: adId,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $btn.closest('.advertisement-item').remove(); // remove the container from DOM
+                                Swal.fire({
+                                    toast: true,
+                                    icon: 'success',
+                                    title: response.message,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                toast: true,
+                                icon: 'error',
+                                title: xhr.responseJSON?.error || 'Something went wrong',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    });
+                }
+            });
         });
 
 

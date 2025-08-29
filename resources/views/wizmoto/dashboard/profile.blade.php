@@ -6,29 +6,42 @@
                 <h3 class="title">Profile</h3>
             </div>
             <div class="form-box">
-            <form action="{{route('dashboard.store-profile')}}" method="POST" class="row"  id="profileForm">
-                @csrf
-            <div class="gallery-sec">
-                <div class="right-box-three">
-                    <h6 class="title">Gallery</h6>
-                    <div class="gallery-box">
-                        <div class="inner-box" id="preview-container">
+                <form action="{{route('dashboard.update-profile')}}" method="POST" class="row" id="profileForm">
+                    @csrf
+                    <div class="gallery-sec">
+                        <div class="right-box-three">
+                            <h6 class="title">Gallery</h6>
+                            <div class="gallery-box">
+                                <div class="inner-box" id="preview-container">
+                                    @if(!empty($provider->getFirstMediaUrl('image')))
+                                        <div class="image-box">
+                                            <img src="{{ $provider->getFirstMediaUrl('image') }}" alt="Preview" style="max-width: 200px; border-radius: 6px;">
+                                            <div class="content-box">
+                                                <ul class="social-icon">
+                                                    <li>
+                                                        <a href="#" class="delete-btn">
+                                                            <img src="{{asset("wizmoto/images/resource/delet.svg")}}">
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="uplode-box" style="{{ $provider->getFirstMedia('image') ? 'display:none;' : '' }}">
+                                            <div class="content-box">
+                                                <a href="#" id="uploadTrigger">
+                                                    <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
+                                                    <span>Upload</span>
+                                                </a>
+                                                <input type="file" name="image" id="fileInput" multiple style="display:none">
+                                            </div>
+                                        </div>
 
-                            <div class="uplode-box">
-                                <div class="content-box">
-                                    <a href="#" id="uploadTrigger">
-                                        <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
-                                        <span>Upload</span>
-                                    </a>
-                                    <input type="file" name="image" id="fileInput" multiple style="display:none">
+                                    @endif
                                 </div>
+                                <div class="text">You can upload a maximum of 1 image. Please only upload images in JPEG or PNG format</div>
                             </div>
                         </div>
-                        <div class="text">You can upload a maximum of 1 image. Please only upload images in JPEG or PNG format</div>
                     </div>
-                </div>
-            </div>
-
 
                     <div class="form-column col-lg-4">
                         <div class="form_boxes">
@@ -55,13 +68,13 @@
                     <div class="form-column col-lg-4">
                         <div class="form_boxes">
                             <label>First Name</label>
-                            <input name="name" type="text" placeholder="" value="{{$provider->first_name}}">
+                            <input name="first_name" type="text" placeholder="" value="{{$provider->first_name}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
                             <label>Last Name</label>
-                            <input name="last-name" type="text" placeholder="" value="{{$provider->last_name}}">
+                            <input name="last_name" type="text" placeholder="" value="{{$provider->last_name}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -94,10 +107,10 @@
                             <label>Village</label>
                             <div class="drop-menu" id="motor-change-dropdown">
                                 <div class="select">
-                                    <span>Selection</span>
+                                    <span class="selected">{{ old('village', $provider->village ?? 'Selection') }}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </div>
-                                <input type="hidden" name="village">
+                                <input type="hidden" name="village" value="{{ old('village', $provider->village ?? '') }}">
                                 <ul class="dropdown" style="display: none;">
                                     @php
                                         $countries = [
@@ -112,7 +125,9 @@
                                      ];
                                     @endphp
                                     @foreach($countries as $country)
-                                        <li data-id="{{ $country }}">{{$country}}</li>
+                                        <li data-id="{{ $country }}">
+                                            {{$country}}
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -131,15 +146,19 @@
                             <input type="text" name="city" placeholder="" value="{{$provider->city}}">
                         </div>
                     </div>
+                    <div class="form-column col-lg-12 mb-5">
+                        <div class="cheak-box">
+                            <label class="contain">Show in advertising
+                                <input type="checkbox" name="show_info_in_advertisement">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-submit">
                         <button type="submit" class="theme-btn">Save Profile<img src="{{asset("wizmoto/images/arrow.svg")}}" alt="">
                         </button>
                     </div>
-
-
-
-
-            </form>
+                </form>
             </div>
         </div>
     </div>
@@ -147,9 +166,10 @@
 @push('styles')
     <style>
 
-        #preview-container{
+        #preview-container {
             align-items: center;
         }
+
         /* Wrapper for each uploaded image */
         #preview-container .image-box {
             position: relative;
@@ -182,17 +202,17 @@
 @endpush
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const selectedFiles = [];
 
             // Upload button click
-            $("#uploadTrigger").click(function(e) {
+            $("#uploadTrigger").click(function (e) {
                 e.preventDefault();
                 $("#fileInput").click();
             });
 
             // File select
-            $("#fileInput").on("change", function(e) {
+            $("#fileInput").on("change", function (e) {
                 if (selectedFiles.length > 0) {
                     alert("You can upload only one image.");
                     $(this).val("");
@@ -203,7 +223,7 @@
                 selectedFiles.push(file);
 
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = function (event) {
                     const div = $(`
                 <div class="image-box" data-index="0">
                     <img src="${event.target.result}" alt="preview">
@@ -229,7 +249,7 @@
             });
 
             // Delete image
-            $("#preview-container").on("click", ".delete-btn", function(e) {
+            $("#preview-container").on("click", ".delete-btn", function (e) {
                 e.preventDefault();
                 const box = $(this).closest(".image-box");
                 box.remove();
@@ -247,23 +267,23 @@
                 placeholder: "image-box-placeholder",
                 tolerance: "pointer",
                 helper: "clone",
-                start: function(e, ui) {
+                start: function (e, ui) {
                     ui.placeholder.height(ui.item.height());
                     ui.placeholder.width(ui.item.width());
                 }
             }).disableSelection();
 
             // Form submit via AJAX
-            $("#profileForm").submit(function(e) {
+            $("#profileForm").submit(function (e) {
                 e.preventDefault();
 
                 const formData = new FormData(this);
 
                 selectedFiles.forEach(file => {
-                    formData.append('images[]', file);
+                    formData.append('image', file);
                 });
 
-                $("#preview-container .image-box").each(function(i) {
+                $("#preview-container .image-box").each(function (i) {
                     formData.append(`images_order[${i}]`, $(this).find("img").attr("alt"));
                 });
 
@@ -273,17 +293,17 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         Swal.fire({
                             toast: true,
                             icon: 'success',
-                            title: 'Advertisement created successfully!',
+                            title: 'Profile updated successfully!',
                             position: 'top-end',
                             showConfirmButton: false,
                             timer: 3000
                         });
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 

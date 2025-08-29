@@ -68,7 +68,7 @@
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>BodyWork</label>
-                                    <div class="drop-menu" id="brand-dropdown">
+                                    <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
                                             <span>Select BodyWork</span>
                                             <i class="fa fa-angle-down"></i>
@@ -860,8 +860,15 @@
                 let $formBox = $input.closest('.form_boxes');
 
                 // Show error message below form box
-                $formBox.closest('.form-column').find('.error-text').text(errors[field][0]);
-
+                // $formBox.closest('.form-column').find('.error-text').text(errors[field][0]);
+                Swal.fire({
+                    toast: true,
+                    icon: 'error',
+                    title: errors[field][0],
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
                 // Highlight form box
                 if ($input.attr('type') === 'hidden') {
                     $formBox.addClass('drop-menu-error'); // dropdowns

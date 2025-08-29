@@ -107,7 +107,7 @@
                                         </span>
                                         <ul class="dropdown">
                                             <li>
-                                                <a href="{{ route('provider.dashboard') }}">Dashboard</a>
+                                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('provider.logout') }}"
@@ -210,7 +210,7 @@
                         </span>
                         <ul class="dropdown">
                             <li>
-                                <a href="{{ route('provider.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
                             </li>
                             <li>
                                 <a href="{{ route('provider.logout') }}"

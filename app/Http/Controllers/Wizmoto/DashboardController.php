@@ -81,8 +81,9 @@ class DashboardController extends Controller {
             '+7' ,
             '+90' ,
         ];
+        $provider=Auth::guard('provider')->user();
 
-        return view('wizmoto.dashboard.create-advertisement' , compact('brands' , 'vehicleBodies' , 'vehicleColors' , 'equipments' , 'fuelTypes' , 'internationalPrefixes'));
+        return view('wizmoto.dashboard.create-advertisement' , compact('brands' , 'vehicleBodies' , 'vehicleColors' , 'equipments' , 'fuelTypes' , 'internationalPrefixes','provider'));
     }
 
     public function storeAdvertisement ( StoreAdvertisementRequest $request ) {
@@ -113,10 +114,11 @@ class DashboardController extends Controller {
     }
 
     public function myAdvertisements ( Request $request ) {
-        $providerId = Auth::guard('provider')
-                          ->id();
+        $provider = Auth::guard('provider')
+                          ->user();
+
         $advertisements = Advertisement::query()
-                                       ->where('provider_id' , $providerId);
+                                       ->where('provider_id' , $provider->id);
         // Search
         if ( $request->filled('search') ) {
             $advertisements->Where('description' , 'like' , '%' . $request->search . '%');
@@ -126,11 +128,11 @@ class DashboardController extends Controller {
             $advertisements->orderBy('created_at');
         }
         else {
-            $advertisements->orderByDesc('created_at' );
+            $advertisements->orderByDesc('created_at');
         }
         $advertisements = $advertisements->paginate(10);
 
-        return view('wizmoto.dashboard.my-advertisements' , compact('advertisements'));
+        return view('wizmoto.dashboard.my-advertisements' , compact('advertisements','provider'));
     }
 
     public function profile () {
@@ -138,5 +140,53 @@ class DashboardController extends Controller {
                         ->user();
 
         return view('wizmoto.dashboard.profile' , compact('provider'));
+    }
+
+    public function updateProfile ( Request $request ) {
+        $user = Auth::guard('provider')
+                    ->user();
+        if ( !$user ) {
+            return redirect()
+                ->route('provider.auth')
+                ->with('error' , 'You must be logged in.');
+        }
+
+        $user->title = $request->input('title');
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->whatsapp = $request->input('whatsapp');
+        $user->address = $request->input('address');
+        $user->village = $request->input('village');
+        $user->zip_code = $request->input('zip_code');
+        $user->city = $request->input('city');
+        $user->show_info_in_advertisement = $request->has('show_info_in_advertisement');
+        $user->save();
+
+        if ( $request->hasFile('image') ) {
+            $user->clearMediaCollection('image') // remove old
+                 ->addMedia($request->file('image'))
+                 ->toMediaCollection('image');
+        }
+        return back()->with('success' , 'Profile updated successfully!');
+    }
+
+    public function deleteAdvertisement(Request $request){
+        // Get the advertisement ID from the request
+        $advertisementId = $request->input('id');
+
+        // Find the advertisement
+        $advertisement = Auth::guard('provider')->user()->advertisements()->find($advertisementId);
+
+        if (!$advertisement) {
+            return response()->json(['error' => 'Advertisement not found'], 404);
+        }
+
+        // Delete the advertisement
+        $advertisement->delete();
+
+        return response()->json(['success' => true, 'message' => 'Advertisement deleted successfully']);
+
     }
 }
