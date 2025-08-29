@@ -11,6 +11,7 @@ use App\Models\Equipment;
 use App\Models\FuelType;
 use App\Models\VehicleBody;
 use App\Models\VehicleColor;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
@@ -98,9 +99,9 @@ class DashboardController extends Controller {
                               ->toMediaCollection('covers');
             }
         }
-
-        if ($request->has('equipments')) {
-            $advertisement->equipments()->sync($request->equipments);
+        if ( $request->has('equipments') ) {
+            $advertisement->equipments()
+                          ->sync($request->equipments);
         }
 
         return response()->json([
@@ -108,5 +109,23 @@ class DashboardController extends Controller {
                                     'message' => 'Advertisement created successfully.' ,
                                     'data' => $advertisement ,
                                 ] , 201);
+    }
+
+    public function myAdvertisements () {
+        $providerId = Auth::guard('provider')
+                          ->id();
+
+        $advertisements = Advertisement::query()
+                                       ->where('provider_id' , $providerId)
+                                       ->get();
+
+        return view('wizmoto.dashboard.my-advertisements' , compact('advertisements'));
+    }
+    public function profile () {
+        $provider = Auth::guard('provider')
+                          ->user();
+
+
+        return view('wizmoto.dashboard.profile',compact('provider') );
     }
 }
