@@ -23,6 +23,7 @@ class BlogPostFactory extends Factory {
             'views' => $this->faker->numberBetween(0, 5000),
             'published' => $this->faker->boolean(70),
             'slug' => Str::slug($title . '-' . Str::random(5)),
+            'author_name' => $this->faker->name,
         ];
     }
 

@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->integer('views')->default(0);
             $table->boolean('published')->default(false);
             $table->string('slug')->index();
-            $table->string('author_name')->index();
+            $table->string('author_name')->nullable();
             $table->timestamps();
         });
     }
