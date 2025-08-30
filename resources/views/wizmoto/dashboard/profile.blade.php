@@ -37,6 +37,17 @@
                                         </div>
 
                                     @endif
+                                    @if(empty($provider->getFirstMediaUrl('image')))
+                                            <div class="uplode-box" style="{{ $provider->getFirstMedia('image') ? 'display:none;' : '' }}">
+                                                <div class="content-box">
+                                                    <a href="#" id="uploadTrigger">
+                                                        <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
+                                                        <span>Upload</span>
+                                                    </a>
+                                                    <input type="file" name="image" id="fileInput" multiple style="display:none">
+                                                </div>
+                                            </div>
+                                        @endif
                                 </div>
                                 <div class="text">You can upload a maximum of 1 image. Please only upload images in JPEG or PNG format</div>
                             </div>

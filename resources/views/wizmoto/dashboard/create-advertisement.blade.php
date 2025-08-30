@@ -453,6 +453,7 @@
                                                         <span>Upload</span>
                                                     </a>
                                                     <input type="file" name="images[]" id="fileInput" multiple style="display:none">
+                                                    <span class="lnr-icon-spinner spinner" style="display:none;"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -572,6 +573,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
+                                        <span class="lnr-icon-spinner spinner" style="display:none;"></span>
                                     </button>
                                 </div>
                             </div>
@@ -584,6 +586,18 @@
 @endsection
 @push('styles')
     <style>
+        /* Spinner animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .lnr-icon-spinner.spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            font-size: 16px; /* adjust size to match your button */
+            margin-left: 8px; /* optional spacing */
+        }
 
         .input-error,
         .drop-menu-error {
@@ -691,6 +705,8 @@
 @endpush
 @push('scripts')
     <script>
+
+
         $('#brand-dropdown ul.dropdown').on('click', 'li', function () {
             let brandId = $(this).data('id');
             loadModels(brandId);
@@ -738,6 +754,9 @@
             $("#uploadTrigger").click(function (e) {
                 e.preventDefault();
                 $("#fileInput").click();
+                if(selectedFiles.length === 4){
+                    $(".uplode-box").hide(); // hide upload box
+                }
             });
 
             // File select
@@ -751,9 +770,9 @@
                         showConfirmButton: false,
                         timer: 3000
                     });
-                    $(".uplode-box").hide(); // hide upload box
                     return;
                 }
+
                 Array.from(this.files).forEach(file => {
                     selectedFiles.push(file);
                     const reader = new FileReader();
@@ -793,7 +812,9 @@
 
                 // Remove the file from array
                 selectedFiles.splice(index, 1);
-
+                if (selectedFiles.length < 5) {
+                    $(".uplode-box").show(); // show upload box again
+                }
                 // Re-sync indexes on remaining previews
                 $("#preview-container .image-box").each(function (i) {
                     $(this).attr("data-index", i);

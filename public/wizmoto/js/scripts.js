@@ -26,3 +26,20 @@
             $('.drop-menu ul.dropdown').hide();
         }
     });
+
+
+    document.querySelector("form").addEventListener("submit", function(e){
+        const btn = document.getElementById("submitBtn");
+        const text = btn.querySelector(".btn-text");
+        const svg = btn.querySelector(".btn-icon");
+
+        const spinner = btn.querySelector(".spinner");
+
+        // Disable the button
+        btn.disabled = true;
+
+        // Hide SVG and text, show spinner
+        text.style.display = "none";
+        svg.style.display = "none";
+        spinner.style.display = "inline-block";
+    });
