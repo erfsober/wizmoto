@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder {
                         VehicleBodySeeder::class ,
                         VehicleColorSeeder::class ,
                         FuelTypeSeeder::class ,
+                        BlogCategorySeeder::class,
+                        BlogCategorySeeder::class,
                     ]);
     }
 }

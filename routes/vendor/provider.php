@@ -17,6 +17,7 @@ Route::prefix('provider')->name('provider.')->group(function () {
     // Reset password
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.store');
+    Route::get('/{id}' , [ ProviderController::class , 'show' ])->name('show');
     // Authenticated
     Route::middleware('auth:provider')->group(function () {
         Route::get('dashboard', function () {

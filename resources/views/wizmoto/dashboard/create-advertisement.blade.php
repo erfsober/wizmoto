@@ -456,7 +456,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text">You can upload a maximum of 50 images. Please only upload images in JPEG or PNG format</div>
+                                        <div class="text">You can upload a maximum of 5 images. Please only upload images in JPEG or PNG format</div>
                                     </div>
                                 </div>
                             </div>
@@ -595,14 +595,15 @@
         /* Error message below form box */
         .error-text {
             font-size: 0.875rem; /* small */
-            color: #dc2626;      /* red */
+            color: #dc2626; /* red */
             display: block;
             margin-top: 4px;
         }
 
-        #preview-container{
+        #preview-container {
             align-items: center;
         }
+
         /* Wrapper for each uploaded image */
         #preview-container .image-box {
             position: relative;
@@ -728,26 +729,37 @@
             });
         }
 
-
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const selectedFiles = [];
 
             // Upload button
-            $("#uploadTrigger").click(function(e) {
+            $("#uploadTrigger").click(function (e) {
                 e.preventDefault();
                 $("#fileInput").click();
             });
 
             // File select
-            $("#fileInput").on("change", function(e) {
+            $("#fileInput").on("change", function (e) {
+                if (selectedFiles.length >= 5) {
+                    Swal.fire({
+                        toast: true,
+                        icon: 'error',
+                        title: 'You can upload a maximum of 5 images.',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    $(".uplode-box").hide(); // hide upload box
+                    return;
+                }
                 Array.from(this.files).forEach(file => {
                     selectedFiles.push(file);
                     const reader = new FileReader();
                     let index = selectedFiles.length - 1;
 
-                    reader.onload = function(event) {
+                    reader.onload = function (event) {
                         const div = $(`
                     <div class="image-box" data-index="${index}">
                         <img src="${event.target.result}" alt="preview">
@@ -773,7 +785,7 @@
             });
 
             // Delete handler
-            $("#preview-container").on("click", ".delete-btn", function(e) {
+            $("#preview-container").on("click", ".delete-btn", function (e) {
                 e.preventDefault();
                 const box = $(this).closest(".image-box");
                 const index = box.data("index");
@@ -783,7 +795,7 @@
                 selectedFiles.splice(index, 1);
 
                 // Re-sync indexes on remaining previews
-                $("#preview-container .image-box").each(function(i) {
+                $("#preview-container .image-box").each(function (i) {
                     $(this).attr("data-index", i);
                 });
             });
@@ -795,13 +807,13 @@
                 placeholder: "image-box-placeholder",
                 tolerance: "pointer",       // makes drag smooth
                 helper: "clone",            // avoids element sticking
-                start: function(e, ui) {
+                start: function (e, ui) {
                     ui.placeholder.height(ui.item.height());
                     ui.placeholder.width(ui.item.width());
                 }
             }).disableSelection();
 
-            $("#advertisementForm").submit(function(e) {
+            $("#advertisementForm").submit(function (e) {
                 e.preventDefault();
 
                 const formData = new FormData(this);
@@ -811,7 +823,7 @@
                 });
 
                 // Optional: send the order
-                $("#preview-container .image-box").each(function(i) {
+                $("#preview-container .image-box").each(function (i) {
                     formData.append(`images_order[${i}]`, $(this).find("img").attr("alt"));
                 });
 
@@ -821,7 +833,7 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -831,7 +843,7 @@
                             timer: 3000
                         });
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 

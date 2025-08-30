@@ -416,11 +416,12 @@
                     <div class="inner-column">
                         <div class="contact-box">
                             <div class="icon-box">
-                                <img src="images/resource/volvo.svg">
+                                <img src="{{ $advertisement->provider?->getFirstMediaUrl('image','thumb') }}" alt="Header Image" style="width: 80px; height: 80px;      border-radius: 80%;  object-fit: cover; ">
+
                             </div>
                             <div class="content-box">
                                 {{-- Dealer / Provider Name (assuming from provider relation) --}}
-                                <h6 class="title">{{ $advertisement->provider->name ?? 'Unknown Dealer' }}</h6>
+                                <h6 class="title">{{ $advertisement->provider->full_name ?? 'Unknown Dealer' }}</h6>
 
                                 {{-- Address --}}
                                 <div class="text">
@@ -461,18 +462,18 @@
 {{--                                        </svg>--}}
 {{--                                    </a>--}}
 
-                                    <a href="https://wa.me/{{ $advertisement->international_prefix }}{{ $advertisement->telephone }}" class="side-btn two" target="_blank">
+                                    <a href="https://wa.me/{{ $advertisement->provider->whatsapp }}" class="side-btn two" target="_blank">
                                         Chat Via Whatsapp
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                                             <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
                                         </svg>
                                     </a>
 
-{{--                                    <a href="{{ route('dealer.stock', $advertisement->provider_id) }}" class="side-btn-three">View all stock at this dealer--}}
-{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">--}}
-{{--                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>--}}
-{{--                                        </svg>--}}
-{{--                                    </a>--}}
+                                    <a href="{{ route('provider.show', $advertisement->provider_id) }}" class="side-btn-three">View all stock at this dealer
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>

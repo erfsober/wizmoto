@@ -26,4 +26,16 @@ class ProviderController extends Controller {
             ->route('home')
             ->with('status' , 'Email verified successfully!');
     }
+
+    public function show ( $id ) {
+        $provider = Provider::query()
+                            ->where('id' , $id)
+                            ->firstOr(function () {
+                                return redirect()
+                                    ->back()
+                                    ->with('status' , 'This  provider doesnt exist!');
+                            });
+
+        return view('wizmoto.provider.show' , compact('provider'));
+    }
 }

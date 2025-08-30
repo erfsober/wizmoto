@@ -33,10 +33,9 @@ class HomeController extends Controller {
         $vehicleColors = VehicleColor::query()
                                      ->get();
         $equipments = Equipment::query()
-
                                ->get();
 
-        return view('wizmoto.home.index' , compact('newAdvertisements' , 'usedAdvertisements' , 'brands' , 'vehicleModels' , 'advertisementTypes' , 'fuelTypes' , 'vehicleBodies','vehicleColors','equipments'));
+        return view('wizmoto.home.index' , compact('newAdvertisements' , 'usedAdvertisements' , 'brands' , 'vehicleModels' , 'advertisementTypes' , 'fuelTypes' , 'vehicleBodies' , 'vehicleColors' , 'equipments'));
     }
 
     public function inventoryList ( Request $request ) {
@@ -48,7 +47,6 @@ class HomeController extends Controller {
         $vehicleColors = VehicleColor::query()
                                      ->get();
         $equipments = Equipment::query()
-
                                ->get();
         $advertisements = Advertisement::query()
                                        ->with([
@@ -56,7 +54,7 @@ class HomeController extends Controller {
                                                   'vehicleModel' ,
                                                   'vehicleBody' ,
                                                   'vehicleColor' ,
-                                                  'fuelType',
+                                                  'fuelType' ,
                                               ])
                                        ->when($request->filled('city') , fn ( $q ) => $q->where('city' , $request->city))
                                        ->when($request->filled('zip_code') , fn ( $q ) => $q->where('zip_code' , $request->zip_code))
@@ -88,8 +86,9 @@ class HomeController extends Controller {
             // PRICE (final_price is string; cast to decimal)
                                        ->when($request->filled('min_price') , fn ( $q ) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))') , '>=' , (float)$request->min_price))
                                        ->when($request->filled('max_price') , fn ( $q ) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))') , '<=' , (float)$request->max_price))
-                                       ->latest('id')->paginate(10);
+                                       ->latest('id')
+                                       ->paginate(10);
 
-        return view('wizmoto.home.inventory-list' ,  compact('advertisements' , 'brands' , 'vehicleModels' , 'advertisementTypes' , 'fuelTypes' , 'vehicleBodies','vehicleColors','equipments'));
+        return view('wizmoto.home.inventory-list' , compact('advertisements' , 'brands' , 'vehicleModels' , 'advertisementTypes' , 'fuelTypes' , 'vehicleBodies' , 'vehicleColors' , 'equipments'));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -39,7 +40,15 @@ class Provider extends Authenticatable implements MustVerifyEmail , HasMedia {
         });
     }
 
-    public function advertisements ():HasMany {
+    public function advertisements (): HasMany {
         return $this->hasMany(Advertisement::class);
+    }
+
+    protected function fullName (): Attribute {
+        return Attribute::make(get: fn () => trim("{$this->first_name} {$this->last_name}") ,);
+    }
+
+    public function reviews () {
+        return $this->morphMany(Review::class , 'reviewable');
     }
 }
