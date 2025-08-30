@@ -132,7 +132,7 @@
 
                     <div class="right-box">
                         <a href="#" class="haeder-img">
-                            <img src="{{ $provider->getFirstMediaUrl('image','thumb') ?: asset('wizmoto/images/resource/header-img.png') }}" alt="Header Image" style="width: 50px; height: 50px;      border-radius: 50%;  object-fit: cover; ">
+                            <img src="{{ $provider->getFirstMediaUrl('image','thumb') }}" alt="Header Image" style="width: 50px; height: 50px;      border-radius: 50%;  object-fit: cover; ">
                         </a>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
