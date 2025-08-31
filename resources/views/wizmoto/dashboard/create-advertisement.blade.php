@@ -818,7 +818,7 @@
                     // ------------------------
                     // Populate Fuel Types Dropdown
                     // ------------------------
-                    let $fuelDropdown = $('#motor-change-dropdown ul.dropdown');
+                    let $fuelDropdown = $('#fuel-type-dropdown ul.dropdown');
                     $fuelDropdown.empty();
                     $('#fuel-type-dropdown .select span').text('Select Fuel type');
                     $('input[name="fuel_type_id"]').val('');
