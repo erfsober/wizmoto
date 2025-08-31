@@ -13,8 +13,9 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <form class="row" action="{{ route('dashboard.store-advertisement') }}" method="POST" id="advertisementForm">
+                        <form class="row" action="{{ route('dashboard.update-advertisement') }}" method="POST" id="advertisementForm">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="provider_id" value="{{$provider->id}}">
                             {{--Vehicle data--}}
                             <h6>Vehicle data</h6>
@@ -24,10 +25,10 @@
                                     <label>Sell</label>
                                     <div class="drop-menu" id="advertisement-type-dropdown">
                                         <div class="select">
-                                            <span>Select What you want to sell</span>
+                                            <span class="selected">{{ old('advertisement_type_id', $advertisement->advertisement_type_id ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="advertisement_type_id" id="advertisement_type_id_input">
+                                        <input type="hidden" name="advertisement_type_id" id="advertisement_type_id_input" value="{{ old('advertisement_type_id', $advertisement->advertisement_type_id ?? '') }}">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach($advertisementTypes as $advertisementType)
                                                 <li data-id="{{ $advertisementType->id }}">{{$advertisementType->title}}</li>
@@ -42,14 +43,14 @@
                                     <label>Brand</label>
                                     <div class="drop-menu" id="brand-dropdown">
                                         <div class="select">
-                                            <span>Select Brand</span>
+                                            <span class="selected">{{ old('brand_id', $advertisement->brand_id?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="brand_id" id="brand_id_input">
+                                        <input type="hidden" name="brand_id" id="brand_id_input"  value="{{ old('brand_id', $advertisement->brand_id ?? '') }}">
                                         <ul class="dropdown" style="display: none;">
-                                            {{--                                            @foreach($brands as $brand)--}}
-                                            {{--                                                <li data-id="{{ $brand->id }}">{{$brand->name}}</li>--}}
-                                            {{--                                            @endforeach--}}
+                                            @foreach($brands as $brand)
+                                                <li data-id="{{ $brand->id }}">{{$brand->name}}</li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -60,10 +61,10 @@
                                     <label>Model</label>
                                     <div class="drop-menu" id="model-dropdown">
                                         <div class="select">
-                                            <span>Select</span>
+                                            <span class="selected">{{ old('vehicle_model_id', $advertisement->vehicle_model_id ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="vehicle_model_id" id="vehicle_model_id_input">
+                                        <input type="hidden" name="vehicle_model_id" id="vehicle_model_id_input" value="{{ old('vehicle_model_id', $advertisement->vehicle_model_id ?? '') }}">
                                         <ul class="dropdown" style="display: none;" id="model-select">
 
                                         </ul>
@@ -74,7 +75,7 @@
                                 <div class="form_boxes v2">
                                     <label>Version</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="version_model">
+                                        <input type="text" name="version_model" value="{{ old('version_model', $advertisement->version_model ?? '') }}">
                                     </div>
                                 </div>
                             </div>
@@ -87,10 +88,10 @@
                                     <label>BodyWork</label>
                                     <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
-                                            <span>Select BodyWork</span>
+                                            <span class="selected">{{ old('vehicle_body_id', $advertisement->vehicle_body_id ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="vehicle_body_id">
+                                        <input type="hidden" name="vehicle_body_id" value="{{ old('vehicle_body_id', $advertisement->vehicle_body_id ?? '') }}">
                                         <ul class="dropdown" style="display: none;">
 
                                         </ul>
@@ -106,7 +107,8 @@
                                                 <input type="radio"
                                                        id="color-{{ $color->id }}"
                                                        name="color_id"
-                                                       value="{{ $color->id }}">
+                                                       value="{{ $color->id }}"
+                                                    {{ ( $advertisement->color_id == $color->id) ? 'checked' : '' }}>
                                                 <label for="color-{{ $color->id }}" class="color-circle"
                                                        style="background-color: {{ $color->hex_code }}"></label>
                                                 <span class="color-label">{{ $color->name }}</span>
@@ -118,7 +120,7 @@
                             <div class="form-column col-lg-6">
                                 <div class="cheak-box">
                                     <label class="contain">Metallic Paint
-                                        <input type="checkbox" name="is_metallic_paint">
+                                        <input type="checkbox" name="is_metallic_paint" {{ $advertisement->is_metallic_paint ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -131,10 +133,10 @@
                                     <label>Vehicle Category</label>
                                     <div class="drop-menu" id="vehicle-category-dropdown">
                                         <div class="select">
-                                            <span>Select Vehicle Category</span>
+                                            <span class="selected">{{ old('vehicle_category', $advertisement->vehicle_category ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="vehicle_category">
+                                        <input type="hidden" name="vehicle_category" value="{{ old('vehicle_category', $advertisement->vehicle_category ?? '') }}">
                                         <ul class="dropdown" style="display: none;">
                                             <li data-id="Used">Used</li>
                                             <li data-id="Era">Era</li>
@@ -144,9 +146,9 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Mileage</label>
+                                    <label>Mileage(Km)</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="mileage" placeholder="Km">
+                                        <input type="text" name="mileage" placeholder="" value="{{ old('mileage', $advertisement->mileage ?? '') }}">
                                     </div>
                                 </div>
                             </div>
@@ -156,10 +158,10 @@
                                         <label>Registration Month</label>
                                         <div class="drop-menu" id="registration-month-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span class="selected">{{ old('registration_month', $advertisement->registration_month ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="registration_month">
+                                            <input type="hidden" name="registration_month" value="{{ old('registration_month', $advertisement->registration_month ?? '') }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
                                                     <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
@@ -528,7 +530,7 @@
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes">
                                     <label>International prefix</label>
-                                    <div class="drop-menu" id="international-prefix-dropdown">
+                                    <div class="drop-menu" id="brand-dropdown">
                                         <div class="select">
                                             <span>Select International prefix</span>
                                             <i class="fa fa-angle-down"></i>

@@ -38,7 +38,7 @@
                                     </a>
                                 </li>
                                 <li class="current-dropdown">
-                                    <a class="box-account" href="#">
+                                    <a class="box-account" href="{{route("blogs.index")}}">
                                         Blog
                                     </a>
                                 </li>

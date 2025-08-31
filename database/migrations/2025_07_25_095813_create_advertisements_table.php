@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->string('last_service_month')->nullable();
             $table->string('last_service_year')->nullable();
             $table->boolean('damaged_vehicle')->default(false);
-//equipment
+
             ///motor
             $table->string('motor_change')->nullable()->comment('Manual / Automatic');
             $table->integer('motor_power_kw')->nullable()->comment('Power in kW');
@@ -49,7 +49,8 @@ return new class extends Migration {
 //price
             $table->boolean('price_negotiable')->default(false);
             $table->boolean('tax_deductible')->default(false);
-            $table->string('final_price')->nullable();
+            $table->decimal('final_price',12,2)->nullable();
+            $table->string('price_evaluation')->nullable()->comment('super, great, good, nd');
             ///address
             $table->string('zip_code')->nullable();
             $table->string('city')->nullable();

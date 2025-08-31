@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdvertisementRequest;
 use App\Models\Advertisement;
 use App\Models\AdvertisementType;
+use App\Models\Brand;
 use App\Models\VehicleColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class DashboardController extends Controller {
         $vehicleColors = VehicleColor::query()
                                      ->get();
 
-        return view('wizmoto.dashboard.create-advertisement' , compact('internationalPrefixes' , 'provider' , 'advertisementTypes','vehicleColors'));
+        return view('wizmoto.dashboard.create-advertisement' , compact('internationalPrefixes' , 'provider' , 'advertisementTypes' , 'vehicleColors'));
     }
 
     public function storeAdvertisement ( StoreAdvertisementRequest $request ) {
@@ -175,5 +176,113 @@ class DashboardController extends Controller {
                                     'success' => true ,
                                     'message' => 'Advertisement deleted successfully' ,
                                 ]);
+    }
+
+    public function editAdvertisement ( $id ) {
+        $advertisement = Advertisement::findOrFail($id);
+        $internationalPrefixes = [
+            '+1' ,
+            '+30' ,
+            '+31' ,
+            '+32' ,
+            '+33' ,
+            '+34' ,
+            '+351' ,
+            '+352' ,
+            '+353' ,
+            '+354' ,
+            '+355' ,
+            '+356' ,
+            '+358' ,
+            '+359' ,
+            '+36' ,
+            '+370' ,
+            '+371' ,
+            '+372' ,
+            '+373' ,
+            '+375' ,
+            '+376' ,
+            '+377' ,
+            '+378' ,
+            '+379' ,
+            '+380' ,
+            '+381' ,
+            '+382' ,
+            '+385' ,
+            '+386' ,
+            '+387' ,
+            '+389' ,
+            '+39' ,
+            '+40' ,
+            '+41' ,
+            '+420' ,
+            '+421' ,
+            '+423' ,
+            '+43' ,
+            '+44' ,
+            '+45' ,
+            '+46' ,
+            '+47' ,
+            '+48' ,
+            '+49' ,
+            '+52' ,
+            '+55' ,
+            '+7' ,
+            '+90' ,
+        ];
+        $provider = Auth::guard('provider')
+                        ->user();
+        $advertisementTypes = AdvertisementType::all();
+        $vehicleColors = VehicleColor::all();
+        $brands = Brand::query()
+                       ->where('advertisement_type_id' , $advertisement->advertisement_type_id)
+                       ->get();
+
+        return view('wizmoto.dashboard.edit-advertisement' , compact('advertisement' , 'internationalPrefixes' , 'brands' , 'provider' , 'advertisementTypes' , 'vehicleColors'));
+    }
+
+    public function updateAdvertisement ( Request $request , $id ) {
+        $advertisement = Advertisement::findOrFail($id);
+        $data = $request->validate([
+                                       'title' => 'required|string|max:255' ,
+                                       'advertisement_type_id' => 'required|exists:advertisement_types,id' ,
+                                       'brand_id' => 'required|exists:brands,id' ,
+                                       'vehicle_body_id' => 'required|exists:vehicle_bodies,id' ,
+                                       'color_id' => 'nullable|exists:vehicle_colors,id' ,
+                                       'fuel_type_id' => 'nullable|exists:fuel_types,id' ,
+                                       'price' => 'nullable|numeric' ,
+                                       // add other fields from StoreAdvertisementRequest
+                                   ]);
+        // Handle checkboxes
+        $data[ 'is_metallic_paint' ] = $request->has('is_metallic_paint');
+        $data[ 'show_phone' ] = $request->has('show_phone');
+        $data[ 'damaged_vehicle' ] = $request->has('damaged_vehicle');
+        $data[ 'price_negotiable' ] = $request->has('price_negotiable');
+        $data[ 'tax_deductible' ] = $request->has('tax_deductible');
+        $data[ 'coupon_documentation' ] = $request->has('coupon_documentation');
+        // Update advertisement
+        $advertisement->update($data);
+        // Handle new media uploads
+        if ( $request->hasFile('images') ) {
+            foreach ( $request->file('images') as $file ) {
+                $advertisement->addMedia($file)
+                              ->toMediaCollection('covers');
+            }
+        }
+        // Sync equipments
+        if ( $request->has('equipments') ) {
+            $advertisement->equipments()
+                          ->sync($request->equipments);
+        }
+        else {
+            $advertisement->equipments()
+                          ->sync([]); // remove all if none selected
+        }
+
+        return response()->json([
+                                    'status' => 'success' ,
+                                    'message' => 'Advertisement updated successfully.' ,
+                                    'data' => $advertisement ,
+                                ] , 200);
     }
 }

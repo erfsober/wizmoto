@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\PriceEvaluationService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Image\Enums\Fit;
@@ -32,11 +33,20 @@ class Advertisement extends Model implements HasMedia {
              ->fit(Fit::Crop , 280 , 272)
              ->quality(75)
              ->format('webp');
-
         $this->addMediaConversion('card')
              ->fit(Fit::Crop , 360 , 240)
              ->quality(75)
              ->format('webp');
+    }
+
+    protected static function booted () {
+        static::saved(function ( $ad ) {
+            if ( $ad->final_price ) {
+                $service = app(PriceEvaluationService::class);
+                $ad->price_evaluation = $service->evaluate($ad);
+                $ad->saveQuietly();
+            }
+        });
     }
 
     public function provider (): BelongsTo {
@@ -70,5 +80,4 @@ class Advertisement extends Model implements HasMedia {
     public function equipments () {
         return $this->belongsToMany(Equipment::class , 'advertisement_equipment');
     }
-
 }

@@ -28,6 +28,8 @@ Route::middleware(["auth"])->prefix('dashboard')
          Route::get('/create-advertisement' , [ DashboardController::class , 'createAdvertisement' , ])->name('dashboard.create-advertisement');
          Route::post('/store-advertisement' , [ DashboardController::class , 'storeAdvertisement' , ])->name('dashboard.store-advertisement');
          Route::post('/delete-advertisement' , [ DashboardController::class , 'deleteAdvertisement' , ])->name('dashboard.delete-advertisement');
+         Route::get('/edit-advertisement/{id}' , [ DashboardController::class , 'editAdvertisement' , ])->name('dashboard.edit-advertisement');
+         Route::post('/update-advertisement' , [ DashboardController::class , 'updateAdvertisement' , ])->name('dashboard.update-advertisement');
          Route::get('/my-advertisements' , [ DashboardController::class , 'myAdvertisements' , ])->name('dashboard.my-advertisements');
          Route::get('/profile' , [ DashboardController::class , 'profile' , ])->name('dashboard.profile');
          Route::post('/update-profile' , [ DashboardController::class , 'updateProfile' , ])->name('dashboard.update-profile');
