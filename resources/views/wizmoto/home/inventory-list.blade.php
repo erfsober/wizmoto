@@ -131,22 +131,22 @@
 
                         <div class="right-box">
                             @if(!Auth::guard('provider')->check())
-                            <a href="{{ route('provider.auth') }}" title="" class="box-account">
-                                <div class="icon">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_147_6490)">
-                                            <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
-                                            <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_147_6490">
-                                                <rect width="16" height="16" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </div>
-                                Sign in
-                            </a>
+                                <a href="{{ route('provider.auth') }}" title="" class="box-account">
+                                    <div class="icon">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_147_6490)">
+                                                <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
+                                                <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_147_6490">
+                                                    <rect width="16" height="16" fill="white"/>
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                    Sign in
+                                </a>
                             @endif
                             <div class="btn">
                                 <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim">Add Listing</a>
@@ -227,8 +227,9 @@
                         <form id="logout-form" action="{{ route('provider.logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                        @endif
                         </li>
+                    @endif
+
                 </ul>
             </div>
         </header>
@@ -711,7 +712,8 @@
                         <li>
                             <a href="{{route("home")}}">Home</a>
                         </li>
-                        <li><span>MotorBike for Sale</span></li>
+                        <li><span>MotorBike for Sale</span>
+                        </li>
                     </ul>
                     <h2>New and Used MotorBike For Sale</h2>
                 </div>
@@ -739,17 +741,17 @@
                         @php
                             $image= $advertisement->getMedia('covers')->first();
                         @endphp
-                        <!-- car-block-four -->
+                            <!-- car-block-four -->
                         <div class="car-block-four col-xl-3 col-lg-4 col-md-6 col-sm-6">
                             <div class="inner-box">
                                 <div class="image-box">
                                     <figure class="image">
-                                        <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
+                                        <a href="{{ $image?->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
                                             <img
-                                                src="{{ $image->getUrl('thumb') }}"
+                                                src="{{ $image?->getUrl('thumb') }}"
                                                 srcset="
-                    {{ $image->getUrl('thumb') }} 300w,
-                    {{ $image->getUrl('preview') }} 800w
+                   {{ $image?->getUrl('thumb') }} 300w,
+                    {{ $image?->getUrl('preview') }} 800w
                 "
                                                 sizes="(max-width: 600px) 300px, 800px"
                                                 loading="lazy"
@@ -764,7 +766,7 @@
                                     <div class="text">{{$advertisement->version_model}}</div>
                                     <ul>
                                         <li>
-                                            <i class="flaticon-gasoline-pump"></i>   {{ $advertisement->fuelType?->name ?? 'N/A' }}
+                                            <i class="flaticon-gasoline-pump"></i> {{ $advertisement->fuelType?->name ?? 'N/A' }}
                                         </li>
                                         <li>
                                             <i class="flaticon-speedometer"></i>{{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
@@ -798,263 +800,52 @@
                 <div class="pagination-sec">
                     <nav aria-label="Page navigation example">
                         @if ($advertisements->hasPages())
-                        <ul class="pagination">
-                            <li class="page-item {{ $advertisements->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $advertisements->previousPageUrl() }}" aria-label="Previous">
-                                    <span aria-hidden="true">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z" fill="#050B20"/>
-                                        </svg>
-                                    </span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            @foreach ($advertisements->links()->elements[0] ?? [] as $page => $url)
-                            <li class="page-item {{ $page == $advertisements->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                            </li>
-                            @endforeach
+                            <ul class="pagination">
+                                <li class="page-item {{ $advertisements->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $advertisements->previousPageUrl() }}" aria-label="Previous">
+                                        <span aria-hidden="true">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z" fill="#050B20"/>
+                                            </svg>
+                                        </span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                @foreach ($advertisements->links()->elements[0] ?? [] as $page => $url)
+                                    <li class="page-item {{ $page == $advertisements->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endforeach
 
-                            <li class="page-item {{ !$advertisements->hasMorePages() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $advertisements->nextPageUrl() }}" aria-label="Next">
-                                    <span aria-hidden="true">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_2880_6407)">
-                                                <path d="M9.42017 6.00011C9.42017 6.2151 9.33808 6.43013 9.17427 6.5941L4.01441 11.7538C3.68618 12.0821 3.15402 12.0821 2.82592 11.7538C2.49783 11.4257 2.49783 10.8937 2.82592 10.5654L7.39159 6.00011L2.82624 1.43461C2.49815 1.10652 2.49815 0.574382 2.82624 0.246315C3.15434 -0.0820709 3.68634 -0.0820709 4.01457 0.246315L9.17446 5.40596C9.33824 5.57001 9.42017 5.78505 9.42017 6.00011Z" fill="#050B20"/>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_2880_6407">
-                                                    <rect width="12" height="12" fill="white" transform="translate(12 12) rotate(-180)"/>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="text">Showing results
-                            {{ $advertisements->firstItem() }}-{{ $advertisements->lastItem() }}
-                                          of {{ $advertisements->total() }}
-                        </div>
-                            @endif
+                                <li class="page-item {{ !$advertisements->hasMorePages() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $advertisements->nextPageUrl() }}" aria-label="Next">
+                                        <span aria-hidden="true">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_2880_6407)">
+                                                    <path d="M9.42017 6.00011C9.42017 6.2151 9.33808 6.43013 9.17427 6.5941L4.01441 11.7538C3.68618 12.0821 3.15402 12.0821 2.82592 11.7538C2.49783 11.4257 2.49783 10.8937 2.82592 10.5654L7.39159 6.00011L2.82624 1.43461C2.49815 1.10652 2.49815 0.574382 2.82624 0.246315C3.15434 -0.0820709 3.68634 -0.0820709 4.01457 0.246315L9.17446 5.40596C9.33824 5.57001 9.42017 5.78505 9.42017 6.00011Z" fill="#050B20"/>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_2880_6407">
+                                                        <rect width="12" height="12" fill="white" transform="translate(12 12) rotate(-180)"/>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="text">Showing results
+                                {{ $advertisements->firstItem() }}-{{ $advertisements->lastItem() }}
+                                              of {{ $advertisements->total() }}
+                            </div>
+                        @endif
                     </nav>
                 </div>
             </div>
         </section>
         <!-- End shop section two -->
 
-        <!-- main footer -->
-        <footer class="boxcar-footer footer-style-one v1 cus-st-1">
-            <div class="footer-top">
-                <div class="boxcar-container">
-                    <div class="right-box">
-                        <div class="top-left wow fadeInUp">
-                            <h6 class="title">Join BoxCar</h6>
-                            <div class="text">Receive pricing updates, shopping tips & more!</div>
-                        </div>
-                        <div class="subscribe-form wow fadeInUp" data-wow-delay="100ms">
-                            <form method="post" action="#">
-                                <div class="form-group">
-                                    <input type="email" name="email" class="email" value="" placeholder="Your e-mail address" required="">
-                                    <button type="button" class="theme-btn btn-style-one hover-light">
-                                        <span class="btn-title">Sign Up</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="widgets-section">
-                <div class="boxcar-container">
-                    <div class="row">
-                        <!-- Footer COlumn -->
-                        <div class="footer-column-two col-lg-9 col-md-6 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="footer-widget links-widget wow fadeInUp">
-                                        <h4 class="widget-title">Useful Links</h4>
-                                        <div class="widget-content">
-                                            <ul class="user-links style-two">
-                                                <li>
-                                                    <a href="#">About Us</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Careers</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Blog</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">FAQs</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Finance</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Contact Us</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
-                                        <h4 class="widget-title">Quick Links</h4>
-                                        <div class="widget-content">
-                                            <ul class="user-links style-two">
-                                                <li>
-                                                    <a href="#">Get in Touch</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Help center</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Live chat</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">How it works</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
-                                        <h4 class="widget-title">Our Brands</h4>
-                                        <div class="widget-content">
-                                            <ul class="user-links style-two">
-                                                <li>
-                                                    <a href="#">Aston Martin</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Audi</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Bentley</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">BMW</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Bugatti</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Ferrari</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Jaguar</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lamborghini</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="300ms">
-                                        <h4 class="widget-title">Vehicles Type</h4>
-                                        <div class="widget-content">
-                                            <ul class="user-links style-two">
-                                                <li>
-                                                    <a href="#">Pickup</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Coup</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Family MPV</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Sedan</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">SUVs</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Sport Coupe</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Convertible</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Wagon</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- footer column -->
-                        <div class="footer-column col-lg-3 col-md-6 col-sm-12">
-                            <div class="footer-widget social-widget wow fadeInUp" data-wow-delay="400ms">
-                                <h4 class="widget-title">Vehicles Type</h4>
-                                <div class="widget-content">
-                                    <a href="#" class="store">
-                                        <img src="images/resource/apple.png">
-                                        <span>Download on the</span>
-                                        <h6 class="title">Apple Store</h6>
-                                    </a>
-                                    <a href="#" class="store two">
-                                        <img src="images/resource/play.png">
-                                        <span>Get in on</span>
-                                        <h6 class="title">Google Play</h6>
-                                    </a>
-                                    <div class="social-icons">
-                                        <h6 class="title">Connect With Us</h6>
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fab fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fab fa-linkedin-in"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--  Footer Bottom -->
-            <div class="footer-bottom">
-                <div class="boxcar-container">
-                    <div class="inner-container">
-                        <div class="copyright-text wow fadeInUp">©
-                            <a href="#">2024 Boxcars.com. All rights reserved.
-                        </div>
-
-                        <ul class="footer-nav wow fadeInUp" data-wow-delay="100ms">
-                            <li>
-                                <a href="#">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="#">Privacy Notice</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- End boxcar-footer -->
 
     </div><!-- End Page Wrapper -->
 

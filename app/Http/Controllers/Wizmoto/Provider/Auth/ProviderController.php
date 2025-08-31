@@ -28,14 +28,17 @@ class ProviderController extends Controller {
     }
 
     public function show ( $id ) {
-        $provider = Provider::query()
+        $provider = Provider::query()->with(['reviews'])
                             ->where('id' , $id)
                             ->firstOr(function () {
                                 return redirect()
                                     ->back()
                                     ->with('status' , 'This  provider doesnt exist!');
                             });
+        $advertisements = $provider->advertisements()
+                                   ->latest()
+                                   ->take(10)->get();
 
-        return view('wizmoto.provider.show' , compact('provider'));
+        return view('wizmoto.provider.show' , compact('provider' , 'advertisements'));
     }
 }

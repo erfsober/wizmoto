@@ -18,13 +18,13 @@ if($('#nav-mobile').length){
     jQuery(function ($) {
       var $navbar = $('#navbar');
       var $mobileNav = $('#nav-mobile');
-      
+
       $navbar
         .clone()
         .removeClass('navbar')
         .appendTo($mobileNav);
-      
-      $mobileNav.mmenu({
+
+        API=$mobileNav.mmenu({
           "counters": false,
           extensions 	: [ "position-left", "", "theme-black", ],
         offCanvas: {
@@ -32,5 +32,18 @@ if($('#nav-mobile').length){
           zposition: 'front',
         }
       });
+
+        var $closeBtn = $('    <a href="#" title="" class="close-nav-mobile">\n' +
+            '                    <img src="{{asset("wizmoto/images/icons/close.svg")}}" alt=""/>\n' +
+            '                </a>');
+        $mobileNav.find(".mm-panel:first").prepend($closeBtn);
+
+        // Bind click to close menu
+        $closeBtn.on("click", function (e) {
+            e.preventDefault();
+            API.close();
+        });
+
+
     });
 }
