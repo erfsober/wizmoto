@@ -23,8 +23,8 @@ class Provider extends Authenticatable implements MustVerifyEmail , HasMedia {
 
     public function registerMediaConversions ( Media $media = null ): void {
         $this->addMediaConversion('thumb')
-             ->width(100)
-             ->height(100);
+             ->width(150)
+             ->height(150);
         $this->addMediaConversion('medium')
              ->width(600)
              ->height(400);

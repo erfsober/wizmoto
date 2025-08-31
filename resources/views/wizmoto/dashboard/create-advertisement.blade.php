@@ -8,17 +8,34 @@
             <div class="form-box">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Motor Details</button>
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Vehicle Details</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <form class="row" action="{{ route('dashboard.store-advertisement') }}" method="POST" id="advertisementForm">
                             @csrf
-                            <input type="hidden" name="provider_id" value="1">
-                            <input type="hidden" name="advertisement_type_id" value="2">
+                            <input type="hidden" name="provider_id" value="{{$provider->id}}">
                             {{--Vehicle data--}}
                             <h6>Vehicle data</h6>
+                            <div class="form-column col-lg-12">
+                                <span class="error-text text-red-600 text-sm mt-1 block"></span>
+                                <div class="form_boxes">
+                                    <label>Sell</label>
+                                    <div class="drop-menu" id="advertisement-type-dropdown">
+                                        <div class="select">
+                                            <span>Select What you want to sell</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="advertisement_type_id" id="advertisement_type_id_input">
+                                        <ul class="dropdown" style="display: none;">
+                                            @foreach($advertisementTypes as $advertisementType)
+                                                <li data-id="{{ $advertisementType->id }}">{{$advertisementType->title}}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
@@ -30,9 +47,9 @@
                                         </div>
                                         <input type="hidden" name="brand_id" id="brand_id_input">
                                         <ul class="dropdown" style="display: none;">
-                                            @foreach($brands as $brand)
-                                                <li data-id="{{ $brand->id }}">{{$brand->name}}</li>
-                                            @endforeach
+                                            {{--                                            @foreach($brands as $brand)--}}
+                                            {{--                                                <li data-id="{{ $brand->id }}">{{$brand->name}}</li>--}}
+                                            {{--                                            @endforeach--}}
                                         </ul>
                                     </div>
                                 </div>
@@ -75,9 +92,7 @@
                                         </div>
                                         <input type="hidden" name="vehicle_body_id">
                                         <ul class="dropdown" style="display: none;">
-                                            @foreach($vehicleBodies as $vehicleBody)
-                                                <li data-id="{{ $vehicleBody->id }}">{{$vehicleBody->name}}</li>
-                                            @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
@@ -284,13 +299,7 @@
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
                                     <div class="equipment-list" style="display: flex; flex-wrap: wrap; gap: 40px;">
-                                        @foreach($equipments as $equipment)
-                                            <label class="contain">
-                                                {{ $equipment->name }}
-                                                <input type="checkbox" name="equipments[]" value="{{ $equipment->id }}">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>
@@ -381,16 +390,14 @@
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
                                     <label>Fuel type</label>
-                                    <div class="drop-menu" id="motor-change-dropdown">
+                                    <div class="drop-menu" id="fuel-type-dropdown">
                                         <div class="select">
                                             <span>Select Fuel type</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="fuel_type_id">
                                         <ul class="dropdown" style="display: none;">
-                                            @foreach($fuelTypes as $fuelType)
-                                                <li data-id="{{ $fuelType->id }}">{{$fuelType->name}}</li>
-                                            @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
@@ -414,7 +421,7 @@
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
                                     <label>Emissions class</label>
-                                    <div class="drop-menu" id="motor-change-dropdown">
+                                    <div class="drop-menu" id="emissions_class-dropdown">
                                         <div class="select">
                                             <span>Select Emissions class</span>
                                             <i class="fa fa-angle-down"></i>
@@ -741,6 +748,91 @@
                 },
                 error: function (xhr, status, error) {
                     console.error('Error fetching models:', error);
+                }
+            });
+        }
+
+
+        $('#advertisement-type-dropdown ul.dropdown').on('click', 'li', function () {
+            let advertisementTypeId = $(this).data('id');
+            loadAdvertisementData(advertisementTypeId);
+        });
+
+        function loadAdvertisementData(adTypeId) {
+            let url = "{{ route('vehicle-models.get-data', ':id') }}";
+            url = url.replace(':id', adTypeId);
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+
+                    // ------------------------
+                    // Populate Brand Dropdown
+                    // ------------------------
+                    let $brandDropdown = $('#brand-dropdown ul.dropdown');
+                    $brandDropdown.empty();
+                    $('#brand-dropdown .select span').text('Select Brand');
+                    $('#brand_id_input').val('');
+
+                    if (data.brands.length === 0) {
+                        $brandDropdown.append('<li>No brands available</li>');
+                    } else {
+                        $.each(data.brands, function (index, brand) {
+                            $brandDropdown.append('<li data-id="' + brand.id + '">' + brand.name + '</li>');
+                        });
+                    }
+
+                    // ------------------------
+                    // Populate Vehicle Body Dropdown
+                    // ------------------------
+                    let $bodyDropdown = $('#vehicle_body-dropdown ul.dropdown');
+                    $bodyDropdown.empty();
+                    $('#vehicle_body-dropdown .select span').text('Select BodyWork');
+                    $('input[name="vehicle_body_id"]').val('');
+
+                    if (data.vehicleBodies.length === 0) {
+                        $bodyDropdown.append('<li>No BodyWorks available</li>');
+                    } else {
+                        $.each(data.vehicleBodies, function (index, body) {
+                            $bodyDropdown.append('<li data-id="' + body.id + '">' + body.name + '</li>');
+                        });
+                    }
+
+                    // ------------------------
+                    // Populate Equipments
+                    // ------------------------
+                    let $equipmentList = $('.equipment-list');
+                    $equipmentList.empty();
+                    $.each(data.equipments, function (index, equipment) {
+                        let equipmentItem = `
+                    <label class="contain">
+                        ${equipment.name}
+                        <input type="checkbox" name="equipments[]" value="${equipment.id}">
+                        <span class="checkmark"></span>
+                    </label>`;
+                        $equipmentList.append(equipmentItem);
+                    });
+
+                    // ------------------------
+                    // Populate Fuel Types Dropdown
+                    // ------------------------
+                    let $fuelDropdown = $('#motor-change-dropdown ul.dropdown');
+                    $fuelDropdown.empty();
+                    $('#fuel-type-dropdown .select span').text('Select Fuel type');
+                    $('input[name="fuel_type_id"]').val('');
+
+                    if (data.fuelTypes.length === 0) {
+                        $fuelDropdown.append('<li>No Fuel types available</li>');
+                    } else {
+                        $.each(data.fuelTypes, function (index, fuel) {
+                            $fuelDropdown.append('<li data-id="' + fuel.id + '">' + fuel.name + '</li>');
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching advertisement data:', error);
                 }
             });
         }

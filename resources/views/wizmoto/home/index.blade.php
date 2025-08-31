@@ -244,7 +244,7 @@
                     <div class="form-tab-content">
                         <div class="form-tab-content wow fadeInUp" data-wow-delay="300ms">
                             <div class="form-tab-pane current" id="tab-1">
-                                <form action="{{route("inventory-list")}}" method="GET">
+                                <form action="{{route("inventory.list")}}" method="GET">
                                     @csrf
                                     <div class="form_boxes line-r">
                                         <div class="drop-menu">
@@ -305,7 +305,7 @@
                         <ul class="model-links">
                             @foreach(AdvertisementType::all() as $at)
                                 <li>
-                                    <a href="#" title="">
+                                    <a href="{{ route('inventory.list', ['advertisement_type' => $at->id]) }}" title="">
                                         {{ $at->title }}
                                     </a>
                                 </li>
@@ -325,7 +325,7 @@
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
                 <h2>Explore All Vehicles</h2>
-                <a href="{{route("inventory-list")}}" class="btn-title">View All
+                <a href="{{route("inventory.list")}}" class="btn-title">View All
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                         <g clip-path="url(#clip0_601_243)">
                             <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path>
@@ -340,8 +340,7 @@
             </div>
             <nav class="wow fadeInUp" data-wow-delay="100ms">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">New MotorBike</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Used MotorBike</button>
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">New Advertisement</button>
                 </div>
             </nav>
         </div>
@@ -357,12 +356,7 @@
                                         @foreach ($newAdvertisement->getMedia('covers')->take(3) as $image)
                                             <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $newAdvertisement->id }}">
                                                 <img
-                                                    src="{{ $image->getUrl('thumb') }}"
-                                                    srcset="
-                    {{ $image->getUrl('thumb') }} 300w,
-                    {{ $image->getUrl('preview') }} 800w
-                "
-                                                    sizes="(max-width: 600px) 300px, 800px"
+                                                    src="{{ $image->getUrl('card') }}"
                                                     loading="lazy"
                                                     alt="{{ $newAdvertisement->title ?? 'Advertisement Image' }}">
                                             </a>
@@ -388,60 +382,6 @@
                                     <div class="btn-box">
                                         <span>${{$newAdvertisement->final_price}}</span>
                                         <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">View Details
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
-                                                <g clip-path="url(#clip0_601_4346)">
-                                                    <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
-                                                </g>
-                                                <defs>
-                                                    <clippath id="clip0_601_4346">
-                                                        <rect width="14" height="14" fill="white"></rect>
-                                                    </clippath>
-                                                </defs>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <div class="row car-slider-three slider-layout-1" data-preview="4.8">
-                    @foreach($usedAdvertisements as $usedAdvertisement)
-                        <!-- car-block-three -->
-                        <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <div class="slider-thumb">
-                                        @foreach ($usedAdvertisement->getMedia('covers')->take(3) as $image)
-                                            <div class="image">
-                                                <a href="{{ $image->getUrl() }}" data-fancybox="gallery-{{ $usedAdvertisement->id }}">
-                                                    <img src="{{ $image->getUrl() }}" alt="{{ $usedAdvertisement->title ?? 'Advertisement Image' }}">
-                                                </a>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="content-box">
-                                    <h6 class="title">
-                                        <a href="{{ route('advertisements.show', $newAdvertisement->id) }}">{{$newAdvertisement->brand?->name}}{{' '}}{{$newAdvertisement->vehicleModel?->name}}</a>
-                                    </h6>
-                                    <div class="text">{{$newAdvertisement->version_model}}</div>
-                                    <ul>
-                                        <li>
-                                            <i class="flaticon-gasoline-pump"></i> {{ $usedAdvertisement->fuelType?->name ?? 'N/A' }}
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-speedometer"></i>{{ $usedAdvertisement->mileage ? number_format($usedAdvertisement->mileage) . ' miles' : 'N/A' }}
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-gearbox"></i> {{ $usedAdvertisement->motor_change ?? 'N/A' }}
-                                        </li>
-                                    </ul>
-                                    <div class="btn-box">
-                                        <span>${{$usedAdvertisement->final_price}}</span>
-                                        <a href="#" class="details">View Details
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_4346)">
                                                     <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>

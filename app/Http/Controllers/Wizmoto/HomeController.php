@@ -56,6 +56,18 @@ class HomeController extends Controller {
                                                   'vehicleColor' ,
                                                   'fuelType' ,
                                               ])
+                                       ->when($request->filled('search') , function ( $q ) use ( $request ) {
+                                           $q->where(function ( $query ) use ( $request ) {
+                                               $query->where('description' , 'like' , "%{$request->search}%")
+                                                     ->orWhere('city' , 'like' , "%{$request->search}%")
+                                                     ->orWhere('zip_code' , 'like' , "%{$request->search}%")
+                                                     ->orWhereHas('brand' , fn ( $q2 ) => $q2->where('name' , 'like' , "%{$request->search}%"))
+                                                     ->orWhereHas('vehicleModel' , fn ( $q2 ) => $q2->where('name' , 'like' , "%{$request->search}%"));
+                                           });
+                                       })
+                                       ->when($request->advertisement_type , function ( $query , $type ) {
+                                           $query->where('advertisement_type_id' , $type);
+                                       })
                                        ->when($request->filled('city') , fn ( $q ) => $q->where('city' , $request->city))
                                        ->when($request->filled('zip_code') , fn ( $q ) => $q->where('zip_code' , $request->zip_code))
             // CONDITION / CATEGORY (e.g., Used, New, Classic/Era)

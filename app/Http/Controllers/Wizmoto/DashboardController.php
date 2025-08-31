@@ -6,31 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdvertisementRequest;
 use App\Models\Advertisement;
 use App\Models\AdvertisementType;
-use App\Models\Brand;
-use App\Models\Equipment;
-use App\Models\FuelType;
-use App\Models\VehicleBody;
 use App\Models\VehicleColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
-        $category = AdvertisementType::query()
-                                     ->where('title' , 'scooter')
-                                     ->first();
-        $brands = Brand::where('advertisement_type_id' , $category->id)
-                       ->get();
-        $vehicleBodies = VehicleBody::where('advertisement_type_id' , $category->id)
-                                    ->get();
-        $vehicleColors = VehicleColor::query()
-                                     ->get();
-        $equipments = Equipment::query()
-                               ->where('advertisement_type_id' , $category->id)
-                               ->get();
-        $fuelTypes = FuelType::query()
-                             ->where('advertisement_type_id' , $category->id)
-                             ->get();
+
         $internationalPrefixes = [
             '+1' ,
             '+30' ,
@@ -81,9 +63,14 @@ class DashboardController extends Controller {
             '+7' ,
             '+90' ,
         ];
-        $provider=Auth::guard('provider')->user();
+        $provider = Auth::guard('provider')
+                        ->user();
+        $advertisementTypes = AdvertisementType::query()
+                                               ->get();
+        $vehicleColors = VehicleColor::query()
+                                     ->get();
 
-        return view('wizmoto.dashboard.create-advertisement' , compact('brands' , 'vehicleBodies' , 'vehicleColors' , 'equipments' , 'fuelTypes' , 'internationalPrefixes','provider'));
+        return view('wizmoto.dashboard.create-advertisement' , compact('internationalPrefixes' , 'provider' , 'advertisementTypes','vehicleColors'));
     }
 
     public function storeAdvertisement ( StoreAdvertisementRequest $request ) {
@@ -115,8 +102,7 @@ class DashboardController extends Controller {
 
     public function myAdvertisements ( Request $request ) {
         $provider = Auth::guard('provider')
-                          ->user();
-
+                        ->user();
         $advertisements = Advertisement::query()
                                        ->where('provider_id' , $provider->id);
         // Search
@@ -132,7 +118,7 @@ class DashboardController extends Controller {
         }
         $advertisements = $advertisements->paginate(10);
 
-        return view('wizmoto.dashboard.my-advertisements' , compact('advertisements','provider'));
+        return view('wizmoto.dashboard.my-advertisements' , compact('advertisements' , 'provider'));
     }
 
     public function profile () {
@@ -150,7 +136,6 @@ class DashboardController extends Controller {
                 ->route('provider.auth')
                 ->with('error' , 'You must be logged in.');
         }
-
         $user->title = $request->input('title');
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
@@ -163,30 +148,32 @@ class DashboardController extends Controller {
         $user->city = $request->input('city');
         $user->show_info_in_advertisement = $request->has('show_info_in_advertisement');
         $user->save();
-
         if ( $request->hasFile('image') ) {
             $user->clearMediaCollection('image') // remove old
                  ->addMedia($request->file('image'))
                  ->toMediaCollection('image');
         }
+
         return back()->with('success' , 'Profile updated successfully!');
     }
 
-    public function deleteAdvertisement(Request $request){
+    public function deleteAdvertisement ( Request $request ) {
         // Get the advertisement ID from the request
         $advertisementId = $request->input('id');
-
         // Find the advertisement
-        $advertisement = Auth::guard('provider')->user()->advertisements()->find($advertisementId);
-
-        if (!$advertisement) {
-            return response()->json(['error' => 'Advertisement not found'], 404);
+        $advertisement = Auth::guard('provider')
+                             ->user()
+                             ->advertisements()
+                             ->find($advertisementId);
+        if ( !$advertisement ) {
+            return response()->json([ 'error' => 'Advertisement not found' ] , 404);
         }
-
         // Delete the advertisement
         $advertisement->delete();
 
-        return response()->json(['success' => true, 'message' => 'Advertisement deleted successfully']);
-
+        return response()->json([
+                                    'success' => true ,
+                                    'message' => 'Advertisement deleted successfully' ,
+                                ]);
     }
 }

@@ -10,35 +10,18 @@ use App\Http\Controllers\Wizmoto\ReviewController;
 use App\Http\Controllers\Wizmoto\SearchController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/' , [
-    HomeController::class ,
-    'index' ,
-])->name('home');
-Route::get('/inventory-list' , [
-    HomeController::class ,
-    'inventoryList' ,
-])->name('inventory-list');
+Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
+Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');
 
-Route::get('/blogs' , [
-    BlogController::class ,
-    'index' ,
-])->name('blogs.index');
-Route::get('/blogs/{slug}' , [
-    BlogController::class ,
-    'show' ,
-])->name('blogs.show');
-Route::post('/reviews/store' , [
-    ReviewController::class ,
-    'store' ,
-])->name('reviews.store');
+Route::get('/blogs' , [ BlogController::class , 'index' , ])->name('blogs.index');
+Route::get('/blogs/{slug}' , [ BlogController::class , 'show' , ])->name('blogs.show');
+Route::post('/reviews/store' , [ ReviewController::class , 'store' , ])->name('reviews.store');
 // advertisements group
-Route::prefix('advertisements')
-     ->group(function () {
-         Route::get('/{id}' , [
-             AdvertisementController::class ,
-             'show' ,
-         ])->name('advertisements.show');
+Route::prefix('advertisements')->group(function () {
+         Route::get('/{id}' , [ AdvertisementController::class , 'show' , ])->name('advertisements.show');
      });
+
+
 // dashboard
 Route::middleware(["auth"])->prefix('dashboard')
      ->group(function () {

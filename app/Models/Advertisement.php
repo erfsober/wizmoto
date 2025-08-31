@@ -20,16 +20,21 @@ class Advertisement extends Model implements HasMedia {
     public function registerMediaConversions ( \Spatie\MediaLibrary\MediaCollections\Models\Media $media = null ): void {
         // Thumbnail for listings
         $this->addMediaConversion('thumb')
-             ->fit(Fit::Crop , 300 , 200)
+             ->fit(Fit::Crop , 233 , 233)
              ->quality(70) // compress quality
              ->format('webp');
         $this->addMediaConversion('preview')
-             ->fit(Fit::Crop , 800 , 500)
+             ->fit(Fit::Crop , 800 , 550)
              ->quality(75)
              ->format('webp');
         // Medium image for detail page
         $this->addMediaConversion('square')
-             ->fit(Fit::Crop , 400 , 400)
+             ->fit(Fit::Crop , 280 , 272)
+             ->quality(75)
+             ->format('webp');
+
+        $this->addMediaConversion('card')
+             ->fit(Fit::Crop , 360 , 240)
              ->quality(75)
              ->format('webp');
     }
@@ -65,4 +70,5 @@ class Advertisement extends Model implements HasMedia {
     public function equipments () {
         return $this->belongsToMany(Equipment::class , 'advertisement_equipment');
     }
+
 }
