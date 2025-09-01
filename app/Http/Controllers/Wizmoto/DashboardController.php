@@ -7,13 +7,13 @@ use App\Http\Requests\StoreAdvertisementRequest;
 use App\Models\Advertisement;
 use App\Models\AdvertisementType;
 use App\Models\Brand;
+use App\Models\Equipment;
 use App\Models\VehicleColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
-
         $internationalPrefixes = [
             '+1' ,
             '+30' ,
@@ -179,7 +179,17 @@ class DashboardController extends Controller {
     }
 
     public function editAdvertisement ( $id ) {
-        $advertisement = Advertisement::findOrFail($id);
+        $advertisement = Advertisement::query()
+                                      ->with([
+                                                 'brand' ,
+                                                 'vehicleModel' ,
+                                                 'vehicleBody' ,
+                                                 'vehicleColor' ,
+                                                 'fuelType' ,
+                                                 'advertisementType',
+                                                 'equipments'
+                                             ])
+                                      ->findOrFail($id);
         $internationalPrefixes = [
             '+1' ,
             '+30' ,
@@ -237,23 +247,14 @@ class DashboardController extends Controller {
         $brands = Brand::query()
                        ->where('advertisement_type_id' , $advertisement->advertisement_type_id)
                        ->get();
-
-        return view('wizmoto.dashboard.edit-advertisement' , compact('advertisement' , 'internationalPrefixes' , 'brands' , 'provider' , 'advertisementTypes' , 'vehicleColors'));
+        $equipments = Equipment::query()
+                               ->get();
+        return view('wizmoto.dashboard.edit-advertisement' , compact('advertisement' , 'internationalPrefixes' , 'brands' , 'provider' , 'advertisementTypes' , 'vehicleColors','equipments'));
     }
 
-    public function updateAdvertisement ( Request $request , $id ) {
-        $advertisement = Advertisement::findOrFail($id);
-        $data = $request->validate([
-                                       'title' => 'required|string|max:255' ,
-                                       'advertisement_type_id' => 'required|exists:advertisement_types,id' ,
-                                       'brand_id' => 'required|exists:brands,id' ,
-                                       'vehicle_body_id' => 'required|exists:vehicle_bodies,id' ,
-                                       'color_id' => 'nullable|exists:vehicle_colors,id' ,
-                                       'fuel_type_id' => 'nullable|exists:fuel_types,id' ,
-                                       'price' => 'nullable|numeric' ,
-                                       // add other fields from StoreAdvertisementRequest
-                                   ]);
-        // Handle checkboxes
+    public function updateAdvertisement ( StoreAdvertisementRequest $request ) {
+        $data = $request->validated();
+        $advertisement = Advertisement::findOrFail($request->advertisement_id);
         $data[ 'is_metallic_paint' ] = $request->has('is_metallic_paint');
         $data[ 'show_phone' ] = $request->has('show_phone');
         $data[ 'damaged_vehicle' ] = $request->has('damaged_vehicle');

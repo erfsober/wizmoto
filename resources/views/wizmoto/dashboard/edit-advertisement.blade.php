@@ -17,6 +17,7 @@
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="provider_id" value="{{$provider->id}}">
+                            <input type="hidden" name="advertisement_id" value="{{$advertisement->id}}">
                             {{--Vehicle data--}}
                             <h6>Vehicle data</h6>
                             <div class="form-column col-lg-12">
@@ -25,7 +26,7 @@
                                     <label>Sell</label>
                                     <div class="drop-menu" id="advertisement-type-dropdown">
                                         <div class="select">
-                                            <span class="selected">{{ old('advertisement_type_id', $advertisement->advertisement_type_id ?? 'Selection') }}</span>
+                                            <span class="selected">{{ old('advertisement_type_id', $advertisement->advertisementType->title ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="advertisement_type_id" id="advertisement_type_id_input" value="{{ old('advertisement_type_id', $advertisement->advertisement_type_id ?? '') }}">
@@ -43,10 +44,10 @@
                                     <label>Brand</label>
                                     <div class="drop-menu" id="brand-dropdown">
                                         <div class="select">
-                                            <span class="selected">{{ old('brand_id', $advertisement->brand_id?? 'Selection') }}</span>
+                                            <span class="selected">{{ old('brand_id', $advertisement->brand->name?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="brand_id" id="brand_id_input"  value="{{ old('brand_id', $advertisement->brand_id ?? '') }}">
+                                        <input type="hidden" name="brand_id" id="brand_id_input" value="{{ old('brand_id', $advertisement->brand_id ?? '') }}">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach($brands as $brand)
                                                 <li data-id="{{ $brand->id }}">{{$brand->name}}</li>
@@ -61,7 +62,7 @@
                                     <label>Model</label>
                                     <div class="drop-menu" id="model-dropdown">
                                         <div class="select">
-                                            <span class="selected">{{ old('vehicle_model_id', $advertisement->vehicle_model_id ?? 'Selection') }}</span>
+                                            <span class="selected">{{ old('vehicle_model_id', $advertisement->vehicleModel->name ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="vehicle_model_id" id="vehicle_model_id_input" value="{{ old('vehicle_model_id', $advertisement->vehicle_model_id ?? '') }}">
@@ -88,7 +89,7 @@
                                     <label>BodyWork</label>
                                     <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
-                                            <span class="selected">{{ old('vehicle_body_id', $advertisement->vehicle_body_id ?? 'Selection') }}</span>
+                                            <span class="selected">{{ old('vehicle_body_id', $advertisement->vehicleBody->name ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="vehicle_body_id" value="{{ old('vehicle_body_id', $advertisement->vehicle_body_id ?? '') }}">
@@ -175,10 +176,10 @@
                                         <label>Registration Year</label>
                                         <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span class="selected">{{ old('registration_year', $advertisement->registration_year ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="registration_year">
+                                            <input type="hidden" name="registration_year" value="{{ old('registration_year', $advertisement->registration_year ) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @php
                                                     $currentYear = date('Y');
@@ -197,10 +198,10 @@
                                         <label>Next review Year</label>
                                         <div class="drop-menu" id="next-review-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span class="selected">{{ old('next_review_month', $advertisement->next_review_month ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="next_review_month">
+                                            <input type="hidden" name="next_review_month" value="{{ old('next_review_month', $advertisement->next_review_month) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
                                                     <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
@@ -214,10 +215,10 @@
                                         <label>Next review Year</label>
                                         <div class="drop-menu" id="next-review-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span class="selected">{{ old('next_review_year', $advertisement->next_review_year ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="next_review_year">
+                                            <input type="hidden" name="next_review_year" value="{{ old('next_review_year', $advertisement->next_review_year) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @php
                                                     $currentYear = date('Y');
@@ -236,10 +237,10 @@
                                         <label>Last Service Year</label>
                                         <div class="drop-menu" id="last-service-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span class="selected">{{ old('last_service_month', $advertisement->last_service_month ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="last_service_month">
+                                            <input type="hidden" name="last_service_month" value="{{ old('last_service_month', $advertisement->last_service_month) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @foreach(range(1,12) as $m)
                                                     <li data-id="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</li>
@@ -253,10 +254,10 @@
                                         <label>Last Service Year</label>
                                         <div class="drop-menu" id="last-service-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span class="selected">{{ old('last_service_year', $advertisement->last_service_year ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="last_service_year">
+                                            <input type="hidden" name="last_service_year" value="{{ old('last_service_year', $advertisement->last_service_year) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 @php
                                                     $currentYear = date('Y');
@@ -274,7 +275,7 @@
                                     <label>Previous Owners</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
-                                        <input type="text" value="1" name="previous_owners">
+                                        <input type="text" name="previous_owners" value="{{ old('previous_owners', $advertisement->previous_owners ?? 1) }}">
                                         <span class="plus">+</span>
                                     </div>
                                 </div>
@@ -282,7 +283,7 @@
                             <div class="form-column col-lg-12 my-5">
                                 <div class="cheak-box">
                                     <label class="contain">Coupon Documentation
-                                        <input type="checkbox" name="coupon_documentation">
+                                        <input type="checkbox" name="coupon_documentation" {{ $advertisement->coupon_documentation ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -290,7 +291,7 @@
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
                                     <label class="contain">Damaged Vehicle
-                                        <input type="checkbox" name="damaged_vehicle">
+                                        <input type="checkbox" name="damaged_vehicle" {{ $advertisement->damaged_vehicle ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -301,7 +302,13 @@
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
                                     <div class="equipment-list" style="display: flex; flex-wrap: wrap; gap: 40px;">
-
+                                        @foreach($equipments as $equipment)
+                                            <label class="contain">
+                                                {{ $equipment->name }}
+                                                <input type="checkbox" name="equipments[]" value="{{ $equipment->id }}" {{ in_array($equipment->id, $advertisement->equipments->toArray()) ? 'checked' : '' }}>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -315,10 +322,10 @@
                                         <label>Change</label>
                                         <div class="drop-menu" id="motor-change-dropdown">
                                             <div class="select">
-                                                <span>Select Change</span>
+                                                <span class="selected">{{ old('motor_change', $advertisement->motor_change ?? 'Selection') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
-                                            <input type="hidden" name="motor_change">
+                                            <input type="hidden" name="motor_change" value="{{ old('motor_change', $advertisement->motor_change) }}">
                                             <ul class="dropdown" style="display: none;">
                                                 <li data-id="Manual">Manual</li>
                                                 <li data-id="Automatic">Automatic</li>
@@ -332,7 +339,7 @@
                                 <div class="form_boxes v2">
                                     <label>Power Kw</label>
                                     <div class="drop-menu active">
-                                        <input name="motor_power_kw" type="number" maxlength="4" placeholder="ex. 88">
+                                        <input name="motor_power_kw" type="number" maxlength="4" placeholder="" value="{{ old('motor_power_kw', $advertisement->motor_power_kw ) }}">
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +348,7 @@
                                 <div class="form_boxes v2">
                                     <label>Power Cv</label>
                                     <div class="drop-menu active">
-                                        <input name="motor_power_cv" type="number" maxlength="4" placeholder="ex. 120">
+                                        <input name="motor_power_cv" type="number" maxlength="4" placeholder="" value="{{ old('motor_power_cv', $advertisement->motor_power_cv ) }}">
                                     </div>
                                 </div>
                             </div>
@@ -351,7 +358,7 @@
                                     <label>Marches</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
-                                        <input type="text" value="1" name="motor_marches">
+                                        <input type="text" value="{{ old('motor_marches', $advertisement->motor_marches ?? 1 ) }}" name="motor_marches">
                                         <span class="plus">+</span>
                                     </div>
                                 </div>
@@ -362,7 +369,7 @@
                                     <label>Cylinders</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
-                                        <input type="text" value="1" name="motor_cylinders">
+                                        <input type="text" value="{{ old('motor_cylinders', $advertisement->motor_cylinders ?? 1 ) }}" name="motor_cylinders">
                                         <span class="plus">+</span>
                                     </div>
                                 </div>
@@ -373,16 +380,16 @@
                                     <div class="form_boxes">
                                         <label>Displacement</label>
                                         <div class="drop-menu" id="motor-displacement-dropdown">
-                                            <input type="text" name="motor_displacement" placeholder="Engine displacement in cc">
+                                            <input type="text" name="motor_displacement" placeholder="" value="{{ old('motor_displacement', $advertisement->motor_displacement ) }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Empty Weight</label>
+                                        <label>Empty Weight (KG)</label>
                                         <div class="drop-menu" id="motor-empty-weight-dropdown">
-                                            <input type="text" name="motor_empty_weight" placeholder="Empty weight in kg">
+                                            <input type="text" name="motor_empty_weight" placeholder="" value="{{ old('motor_empty_weight', $advertisement->motor_empty_weight ) }}">
                                         </div>
                                     </div>
                                 </div>
@@ -394,10 +401,10 @@
                                     <label>Fuel type</label>
                                     <div class="drop-menu" id="fuel-type-dropdown">
                                         <div class="select">
-                                            <span>Select Fuel type</span>
+                                            <span class="selected">{{ old('fuel_type_id', $advertisement->fuelType->name) }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="fuel_type_id">
+                                        <input type="hidden" name="fuel_type_id" value="{{ old('fuel_type_id', $advertisement->fuel_type_id) }}">
                                         <ul class="dropdown" style="display: none;">
 
                                         </ul>
@@ -408,7 +415,7 @@
                                 <div class="form_boxes v2">
                                     <label>Combined fuel consumption</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="combined_fuel_consumption" maxlength="5">
+                                        <input type="text" name="combined_fuel_consumption" maxlength="5" value="{{ old('combined_fuel_consumption', $advertisement->combined_fuel_consumption) }}">
                                     </div>
                                 </div>
                             </div>
@@ -416,7 +423,7 @@
                                 <div class="form_boxes v2">
                                     <label>Combined cycle CO2 emissions</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="co2_emissions" maxlength="14">
+                                        <input type="text" name="co2_emissions" maxlength="14" value="{{ old('co2_emissions', $advertisement->co2_emissions) }}">
                                     </div>
                                 </div>
                             </div>
@@ -425,10 +432,10 @@
                                     <label>Emissions class</label>
                                     <div class="drop-menu" id="emissions_class-dropdown">
                                         <div class="select">
-                                            <span>Select Emissions class</span>
+                                            <span class="selected">{{ old('emissions_class', $advertisement->emissions_class ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="emissions_class">
+                                        <input type="hidden" name="emissions_class" value="{{ old('emissions_class', $advertisement->emissions_class) }}">
                                         <ul class="dropdown" style="display: none;">
                                             @php
                                                 $emissionsClasses=[
@@ -454,8 +461,24 @@
                                     <h6 class="title">Gallery</h6>
                                     <div class="gallery-box">
                                         <div class="inner-box" id="preview-container">
+                                            @if(!empty($advertisement->getMedia('covers')))
+                                                @foreach($advertisement->getMedia('covers') as $image)
+                                                    <div class="image-box">
+                                                        <img src="{{ $image->getUrl() }}" alt="Preview" style="max-width: 200px; border-radius: 6px;">
+                                                        <div class="content-box">
+                                                            <ul class="social-icon">
+                                                                <li>
+                                                                    <a href="#" class="delete-btn">
+                                                                        <img src="{{asset("wizmoto/images/resource/delet.svg")}}">
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
 
-                                            <div class="uplode-box">
+                                            <div class="uplode-box" style="display: @if($advertisement->getMedia('covers')->count()<5) block @else none @endif">
                                                 <div class="content-box">
                                                     <a href="#" id="uploadTrigger">
                                                         <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
@@ -476,7 +499,7 @@
                                 <div class="form_boxes v2">
                                     <label>Vehicle description</label>
                                     <div class="drop-menu active">
-                                        <textarea name="description" placeholder=""></textarea>
+                                        <textarea name="description" placeholder="">{{ old('description', $advertisement->description) }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -486,14 +509,14 @@
                                 <div class="form_boxes v2">
                                     <label>Final Price</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="final_price">
+                                        <input type="text" name="final_price" value="{{ old('final_price', $advertisement->final_price) }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
                                     <label class="contain">Deductible VAT
-                                        <input type="checkbox" name="tax_deductible">
+                                        <input type="checkbox" name="tax_deductible" {{ $advertisement->tax_deductible ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -501,20 +524,20 @@
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
                                     <label class="contain">Price Negotiable
-                                        <input type="checkbox" name="price_negotiable">
+                                        <input type="checkbox" name="price_negotiable" {{ $advertisement->price_negotiable ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                             </div>
 
                             <hr class="mt-5">
-                            {{--price--}}
+                            {{--Contact--}}
                             <h6>Contact</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>ZIP Code</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="zip_code">
+                                        <input type="text" name="zip_code" value="{{ old('zip_code', $advertisement->zip_code) }}">
                                     </div>
                                 </div>
                             </div>
@@ -522,7 +545,7 @@
                                 <div class="form_boxes v2">
                                     <label>City</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="city">
+                                        <input type="text" name="city" value="{{ old('city', $advertisement->city) }}">
                                     </div>
                                 </div>
                             </div>
@@ -532,10 +555,10 @@
                                     <label>International prefix</label>
                                     <div class="drop-menu" id="brand-dropdown">
                                         <div class="select">
-                                            <span>Select International prefix</span>
+                                            <span class="selected">{{ old('international_prefix', $advertisement->international_prefix ?? 'Selection') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="international_prefix" id="international_prefix_input">
+                                        <input type="hidden" name="international_prefix" id="international_prefix_input" value="{{ old('international_prefix', $advertisement->international_prefix) }}">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach($internationalPrefixes as $internationalPrefix)
                                                 <li data-id="{{ $internationalPrefix }}">{{$internationalPrefix}}</li>
@@ -548,7 +571,7 @@
                                 <div class="form_boxes v2">
                                     <label>Prefix</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="prefix">
+                                        <input type="text" name="prefix" value="{{ old('prefix', $advertisement->prefix) }}">
                                     </div>
                                 </div>
                             </div>
@@ -556,14 +579,14 @@
                                 <div class="form_boxes v2">
                                     <label>Telephone</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="telephone">
+                                        <input type="text" name="telephone" value="{{ old('telephone', $advertisement->telephone) }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
                                     <label class="contain">Display your phone number in your listing as a contact option?
-                                        <input type="checkbox" name="show_phone">
+                                        <input type="checkbox" name="show_phone" {{ $advertisement->show_phone ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -597,8 +620,12 @@
     <style>
         /* Spinner animation */
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .lnr-icon-spinner.spinner {
@@ -714,7 +741,6 @@
 @endpush
 @push('scripts')
     <script>
-
 
         $('#brand-dropdown ul.dropdown').on('click', 'li', function () {
             let brandId = $(this).data('id');
@@ -848,7 +874,7 @@
             $("#uploadTrigger").click(function (e) {
                 e.preventDefault();
                 $("#fileInput").click();
-                if(selectedFiles.length === 4){
+                if (selectedFiles.length === 4) {
                     $(".uplode-box").hide(); // hide upload box
                 }
             });
@@ -930,7 +956,12 @@
 
             $("#advertisementForm").submit(function (e) {
                 e.preventDefault();
-
+                const btn = $(this).find("button[type='submit']");
+                btn.prop('disabled', true);
+                btn.contents().filter(function () {
+                    return !$(this).hasClass('spinner');
+                }).hide();
+                btn.find(".spinner").show();
                 const formData = new FormData(this);
 
                 selectedFiles.forEach(file => {
@@ -949,6 +980,9 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -959,6 +993,9 @@
                         });
                     },
                     error: function (xhr) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 

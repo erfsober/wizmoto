@@ -12924,6 +12924,16 @@ Section Title
   text-align: center;
   line-height: 40px;
 }
+.cart-table table tr .edit-cart-item {
+    display: inline-block;
+    border: 1px solid #E1E1E1;
+    border-radius: 16px;
+    width: 40px;
+    height: 40px;
+    background-color: #F9FBFC;
+    text-align: center;
+    line-height: 40px;
+}
 
 .cart-table .shop-cart-product {
   display: -webkit-box;

@@ -35,7 +35,6 @@
                                                 <input type="file" name="image" id="fileInput" multiple style="display:none">
                                             </div>
                                         </div>
-
                                     @endif
                                     @if(empty($provider->getFirstMediaUrl('image')))
                                             <div class="uplode-box" style="{{ $provider->getFirstMedia('image') ? 'display:none;' : '' }}">
@@ -167,6 +166,7 @@
                     </div>
                     <div class="form-submit">
                         <button type="submit" class="theme-btn">Save Profile<img src="{{asset("wizmoto/images/arrow.svg")}}" alt="">
+                            <span class="lnr-icon-spinner spinner" style="display:none;"></span>
                         </button>
                     </div>
                 </form>
@@ -287,7 +287,12 @@
             // Form submit via AJAX
             $("#profileForm").submit(function (e) {
                 e.preventDefault();
-
+                const btn = $(this).find("button[type='submit']");
+                btn.prop('disabled', true);
+                btn.contents().filter(function () {
+                    return !$(this).hasClass('spinner');
+                }).hide();
+                btn.find(".spinner").show();
                 const formData = new FormData(this);
 
                 selectedFiles.forEach(file => {
@@ -305,6 +310,10 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
+
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -315,6 +324,10 @@
                         });
                     },
                     error: function (xhr) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
+
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 

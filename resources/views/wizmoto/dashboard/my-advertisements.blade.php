@@ -80,7 +80,7 @@
                                     <a href="#" class="remove-cart-item" data-id="{{ $advertisement->id }}" data-url="{{ route('dashboard.delete-advertisement') }}">
                                         <img src="{{asset("wizmoto/images/icons/remove.svg")}}" alt="">
                                     </a>
-                                    <a href="{{route("dashboard.edit-advertisement", $advertisement->id )}}" class="remove-cart-item">
+                                    <a href="{{route("dashboard.edit-advertisement", $advertisement->id )}}" class="edit-cart-item" target="_blank">
                                         <img src="{{asset("wizmoto/images/icons/edit.svg")}}" alt="">
                                     </a>
                                 </td>

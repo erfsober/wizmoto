@@ -448,8 +448,12 @@
                             {{--Photo--}}
                             <h6>Photo</h6>
                             <div class="gallery-sec style1" id="media">
+                                <div id="gallery-overlay" class="gallery-overlay" style="display:none;">
+                                    <span class="lnr-icon-spinner spinner" style="font-size: 52px"></span>
+                                </div>
                                 <div class="right-box-three">
-                                    <h6 class="title">Gallery</h6>
+                                    <h6 class="title">Gallery
+                                    </h6>
                                     <div class="gallery-box">
                                         <div class="inner-box" id="preview-container">
 
@@ -460,7 +464,6 @@
                                                         <span>Upload</span>
                                                     </a>
                                                     <input type="file" name="images[]" id="fileInput" multiple style="display:none">
-                                                    <span class="lnr-icon-spinner spinner" style="display:none;"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -595,8 +598,12 @@
     <style>
         /* Spinner animation */
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .lnr-icon-spinner.spinner {
@@ -708,11 +715,25 @@
             font-size: 14px;
             user-select: none;
         }
+    /*    loading*/
+        .gallery-sec {
+            position: relative; /* container for overlay */
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
     </style>
 @endpush
 @push('scripts')
     <script>
-
 
         $('#brand-dropdown ul.dropdown').on('click', 'li', function () {
             let brandId = $(this).data('id');
@@ -846,7 +867,7 @@
             $("#uploadTrigger").click(function (e) {
                 e.preventDefault();
                 $("#fileInput").click();
-                if(selectedFiles.length === 4){
+                if (selectedFiles.length === 4) {
                     $(".uplode-box").hide(); // hide upload box
                 }
             });
@@ -868,6 +889,9 @@
                 Array.from(this.files).forEach(file => {
                     selectedFiles.push(file);
                     const reader = new FileReader();
+                    $("#media").addClass("loading");
+                    $("#media .gallery-overlay").show();
+
                     let index = selectedFiles.length - 1;
 
                     reader.onload = function (event) {
@@ -889,8 +913,8 @@
 
                         $("#preview-container").find(".uplode-box").before(div);
                     };
-
-                    reader.readAsDataURL(file);
+                    $("#media").removeClass("loading");
+                    $("#media .gallery-overlay").hide();                    reader.readAsDataURL(file);
                 });
                 $(this).val("");
             });
@@ -928,7 +952,12 @@
 
             $("#advertisementForm").submit(function (e) {
                 e.preventDefault();
-
+                const btn = $(this).find("button[type='submit']");
+                btn.prop('disabled', true);
+                btn.contents().filter(function () {
+                    return !$(this).hasClass('spinner');
+                }).hide();
+                btn.find(".spinner").show();
                 const formData = new FormData(this);
 
                 selectedFiles.forEach(file => {
@@ -947,6 +976,9 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -957,6 +989,9 @@
                         });
                     },
                     error: function (xhr) {
+                        btn.find(".spinner").hide();
+                        btn.prop('disabled', false);
+                        btn.contents().show();
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 

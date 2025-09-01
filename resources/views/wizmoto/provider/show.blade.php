@@ -427,6 +427,24 @@
     @include('wizmoto.partials.footer')
 
 @endsection
+@push('styles')
+    <style>
+        .rating-list .list li i.gray {
+            color: #ccc; /* gray for empty stars */
+        }
+
+        .Reply-sec .list li i {
+            color: #ccc; /* default gray */
+            cursor: pointer;
+        }
+
+        .Reply-sec .list li.hovered i,
+        .list li.selected i {
+            color: #ffb400; /* gold for hover/selected */
+        }
+
+    </style>
+@endpush
 @push('scripts')
     <script>
         $(document).ready(function () {
