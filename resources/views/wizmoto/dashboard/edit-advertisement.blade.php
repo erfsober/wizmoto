@@ -980,9 +980,9 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        btn.contents().show();
                         btn.find(".spinner").hide();
                         btn.prop('disabled', false);
-                        btn.contents().show();
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -993,9 +993,9 @@
                         });
                     },
                     error: function (xhr) {
+                        btn.contents().show();
                         btn.find(".spinner").hide();
                         btn.prop('disabled', false);
-                        btn.contents().show();
                         $('.error-text').text('');
                         $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 
