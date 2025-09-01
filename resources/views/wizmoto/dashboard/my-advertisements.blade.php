@@ -37,7 +37,8 @@
                         <thead>
                         <tr>
                             <th>Make</th>
-                            <th>Model</th>
+                            <th>Brand</th>
+                            <th>Price Evaluation</th>
                             <th>Year</th>
                             <th>Transmission</th>
                             <th>FuelType</th>
@@ -65,7 +66,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span>Volvo</span>
+                                    <span>{{$advertisement->brand->name}}</span>
+                                </td>
+                                <td>
+                                    <span>{{$advertisement->price_evaluation}}</span>
                                 </td>
                                 <td>
                                     <span>{{$advertisement->register_year}}</span>
