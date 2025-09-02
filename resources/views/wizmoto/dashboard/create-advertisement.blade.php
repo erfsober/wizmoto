@@ -897,7 +897,7 @@
                     reader.onload = function (event) {
                         const div = $(`
                     <div class="image-box" data-index="${index}">
-                        <img src="${event.target.result}" alt="preview">
+                        <img src="${event.target.result}" alt="preview" data-filename="${file.name}" alt="${file.name}">
                         <div class="content-box">
                             <ul class="social-icon">
                                 <li>
@@ -960,13 +960,12 @@
                 btn.find(".spinner").show();
                 const formData = new FormData(this);
 
-                selectedFiles.forEach(file => {
-                    formData.append('images[]', file);
-                });
-
-                // Optional: send the order
-                $("#preview-container .image-box").each(function (i) {
-                    formData.append(`images_order[${i}]`, $(this).find("img").attr("alt"));
+                $("#preview-container .image-box").each(function() {
+                    const filename = $(this).find("img").data("filename"); // ✅ get actual file name
+                    const file = selectedFiles.find(f => f.name ===filename); // ✅ find corresponding file
+                    if (file) {
+                        formData.append('images[]', file); // ✅ append in the correct order
+                    }
                 });
 
                 $.ajax({

@@ -11,6 +11,8 @@ use App\Models\Equipment;
 use App\Models\VehicleColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DashboardController extends Controller {
     public function createAdvertisement () {
@@ -263,11 +265,57 @@ class DashboardController extends Controller {
         $data[ 'coupon_documentation' ] = $request->has('coupon_documentation');
         // Update advertisement
         $advertisement->update($data);
-        // Handle new media uploads
+        // Handle new media uploads and map filename->media id
+        $newFilesMap = [];
         if ( $request->hasFile('images') ) {
             foreach ( $request->file('images') as $file ) {
-                $advertisement->addMedia($file)
-                              ->toMediaCollection('covers');
+                $media = $advertisement->addMedia($file)
+                                        ->toMediaCollection('covers');
+                $newFilesMap[$file->getClientOriginalName()] = $media->id;
+            }
+        }
+        // Apply ordering if provided
+        
+        if ($request->filled('images_order')) {
+            $orderedIds = [];
+            $newFilesMap = [];
+            
+            // Step 1: Add all new files and map them
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $media = $advertisement->addMedia($file)
+                                        ->toMediaCollection('covers');
+                    $newFilesMap[$file->getClientOriginalName()] = $media->id;
+                }
+            }
+            
+            // Step 2: Build final order from tokens
+            foreach (json_decode($request->input('images_order'), true) as $token) {
+                if (Str::startsWith($token, 'existing:')) {
+                    $orderedIds[] = (int) str_replace('existing:', '', $token);
+                } elseif (Str::startsWith($token, 'new:')) {
+                    $filename = str_replace('new:', '', $token);
+                    if (isset($newFilesMap[$filename])) {
+                        $orderedIds[] = $newFilesMap[$filename];
+                    }
+                }
+            }
+            
+            // Step 3: Get all current media IDs
+            $currentMediaIds = $advertisement->getMedia('covers')->pluck('id')->toArray();
+            
+            // Step 4: Delete media that are not in the final order
+            $mediaToDelete = array_diff($currentMediaIds, $orderedIds);
+            foreach ($mediaToDelete as $mediaId) {
+                $media = Media::find($mediaId);
+                if ($media) {
+                    $media->delete();
+                }
+            }
+            
+            // Step 5: Set the new order
+            if (!empty($orderedIds)) {
+                Media::setNewOrder($orderedIds);
             }
         }
         // Sync equipments
