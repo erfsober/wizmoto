@@ -3,7 +3,7 @@
     <div class="content-column">
         <div class="inner-column">
             <div class="list-title">
-                <h3 class="title">Create advertisement</h3>
+                <h3 class="title">Edit Advertisement</h3>
             </div>
             <div class="form-box">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -536,10 +536,10 @@
                                             <div class="uplode-box"
                                                 style="display: @if ($advertisement->getMedia('covers')->count() < 5) block @else none @endif">
                                                 <div class="content-box">
-                                                    <a href="#" id="uploadTrigger">
+                                                    <label for="fileInput" id="uploadTrigger">
                                                         <img src="{{ asset('wizmoto/images/resource/uplode.svg') }}">
                                                         <span>Upload</span>
-                                                    </a>
+                                                    </label>
                                                     <input type="file" name="images[]" id="fileInput" multiple
                                                         style="display:none">
                                                     <span class="lnr-icon-spinner spinner" style="display:none;"></span>
@@ -956,6 +956,8 @@
     </script>
     <script>
         $(document).ready(function() {
+            const deleteIconUrl = "{{ asset('wizmoto/images/resource/delet.svg') }}";
+
             const selectedFiles = [];
 
             function updateImagesOrder() {
@@ -963,24 +965,14 @@
                     return $(this).data("token");
                 }).get();
                 $("#images_order_input").val(JSON.stringify(order));
-                console.log("Updated images_order:", order);
             }
-            // Upload button
-            $("#uploadTrigger").click(function(e) {
-                const totalImages = $("#preview-container .image-box").length;
 
-                e.preventDefault();
-                $("#fileInput")[0].click();
-                if (totalImages === 4) {
-                    $(".uplode-box").hide(); // hide upload box
-                }
-            });
-
-            // File select
+            // File select event handler
             $("#fileInput").on("change", function(e) {
-                const totalImages = $("#preview-container .image-box").length;
+                const currentImageCount = $("#preview-container .image-box").length;
                 const newFilesCount = this.files.length;
-                if (totalImages + newFilesCount > 5) {
+
+                if (currentImageCount + newFilesCount > 5) {
                     Swal.fire({
                         toast: true,
                         icon: 'error',
@@ -999,27 +991,35 @@
 
                     reader.onload = function(event) {
                         const div = $(`
-                    <div class="image-box" data-index="${index}" data-token="new:${file.name}">
-                        <img src="${event.target.result}" alt="preview"  data-filename="${file.name}" alt="${file.name}" >
-                        <div class="content-box">
-                            <ul class="social-icon">
-                                <li>
-                                    <a href="#" class="delete-btn">
-                                        <img src="{{ asset('wizmoto/images/resource/delet.svg') }}">
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                `);
+                            <div class="image-box" data-index="${index}" data-token="new:${file.name}">
+                                <img src="${event.target.result}" alt="preview" data-filename="${file.name}">
+                                <div class="content-box">
+                                    <ul class="social-icon">
+                                        <li>
+                                            <a href="#" class="delete-btn">
+                                            <img src="${deleteIconUrl}">                                 
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        `);
 
-                        $("#preview-container").find(".uplode-box").before(div);
-                        updateImagesOrder(); // update order after adding new image
-
+                        $("#preview-container .uplode-box").before(div);
+                        updateImagesOrder();
                     };
 
                     reader.readAsDataURL(file);
                 });
+
+                const finalCount = $("#preview-container .image-box").length;
+                console.log("After ADDING, image count is:", finalCount); // ADD THI
+                // After adding the new images, check the new total count.
+                if ($("#preview-container .image-box").length >=4) {
+                    $(".uplode-box").hide();
+                }
+
+                // Clear the file input to allow re-selecting the same file if needed
                 $(this).val("");
             });
 
@@ -1027,28 +1027,34 @@
             $("#preview-container").on("click", ".delete-btn", function(e) {
                 e.preventDefault();
                 const box = $(this).closest(".image-box");
-                const index = box.data("index");
+                const token = box.data("token");
+
+                // If it's a "new" file, find and remove it from our tracking array
+                if (token && token.startsWith("new:")) {
+                    const filename = token.replace("new:", "");
+                    const fileIndex = selectedFiles.findIndex(f => f.name === filename);
+                    if (fileIndex > -1) {
+                        selectedFiles.splice(fileIndex, 1);
+                    }
+                }
+
                 box.remove();
 
-                // Remove the file from array
-                selectedFiles.splice(index, 1);
-                if (selectedFiles.length < 5) {
-                    $(".uplode-box").show(); // show upload box again
+                // **FIX 2: Logic to show the upload box again moved here**
+                if ($("#preview-container .image-box").length < 5) {
+                    $(".uplode-box").show();
                 }
-                // Re-sync indexes on remaining previews
-                $("#preview-container .image-box").each(function(i) {
-                    $(this).attr("data-index", i);
-                });
+
                 updateImagesOrder();
             });
 
-            // Make images sortable but **upload box fixed**
+            // Make images sortable
             $("#preview-container").sortable({
-                items: ".image-box", // only image boxes are draggable
-                cancel: ".uplode-box", // upload box cannot be dragged
+                items: ".image-box",
+                cancel: ".uplode-box",
                 placeholder: "image-box-placeholder",
-                tolerance: "pointer", // makes drag smooth
-                helper: "clone", // avoids element sticking
+                tolerance: "pointer",
+                helper: "clone",
                 start: function(e, ui) {
                     ui.placeholder.height(ui.item.height());
                     ui.placeholder.width(ui.item.width());
@@ -1058,35 +1064,30 @@
                 }
             }).disableSelection();
 
+            // Form submission
             $("#advertisementForm").submit(function(e) {
                 e.preventDefault();
                 const btn = $(this).find("button[type='submit']");
                 btn.prop('disabled', true);
-                btn.contents().filter(function() {
-                    return !$(this).hasClass('spinner');
-                }).hide();
                 btn.find(".spinner").show();
+                btn.contents().not('.spinner').hide();
+
                 const formData = new FormData(this);
 
-                // Send the complete final order of all remaining images
-    const finalOrder = [];
-    $("#preview-container .image-box").each(function() {
-        const token = $(this).data("token");
-        if (token) {
-            finalOrder.push(token);
-        }
-    });
-    formData.append('images_order', JSON.stringify(finalOrder));
+                // Update the final order one last time before submitting
+                updateImagesOrder();
 
-                $("#preview-container .image-box").each(function() {
-                    const token = $(this).data("token");
-                    
-                    if (token && token.startsWith("new:")) {
-                        const filename = token.replace("new:", "");
-                        const file = selectedFiles.find(f => f.name === filename);
-                        if (file) formData.append('images[]', file);
+                // Append only the NEW files to the form data
+                const newFileTokens = JSON.parse($("#images_order_input").val() || '[]').filter(t => t
+                    .startsWith("new:"));
+                newFileTokens.forEach(token => {
+                    const filename = token.replace("new:", "");
+                    const file = selectedFiles.find(f => f.name === filename);
+                    if (file) {
+                        formData.append('images[]', file, file.name);
                     }
                 });
+
                 $.ajax({
                     url: $(this).attr("action"),
                     type: $(this).attr("method"),
@@ -1094,29 +1095,23 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        btn.contents().show();
-                        btn.find(".spinner").hide();
-                        btn.prop('disabled', false);
+                        // ... your success handler
                         Swal.fire({
                             toast: true,
                             icon: 'success',
-                            title: 'advertisement created successfully!',
+                            title: 'Advertisement updated successfully!',
                             position: 'top-end',
                             showConfirmButton: false,
                             timer: 3000
                         });
+                        btn.prop('disabled', false);
+                        btn.find(".spinner").hide();
+                        btn.contents().not('.spinner').show();
                     },
                     error: function(xhr) {
-                        btn.contents().show();
-                        btn.find(".spinner").hide();
-                        btn.prop('disabled', false);
-                        $('.error-text').text('');
-                        $('.input-error, .drop-menu-error').removeClass(
-                            'input-error drop-menu-error');
-
+                        // ... your error handler
                         if (xhr.status === 422) {
                             showValidationErrors(xhr.responseJSON.errors);
-
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -1124,6 +1119,9 @@
                                 text: 'Please try again later.'
                             });
                         }
+                        btn.prop('disabled', false);
+                        btn.find(".spinner").hide();
+                        btn.contents().not('.spinner').show();
                     }
                 });
             });

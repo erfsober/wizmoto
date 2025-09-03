@@ -144,9 +144,9 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Mileage</label>
+                                    <label>Mileage(Km)</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="mileage" placeholder="Km">
+                                        <input type="text" name="mileage" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                         <label>Registration Month</label>
                                         <div class="drop-menu" id="registration-month-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="registration_month">
@@ -173,7 +173,7 @@
                                         <label>Registration Year</label>
                                         <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="registration_year">
@@ -195,7 +195,7 @@
                                         <label>Next review Year</label>
                                         <div class="drop-menu" id="next-review-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="next_review_month">
@@ -212,7 +212,7 @@
                                         <label>Next review Year</label>
                                         <div class="drop-menu" id="next-review-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="next_review_year">
@@ -234,7 +234,7 @@
                                         <label>Last Service Year</label>
                                         <div class="drop-menu" id="last-service-dropdown">
                                             <div class="select">
-                                                <span>Select Month</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="last_service_month">
@@ -251,7 +251,7 @@
                                         <label>Last Service Year</label>
                                         <div class="drop-menu" id="last-service-year-dropdown">
                                             <div class="select">
-                                                <span>Select Year</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="last_service_year">
@@ -313,7 +313,7 @@
                                         <label>Change</label>
                                         <div class="drop-menu" id="motor-change-dropdown">
                                             <div class="select">
-                                                <span>Select Change</span>
+                                                <span>Selection</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="motor_change">
@@ -330,7 +330,7 @@
                                 <div class="form_boxes v2">
                                     <label>Power Kw</label>
                                     <div class="drop-menu active">
-                                        <input name="motor_power_kw" type="number" maxlength="4" placeholder="ex. 88">
+                                        <input name="motor_power_kw" type="number"  placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -339,7 +339,7 @@
                                 <div class="form_boxes v2">
                                     <label>Power Cv</label>
                                     <div class="drop-menu active">
-                                        <input name="motor_power_cv" type="number" maxlength="4" placeholder="ex. 120">
+                                        <input name="motor_power_cv" type="number"  placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -369,18 +369,18 @@
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Displacement</label>
+                                        <label>Displacement (cc)</label>
                                         <div class="drop-menu" id="motor-displacement-dropdown">
-                                            <input type="text" name="motor_displacement" placeholder="Engine displacement in cc">
+                                            <input type="text" name="motor_displacement" placeholder="">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Empty Weight</label>
+                                        <label>Empty Weight (KG)</label>
                                         <div class="drop-menu" id="motor-empty-weight-dropdown">
-                                            <input type="text" name="motor_empty_weight" placeholder="Empty weight in kg">
+                                            <input type="text" name="motor_empty_weight" placeholder="">
                                         </div>
                                     </div>
                                 </div>
@@ -406,7 +406,7 @@
                                 <div class="form_boxes v2">
                                     <label>Combined fuel consumption</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="combined_fuel_consumption" maxlength="5">
+                                        <input type="text" name="combined_fuel_consumption" >
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +414,7 @@
                                 <div class="form_boxes v2">
                                     <label>Combined cycle CO2 emissions</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="co2_emissions" maxlength="14">
+                                        <input type="text" name="co2_emissions">
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +423,7 @@
                                     <label>Emissions class</label>
                                     <div class="drop-menu" id="emissions_class-dropdown">
                                         <div class="select">
-                                            <span>Select Emissions class</span>
+                                            <span>Selection</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="emissions_class">
