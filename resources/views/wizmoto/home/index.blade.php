@@ -236,7 +236,6 @@
     <section class="boxcar-banner-section-v1">
         <div class="container">
             <div class="banner-content">
-                <span class="wow fadeInUp">Find scooters, bikes & e-rides for sale and rent near you</span>
                 <h2 class="wow fadeInUp" data-wow-delay="100ms">Find Your Perfect Ride</h2>
                 <div class="form-tabs">
                     <ul class="form-tabs-list wow fadeInUp" data-wow-delay="200ms">
@@ -406,62 +405,7 @@
 
 
 
-    <!-- Fun Fact Section -->
-    <section class="boxcar-fun-fact-section">
-        <div class="large-container">
-            <div class="fact-counter">
-                <div class="row">
-                    <!-- Counter block Two-->
-                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp">
-                        <div class="inner wow fadeInUp">
-                            <div class="content">
-                                <div class="widget-counter">
-                                    <span class="count-text" data-speed="3000" data-stop="834">0</span>M
-                                </div>
-                                <h6 class="counter-title">CARS FOR SALE</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Counter block Two-->
-                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="300ms">
-                        <div class="inner wow fadeInUp" data-wow-delay="100ms">
-                            <div class="content">
-                                <div class="widget-counter">
-                                    <span class="count-text" data-speed="3000" data-stop="732">0</span>M
-                                </div>
-                                <h6 class="counter-title">DEALER REVIEWS</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Counter block Two-->
-                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="600ms">
-                        <div class="inner wow fadeInUp" data-wow-delay="200ms">
-                            <div class="content">
-                                <div class="widget-counter">
-                                    <span class="count-text" data-speed="3000" data-stop="90">0</span>M
-                                </div>
-                                <h6 class="counter-title">VISITORS PER DAY</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Counter block Two-->
-                    <div class="counter-block col-lg-3 col-md-3 col-sm-4 wow fadeInUp" data-wow-delay="900ms">
-                        <div class="inner wow fadeInUp" data-wow-delay="300ms">
-                            <div class="content">
-                                <div class="widget-counter">
-                                    <span class="count-text" data-speed="3000" data-stop="236">0</span>M
-                                </div>
-                                <h6 class="counter-title">VERIFIED DEALERS</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+ 
     <!-- End Fun Fact Section-->
     <!-- why choose us section -->
     <section class="why-choose-us-section">
@@ -511,7 +455,7 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Trusted Car Dealership</h6>
+                            <h6 class="title">Trusted Motorcycle Dealership</h6>
                             <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
                         </div>
                     </div>
@@ -553,7 +497,7 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Expert Car Service</h6>
+                            <h6 class="title">Expert Motorcycle Service</h6>
                             <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
                         </div>
                     </div>
@@ -668,72 +612,45 @@
                 <h2>Latest Blog Posts</h2>
             </div>
             <div class="row">
-                <!-- blog-block -->
-                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
-                    <div class="inner-box wow fadeInUp">
-                        <div class="image-box">
-                            <figure class="image">
-                                <a href="blog-single.html">
-                                    <img src="images/resource/blog-1.jpg" alt="">
-                                </a>
-                            </figure>
-                            <span class="date">news</span>
-                        </div>
-                        <div class="content-box">
-                            <ul class="post-info">
-                                <li>Ali Tufan</li>
-                                <li>April 20, 2023</li>
-                            </ul>
-                            <h6 class="title">
-                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-                <!-- blog-block -->
-                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
-                    <div class="inner-box wow fadeInUp" data-wow-delay="100ms">
-                        <div class="image-box">
-                            <figure class="image">
-                                <a href="blog-single.html">
-                                    <img src="images/resource/blog-2.jpg" alt="">
-                                </a>
-                            </figure>
-                            <span class="date">news</span>
-                        </div>
-                        <div class="content-box">
-                            <ul class="post-info">
-                                <li>Ali Tufan</li>
-                                <li>April 20, 2023</li>
-                            </ul>
-                            <h6 class="title">
-                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
-                            </h6>
+                @forelse($latestPosts as $index => $post)
+                    <!-- blog-block -->
+                    <div class="blog-block col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box wow fadeInUp" data-wow-delay="{{ $index * 100 }}ms">
+                            <div class="image-box">
+                                <figure class="image">
+                                    <a href="{{ route('blogs.show', $post->slug) }}">
+                                        @if($post->getFirstMediaUrl('images', 'medium'))
+                                        <img
+                                        src="{{ $post->getFirstMediaUrl('images', 'medium')}}"
+                                        alt="{{ $post->title }}">
+                                        @else
+                                            <img src="{{ asset('wizmoto/images/resource/blog-1.jpg') }}" alt="{{ $post->title }}">
+                                        @endif
+                                    </a>
+                                </figure>
+                                <span class="date">{{ $post->category->name ?? 'news' }}</span>
+                            </div>
+                            <div class="content-box">
+                                <ul class="post-info">
+                                    <ul class="post-info">
+                                        <li>{{ $post->author_name ?? 'Admin' }}</li>
+                                        <li>{{ $post->created_at->format('F d, Y') }}</li>
+                                    </ul>
+                                </ul>
+                                <h6 class="title">
+                                    <a href="{{ route('blogs.show', $post->slug) }}" title="{{ $post->title }}">
+                                        {{ Str::limit($post->title, 60) }}
+                                    </a>
+                                </h6>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- blog-block -->
-                <div class="blog-block col-lg-4 col-md-6 col-sm-12">
-                    <div class="inner-box wow fadeInUp" data-wow-delay="200ms">
-                        <div class="image-box">
-                            <figure class="image">
-                                <a href="blog-single.html">
-                                    <img src="images/resource/blog-3.jpg" alt="">
-                                </a>
-                            </figure>
-                            <span class="date">news</span>
-                        </div>
-                        <div class="content-box">
-                            <ul class="post-info">
-                                <li>Ali Tufan</li>
-                                <li>April 20, 2023</li>
-                            </ul>
-                            <h6 class="title">
-                                <a href="blog-single.html" title="">This Long-Awaited Technology May Finally Change the World</a>
-                            </h6>
-                        </div>
+                @empty
+                    <!-- Fallback when no posts exist -->
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No blog posts available at the moment.</p>
                     </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -747,7 +664,7 @@
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp">
                         <h3 class="title">Are You Looking
-                            <br>For a Car ?</h3>
+                            <br>For a Motorcycle ?</h3>
                         <div class="text">We are committed to providing our customers with exceptional service.</div>
                         <a href="pricing.html" class="read-more">Get Started
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
@@ -777,7 +694,7 @@
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box two wow fadeInUp" data-wow-delay="100ms">
                         <h3 class="title">Do You Want to
-                            <br>Sell a Car ?</h3>
+                            <br>Sell a Motorcycle ?</h3>
                         <div class="text">We are committed to providing our customers with exceptional service.</div>
                         <a href="pricing.html" class="read-more">Get Started
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
