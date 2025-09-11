@@ -18,7 +18,7 @@ class FooterComposer
             'vehicleTypes' => AdvertisementType::all(),
             'popularBrands' => Brand::query()
                                     ->orderBy('created_at', 'desc')
-                                    ->take(8)->get(),
+                                    ->take(4)->get(),
             
             // Contact information
             'contactInfo' => [
