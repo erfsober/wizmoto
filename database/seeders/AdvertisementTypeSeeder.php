@@ -10,20 +10,18 @@ class AdvertisementTypeSeeder extends Seeder {
 
         $types = [
             [
-                'title' => 'Motor' ,
+                'title' => 'Motorcycle' ,
             ] ,
             [
-                'title' => 'Motorbike' ,
-            ] ,
-            [
-                'title' => 'Bicycle' ,
-            ] ,
-            [
-                'title' => 'E.Bike' ,
+                'title' => 'Motor Scooter' ,
             ] ,
             [
                 'title' => 'Scooter' ,
             ] ,
+            [
+                'title' => 'Bike' ,
+            ] ,
+           
         ];
         foreach ( $types as $type ) {
             AdvertisementType::query()

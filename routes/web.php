@@ -10,6 +10,9 @@ use App\Http\Controllers\Wizmoto\Provider\Auth\ProviderController;
 use App\Http\Controllers\Wizmoto\ReviewController;
 use App\Http\Controllers\Wizmoto\SearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Wizmoto\AboutController;
+use App\Http\Controllers\Wizmoto\FaqController;
+
 
 Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
 Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');
@@ -18,6 +21,8 @@ Route::get('/blogs' , [ BlogController::class , 'index' , ])->name('blogs.index'
 Route::get('/blogs/{slug}' , [ BlogController::class , 'show' , ])->name('blogs.show');
 Route::post('/reviews/store' , [ ReviewController::class , 'store' , ])->name('reviews.store');
 
+Route::get('/about-us' , [ AboutController::class , 'index' , ])->name('about.index');
+Route::get('/faq' , [ FaqController::class , 'index' , ])->name('faq.index');
 // Guest chat routes
 Route::prefix('chat')->group(function () {
     Route::post('/initiate', [ChatController::class, 'initiateChat'])->name('chat.initiate');
