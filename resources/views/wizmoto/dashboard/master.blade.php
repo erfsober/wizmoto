@@ -132,6 +132,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('dashboard.messages')}}">
+                            <img src="{{asset("wizmoto/images/icons/dash6.svg")}}" alt="">Messages
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('provider.logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <img src="{{asset("wizmoto/images/icons/dash8.svg")}}" alt="">

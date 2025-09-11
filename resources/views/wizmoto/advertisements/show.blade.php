@@ -396,12 +396,23 @@
 
                                 {{-- Buttons --}}
                                 <div class="btn-box">
-{{--                                    <a href="{{ route('dealer.message', $advertisement->provider_id) }}" class="side-btn">Message Dealer--}}
-{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">--}}
-{{--                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="white"></path>--}}
-{{--                                        </svg>--}}
-{{--                                    </a>--}}
-
+                                    <a href="#" id="initiate-chat-btn" class="side-btn" data-bs-toggle="modal"
+                                    data-bs-target="#contactModal">Send Message
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
+                                        viewbox="0 0 15 14" fill="none">
+                                        <g clip-path="url(#clip0_881_16253)">
+                                            <path
+                                                d="M14.1111 0H5.55558C5.34062 0 5.16668 0.173943 5.16668 0.388901C5.16668 0.603859 5.34062 0.777802 5.55558 0.777802H13.1723L0.613941 13.3362C0.46202 13.4881 0.46202 13.7342 0.613941 13.8861C0.689884 13.962 0.789415 14 0.88891 14C0.988405 14 1.0879 13.962 1.16388 13.8861L13.7222 1.3277V8.94447C13.7222 9.15943 13.8962 9.33337 14.1111 9.33337C14.3261 9.33337 14.5 9.15943 14.5 8.94447V0.388901C14.5 0.173943 14.3261 0 14.1111 0Z"
+                                                fill="white"></path>
+                                        </g>
+                                        <defs>
+                                            <clippath id="clip0_881_16253">
+                                                <rect width="14" height="14" fill="white"
+                                                    transform="translate(0.5)"></rect>
+                                            </clippath>
+                                        </defs>
+                                    </svg>
+                                </a>
                                     <a href="https://wa.me/{{ $advertisement->provider->whatsapp }}" class="side-btn two" target="_blank">
                                         Chat Via Whatsapp
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -428,6 +439,93 @@
     </section>
     <!-- End inventory-section -->
 
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">💬 Contact {{ $advertisement->provider->full_name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contact-form" class="inventroy-widget">
+                        <p class="text-muted mb-4">Send a message to inquire about this dealer. Your email will be kept
+                            private.</p>
+
+                        <form id="initiate-contact-form">
+
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Your Name *</label>
+                                    <input type="text" id="guest-name" placeholder="" required>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Your Email *</label>
+                                    <input type="email" id="guest-email" placeholder="" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Phone (Optional)</label>
+                                    <input type="tel" id="guest-phone" placeholder="">
+                                </div>
+                            </div>
+
+
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes v2">
+                                    <label>Message *</label>
+                                    <textarea id="contact-message"
+                                        placeholder="Hi, I'm interested in your motorcycles. Can you provide more information about availability and pricing?"
+                                        required></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="alert alert-info">
+                                <small>
+                                    <i class="fa fa-info-circle"></i>
+                                    <strong>Privacy Notice:</strong> Your email will be kept private until you choose to
+                                    share it with the dealer.
+                                </small>
+                            </div>
+
+                            <div class="form-submit">
+                                <button type="submit" class="theme-btn" id="send-contact-btn"
+                                    data-url="{{ route('chat.initiate') }}">
+                                    <span class="d-flex align-items-center gap-2">
+                                        Send Message <i class="fa fa-paper-plane"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contact-success" class="d-none">
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <i class="fa fa-check-circle text-success" style="font-size: 3rem;"></i>
+                            </div>
+                            <h4 class="text-success">Message Sent Successfully!</h4>
+                            <p class="mb-3">Your message has been sent to {{ $advertisement->provider->full_name }}.</p>
+                            <div class="alert alert-success">
+                                <strong>Your conversation link:</strong><br>
+                                <span id="conversation-link" class="text-break"></span>
+                            </div>
+                            <p class="text-muted">
+                                <i class="fa fa-bookmark"></i> <strong>Bookmark this link</strong> to continue the
+                                conversation later!
+                            </p>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @include('wizmoto.partials.footer')
 
 @endsection
@@ -437,4 +535,130 @@
 
     </style>
 
+@endpush
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+                    const $stars = $('.rating-list .list-box .list li');
+
+                    $stars.on('mouseenter', function() {
+                        const index = $(this).index();
+                        $(this).siblings().addBack().each(function(i) {
+                            $(this).toggleClass('hovered', i <= index);
+                        });
+                    }).on('mouseleave', function() {
+                        $(this).siblings().addBack().removeClass('hovered');
+                    });
+
+                    $stars.on('click', function() {
+                        const index = $(this).index();
+                        const $list = $(this).closest('.list');
+                        $list.children().each(function(i) {
+                            $(this).toggleClass('selected', i <= index);
+                        });
+                        // Set hidden input value
+                        $(this).closest('.list-box').find('input[name="stars"]').val(index + 1);
+                    });
+
+                    // Handle contact form submission
+                    $('#initiate-contact-form').on('submit', function(e) {
+                            e.preventDefault();
+
+                            const name = $('#guest-name').val();
+                            const email = $('#guest-email').val();
+                            const phone = $('#guest-phone').val();
+                            const message = $('#contact-message').val();
+                            const providerId = {{ $advertisement->provider->id }};
+
+                            // Disable submit button
+                            $('#send-contact-btn').prop('disabled', true).html(
+                                '<i class="fa fa-spinner fa-spin"></i> Sending...');
+
+                            // Send message via AJAX
+                            $.ajax({
+                                    url: $('#send-contact-btn').data('url'),
+                                    method: 'POST',
+                                    data: {
+                                        provider_id: providerId,
+                                        name: name,
+                                        email: email,
+                                        phone: phone,
+                                        message: message,
+                                        _token: @json(csrf_token())
+                                    },
+                                        success: function(response) {
+                                            if (response.success) {
+                                                // Show success message
+                                                $('#contact-form').addClass('d-none');
+                                                $('#contact-success').removeClass('d-none');
+                                                $('#conversation-link').text(response.conversation_link);
+
+                                                // Store email in localStorage for future use
+                                                localStorage.setItem('guest_email_' + providerId, email);
+
+                                                // Show success notification
+                                                swal.fire({
+                                                    toast: true,
+                                                    title: 'Message sent successfully!',
+                                                    text: 'Your message has been sent successfully!',
+                                                    icon: 'success',
+                                                    position: 'top-end',
+                                                    showConfirmButton: false,
+                                                    timer: 3000
+                                                });
+                                              
+                                            } else {
+                                                // Show errors
+                                                let errors = '';
+                                                $.each(response.errors, function(key, value) {
+                                                    errors += value.join(', ') + '\n';
+                                                });
+                                                swal.fire({
+                                                    toast: true,
+                                                    title: 'Error',
+                                                    text: errors,
+                                                    icon: 'error',
+                                                    position: 'top-end',
+                                                    showConfirmButton: false,
+                                                    timer: 3000
+                                                });
+                                             
+                                            }
+                                        },
+                                        error: function(xhr) {
+                                          
+                                            swal.fire({
+                                                toast: true,
+                                                title: 'Error',
+                                                text: 'Failed to send message. Please try again.',
+                                                icon: 'error',
+                                                position: 'top-end',
+                                                showConfirmButton: false,
+                                                timer: 3000
+                                            });
+                                        },
+                                        complete: function() {
+                                            // Re-enable submit button
+                                            $('#send-contact-btn').prop('disabled', false).html(
+                                                '<i class="fa fa-paper-plane"></i> Send Message');
+                                        }
+                                    });
+                            });
+
+                        // Reset modal when closed
+                        $('#contactModal').on('hidden.bs.modal', function() {
+                            $('#contact-form').removeClass('d-none');
+                            $('#contact-success').addClass('d-none');
+                            $('#initiate-contact-form')[0].reset();
+                            $('#send-contact-btn').prop('disabled', false).html(
+                                '<i class="fa fa-paper-plane"></i> Send Message');
+                        });
+
+                        // Pre-fill email if previously used
+                        const savedEmail = localStorage.getItem('guest_email_' + {{ $advertisement->provider->id }});
+                        if (savedEmail) {
+                            $('#guest-email').val(savedEmail);
+                        }
+                    });
+    </script>
 @endpush
