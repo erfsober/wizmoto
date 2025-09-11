@@ -133,8 +133,8 @@
                                 <div class="btn-box-two">
                                     <span>OR</span>
                                     <div class="social-btns">
-                                        <a href="#" class="fb-btn"><i class="fa-brands fa-facebook-f"></i>Continue Facebook</a>
-                                        <a href="#" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
+                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>Continue Apple</a>
+                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
                                     </div>
                                 </div>
                             </div>
@@ -176,8 +176,8 @@
                                 <div class="btn-box-two">
                                     <span>OR</span>
                                     <div class="social-btns">
-                                        <a href="#" class="fb-btn"><i class="fa-brands fa-facebook-f"></i>Continue Facebook</a>
-                                        <a href="#" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
+                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>Continue Apple</a>
+                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
                                     </div>
                                 </div>
                             </div>

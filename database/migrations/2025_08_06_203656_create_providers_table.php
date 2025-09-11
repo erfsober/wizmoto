@@ -23,6 +23,9 @@ return new class extends Migration {
             $table->string('show_info_in_advertisement')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('remember_token', 100)->nullable();
+            $table->string('google_id')->nullable();
+            $table->string('apple_id')->nullable();
+            $table->string('oauth_provider')->nullable();
             $table->timestamps();
         });
     }

@@ -11,6 +11,12 @@ Route::prefix('provider')->name('provider.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+      // OAuth Routes - ADD THESE
+      Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+      Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+      Route::get('/auth/apple', [AuthController::class, 'redirectToApple'])->name('auth.apple');
+      Route::get('/auth/apple/callback', [AuthController::class, 'handleAppleCallback'])->name('auth.apple.callback');
+      
     // Forgot password
     Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
     Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');

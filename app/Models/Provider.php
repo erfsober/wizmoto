@@ -63,4 +63,13 @@ class Provider extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         return $this->hasMany(Message::class);
     }
+    public function isOAuthUser()
+    {
+        return !is_null($this->oauth_provider);
+    }
+
+    public function needsPassword()
+    {
+        return is_null($this->password) && $this->isOAuthUser();
+    }
 }
