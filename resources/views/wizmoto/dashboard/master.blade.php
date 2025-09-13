@@ -53,6 +53,21 @@
                                                 <a href="{{ route('provider.dashboard') }}">Dashboard</a>
                                             </li>
                                             <li>
+                                                <a href="{{route('dashboard.my-advertisements')}}">
+                                                  My Listings
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('dashboard.create-advertisement')}}">
+                                                   Add Listings
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('dashboard.profile')}}">
+                                                    My Profile
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="{{ route('provider.logout') }}"
                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     Logout
@@ -142,6 +157,7 @@
                             <img src="{{asset("wizmoto/images/icons/dash8.svg")}}" alt="">
                             Logout
                         </a>
+                        </li>
                 </ul>
             </div>
             @yield('dashboard-content')
