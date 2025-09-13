@@ -4,7 +4,7 @@
 
 <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid #007bff;">
     <p><strong>Message:</strong></p>
-    <p>{{ $message->message }}</p>
+    <p>{{ $guestMessage->message }}</p>
 </div>
 
 <h3>Contact Details:</h3>

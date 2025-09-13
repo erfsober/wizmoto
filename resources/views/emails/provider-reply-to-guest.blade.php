@@ -4,7 +4,7 @@
 
 <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid #28a745;">
     <p><strong>{{ $provider->full_name }} replied:</strong></p>
-    <p>{{ $message->message }}</p>
+    <p>{{ $providerMessage->message }}</p>
 </div>
 
 <h3>Dealer Contact:</h3>

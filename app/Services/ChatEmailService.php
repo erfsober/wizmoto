@@ -19,7 +19,7 @@ class ChatEmailService
         Mail::send('emails.guest-message-to-provider', [
             'guest' => $guest,
             'provider' => $provider,
-            'message' => $message,
+            'guestMessage' => $message,
             'advertisement' => $advertisement
         ], function($mail) use ($provider, $guest) {
             $mail->to($provider->email)
@@ -44,7 +44,7 @@ class ChatEmailService
         Mail::send('emails.provider-reply-to-guest', [
             'guest' => $guest,
             'provider' => $provider,
-            'message' => $message,
+            'providerMessage' => $message,
             'advertisement' => $advertisement,
             'conversationLink' => $conversationLink
         ], function($mail) use ($guest, $provider) {
