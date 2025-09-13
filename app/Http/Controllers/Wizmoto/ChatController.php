@@ -68,7 +68,7 @@ class ChatController extends Controller
         // Broadcast the message to the provider
         broadcast(new MessageSent($message));
 
-        ChatEmailService::sendGuestMessageToProvider($message);
+        // ChatEmailService::sendGuestMessageToProvider($message);
         return response()->json([
             'success' => true,
             'message' => 'Your message has been sent! The dealer will respond via this platform.',
