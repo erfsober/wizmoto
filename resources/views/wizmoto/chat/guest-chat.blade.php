@@ -1,209 +1,606 @@
-@extends('wizmoto.partials.head')
-
+@extends('master')
 @section('content')
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Chat with {{ $provider->full_name }}</h4>
-                    <small class="text-muted">{{ $provider->email }}</small>
-                </div>
-                <div class="card-body">
-                    <!-- Chat Messages Container -->
-                    <div id="chat-messages" class="chat-messages mb-3" style="height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 15px;">
-                        <!-- Messages will be loaded here -->
+<!-- Main Header-->
+<header class="boxcar-header header-style-v1 style-two inner-header cus-style-1">
+    <div class="header-inner">
+        <div class="inner-container">
+            <!-- Main box -->
+            <div class="c-box">
+                <div class="logo-inner">
+                    <div class="logo">
+                        <a href="{{ route("home") }}">
+                            <img src="{{asset("wizmoto/images/logo.png")}}" alt="" title="Boxcar">
+                        </a>
                     </div>
-
-                    <!-- Guest Info Form (shown initially) -->
-                    <div id="guest-form" class="mb-3">
-                        <h5>Contact {{ $provider->full_name }}</h5>
-                        <form id="initiate-chat-form">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form_boxes">
-                                        <label>Your Name *</label>
-                                        <input type="text" id="guest-name" placeholder="" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form_boxes">
-                                        <label>Your Email *</label>
-                                        <input type="email" id="guest-email" placeholder="" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form_boxes">
-                                        <label>Phone (Optional)</label>
-                                        <input type="tel" id="guest-phone" placeholder="+39 123 456 7890">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form_boxes v2">
-                                        <label>Message *</label>
-                                        <textarea id="initial-message" placeholder="Write your message..." required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-submit">
-                                <button type="submit" class="theme-btn">Send Message</button>
+                    <div class="layout-search style1">
+                        <form action="{{ route('inventory.list') }}" method="GET">
+                            <div class="search-box">
+                                <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
+                                </svg>
+                                <input type="search" placeholder="Search Scooters, Motorbikes, Bikes..." class="show-search" name="search" tabindex="2" value="" aria-required="true" required="">
                             </div>
                         </form>
                     </div>
+                </div>
 
-                    <!-- Chat Form (shown after initial contact) -->
-                    <div id="chat-form" class="d-none">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form_boxes">
-                                    <input type="text" id="message-input" placeholder="Type your message...">
+                <!--Nav Box-->
+                <div class="nav-out-bar">
+                    <nav class="nav main-menu">
+                        <ul class="navigation" id="navbar">
+                            <li class="current-dropdown current">
+                                <a class="box-account" href="{{route('home')}}">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="current-dropdown">
+                                <a class="box-account" href="{{route("blogs.index")}}">
+                                    Blog
+                                </a>
+                            </li>
+                            @if(Auth::guard('provider')->check())
+                                <li class="current-dropdown">
+                                    <span>
+                                        {{ Auth::guard('provider')->user()->username }}
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
+                                    <ul class="dropdown">
+                                        <li>
+                                            <a href="{{ route('dashboard.profile') }}">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('provider.logout') }}"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <form id="logout-form" action="{{ route('provider.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            @endif
+                        </ul>
+                    </nav>
+                    <!-- Main Menu End-->
+                </div>
+
+                <div class="right-box">
+                    @if(!Auth::guard('provider')->check())
+                        <a href="{{ route('provider.auth') }}" title="" class="box-account">
+                            <div class="icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_147_6490)">
+                                        <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
+                                        <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_147_6490">
+                                            <rect width="16" height="16" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            Sign in
+                        </a>
+                    @endif
+                    <div class="btn">
+                        <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim">Add Listing</a>
+                    </div>
+                    <div class="mobile-navigation">
+                        <a href="#nav-mobile" title="">
+                            <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="22" height="2" fill="white"/>
+                                <rect y="9" width="22" height="2" fill="white"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu  -->
+        </div>
+    </div>
+
+    <!-- Header Search -->
+    <div class="search-popup">
+        <span class="search-back-drop"></span>
+        <button class="close-search">
+            <span class="fa fa-times"></span></button>
+
+        <div class="search-inner">
+            <form method="post" action="index.html">
+                <div class="form-group">
+                    <input type="search" name="search-field" value="" placeholder="Search..." required="">
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Header Search -->
+
+    <div id="nav-mobile"></div>
+</header>
+<!-- End header-section -->
+<!-- blog section -->
+<section class="blog-section v1 layout-radius">
+    <div class="boxcar-container">
+        <div class="boxcar-title wow fadeInUp">
+            <ul class="breadcrumb">
+                <li><a href="{{route('home')}}">Home</a></li>
+                <li><span>Messages</span></li>
+            </ul>
+            <h2>Messages</h2>
+        </div>
+        <nav class="wow fadeInUp" data-wow-delay="100ms">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Messages</button>
+          </div>
+        </nav>
+        <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row">
+                    <div class="content-column">
+                        <div class="inner-column">
+                            <div class="list-title">
+                                <h3 class="title">Messages</h3>
+                            </div>
+                            <div class="chat-widget">
+                                <div class="widget-content">
+                                    <div class="row">
+                                        <div class="contacts_column col-xl-4 col-lg-5 col-md-12 col-sm-12 chat" id="chat_contacts">
+                                            <div class="card contacts_card">
+                                                <div class="card-header">
+                                                    <div class="search-box-one">
+                                                        <form method="post" action="#" id="search-form">
+                                                            <div class="form-group">
+                                                                <span class="icon">
+                                                                    <img src="{{asset('wizmoto/images/icons/search.svg')}}" alt="" />
+                                                                </span>
+                                                                <input type="search" name="search-field" id="search-input" value=""
+                                                                    placeholder="Search conversations..." required="">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body contacts_body">
+                                                    <ul class="contacts">
+                                                        {{-- @forelse($conversations as $guestId => $conversation)
+                                                            @php
+                                                                $guest = $conversation->first()->guest;
+                                                                $lastMessage = $conversation->sortByDesc('created_at')->first();
+                                                            @endphp
+                                                            <li class="contact-item" data-guest-id="{{ $guestId }}">
+                                                                <a href="#" class="conversation-link">
+                                                                    <div class="d-flex bd-highlight">
+                                                                        <div class="img_cont">
+                                                                            @if ($guest->avatar)
+                                                                                <img src="{{ $guest->avatar }}"
+                                                                                    class="rounded-circle user_img" alt="">
+                                                                            @else
+                                                                                <div
+                                                                                    class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
+                                                                                    {{ strtoupper(substr($guest->name, 0, 1)) }}
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="user_info">
+                                                                            <span>{{ $guest->name }}</span>
+                                                                            <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}
+                                                                            </p>
+                                                                        </div>
+                                                                        <span class="info">
+                                                                            {{ $lastMessage ? $lastMessage->created_at->diffForHumans() : '' }}
+                                                                            @if ($conversation->where('read', false)->count() > 0)
+                                                                                <span
+                                                                                    class="count bg-success">{{ $conversation->where('read', false)->count() }}</span>
+                                                                            @endif
+                                                                        </span>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+
+                                                        @empty
+                                                            <li class="text-center py-4">
+                                                                <p class="text-muted mb-0">No conversations yet</p>
+                                                                <small class="text-muted">Messages from customers will appear here</small>
+                                                            </li>
+                                                        @endforelse --}}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat">
+                                            <div class="card message-card">
+                                                <div class="card-header msg_head" id="chat-header" style="display: none;">
+                                                    <div class="d-flex bd-highlight">
+                                                        <div class="img_cont">
+                                                            <div id="guest-avatar"
+                                                                class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center"
+                                                                style="width: 40px; height: 40px; font-size: 18px;">
+                                                                G
+                                                            </div>
+                                                        </div>
+                                                        <div class="user_info">
+                                                            <span id="guest-name">Select a conversation</span>
+                                                            <p id="guest-email">Click on a contact to start chatting</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="btn-box">
+                                                        <button class="dlt-chat" id="delete-conversation" style="display: none;">Delete
+                                                            Conversation</button>
+                                                        <button class="toggle-contact"><span class="fa fa-bars"></span></button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body msg_card_body" id="chat-messages">
+                                                    <div class="text-center py-5" id="no-chat-selected">
+                                                        <i class="fa fa-comments fa-3x text-muted mb-3"></i>
+                                                        <h5 class="text-muted">Select a conversation</h5>
+                                                        <p class="text-muted">Click on a contact from the list to view messages</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-footer" id="chat-footer" style="display: none;">
+                                                    <div class="form-group mb-0">
+                                                        <textarea class="form-control type_msg" id="message-input" placeholder="Type a message..." rows="2"></textarea>
+                                                        <button type="button" class="theme-btn btn-style-one submit-btn"
+                                                            id="send-message-btn">
+                                                            <span class="text-dk">Send Message</span>
+                                                            <span class="text-mb">Send</span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                                viewBox="0 0 14 14" fill="none">
+                                                                <g clip-path="url(#clip0_601_692)">
+                                                                    <path
+                                                                        d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
+                                                                        fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_601_692">
+                                                                        <rect width="14" height="14" fill="white"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-submit">
-                            <button class="theme-btn" id="send-message">Send</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
+@include('wizmoto.partials.footer')
+@endsection
+
+@push('scripts')
 <script>
-let guestToken = null;
-let providerId = {{ $provider->id }};
+$(document).ready(function() {
+    let currentGuestId = null;
+    let currentGuest = null;
+    let allConversations = [];
+    let refreshInterval;
 
-// Initialize chat form
-document.getElementById('initiate-chat-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('guest-name').value;
-    const email = document.getElementById('guest-email').value;
-    const message = document.getElementById('initial-message').value;
+    // Initialize the page
+    initializePage();
 
-    fetch('/chat/initiate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            provider_id: providerId,
-            name: name,
-            email: email,
-            message: message
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            guestToken = data.guest_token;
-            document.getElementById('guest-form').classList.add('d-none');
-            document.getElementById('chat-form').classList.remove('d-none');
-            loadMessages();
-            
-            // Store token in localStorage for future visits
-            localStorage.setItem('guest_token_' + providerId, guestToken);
-        } else {
-            alert('Error: ' + Object.values(data.errors).join(', '));
-        }
-    });
-});
+    function initializePage() {
+        // Bind event handlers
+        bindEvents();
 
-// Send message
-document.getElementById('send-message').addEventListener('click', function() {
-    sendMessage();
-});
+        // Load initial conversations
+        loadConversations();
 
-document.getElementById('message-input').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        sendMessage();
+        // Start auto-refresh for new conversations
+        startAutoRefresh();
     }
-});
 
-function sendMessage() {
-    const message = document.getElementById('message-input').value.trim();
-    if (!message || !guestToken) return;
-
-    fetch('/chat/guest/send', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            provider_id: providerId,
-            message: message,
-            guest_token: guestToken
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('message-input').value = '';
-            loadMessages();
-        }
-    });
-}
-
-function loadMessages() {
-    if (!guestToken) return;
-
-    fetch(`/chat/guest/messages?provider_id=${providerId}&guest_token=${guestToken}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                displayMessages(data.messages);
+    function bindEvents() {
+        // Handle conversation selection
+        $(document).on('click', '.conversation-link', function(e) {
+            e.preventDefault();
+            const guestId = $(this).closest('.contact-item').data('guest-id');
+            if (guestId) {
+                selectConversation(guestId);
             }
         });
-}
 
-function displayMessages(messages) {
-    const container = document.getElementById('chat-messages');
-    container.innerHTML = '';
+        // Handle send message
+        $('#send-message-btn').on('click', function() {
+            sendMessage();
+        });
 
-    messages.forEach(msg => {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message mb-2 ${msg.sender_type === 'guest' ? 'text-end' : 'text-start'}`;
-        
-        const senderName = msg.sender_type === 'guest' ? msg.guest.name : msg.provider.full_name;
-        const messageClass = msg.sender_type === 'guest' ? 'bg-primary text-white' : 'bg-light';
-        
-        messageDiv.innerHTML = `
-            <div class="d-inline-block p-2 rounded ${messageClass}" style="max-width: 70%;">
-                <strong>${senderName}:</strong><br>
-                ${msg.message}
-                <br><small class="text-muted">${new Date(msg.created_at).toLocaleString()}</small>
-            </div>
-        `;
-        
-        container.appendChild(messageDiv);
+        $('#message-input').on('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Handle search
+        $('#search-input').on('input', function() {
+            filterConversations($(this).val());
+        });
+
+        // Handle search form submission
+        $('#search-form').on('submit', function(e) {
+            e.preventDefault();
+            filterConversations($('#search-input').val());
+        });
+    }
+
+    function selectConversation(guestId) {
+        currentGuestId = guestId;
+
+        // Remove active class from all contacts
+        $('.contact-item').removeClass('active');
+        // Add active class to selected contact
+        $(`.contact-item[data-guest-id="${guestId}"]`).addClass('active');
+
+        // Show loading state
+        showChatLoading();
+
+        // Load conversation messages
+        loadConversation(guestId);
+    }
+
+    function showChatLoading() {
+        $('#chat-messages').html(`
+          <div class="text-center py-5">
+              <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="text-muted mt-2">Loading conversation...</p>
+          </div>
+      `);
+    }
+
+    function loadConversation(guestId) {
+        $.ajax({
+            url: `/chat/guest/conversation/${guestId}`,
+            method: 'GET',
+            timeout: 10000,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(response) {
+                if (response.success) {
+                    currentGuest = response.guest;
+                    displayConversation(response.messages, response.guest);
+
+                    // Show chat header and footer
+                    $('#chat-header').fadeIn();
+                    $('#chat-footer').fadeIn();
+
+                    // Ensure the no-chat-selected div is hidden
+                    $('#no-chat-selected').hide();
+                } else {
+                    showChatError('Failed to load conversation');
+                }
+            },
+            error: function(xhr, status, error) {
+                if (status === 'timeout') {
+                    showChatError('Request timed out. Please try again.');
+                } else {
+                    showChatError('Failed to load conversation. Please try again.');
+                }
+            }
+        });
+    }
+
+    function displayConversation(messages, guest) {
+        const chatMessages = $('#chat-messages');
+        chatMessages.empty();
+
+        // Make sure the chat area is visible
+        $('#no-chat-selected').hide();
+
+        // Update header with fade effect
+        $('#guest-name').fadeOut(200, function() {
+            $(this).text(guest.name).fadeIn(200);
+        });
+        $('#guest-email').fadeOut(200, function() {
+            $(this).text(guest.display_email || guest.email).fadeIn(200);
+        });
+        $('#guest-avatar').fadeOut(200, function() {
+            $(this).text(guest.name.charAt(0).toUpperCase()).fadeIn(200);
+        });
+
+        if (!messages || messages.length === 0) {
+            chatMessages.html(
+                '<div class="text-center py-4"><p class="text-muted">No messages yet. Start the conversation!</p></div>'
+            );
+            return;
+        }
+
+        // Create message elements
+        messages.forEach((message, index) => {
+            const messageDiv = createMessageElement(message, guest);
+            chatMessages.append(messageDiv);
+        });
+
+        // Scroll to bottom
+        scrollToBottom();
+    }
+
+    function createMessageElement(message, guest) {
+        const isGuest = message.sender_type === 'guest';
+        const wrapperClass = isGuest ? 'justify-content-start' : 'justify-content-end reply';
+        const senderInitial = guest.name.charAt(0).toUpperCase();
+        const senderName = isGuest ? senderInitial : 'You';
+        const senderImage = isGuest ?
+            'wizmoto/images/resource/candidate-3.png' :
+            'wizmoto/images/resource/candidate-6.png';
+        const timeFormatted = formatMessageTime(message.created_at);
+
+        const messageDiv = $(`
+<div class="d-flex ${wrapperClass} mb-2">
+  <div class="img_cont_msg">
+    <img src="${senderImage}" alt="" class="rounded-circle user_img_msg">
+    <div class="name">${senderName} <span class="msg_time">${timeFormatted}</span></div>
+  </div>
+  <div class="msg_cotainer">
+    ${escapeHtml(message.message)}
+  </div>
+</div>
+`);
+
+        return messageDiv;
+    }
+
+    function formatMessageTime(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+
+        if (diffInMinutes < 1) return 'Just now';
+        if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) return `${diffInHours}h ago`;
+
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays < 7) return `${diffInDays}d ago`;
+
+        return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function sendMessage() {
+        const message = $('#message-input').val().trim();
+        if (!message || !currentGuestId) {
+            if (!currentGuestId) {
+                alert('Please select a conversation first');
+                return;
+            }
+        }
+
+        // Disable send button with visual feedback
+        const sendBtn = $('#send-message-btn');
+        sendBtn.prop('disabled', true);
+        sendBtn.find('.text-dk').text('Sending...');
+
+        // Add sending indicator
+        const sendingIndicator = $(
+            '<div class="d-flex justify-content-end mb-2"><div class="msg_cotainer sending">Sending...</div></div>'
+        );
+        $('#chat-messages').append(sendingIndicator);
+
+        scrollToBottom();
+
+        $.ajax({
+            url: '/chat/guest/send',
+            method: 'POST',
+            data: {
+                guest_id: currentGuestId,
+                message: message,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#message-input').val('');
+                    sendingIndicator.remove();
+                    // Reload conversation to show new message
+                    loadConversation(currentGuestId);
+                } else {
+                    sendingIndicator.remove();
+                    alert('Failed to send message: ' + (response.message || 'Unknown error'));
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending message:', error);
+                sendingIndicator.remove();
+
+                if (status === 'timeout') {
+                    alert('Message sending timed out. Please try again.');
+                } else {
+                    alert('Failed to send message. Please try again.');
+                }
+            },
+            complete: function() {
+                // Re-enable send button
+                sendBtn.prop('disabled', false);
+                sendBtn.find('.text-dk').text('Send Message');
+            }
+        });
+    }
+
+    function scrollToBottom() {
+        const chatMessages = $('#chat-messages');
+        chatMessages.animate({
+            scrollTop: chatMessages[0].scrollHeight
+        }, 500);
+    }
+
+    function showChatError(message) {
+        $('#chat-messages').html(`
+          <div class="text-center py-4">
+              <i class="fa fa-exclamation-triangle text-warning fa-2x mb-2"></i>
+              <p class="text-muted">${message}</p>
+              <button class="btn btn-sm btn-outline-primary" onclick="loadConversation(${currentGuestId})">Try Again</button>
+          </div>
+      `);
+    }
+
+    function loadConversations() {
+        // This would typically load conversations from the server
+        // For now, we'll show a placeholder
+        $('.contacts').html(`
+            <li class="text-center py-4">
+                <p class="text-muted mb-0">No conversations yet</p>
+                <small class="text-muted">Messages from customers will appear here</small>
+            </li>
+        `);
+    }
+
+    function filterConversations(searchTerm) {
+        const contacts = $('.contact-item');
+        const term = searchTerm.toLowerCase();
+
+        contacts.each(function() {
+            const contact = $(this);
+            const guestName = contact.find('.user_info span').text().toLowerCase();
+            const guestEmail = contact.find('.user_info p').text().toLowerCase();
+            const lastMessage = contact.find('.user_info p:last-child').text().toLowerCase();
+
+            const matches = guestName.includes(term) ||
+                guestEmail.includes(term) ||
+                lastMessage.includes(term);
+
+            contact.toggle(matches);
+        });
+    }
+
+    function startAutoRefresh() {
+        // Auto-refresh current conversation every 30 seconds
+        refreshInterval = setInterval(function() {
+            if (currentGuestId) {
+                loadConversation(currentGuestId);
+            }
+        }, 30000);
+    }
+
+    // Cleanup on page unload
+    $(window).on('beforeunload', function() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
     });
-
-    container.scrollTop = container.scrollHeight;
-}
-
-// Check if guest already has a token for this provider
-window.addEventListener('load', function() {
-    const savedToken = localStorage.getItem('guest_token_' + providerId);
-    if (savedToken) {
-        guestToken = savedToken;
-        document.getElementById('guest-form').classList.add('d-none');
-        document.getElementById('chat-form').classList.remove('d-none');
-        loadMessages();
-    }
 });
-
-// Auto-refresh messages every 5 seconds
-setInterval(function() {
-    if (guestToken) {
-        loadMessages();
-    }
-}, 5000);
 </script>
-@endsection
+@endpush
