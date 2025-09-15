@@ -187,6 +187,13 @@
                     e.preventDefault();
                     filterConversations($('#search-input').val());
                 });
+
+                // Handle retry button click with event delegation
+                $(document).on('click', '.retry-connection-btn', function() {
+                    if (currentGuestId) {
+                        loadConversation(currentGuestId);
+                    }
+                });
             }
 
             function selectConversation(guestId) {
@@ -392,8 +399,7 @@
                         if (response.status === 'Message Sent!') {
                             $('#message-input').val('');
                             sendingIndicator.remove();
-                            // Reload conversation to show new message
-                            loadConversation(currentGuestId);
+                            // Message will appear via Pusher real-time listener
                             swal.fire({
                                 toast: true,
                                 title: 'Message sent successfully!',
@@ -462,7 +468,7 @@
               <div class="text-center py-4">
                   <i class="fa fa-exclamation-triangle text-warning fa-2x mb-2"></i>
                   <p class="text-muted">${message}</p>
-                  <button class="btn btn-sm btn-outline-primary" onclick="loadConversation(${currentGuestId})">Try Again</button>
+                  <button class="btn btn-sm btn-outline-primary retry-connection-btn">Try Again</button>
               </div>
           `);
             }

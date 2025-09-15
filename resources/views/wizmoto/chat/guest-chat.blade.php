@@ -569,8 +569,7 @@ $(document).ready(function() {
                 if (response.success) {
                     $('#message-input').val('');
                     sendingIndicator.remove();
-                    // Reload conversation to show new message
-                    loadConversation(currentProviderId);
+                    // Message will appear via Pusher real-time listener
                 } else {
                     sendingIndicator.remove();
                     alert('Failed to send message: ' + (response.message || 'Unknown error'));
