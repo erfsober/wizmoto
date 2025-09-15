@@ -337,6 +337,15 @@ $(document).ready(function() {
             e.preventDefault();
             filterConversations($('#search-input').val());
         });
+
+        // Handle retry connection button
+        $(document).on('click', '.retry-connection-btn', function(e) {
+            e.preventDefault();
+            const providerId = $(this).data('provider-id');
+            if (providerId) {
+                loadConversation(providerId);
+            }
+        });
     }
 
     function selectConversation(providerId) {
@@ -479,8 +488,8 @@ $(document).ready(function() {
         
         senderName = isGuest ? 'You' : providerName;
         const senderImage = isGuest ?
-            'wizmoto/images/resource/candidate-6.png' :
-            'wizmoto/images/resource/candidate-3.png';
+            '{{ asset("wizmoto/images/resource/candidate-6.png") }}' :
+            '{{ asset("wizmoto/images/resource/candidate-3.png") }}';
         const timeFormatted = formatMessageTime(message.created_at);
 
         const messageDiv = $(`
@@ -615,7 +624,7 @@ $(document).ready(function() {
           <div class="text-center py-4">
               <i class="fa fa-exclamation-triangle text-warning fa-2x mb-2"></i>
               <p class="text-muted">${message}</p>
-              <button class="btn btn-sm btn-outline-primary" onclick="loadConversation(${currentProviderId})">Try Again</button>
+              <button class="btn btn-sm btn-outline-primary retry-connection-btn" data-provider-id="${currentProviderId}">Try Again</button>
           </div>
       `);
     }
