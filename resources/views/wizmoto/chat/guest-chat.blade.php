@@ -568,14 +568,32 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error sending message:', error);
+                console.error('Error sending message:', {
+                    status: status,
+                    error: error,
+                    statusCode: xhr.status,
+                    responseText: xhr.responseText,
+                    readyState: xhr.readyState
+                });
                 sendingIndicator.remove();
 
+                let errorMessage = 'Failed to send message. ';
+                
                 if (status === 'timeout') {
-                    alert('Message sending timed out. Please try again.');
+                    errorMessage += 'Request timed out.';
+                } else if (xhr.status === 500) {
+                    errorMessage += 'Server error (500).';
+                } else if (xhr.status === 422) {
+                    errorMessage += 'Validation error (422).';
+                } else if (xhr.status === 419) {
+                    errorMessage += 'CSRF token expired. Please refresh the page.';
+                } else if (xhr.status === 0) {
+                    errorMessage += 'Network error or server unreachable.';
                 } else {
-                    alert('Failed to send message. Please try again.');
+                    errorMessage += `HTTP ${xhr.status}: ${xhr.statusText}`;
                 }
+                
+                alert(errorMessage + ' Please try again.');
             },
             complete: function() {
                 // Re-enable send button
@@ -640,19 +658,8 @@ $(document).ready(function() {
 
         console.log('Starting Pusher listeners for guest:', currentGuest.id);
 
-        // Set up custom auth for guest private channels
-        window.Echo.connector.pusher.config.auth.params = {
-            provider_id: currentProviderId,
-            guest_id: currentGuest.id,
-            email: email,
-            token: token
-        };
-
-        // Listen for new messages on guest's private channel (token-based auth)
-        window.Echo.private(`guest.${currentGuest.id}.${token}`)
-            .error((error) => {
-                console.error('Failed to authenticate for guest private channel:', error);
-            })
+        // Temporarily use public channel for testing (no auth needed)
+        window.Echo.channel(`guest.${currentGuest.id}.${token}`)
             .listen('MessageSent', (e) => {
                 console.log('New message received:', e);
                 

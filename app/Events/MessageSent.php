@@ -28,15 +28,17 @@ class MessageSent implements ShouldBroadcastNow
     {
         $channels = [];
         
-        // Provider gets private channel (authenticated via Laravel auth)
-        $providerChannel = 'provider.' . $this->message->provider_id;
-        $channels[] = new PrivateChannel($providerChannel);
+        // Temporarily use public channels for testing (switch back to private later)
+        $provider = $this->message->provider;
+        $providerToken = md5('provider.' . $provider->id . env('APP_KEY'));
+        $providerChannel = 'provider.' . $this->message->provider_id . '.' . $providerToken;
+        $channels[] = new Channel($providerChannel);
         
-        // Guest gets private channel with token-based auth
+        // Guest gets public channel with token
         $guest = $this->message->guest;
         $guestToken = md5($guest->email . $this->message->provider_id . env('APP_KEY'));
         $guestChannel = 'guest.' . $this->message->guest_id . '.' . $guestToken;
-        $channels[] = new PrivateChannel($guestChannel);
+        $channels[] = new Channel($guestChannel);
         
         // Log the channels for debugging
         \Log::info('Broadcasting to private channels:', [
