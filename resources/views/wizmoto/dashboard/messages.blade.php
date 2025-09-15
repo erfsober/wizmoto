@@ -281,13 +281,8 @@
                     );
                     return;
                 }
-
-                console.log('Creating message elements for', messages.length, 'messages');
-
                 // Create message elements immediately (remove animation for now to debug)
                 messages.forEach((message, index) => {
-                    // Creating message element
-
                     const messageDiv = createMessageElement(message, guest);
                     // Message element created
                     chatMessages.append(messageDiv);
