@@ -52,6 +52,7 @@ class Guest extends Model
     }
         public function getConversationLink($providerId)
     {
-        return route('chat.guest.show', $providerId) . '?guest_id=' . $this->id;
+        $token = md5($this->email . $providerId . env('APP_KEY'));
+        return route('chat.guest.show', $providerId) . '?guest_id=' . $this->id . '&email=' . urlencode($this->email) . '&token=' . $token;
     }
 }

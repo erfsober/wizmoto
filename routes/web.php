@@ -29,8 +29,8 @@ Route::prefix('chat')->group(function () {
     Route::post('/guest/send', [ChatController::class, 'sendGuestMessage'])->name('chat.guest.send');
     Route::get('/guest/messages', [ChatController::class, 'getChatMessages'])->name('chat.guest.messages');
     Route::get('/guest/{providerId}', [ChatController::class, 'showGuestChat'])->name('chat.guest.show');
+    Route::get('/guest/conversation/{guestId}', [ChatController::class, 'getGuestConversation'])->name('chat.guest.conversation');
     Route::post('/guest/share-email', [ChatController::class, 'shareGuestEmail'])->name('chat.guest.share-email');
-    Route::get('/conversation/{providerId}/{guestId}', [ChatController::class, 'continueConversation'])->name('chat.guest.continue');
 });
 // advertisements group
 Route::prefix('advertisements')->group(function () {

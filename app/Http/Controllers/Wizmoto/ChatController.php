@@ -169,31 +169,91 @@ class ChatController extends Controller
     public function showGuestChat(Request $request, $providerId)
     {
         $provider = Provider::findOrFail($providerId);
+        $guest = null;
+        $conversations = [];
 
-        return view('wizmoto.chat.guest-chat', compact('provider'));
+        // If guest_id is provided, verify token and load the specific conversation
+        if ($request->has('guest_id') && $request->has('email') && $request->has('token')) {
+            $guest = Guest::find($request->guest_id);
+            
+            if (!$guest) {
+                abort(404, 'Guest not found');
+            }
+
+            // Verify token
+            $expectedToken = md5($request->email . $providerId . env('APP_KEY'));
+            if ($request->token !== $expectedToken) {
+                abort(403, 'Invalid conversation link');
+            }
+
+            // Verify guest email matches
+            if ($guest->email !== $request->email) {
+                abort(403, 'Invalid conversation access');
+            }
+
+            // Get all conversations for this guest
+            $conversations = Message::where('guest_id', $guest->id)
+                ->with(['guest', 'provider'])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->groupBy('provider_id');
+        }
+
+        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversations'));
     }
 
     /**
-     * Continue existing conversation (AutoScout24 style)
+     * Get conversation messages for guest
      */
-    public function continueConversation(Request $request, $providerId, $guestId)
+    public function getGuestConversation(Request $request, $guestId)
     {
-        // Verify token
-        $expectedToken = md5($request->email . $providerId . env('APP_KEY'));
-        if ($request->token !== $expectedToken) {
-            abort(403, 'Invalid conversation link');
+        $guest = Guest::find($guestId);
+        
+        if (!$guest) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Guest not found'
+            ], 404);
         }
 
-        $provider = Provider::findOrFail($providerId);
-        $guest = Guest::findOrFail($guestId);
-
-        // Verify guest email matches
-        if ($guest->email !== $request->email) {
-            abort(403, 'Invalid conversation access');
+        $providerId = $request->get('provider_id');
+        $email = $request->get('email');
+        $token = $request->get('token');
+        
+        if (!$providerId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Provider ID required'
+            ], 400);
         }
 
-        return view('wizmoto.chat.continue-conversation', compact('provider', 'guest'));
+        // Verify token for security
+        if ($email && $token) {
+            $expectedToken = md5($email . $providerId . env('APP_KEY'));
+            if ($token !== $expectedToken || $guest->email !== $email) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid access token'
+                ], 403);
+            }
+        }
+
+        $messages = Message::where('guest_id', $guest->id)
+            ->where('provider_id', $providerId)
+            ->with(['guest', 'provider'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $provider = Provider::find($providerId);
+
+        return response()->json([
+            'success' => true,
+            'messages' => $messages,
+            'guest' => $guest,
+            'provider' => $provider
+        ]);
     }
+
 
     /**
      * Show provider's chat conversations

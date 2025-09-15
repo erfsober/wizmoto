@@ -167,36 +167,27 @@
                                                 </div>
                                                 <div class="card-body contacts_body">
                                                     <ul class="contacts">
-                                                        {{-- @forelse($conversations as $guestId => $conversation)
+                                                        @forelse($conversations as $providerId => $conversation)
                                                             @php
-                                                                $guest = $conversation->first()->guest;
+                                                                $provider = $conversation->first()->provider;
                                                                 $lastMessage = $conversation->sortByDesc('created_at')->first();
                                                             @endphp
-                                                            <li class="contact-item" data-guest-id="{{ $guestId }}">
+                                                            <li class="contact-item" data-provider-id="{{ $providerId }}">
                                                                 <a href="#" class="conversation-link">
                                                                     <div class="d-flex bd-highlight">
                                                                         <div class="img_cont">
-                                                                            @if ($guest->avatar)
-                                                                                <img src="{{ $guest->avatar }}"
-                                                                                    class="rounded-circle user_img" alt="">
-                                                                            @else
-                                                                                <div
-                                                                                    class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
-                                                                                    {{ strtoupper(substr($guest->name, 0, 1)) }}
-                                                                                </div>
-                                                                            @endif
+                                                                            <div
+                                                                                class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
+                                                                                {{ strtoupper(substr($provider->full_name, 0, 1)) }}
+                                                                            </div>
                                                                         </div>
                                                                         <div class="user_info">
-                                                                            <span>{{ $guest->name }}</span>
+                                                                            <span>{{ $provider->full_name }}</span>
                                                                             <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}
                                                                             </p>
                                                                         </div>
                                                                         <span class="info">
                                                                             {{ $lastMessage ? $lastMessage->created_at->diffForHumans() : '' }}
-                                                                            @if ($conversation->where('read', false)->count() > 0)
-                                                                                <span
-                                                                                    class="count bg-success">{{ $conversation->where('read', false)->count() }}</span>
-                                                                            @endif
                                                                         </span>
                                                                     </div>
                                                                 </a>
@@ -205,9 +196,9 @@
                                                         @empty
                                                             <li class="text-center py-4">
                                                                 <p class="text-muted mb-0">No conversations yet</p>
-                                                                <small class="text-muted">Messages from customers will appear here</small>
+                                                                <small class="text-muted">Messages from providers will appear here</small>
                                                             </li>
-                                                        @endforelse --}}
+                                                        @endforelse
                                                     </ul>
                                                 </div>
                                             </div>
@@ -286,9 +277,10 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    let currentGuestId = null;
-    let currentGuest = null;
-    let allConversations = [];
+    let currentProviderId = null;
+    let currentGuest = @json($guest);
+    let currentProvider = @json($provider);
+    let allConversations = @json($conversations);
     let refreshInterval;
 
     // Initialize the page
@@ -298,8 +290,11 @@ $(document).ready(function() {
         // Bind event handlers
         bindEvents();
 
-        // Load initial conversations
-        loadConversations();
+        // If we have a guest and conversations, auto-select the first conversation
+        if (currentGuest && allConversations && Object.keys(allConversations).length > 0) {
+            const firstProviderId = Object.keys(allConversations)[0];
+            selectConversation(firstProviderId);
+        }
 
         // Start auto-refresh for new conversations
         startAutoRefresh();
@@ -309,9 +304,9 @@ $(document).ready(function() {
         // Handle conversation selection
         $(document).on('click', '.conversation-link', function(e) {
             e.preventDefault();
-            const guestId = $(this).closest('.contact-item').data('guest-id');
-            if (guestId) {
-                selectConversation(guestId);
+            const providerId = $(this).closest('.contact-item').data('provider-id');
+            if (providerId) {
+                selectConversation(providerId);
             }
         });
 
@@ -339,19 +334,19 @@ $(document).ready(function() {
         });
     }
 
-    function selectConversation(guestId) {
-        currentGuestId = guestId;
+    function selectConversation(providerId) {
+        currentProviderId = providerId;
 
         // Remove active class from all contacts
         $('.contact-item').removeClass('active');
         // Add active class to selected contact
-        $(`.contact-item[data-guest-id="${guestId}"]`).addClass('active');
+        $(`.contact-item[data-provider-id="${providerId}"]`).addClass('active');
 
         // Show loading state
         showChatLoading();
 
         // Load conversation messages
-        loadConversation(guestId);
+        loadConversation(providerId);
     }
 
     function showChatLoading() {
@@ -365,17 +360,32 @@ $(document).ready(function() {
       `);
     }
 
-    function loadConversation(guestId) {
+    function loadConversation(providerId) {
+        if (!currentGuest) {
+            showChatError('Guest information not available');
+            return;
+        }
+
+        // Get token and email from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        const token = urlParams.get('token');
+
         $.ajax({
-            url: `/chat/guest/conversation/${guestId}`,
+            url: `/chat/guest/conversation/${currentGuest.id}`,
             method: 'GET',
+            data: {
+                provider_id: providerId,
+                email: email,
+                token: token
+            },
             timeout: 10000,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             success: function(response) {
                 if (response.success) {
-                    currentGuest = response.guest;
+                    currentProvider = response.provider;
                     displayConversation(response.messages, response.guest);
 
                     // Show chat header and footer
@@ -389,7 +399,9 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                if (status === 'timeout') {
+                if (xhr.status === 403) {
+                    showChatError('Access denied. Invalid conversation link.');
+                } else if (status === 'timeout') {
                     showChatError('Request timed out. Please try again.');
                 } else {
                     showChatError('Failed to load conversation. Please try again.');
@@ -407,13 +419,13 @@ $(document).ready(function() {
 
         // Update header with fade effect
         $('#guest-name').fadeOut(200, function() {
-            $(this).text(guest.name).fadeIn(200);
+            $(this).text(currentProvider.full_name).fadeIn(200);
         });
         $('#guest-email').fadeOut(200, function() {
-            $(this).text(guest.display_email || guest.email).fadeIn(200);
+            $(this).text(currentProvider.email).fadeIn(200);
         });
         $('#guest-avatar').fadeOut(200, function() {
-            $(this).text(guest.name.charAt(0).toUpperCase()).fadeIn(200);
+            $(this).text(currentProvider.full_name.charAt(0).toUpperCase()).fadeIn(200);
         });
 
         if (!messages || messages.length === 0) {
@@ -435,12 +447,11 @@ $(document).ready(function() {
 
     function createMessageElement(message, guest) {
         const isGuest = message.sender_type === 'guest';
-        const wrapperClass = isGuest ? 'justify-content-start' : 'justify-content-end reply';
-        const senderInitial = guest.name.charAt(0).toUpperCase();
-        const senderName = isGuest ? senderInitial : 'You';
+        const wrapperClass = isGuest ? 'justify-content-end reply' : 'justify-content-start';
+        const senderName = isGuest ? 'You' : currentProvider.full_name;
         const senderImage = isGuest ?
-            'wizmoto/images/resource/candidate-3.png' :
-            'wizmoto/images/resource/candidate-6.png';
+            'wizmoto/images/resource/candidate-6.png' :
+            'wizmoto/images/resource/candidate-3.png';
         const timeFormatted = formatMessageTime(message.created_at);
 
         const messageDiv = $(`
@@ -483,9 +494,13 @@ $(document).ready(function() {
 
     function sendMessage() {
         const message = $('#message-input').val().trim();
-        if (!message || !currentGuestId) {
-            if (!currentGuestId) {
+        if (!message || !currentProviderId || !currentGuest) {
+            if (!currentProviderId) {
                 alert('Please select a conversation first');
+                return;
+            }
+            if (!currentGuest) {
+                alert('Guest information not available');
                 return;
             }
         }
@@ -507,8 +522,9 @@ $(document).ready(function() {
             url: '/chat/guest/send',
             method: 'POST',
             data: {
-                guest_id: currentGuestId,
+                provider_id: currentProviderId,
                 message: message,
+                guest_email: currentGuest.email,
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
@@ -516,7 +532,7 @@ $(document).ready(function() {
                     $('#message-input').val('');
                     sendingIndicator.remove();
                     // Reload conversation to show new message
-                    loadConversation(currentGuestId);
+                    loadConversation(currentProviderId);
                 } else {
                     sendingIndicator.remove();
                     alert('Failed to send message: ' + (response.message || 'Unknown error'));
@@ -552,20 +568,9 @@ $(document).ready(function() {
           <div class="text-center py-4">
               <i class="fa fa-exclamation-triangle text-warning fa-2x mb-2"></i>
               <p class="text-muted">${message}</p>
-              <button class="btn btn-sm btn-outline-primary" onclick="loadConversation(${currentGuestId})">Try Again</button>
+              <button class="btn btn-sm btn-outline-primary" onclick="loadConversation(${currentProviderId})">Try Again</button>
           </div>
       `);
-    }
-
-    function loadConversations() {
-        // This would typically load conversations from the server
-        // For now, we'll show a placeholder
-        $('.contacts').html(`
-            <li class="text-center py-4">
-                <p class="text-muted mb-0">No conversations yet</p>
-                <small class="text-muted">Messages from customers will appear here</small>
-            </li>
-        `);
     }
 
     function filterConversations(searchTerm) {
@@ -574,12 +579,10 @@ $(document).ready(function() {
 
         contacts.each(function() {
             const contact = $(this);
-            const guestName = contact.find('.user_info span').text().toLowerCase();
-            const guestEmail = contact.find('.user_info p').text().toLowerCase();
-            const lastMessage = contact.find('.user_info p:last-child').text().toLowerCase();
+            const providerName = contact.find('.user_info span').text().toLowerCase();
+            const lastMessage = contact.find('.user_info p').text().toLowerCase();
 
-            const matches = guestName.includes(term) ||
-                guestEmail.includes(term) ||
+            const matches = providerName.includes(term) ||
                 lastMessage.includes(term);
 
             contact.toggle(matches);
@@ -589,8 +592,8 @@ $(document).ready(function() {
     function startAutoRefresh() {
         // Auto-refresh current conversation every 30 seconds
         refreshInterval = setInterval(function() {
-            if (currentGuestId) {
-                loadConversation(currentGuestId);
+            if (currentProviderId) {
+                loadConversation(currentProviderId);
             }
         }, 30000);
     }
