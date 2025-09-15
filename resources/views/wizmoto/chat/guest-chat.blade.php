@@ -638,7 +638,7 @@ $(document).ready(function() {
             return;
         }
 
-        console.log('Starting Pusher listeners for guest:', currentGuest.id, 'with token:', token);
+        console.log('Starting Pusher listeners for guest:', currentGuest.id);
 
         // Listen for new messages on guest's secure channel
         window.Echo.channel(`guest.${currentGuest.id}.${token}`)

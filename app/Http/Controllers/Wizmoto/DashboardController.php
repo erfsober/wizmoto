@@ -353,7 +353,10 @@ class DashboardController extends Controller
             })
             ->filter(); // Remove null values
 
-        return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
+        // Generate secure Pusher token for this provider (hide the algorithm)
+        $providerPusherToken = md5('provider.' . $provider->id . env('APP_KEY'));
+
+        return view('wizmoto.dashboard.messages', compact('provider', 'conversations', 'providerPusherToken'));
     }
 
     public function fetchMessages()

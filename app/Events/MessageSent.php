@@ -27,13 +27,15 @@ class MessageSent implements ShouldBroadcastNow
     {
         $channels = [];
         
-        // Provider gets private channel (authenticated)
-        $channels[] = new PrivateChannel('provider.' . $this->message->provider_id);
+        // Provider gets a secure public channel (simpler than private channel)
+        $provider = $this->message->provider;
+        $providerToken = md5('provider.' . $provider->id . env('APP_KEY'));
+        $channels[] = new Channel('provider.' . $this->message->provider_id . '.' . $providerToken);
         
         // Guest gets a secure public channel with token
         $guest = $this->message->guest;
-        $secureToken = md5($guest->email . $this->message->provider_id . env('APP_KEY'));
-        $channels[] = new Channel('guest.' . $this->message->guest_id . '.' . $secureToken);
+        $guestToken = md5($guest->email . $this->message->provider_id . env('APP_KEY'));
+        $channels[] = new Channel('guest.' . $this->message->guest_id . '.' . $guestToken);
         
         return $channels;
     }
