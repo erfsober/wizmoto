@@ -650,7 +650,7 @@ $(document).ready(function() {
 
         // Check if Echo is available
         if (typeof window.Echo === 'undefined') {
-            console.log('Echo not loaded yet, retrying in 1 second...');
+            // Echo not loaded yet, retrying in 1 second...
             setTimeout(startPusherListeners, 1000);
             return;
         }
@@ -665,12 +665,12 @@ $(document).ready(function() {
             return;
         }
 
-        console.log('Starting Pusher listeners for guest:', currentGuest.id);
+        // Starting Pusher listeners for guest
 
         // Temporarily use public channel for testing (no auth needed)
         window.Echo.channel(`guest.${currentGuest.id}.${token}`)
             .listen('MessageSent', (e) => {
-                console.log('New message received:', e);
+                // New message received via Pusher
                 
                 // Add the new message to the chat
                 if (currentProviderId && currentProviderId == e.provider_id) {

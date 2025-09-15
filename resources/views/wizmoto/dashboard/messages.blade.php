@@ -286,13 +286,10 @@
 
                 // Create message elements immediately (remove animation for now to debug)
                 messages.forEach((message, index) => {
-                    console.log('Creating message element:', index, message);
-                    console.log('Message properties:', Object.keys(message));
-                    console.log('Message sender_type:', message.sender_type);
-                    console.log('Message content:', message.message);
+                    // Creating message element
 
                     const messageDiv = createMessageElement(message, guest);
-                    console.log('Message element created:', messageDiv.html());
+                    // Message element created
                     chatMessages.append(messageDiv);
                 });
 
@@ -518,19 +515,19 @@
 
                 // Check if Echo is available
                 if (typeof window.Echo === 'undefined') {
-                    console.log('Echo not loaded yet, retrying in 1 second...');
+                    // Echo not loaded yet, retrying in 1 second...
                     setTimeout(startPusherListeners, 1000);
                     return;
                 }
 
                 // Get provider secure token from backend (temporary public channel test)
                 const providerToken = '{{ $providerPusherToken }}';
-                console.log('Starting Pusher listeners for provider:', provider.id);
+                // Starting Pusher listeners for provider
 
                 // Temporarily use public channel for testing
                 window.Echo.channel(`provider.${provider.id}.${providerToken}`)
                     .listen('MessageSent', (e) => {
-                        console.log('New message received:', e);
+                        // New message received via Pusher
                         
                         // Add the new message to current chat if it's the same guest
                         if (currentGuestId && currentGuestId == e.guest_id) {
