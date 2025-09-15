@@ -301,12 +301,7 @@
                     );
                     chatMessages.append(testDiv);
                 }
-
-                console.log('Final chat messages HTML:', chatMessages.html());
-
-                // Scroll to bottom
                 scrollToBottom();
-                console.log('Conversation displayed successfully');
             }
 
             function createMessageElement(message, guest) {
