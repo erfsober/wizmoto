@@ -34,12 +34,7 @@ class ChatEmailService
         $provider = Provider::find($message->provider_id);
         $advertisement = Advertisement::where('provider_id', $provider->id)->first();
         
-        $conversationLink = route('chat.guest.continue', [
-            'providerId' => $provider->id,
-            'guestId' => $guest->id,
-            'email' => $guest->email,
-            'token' => md5($guest->email . $provider->id . env('APP_KEY'))
-        ]);
+        $conversationLink = route('chat.guest.show', $provider->id) . '?guest_id=' . $guest->id . '&email=' . urlencode($guest->email) . '&token=' . md5($guest->email . $provider->id . env('APP_KEY'));
 
         Mail::send('emails.provider-reply-to-guest', [
             'guest' => $guest,

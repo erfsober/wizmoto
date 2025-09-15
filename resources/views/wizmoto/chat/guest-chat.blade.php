@@ -386,6 +386,13 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     currentProvider = response.provider;
+                    
+                    // Ensure currentProvider is properly set
+                    if (!currentProvider || !currentProvider.full_name) {
+                        showChatError('Provider information not available');
+                        return;
+                    }
+                    
                     displayConversation(response.messages, response.guest);
 
                     // Show chat header and footer
@@ -413,6 +420,12 @@ $(document).ready(function() {
     function displayConversation(messages, guest) {
         const chatMessages = $('#chat-messages');
         chatMessages.empty();
+
+        // Ensure currentProvider is available
+        if (!currentProvider || !currentProvider.full_name) {
+            showChatError('Provider information not available');
+            return;
+        }
 
         // Make sure the chat area is visible
         $('#no-chat-selected').hide();
@@ -448,7 +461,7 @@ $(document).ready(function() {
     function createMessageElement(message, guest) {
         const isGuest = message.sender_type === 'guest';
         const wrapperClass = isGuest ? 'justify-content-end reply' : 'justify-content-start';
-        const senderName = isGuest ? 'You' : currentProvider.full_name;
+        const senderName = isGuest ? 'You' : (currentProvider && currentProvider.full_name ? currentProvider.full_name : 'Provider');
         const senderImage = isGuest ?
             'wizmoto/images/resource/candidate-6.png' :
             'wizmoto/images/resource/candidate-3.png';
