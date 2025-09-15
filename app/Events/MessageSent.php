@@ -28,26 +28,31 @@ class MessageSent implements ShouldBroadcastNow
     {
         $channels = [];
         
-        // Temporarily use public channels for testing (switch back to private later)
+        // Add a simple test channel first
+        $channels[] = new Channel('test-channel');
+        
+        // Provider channel
         $provider = $this->message->provider;
         $providerToken = md5('provider.' . $provider->id . env('APP_KEY'));
         $providerChannel = 'provider.' . $this->message->provider_id . '.' . $providerToken;
         $channels[] = new Channel($providerChannel);
         
-        // Guest gets public channel with token
+        // Guest channel
         $guest = $this->message->guest;
         $guestToken = md5($guest->email . $this->message->provider_id . env('APP_KEY'));
         $guestChannel = 'guest.' . $this->message->guest_id . '.' . $guestToken;
         $channels[] = new Channel($guestChannel);
         
         // Log the channels for debugging
-        \Log::info('Broadcasting to private channels:', [
+        \Log::info('Broadcasting to channels:', [
             'provider_channel' => $providerChannel,
             'guest_channel' => $guestChannel,
+            'provider_token' => $providerToken,
             'guest_token' => $guestToken,
             'guest_email' => $guest->email,
             'provider_id' => $this->message->provider_id,
-            'guest_id' => $this->message->guest_id
+            'guest_id' => $this->message->guest_id,
+            'app_key' => env('APP_KEY')
         ]);
         
         return $channels;

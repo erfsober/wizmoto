@@ -532,6 +532,12 @@
                 const channelName = `provider.${provider.id}.${providerToken}`;
                 console.log('📡 Subscribing to channel:', channelName);
 
+                // Test simple channel first
+                window.Echo.channel('test-channel')
+                    .listen('MessageSent', (e) => {
+                        console.log('🧪 Test channel message received:', e);
+                    });
+                
                 window.Echo.channel(channelName)
                     .listen('MessageSent', (e) => {
                         console.log('📨 New message received via Pusher:', e);

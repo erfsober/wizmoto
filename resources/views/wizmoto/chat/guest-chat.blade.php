@@ -674,19 +674,34 @@ $(document).ready(function() {
             return;
         }
 
+        // Get provider ID from URL or current provider
+        const urlPath = window.location.pathname;
+        const providerIdFromUrl = urlPath.split('/').pop();
+        const activeProviderId = currentProviderId || providerIdFromUrl || (currentProvider ? currentProvider.id : null);
+        
         console.log('🚀 Starting Pusher listeners for guest:', currentGuest.id, 'with token:', token);
+        console.log('🔑 Guest email:', email, 'Provider ID:', activeProviderId);
 
         // Subscribe to guest channel
         const channelName = `guest.${currentGuest.id}.${token}`;
         console.log('📡 Subscribing to channel:', channelName);
+        
+        // Test simple channel first
+        window.Echo.channel('test-channel')
+            .listen('MessageSent', (e) => {
+                console.log('🧪 Test channel message received:', e);
+            });
         
         window.Echo.channel(channelName)
             .listen('MessageSent', (e) => {
                 console.log('📨 New message received via Pusher:', e);
                 
                 // Add the new message to the chat
-                if (currentProviderId && currentProviderId == e.provider_id) {
+                if (activeProviderId && activeProviderId == e.provider_id) {
+                    console.log('✅ Adding message to chat for provider:', e.provider_id);
                     addMessageToChat(e);
+                } else {
+                    console.log('❌ Message not for current provider. Expected:', activeProviderId, 'Got:', e.provider_id);
                 }
                 
                 // Update conversation list if needed
