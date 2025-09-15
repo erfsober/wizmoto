@@ -523,12 +523,10 @@
                     return;
                 }
 
-                // Get pre-generated secure token from backend (algorithm hidden)
-                const providerToken = '{{ $providerPusherToken }}';
                 console.log('Starting Pusher listeners for provider:', provider.id);
 
-                // Listen for new messages on provider's secure public channel
-                window.Echo.channel(`provider.${provider.id}.${providerToken}`)
+                // Listen for new messages on provider's private channel (Laravel auth)
+                window.Echo.private(`provider.${provider.id}`)
                     .listen('MessageSent', (e) => {
                         console.log('New message received:', e);
                         

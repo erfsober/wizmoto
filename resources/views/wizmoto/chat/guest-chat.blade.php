@@ -640,8 +640,19 @@ $(document).ready(function() {
 
         console.log('Starting Pusher listeners for guest:', currentGuest.id);
 
-        // Listen for new messages on guest's secure channel
-        window.Echo.channel(`guest.${currentGuest.id}.${token}`)
+        // Set up custom auth for guest private channels
+        window.Echo.connector.pusher.config.auth.params = {
+            provider_id: currentProviderId,
+            guest_id: currentGuest.id,
+            email: email,
+            token: token
+        };
+
+        // Listen for new messages on guest's private channel (token-based auth)
+        window.Echo.private(`guest.${currentGuest.id}.${token}`)
+            .error((error) => {
+                console.error('Failed to authenticate for guest private channel:', error);
+            })
             .listen('MessageSent', (e) => {
                 console.log('New message received:', e);
                 
