@@ -395,7 +395,7 @@ class DashboardController extends Controller
         // Broadcast the message
         broadcast(new MessageSent($message));
 
-        ChatEmailService::sendProviderReplyToGuest($message);
+        // ChatEmailService::sendProviderReplyToGuest($message);
 
         return ['status' => 'Message Sent!'];
     }
