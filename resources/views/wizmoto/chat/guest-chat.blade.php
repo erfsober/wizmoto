@@ -621,6 +621,13 @@ $(document).ready(function() {
     function startPusherListeners() {
         if (!currentGuest) return;
 
+        // Check if Echo is available
+        if (typeof window.Echo === 'undefined') {
+            console.log('Echo not loaded yet, retrying in 1 second...');
+            setTimeout(startPusherListeners, 1000);
+            return;
+        }
+
         // Get secure token from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email');
@@ -630,6 +637,8 @@ $(document).ready(function() {
             console.error('Missing email or token for secure chat');
             return;
         }
+
+        console.log('Starting Pusher listeners for guest:', currentGuest.id, 'with token:', token);
 
         // Listen for new messages on guest's secure channel
         window.Echo.channel(`guest.${currentGuest.id}.${token}`)

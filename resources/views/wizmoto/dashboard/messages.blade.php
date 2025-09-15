@@ -516,6 +516,15 @@
                 const provider = @json($provider);
                 if (!provider) return;
 
+                // Check if Echo is available
+                if (typeof window.Echo === 'undefined') {
+                    console.log('Echo not loaded yet, retrying in 1 second...');
+                    setTimeout(startPusherListeners, 1000);
+                    return;
+                }
+
+                console.log('Starting Pusher listeners for provider:', provider.id);
+
                 // Listen for new messages on provider's private channel (secure)
                 window.Echo.private(`provider.${provider.id}`)
                     .listen('MessageSent', (e) => {
