@@ -293,6 +293,11 @@ $(document).ready(function() {
         // If we have a guest and conversations, auto-select the first conversation
         if (currentGuest && allConversations && Object.keys(allConversations).length > 0) {
             const firstProviderId = Object.keys(allConversations)[0];
+            // Set the currentProvider from the first conversation
+            const firstConversation = allConversations[firstProviderId];
+            if (firstConversation && firstConversation.length > 0) {
+                currentProvider = firstConversation[0].provider;
+            }
             selectConversation(firstProviderId);
         }
 

@@ -13,6 +13,8 @@ class Guest extends Model
         'email_shared' => 'boolean',
     ];
 
+    protected $appends = ['display_email'];
+
     public function messages()
     {
         return $this->hasMany(Message::class);
