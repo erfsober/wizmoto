@@ -305,8 +305,7 @@
             }
 
             function createMessageElement(message, guest) {
-                console.log('Creating message element for:', message);
-
+            
                 const isGuest = message.sender_type === 'guest';
                 const wrapperClass = isGuest ? 'justify-content-start' : 'justify-content-end reply';
                 const senderInitial = guest.name.charAt(0).toUpperCase();
