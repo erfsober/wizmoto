@@ -25,12 +25,17 @@ class MessageSent implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        // Broadcast to both guest and provider channels
-        if ($this->message->sender_type === 'guest') {
-            return new PrivateChannel('provider.' . $this->message->provider_id);
-        } else {
-            return new PrivateChannel('guest.' . $this->message->guest_id);
-        }
+        $channels = [];
+        
+        // Provider gets private channel (authenticated)
+        $channels[] = new PrivateChannel('provider.' . $this->message->provider_id);
+        
+        // Guest gets a secure public channel with token
+        $guest = $this->message->guest;
+        $secureToken = md5($guest->email . $this->message->provider_id . env('APP_KEY'));
+        $channels[] = new Channel('guest.' . $this->message->guest_id . '.' . $secureToken);
+        
+        return $channels;
     }
 
     public function broadcastWith(): array
@@ -42,6 +47,8 @@ class MessageSent implements ShouldBroadcastNow
             'created_at' => $this->message->created_at?->toDateTimeString(),
             'guest_id' => $this->message->guest_id,
             'provider_id' => $this->message->provider_id,
+            'provider' => $this->message->provider,
+            'guest' => $this->message->guest,
         ];
     }
 

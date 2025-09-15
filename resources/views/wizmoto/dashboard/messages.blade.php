@@ -151,8 +151,8 @@
                 // Load initial conversations
                 loadConversations();
 
-                // Start auto-refresh for new conversations
-                startAutoRefresh();
+                // Start Pusher listeners for real-time messages
+                startPusherListeners();
             }
 
             function bindEvents() {
@@ -512,20 +512,67 @@
                 });
             }
 
-            function startAutoRefresh() {
-                // Auto-refresh conversations list every 60 seconds
-                setInterval(function() {
-                    if (!$('#search-input').val()) { // Only if not searching
-                        refreshConversations();
-                    }
-                }, 60000);
+            function startPusherListeners() {
+                const provider = @json($provider);
+                if (!provider) return;
 
-                // Auto-refresh current conversation every 30 seconds
-                refreshInterval = setInterval(function() {
-                    if (currentGuestId) {
-                        loadConversation(currentGuestId);
-                    }
-                }, 30000);
+                // Listen for new messages on provider's private channel (secure)
+                window.Echo.private(`provider.${provider.id}`)
+                    .listen('MessageSent', (e) => {
+                        console.log('New message received:', e);
+                        
+                        // Add the new message to current chat if it's the same guest
+                        if (currentGuestId && currentGuestId == e.guest_id) {
+                            addMessageToChat(e);
+                        }
+                        
+                        // Update conversation list
+                        updateConversationList(e);
+                    });
+            }
+
+            function addMessageToChat(messageData) {
+                const chatMessages = $('#chat-messages');
+                const messageElement = createDashboardMessageElement(messageData);
+                chatMessages.append(messageElement);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            function createDashboardMessageElement(message) {
+                const isProvider = message.sender_type === 'provider';
+                const wrapperClass = isProvider ? 'justify-content-end reply' : 'justify-content-start';
+                const senderName = isProvider ? 'You' : (message.guest ? message.guest.name : 'Guest');
+                const senderImage = isProvider ? 
+                    'wizmoto/images/resource/candidate-3.png' : 
+                    'wizmoto/images/resource/candidate-6.png';
+                const timeFormatted = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                return $(`
+                    <div class="d-flex ${wrapperClass} mb-2">
+                        <div class="img_cont_msg">
+                            <img src="${senderImage}" alt="" class="rounded-circle user_img_msg">
+                            <div class="name">${senderName} <span class="msg_time">${timeFormatted}</span></div>
+                        </div>
+                        <div class="msg_cotainer">
+                            ${message.message}
+                        </div>
+                    </div>
+                `);
+            }
+
+            function updateConversationList(messageData) {
+                // Update the last message in conversation list
+                const contactItem = $(`.contact-item[data-guest-id="${messageData.guest_id}"]`);
+                if (contactItem.length) {
+                    const messageText = contactItem.find('.user_info p');
+                    const timeSpan = contactItem.find('.info');
+                    
+                    messageText.text(messageData.message.substring(0, 30) + (messageData.message.length > 30 ? '...' : ''));
+                    timeSpan.text('Just now');
+                    
+                    // Move this conversation to the top
+                    contactItem.prependTo('.contacts');
+                }
             }
 
             function refreshConversations() {
@@ -546,12 +593,7 @@
                 }
             });
 
-            // Cleanup on page unload
-            $(window).on('beforeunload', function() {
-                if (refreshInterval) {
-                    clearInterval(refreshInterval);
-                }
-            });
+            // Real-time messaging with Pusher - no cleanup needed
         });
     </script>
 @endpush

@@ -301,8 +301,8 @@ $(document).ready(function() {
             selectConversation(firstProviderId);
         }
 
-        // Start auto-refresh for new conversations
-        startAutoRefresh();
+        // Start Pusher listeners for real-time messages
+        startPusherListeners();
     }
 
     function bindEvents() {
@@ -466,7 +466,18 @@ $(document).ready(function() {
     function createMessageElement(message, guest) {
         const isGuest = message.sender_type === 'guest';
         const wrapperClass = isGuest ? 'justify-content-end reply' : 'justify-content-start';
-        const senderName = isGuest ? 'You' : (currentProvider && currentProvider.full_name ? currentProvider.full_name : 'Provider');
+        
+        // Handle both database messages and Pusher messages
+        let senderName, providerName;
+        if (message.provider && message.provider.full_name) {
+            providerName = message.provider.full_name;
+        } else if (currentProvider && currentProvider.full_name) {
+            providerName = currentProvider.full_name;
+        } else {
+            providerName = 'Provider';
+        }
+        
+        senderName = isGuest ? 'You' : providerName;
         const senderImage = isGuest ?
             'wizmoto/images/resource/candidate-6.png' :
             'wizmoto/images/resource/candidate-3.png';
@@ -607,21 +618,52 @@ $(document).ready(function() {
         });
     }
 
-    function startAutoRefresh() {
-        // Auto-refresh current conversation every 30 seconds
-        refreshInterval = setInterval(function() {
-            if (currentProviderId) {
-                loadConversation(currentProviderId);
-            }
-        }, 30000);
+    function startPusherListeners() {
+        if (!currentGuest) return;
+
+        // Get secure token from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        const token = urlParams.get('token');
+        
+        if (!email || !token) {
+            console.error('Missing email or token for secure chat');
+            return;
+        }
+
+        // Listen for new messages on guest's secure channel
+        window.Echo.channel(`guest.${currentGuest.id}.${token}`)
+            .listen('MessageSent', (e) => {
+                console.log('New message received:', e);
+                
+                // Add the new message to the chat
+                if (currentProviderId && currentProviderId == e.provider_id) {
+                    addMessageToChat(e);
+                }
+                
+                // Update conversation list if needed
+                updateConversationList(e);
+            });
     }
 
-    // Cleanup on page unload
-    $(window).on('beforeunload', function() {
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
+    function addMessageToChat(messageData) {
+        const chatMessages = $('#chat-messages');
+        const messageElement = createMessageElement(messageData, currentGuest);
+        chatMessages.append(messageElement);
+        scrollToBottom();
+    }
+
+    function updateConversationList(messageData) {
+        // Update the last message in conversation list
+        const contactItem = $(`.contact-item[data-provider-id="${messageData.provider_id}"]`);
+        if (contactItem.length) {
+            const messageText = contactItem.find('.user_info p');
+            const timeSpan = contactItem.find('.info');
+            
+            messageText.text(messageData.message.substring(0, 30) + (messageData.message.length > 30 ? '...' : ''));
+            timeSpan.text('Just now');
         }
-    });
+    }
 });
 </script>
 @endpush
