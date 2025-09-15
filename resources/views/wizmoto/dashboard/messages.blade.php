@@ -397,9 +397,19 @@
                     },
                     success: function(response) {
                         if (response.status === 'Message Sent!') {
+                            // Add the sent message immediately to sender's chat
+                            const sentMessage = {
+                                id: response.message_id || Date.now(),
+                                message: message,
+                                sender_type: 'provider',
+                                created_at: new Date().toISOString(),
+                                guest_id: currentGuestId,
+                                provider_id: {{ $provider->id }}
+                            };
+                            addMessageToChat(sentMessage);
+                            
                             $('#message-input').val('');
                             sendingIndicator.remove();
-                            // Message will appear via Pusher real-time listener
                             swal.fire({
                                 toast: true,
                                 title: 'Message sent successfully!',
@@ -517,12 +527,14 @@
 
                 // Get provider secure token from backend (temporary public channel test)
                 const providerToken = '{{ $providerPusherToken }}';
-                // Starting Pusher listeners for provider
+                console.log('🚀 Starting Pusher listeners for provider:', provider.id, 'with token:', providerToken);
 
-                // Temporarily use public channel for testing
-                window.Echo.channel(`provider.${provider.id}.${providerToken}`)
+                const channelName = `provider.${provider.id}.${providerToken}`;
+                console.log('📡 Subscribing to channel:', channelName);
+
+                window.Echo.channel(channelName)
                     .listen('MessageSent', (e) => {
-                        // New message received via Pusher
+                        console.log('📨 New message received via Pusher:', e);
                         
                         // Add the new message to current chat if it's the same guest
                         if (currentGuestId && currentGuestId == e.guest_id) {

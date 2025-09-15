@@ -567,9 +567,19 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
+                    // Add the sent message immediately to sender's chat
+                    const sentMessage = {
+                        id: response.message_id || Date.now(),
+                        message: message,
+                        sender_type: 'guest',
+                        created_at: new Date().toISOString(),
+                        guest_id: currentGuest.id,
+                        provider_id: currentProviderId
+                    };
+                    addMessageToChat(sentMessage);
+                    
                     $('#message-input').val('');
                     sendingIndicator.remove();
-                    // Message will appear via Pusher real-time listener
                 } else {
                     sendingIndicator.remove();
                     alert('Failed to send message: ' + (response.message || 'Unknown error'));
@@ -664,12 +674,15 @@ $(document).ready(function() {
             return;
         }
 
-        // Starting Pusher listeners for guest
+        console.log('🚀 Starting Pusher listeners for guest:', currentGuest.id, 'with token:', token);
 
-        // Temporarily use public channel for testing (no auth needed)
-        window.Echo.channel(`guest.${currentGuest.id}.${token}`)
+        // Subscribe to guest channel
+        const channelName = `guest.${currentGuest.id}.${token}`;
+        console.log('📡 Subscribing to channel:', channelName);
+        
+        window.Echo.channel(channelName)
             .listen('MessageSent', (e) => {
-                // New message received via Pusher
+                console.log('📨 New message received via Pusher:', e);
                 
                 // Add the new message to the chat
                 if (currentProviderId && currentProviderId == e.provider_id) {
