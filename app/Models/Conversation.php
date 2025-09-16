@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Conversation extends Model
 {
@@ -25,7 +26,7 @@ class Conversation extends Model
 
     public function isTokenValid(): bool
     {
-        return $this->token_expires_at && $this->token_expires_at->isFuture();
+        return $this->token_expires_at && Carbon::parse($this->token_expires_at)->isFuture();           
     }
     protected static function booted()
     {
