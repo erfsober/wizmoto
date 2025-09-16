@@ -23,7 +23,6 @@ window.Echo = new Echo({
     wsPort: import.meta.env.VITE_PUSHER_PORT,
     wssPort: import.meta.env.VITE_PUSHER_PORT,
     enabledTransports: ["ws", "wss"],
-    authEndpoint: "/broadcasting/auth",
     auth: {
         headers: function() {
             return {
