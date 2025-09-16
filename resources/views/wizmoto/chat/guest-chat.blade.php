@@ -300,7 +300,6 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
     // Get URL parameters for secure chat
        // Get URL parameters (fallback)
        const urlParams = new URLSearchParams(window.location.search);
@@ -312,13 +311,36 @@ $(document).ready(function() {
     let currentGuest = @json($guest ?? null);
     let currentProvider = @json($provider ?? null);
     let currentConversation = @json($conversation ?? null);
-
-    // Set globals for Echo auth headers
+    // Set globals first
     window.guestId = currentGuest?.id ?? null;
     window.guestToken = guestToken;
 
-  
+    // Then initialize Echo
+    window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+        forceTLS: true,
+        wsHost: import.meta.env.VITE_PUSHER_HOST,
+        wsPort: import.meta.env.VITE_PUSHER_PORT,
+        wssPort: import.meta.env.VITE_PUSHER_PORT,
+        enabledTransports: ["ws", "wss"],
+        authEndpoint: "/broadcasting/auth",
+        auth: {
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                "X-Guest-Token": window.guestToken,
+                "X-Guest-Id": window.guestId,
+            },
+        },
+    });
 
+    startPusherListeners();
+</script>
+
+<script>
+    
+$(document).ready(function() {
     // Initialize the page
     initializePage();
 
@@ -525,7 +547,7 @@ $(document).ready(function() {
 
         console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
 
-    
+     
         // Listen for messages on the conversation channel
         window.Echo.private(`conversation.${conversationId}`)
             .listen('.MessageSent', (e) => {
