@@ -299,7 +299,10 @@
 
 
 @push('scripts')
+
 <script>
+    
+$(document).ready(function() {
     // Get URL parameters for secure chat
        // Get URL parameters (fallback)
        const urlParams = new URLSearchParams(window.location.search);
@@ -314,12 +317,7 @@
     // Set globals first
     window.guestId = currentGuest?.id ?? null;
     window.guestToken = guestToken;
-    startPusherListeners();
-</script>
-
-<script>
-    
-$(document).ready(function() {
+ 
     // Initialize the page
     initializePage();
 
