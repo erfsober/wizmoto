@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Broadcast;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
+
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
     
