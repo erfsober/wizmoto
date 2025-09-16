@@ -193,7 +193,7 @@
                                                                         ->first();
                                                                 @endphp
                                                                 <li class="contact-item"
-                                                                    data-provider-id="{{ $providerId }}">
+                                                                    data-provider-id="{{ $provider->id }}">
                                                                     <a href="#" class="conversation-link">
                                                                         <div class="d-flex bd-highlight">
                                                                             <div class="img_cont">
