@@ -16,7 +16,7 @@ Broadcast::channel('conversation.{conversationId}', function ($user, $conversati
         'guest_token' => request()->header('X-Guest-Token'),
         'guest_id' => request()->header('X-Guest-Id'),
     ]);
-
+return true;
     $conversation = Conversation::find($conversationId);       
 
     if (!$conversation) return false;
