@@ -526,7 +526,8 @@
                     window.Echo.connector.options.auth.headers['X-Guest-Id'] = currentGuest.id;
                 }
                 console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
-
+console.log(window.guestToken, window.guestId);
+console.log(document.querySelector('meta[name="csrf-token"]').content);
 
                 // Listen for messages on the conversation channel
                 window.Echo.private(`conversation.${conversationId}`, {
