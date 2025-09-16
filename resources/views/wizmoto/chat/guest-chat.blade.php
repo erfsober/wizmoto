@@ -188,7 +188,7 @@
                                                     
                                                                 @php
                                                                     $provider = $conversation->first()->provider;
-                                                                    $lastMessage = $conversation->messages
+                                                                    $lastMessage = $conversation->messages()
                                                                         ->orderByDesc('created_at')
                                                                         ->first();
                                                                 @endphp
