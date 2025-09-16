@@ -8,6 +8,12 @@ use Carbon\Carbon;
 
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
+    Log::warning("Auth callback hit for conversation {$conversationId}", [
+        'user_class' => get_class($user),
+        'guest_token' => request()->header('X-Guest-Token'),
+        'guest_id' => request()->header('X-Guest-Id'),
+    ]);
+
     $conversation = Conversation::find($conversationId);        Log::warning("No conversation found for ID {$conversationId}");
 
     if (!$conversation) return false;
