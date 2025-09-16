@@ -303,20 +303,16 @@
 <script>
     
 $(document).ready(function() {
-    // Get URL parameters for secure chat
-       // Get URL parameters (fallback)
-       const urlParams = new URLSearchParams(window.location.search);
-    const conversationId = urlParams.get('conversation_id') ?? @json($conversation->id ?? null);
-    const guestToken = urlParams.get('guest_token') ?? @json($conversation->raw_guest_token ?? null);
+    window.guestToken = '{{ $guestToken ?? '' }}';
+    window.guestId = '{{ $guestId ?? '' }}';
+    window.conversationId = '{{ $conversationId ?? '' }}';
 
     // Get data from backend
-    let currentProviderId = @json($provider->id ?? null);
-    let currentGuest = @json($guest ?? null);
-    let currentProvider = @json($provider ?? null);
-    let currentConversation = @json($conversation ?? null);
-    // Set globals first
-    window.guestId = currentGuest?.id ?? null;
-    window.guestToken = guestToken;
+    let currentProviderId = '{{ $provider->id ?? '' }}';
+    let currentGuest = '{{ $guest ?? '' }}';
+    let currentProvider = '{{ $provider ?? '' }}';
+    let currentConversation = '{{ $conversation ?? '' }}';
+   
  
     // Initialize the page
     initializePage();
@@ -522,6 +518,11 @@ $(document).ready(function() {
             return;
         }
 
+        if (window.Echo && window.Echo.connector && window.Echo.connector.pusher) {
+            // Update auth headers for existing Echo instance
+            window.Echo.connector.options.auth.headers['X-Guest-Token'] = guestToken;
+            window.Echo.connector.options.auth.headers['X-Guest-Id'] = currentGuest.id;
+        }
         console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
 
      
@@ -534,6 +535,9 @@ $(document).ready(function() {
                 if (e.sender_type !== 'guest') {
                     addMessageToChat(e);
                 }
+            })
+            .error((error) => {
+                console.error('❌ Failed to subscribe to conversation channel:', error);
             });
     }
 

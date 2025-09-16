@@ -241,7 +241,11 @@ class ChatController extends Controller
             $guest = $conversation->guest;
         }
 
-        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'));
+        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
+            'guestToken' => $request->guest_token,
+            'guestId' => $guest?->id,
+            'conversationId' => $request->conversation_id
+        ]);
     }
 
     /**
