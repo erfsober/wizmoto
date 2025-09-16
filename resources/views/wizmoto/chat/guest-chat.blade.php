@@ -188,8 +188,8 @@
                                                     
                                                                 @php
                                                                     $provider = $conversation->first()->provider;
-                                                                    $lastMessage = $conversation->messages()
-                                                                        ->sortByDesc('created_at')
+                                                                    $lastMessage = $conversation->messages
+                                                                        ->orderByDesc('created_at')
                                                                         ->first();
                                                                 @endphp
                                                                 <li class="contact-item"
