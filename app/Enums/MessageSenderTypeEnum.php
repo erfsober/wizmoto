@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 enum MessageSenderTypeEnum: string
 {
-    case USER = 'user';
+    case GUEST = 'guest';
     case PROVIDER = 'provider';
 }

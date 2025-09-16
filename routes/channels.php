@@ -1,29 +1,29 @@
 <?php
 
+use App\Models\Conversation;
 use App\Models\Provider;
-use App\Models\Guest;
 use Illuminate\Support\Facades\Broadcast;
 
-// Provider private channels (Laravel auth)
-Broadcast::channel('provider.{id}', function ($user, $id) {
-    return $user instanceof Provider && (int) $user->id === (int) $id;
-});
+// Conversation private channel - handles both provider and guest authorization
+Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
+    $conversation = Conversation::find($conversationId);
+    if (!$conversation) return false;
 
-// Guest private channels (custom token-based auth)
-Broadcast::channel('guest.{guestId}.{token}', function ($user, $guestId, $token) {
-    // For guests, we validate the token instead of user auth
-    $guest = Guest::find($guestId);
-    if (!$guest) {
-        return false;
+    // Provider (authenticated user)
+    if ($user instanceof Provider) {
+        return (int)$user->id === (int)$conversation->provider_id;
     }
-    
-    // Get provider from current session/request (you'll need to pass this)
-    $providerId = request()->get('provider_id');
-    if (!$providerId) {
-        return false;
-    }
-    
-    // Verify the token matches our algorithm
-    $expectedToken = md5($guest->email . $providerId . env('APP_KEY'));
-    return $token === $expectedToken;
+
+    // Guest: token-based auth via headers sent in the auth request
+    $guestToken = request()->header('X-Guest-Token') ?? request('guest_token');
+    $guestId = request()->header('X-Guest-Id') ?? request('guest_id');
+
+    if (!$guestToken || !$guestId) return false;
+    if ((int)$conversation->guest_id !== (int)$guestId) return false;
+    if (!$conversation->token_expires_at || $conversation->token_expires_at->isPast()) return false;
+
+    $expectedHash = $conversation->guest_token_hash;
+    $providedHash = hash_hmac('sha256', $guestToken, config('app.key'));
+
+    return hash_equals($expectedHash, $providedHash);
 });

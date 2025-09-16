@@ -52,9 +52,4 @@ class Guest extends Model
         
         return $masked_username . '@' . $domain;
     }
-        public function getConversationLink($providerId)
-    {
-        $token = md5($this->email . $providerId . env('APP_KEY'));
-        return route('chat.guest.show', $providerId) . '?guest_id=' . $this->id . '&email=' . urlencode($this->email) . '&token=' . $token;
-    }
 }

@@ -31,6 +31,8 @@ Route::prefix('chat')->group(function () {
     Route::get('/guest/{providerId}', [ChatController::class, 'showGuestChat'])->name('chat.guest.show');
     Route::get('/guest/conversation/{guestId}', [ChatController::class, 'getGuestConversation'])->name('chat.guest.conversation');
     Route::post('/guest/share-email', [ChatController::class, 'shareGuestEmail'])->name('chat.guest.share-email');
+   
+
 });
 // advertisements group
 Route::prefix('advertisements')->group(function () {
@@ -58,6 +60,8 @@ Route::middleware(["auth:provider"])->prefix('dashboard')
         Route::get('/conversations', [ChatController::class, 'showProviderChats'])->name('dashboard.conversations');
         Route::get('/conversations/{guestId}', [ChatController::class, 'getProviderConversation'])->name('dashboard.conversation.show');
         Route::post('/conversations/{guestId}/request-contact', [ChatController::class, 'requestGuestContact'])->name('dashboard.conversation.request-contact');
+        Route::get('/conversations/{conversationId}', [ChatController::class, 'getProviderConversation'])->name('dashboard.get-conversation-by-id');
+        Route::post('/send-provider-message', [ChatController::class, 'sendProviderMessage'])->name('dashboard.send-provider-message');
      });
 
 require( __DIR__ . '/vendor/provider.php' );

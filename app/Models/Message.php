@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\MessageSenderTypeEnum;
 
 class Message extends Model
 {
@@ -20,9 +21,14 @@ class Message extends Model
         return $this->belongsTo(Provider::class);
     }
 
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class);
+    }
+
     public function getSenderAttribute()
     {
-        if ($this->sender_type === 'guest') {
+        if ($this->sender_type === MessageSenderTypeEnum::GUEST->value) {
             return $this->guest;
         }
         return $this->provider;

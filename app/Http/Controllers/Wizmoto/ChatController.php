@@ -9,10 +9,11 @@ use App\Models\Message;
 use App\Models\Provider;
 use App\Models\Advertisement;
 use App\Services\ChatEmailService;
+use App\Enums\MessageSenderTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Conversation;
 
 class ChatController extends Controller
 {
@@ -57,12 +58,35 @@ class ChatController extends Controller
             }
         }
 
+        $conversation = Conversation::where('provider_id', $request->provider_id)
+            ->where('guest_id', $guest->id)
+            ->first();
+
+        if (!$conversation) {
+
+            // Create conversation
+            $conversation = Conversation::create([
+                'provider_id' => $request->provider_id,
+                'guest_id' => $guest->id,
+
+            ]);
+        }
+
+        // Create context message about the advertisement
+        $contextMessage = $request->message;
+        if ($request->advertisement_id) {
+            $advertisement = Advertisement::find($request->advertisement_id);
+            if ($advertisement) {
+                $contextMessage = "Regarding: {$advertisement->title}\n\n" . $request->message;
+            }
+        }
         // Create the initial message
         $message = Message::create([
             'guest_id' => $guest->id,
             'provider_id' => $request->provider_id,
-            'sender_type' => 'guest',
-            'message' => $contextMessage
+            'sender_type' => MessageSenderTypeEnum::GUEST->value,
+            'message' => $contextMessage,
+            'conversation_id' => $conversation->id
         ]);
 
         // Broadcast the message to the provider
@@ -70,10 +94,13 @@ class ChatController extends Controller
 
         // ChatEmailService::sendGuestMessageToProvider($message);
         return response()->json([
+            'conversation_link' => $conversation->getConversationLink(),
+            'privacy_notice' => 'Your email is kept private until you choose to share it.',
             'success' => true,
             'message' => 'Your message has been sent! The dealer will respond via this platform.',
-            'conversation_link' => $guest->getConversationLink($request->provider_id),
-            'privacy_notice' => 'Your email is kept private until you choose to share it.'
+            'conversation_id' => $conversation->id,
+            'guest_token' => $conversation->raw_guest_token,
+            'expires_at' => $conversation->token_expires_at,
         ]);
     }
 
@@ -83,9 +110,9 @@ class ChatController extends Controller
     public function sendGuestMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'provider_id' => 'required|exists:providers,id',
+            'conversation_id' => 'required|exists:conversations,id',
             'message' => 'required|string|max:1000',
-            'guest_email' => 'required|email'
+            'guest_token' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -95,24 +122,36 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find guest by email
-        $guest = Guest::where('email', $request->guest_email)->first();
-        if (!$guest) {
+        // Find conversation and validate token
+        $conversation = Conversation::find($request->conversation_id);
+        if (!$conversation) {
             return response()->json([
                 'success' => false,
-                'message' => 'Guest not found'
+                'message' => 'Conversation not found'
             ], 404);
+        }
+
+        // Validate guest token
+        $expectedHash = $conversation->guest_token_hash;
+        $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
+
+        if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid or expired token'
+            ], 403);
         }
 
         // Create the message
         $message = Message::create([
-            'guest_id' => $guest->id,
-            'provider_id' => $request->provider_id,
-            'sender_type' => 'guest',
+            'conversation_id' => $conversation->id,
+            'guest_id' => $conversation->guest_id,
+            'provider_id' => $conversation->provider_id,
+            'sender_type' => MessageSenderTypeEnum::GUEST->value,
             'message' => $request->message
         ]);
 
-        // Broadcast the message to the provider
+        // Broadcast the message to the conversation
         broadcast(new MessageSent($message));
 
         return response()->json([
@@ -123,13 +162,13 @@ class ChatController extends Controller
     }
 
     /**
-     * Get chat messages between guest and provider
+     * Get chat messages for a conversation
      */
     public function getChatMessages(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'provider_id' => 'required|exists:providers,id',
-            'guest_email' => 'required|email'
+            'conversation_id' => 'required|exists:conversations,id',
+            'guest_token' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -139,18 +178,28 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find guest by email
-        $guest = Guest::where('email', $request->guest_email)->first();
-        if (!$guest) {
+        // Find conversation and validate token
+        $conversation = \App\Models\Conversation::find($request->conversation_id);
+        if (!$conversation) {
             return response()->json([
                 'success' => false,
-                'message' => 'Guest not found'
+                'message' => 'Conversation not found'
             ], 404);
         }
 
-        // Get messages between this guest and provider
-        $messages = Message::where('guest_id', $guest->id)
-            ->where('provider_id', $request->provider_id)
+        // Validate guest token
+        $expectedHash = $conversation->guest_token_hash;
+        $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
+
+        if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid or expired token'
+            ], 403);
+        }
+
+        // Get messages for this conversation
+        $messages = Message::where('conversation_id', $conversation->id)
             ->with(['guest', 'provider'])
             ->orderBy('created_at', 'asc')
             ->get();
@@ -158,8 +207,9 @@ class ChatController extends Controller
         return response()->json([
             'success' => true,
             'messages' => $messages,
-            'guest' => $guest,
-            'provider' => Provider::find($request->provider_id)
+            'guest' => $conversation->guest,
+            'provider' => $conversation->provider,
+            'conversation' => $conversation
         ]);
     }
 
@@ -170,36 +220,28 @@ class ChatController extends Controller
     {
         $provider = Provider::findOrFail($providerId);
         $guest = null;
-        $conversations = [];
+        $conversation = null;
 
-        // If guest_id is provided, verify token and load the specific conversation
-        if ($request->has('guest_id') && $request->has('email') && $request->has('token')) {
-            $guest = Guest::find($request->guest_id);
-            
-            if (!$guest) {
-                abort(404, 'Guest not found');
+        // If conversation_id and token are provided, verify and load the conversation
+        if ($request->has('conversation_id') && $request->has('guest_token')) {
+            $conversation = Conversation::find($request->conversation_id);
+
+            if (!$conversation) {
+                abort(404, 'Conversation not found');
             }
 
-            // Verify token
-            $expectedToken = md5($request->email . $providerId . env('APP_KEY'));
-            if ($request->token !== $expectedToken) {
-                abort(403, 'Invalid conversation link');
+            // Validate guest token
+            $expectedHash = $conversation->guest_token_hash;
+            $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
+
+            if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
+                abort(403, 'Invalid or expired conversation link');
             }
 
-            // Verify guest email matches
-            if ($guest->email !== $request->email) {
-                abort(403, 'Invalid conversation access');
-            }
-
-            // Get all conversations for this guest
-            $conversations = Message::where('guest_id', $guest->id)
-                ->with(['guest', 'provider'])
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->groupBy('provider_id');
+            $guest = $conversation->guest;
         }
 
-        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversations'));
+        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'));
     }
 
     /**
@@ -208,7 +250,7 @@ class ChatController extends Controller
     public function getGuestConversation(Request $request, $guestId)
     {
         $guest = Guest::find($guestId);
-        
+
         if (!$guest) {
             return response()->json([
                 'success' => false,
@@ -219,7 +261,7 @@ class ChatController extends Controller
         $providerId = $request->get('provider_id');
         $email = $request->get('email');
         $token = $request->get('token');
-        
+
         if (!$providerId) {
             return response()->json([
                 'success' => false,
@@ -272,11 +314,7 @@ class ChatController extends Controller
 
         return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
     }
-
-    /**
-     * Get conversation messages for provider dashboard
-     */
-    public function getProviderConversation(Request $request, $guestId)
+    public function sendProviderMessage(Request $request)
     {
         $provider = Auth::guard('provider')->user();
 
@@ -287,25 +325,74 @@ class ChatController extends Controller
             ], 401);
         }
 
-        $messages = Message::where('guest_id', $guestId)
-            ->where('provider_id', $provider->id)
+        $validator = Validator::make($request->all(), [
+            'conversation_id' => 'required|exists:conversations,id',
+            'message' => 'required|string|max:1000'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $conversation = Conversation::find($request->conversation_id);
+        if (!$conversation || $conversation->provider_id !== $provider->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Conversation not found'
+            ], 404);
+        }
+
+        $message = Message::create([
+            'conversation_id' => $conversation->id,
+            'guest_id' => $conversation->guest_id,
+            'provider_id' => $provider->id,
+            'sender_type' => MessageSenderTypeEnum::PROVIDER->value,
+            'message' => $request->message
+        ]);
+
+        broadcast(new MessageSent($message));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Message sent successfully!',
+            'data' => $message
+        ]);
+    }
+    /**
+     * Get conversation messages for provider dashboard
+     */
+    public function getProviderConversation(Request $request, $conversationId)
+    {
+        $provider = Auth::guard('provider')->user();
+
+        if (!$provider) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not authenticated'
+            ], 401);
+        }
+
+        $conversation = Conversation::find($conversationId);
+        if (!$conversation || $conversation->provider_id !== $provider->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Conversation not found'
+            ], 404);
+        }
+
+        $messages = Message::where('conversation_id', $conversation->id)
             ->with(['guest', 'provider'])
             ->orderBy('created_at', 'asc')
             ->get();
 
-        $guest = Guest::find($guestId);
-
-        if (!$guest) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Guest not found'
-            ], 404);
-        }
-
         return response()->json([
             'success' => true,
             'messages' => $messages,
-            'guest' => $guest
+            'guest' => $conversation->guest,
+            'conversation' => $conversation
         ]);
     }
 
