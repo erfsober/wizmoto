@@ -537,7 +537,7 @@ $(document).ready(function() {
                 }
             })
             .error((error) => {
-                console.error('❌ Failed to subscribe to conversation channel:', error);
+                console.error('❌ Failed to subscribe to conversation channel:', error.responseJSON);
             });
     }
 
