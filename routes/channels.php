@@ -3,10 +3,13 @@
 use App\Models\Conversation;
 use App\Models\Provider;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
-    $conversation = Conversation::find($conversationId);
+    $conversation = Conversation::find($conversationId);        Log::warning("No conversation found for ID {$conversationId}");
+
     if (!$conversation) return false;
 
     // Provider (authenticated user)
@@ -17,10 +20,11 @@ Broadcast::channel('conversation.{conversationId}', function ($user, $conversati
     // Guest: token-based auth via headers sent in the auth request
     $guestToken = request()->header('X-Guest-Token') ?? request('guest_token');
     $guestId = request()->header('X-Guest-Id') ?? request('guest_id');
-
+    Log::info("Auth attempt", ['guestId' => $guestId, 'guestToken' => $guestToken]);
     if (!$guestToken || !$guestId) return false;
     if ((int)$conversation->guest_id !== (int)$guestId) return false;
-    if (!$conversation->token_expires_at || $conversation->token_expires_at->isPast()) return false;
+    if (!$conversation->token_expires_at || Carbon::parse($conversation->token_expires_at)->isPast()) return false;
+   
 
     $expectedHash = $conversation->guestToken();
     $providedHash = hash_hmac('sha256', $guestToken, config('app.key'));

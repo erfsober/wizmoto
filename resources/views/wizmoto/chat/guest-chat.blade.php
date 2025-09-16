@@ -526,7 +526,10 @@ $(document).ready(function() {
         console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
 
      
-
+        console.log('Guest headers being sent:', {
+    guestToken: window.guestToken,
+    guestId: window.guestId
+});
         // Listen for messages on the conversation channel
         window.Echo.private(`conversation.${conversationId}`)
             .listen('.MessageSent', (e) => {
