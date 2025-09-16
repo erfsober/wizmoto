@@ -33,3 +33,8 @@ window.Echo = new Echo({
         },
     },
 });
+
+console.log('bootstrap.js');
+console.log(window.guestToken, window.guestId);
+console.log(document.querySelector('meta[name="csrf-token"]').content);
+
