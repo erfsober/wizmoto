@@ -525,21 +525,7 @@ $(document).ready(function() {
 
         console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
 
-        // Initialize Echo with guest token authentication
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ env("PUSHER_APP_KEY") }}',
-            cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
-            forceTLS: true,
-            authEndpoint: '/broadcasting/auth',
-            auth: {
-                headers: {
-                    'X-Guest-Token': guestToken,
-                    'X-Guest-Id': currentGuest.id,
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                }
-            }
-        });
+     
 
         // Listen for messages on the conversation channel
         window.Echo.private(`conversation.${conversationId}`)
