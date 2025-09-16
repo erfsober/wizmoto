@@ -314,27 +314,6 @@
     // Set globals first
     window.guestId = currentGuest?.id ?? null;
     window.guestToken = guestToken;
-
-    // Then initialize Echo
-    window.Echo = new Echo({
-        broadcaster: "pusher",
-        key: "{{ env('PUSHER_APP_KEY') }}", 
-        cluster: "{{ env('PUSHER_APP_CLUSTER') }}",
-        forceTLS: true,
-        wsHost: "{{ env('PUSHER_HOST') }}",
-        wsPort: "{{ env('PUSHER_PORT') }}",
-        wssPort: "{{ env('PUSHER_PORT') }}",
-        enabledTransports: ["ws", "wss"],
-        authEndpoint: "/broadcasting/auth",
-        auth: {
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                "X-Guest-Token": window.guestToken,
-                "X-Guest-Id": window.guestId,
-            },
-        },
-    });
-
     startPusherListeners();
 </script>
 
