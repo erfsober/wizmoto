@@ -22,7 +22,7 @@ Broadcast::channel('conversation.{conversationId}', function ($user, $conversati
     if ((int)$conversation->guest_id !== (int)$guestId) return false;
     if (!$conversation->token_expires_at || $conversation->token_expires_at->isPast()) return false;
 
-    $expectedHash = $conversation->guest_token_hash;
+    $expectedHash = $conversation->guestToken();
     $providedHash = hash_hmac('sha256', $guestToken, config('app.key'));
 
     return hash_equals($expectedHash, $providedHash);
