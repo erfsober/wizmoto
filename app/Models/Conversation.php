@@ -48,7 +48,7 @@ class Conversation extends Model
         return route('chat.guest.show', [
             'providerId' => $this->provider_id,
             'conversation_id' => $this->id,
-            'guest_token' => $this->guestToken()
+            'guest_token' => $this->raw_guest_token
         ]);
     }
 }
