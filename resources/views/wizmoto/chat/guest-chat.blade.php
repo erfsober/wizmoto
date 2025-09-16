@@ -302,20 +302,25 @@
 <script>
 $(document).ready(function() {
     // Get URL parameters for secure chat
-    const urlParams = new URLSearchParams(window.location.search);
-    const conversationId = urlParams.get('conversation_id');
-    const guestToken = urlParams.get('guest_token');
-    
+       // Get URL parameters (fallback)
+       const urlParams = new URLSearchParams(window.location.search);
+    const conversationId = urlParams.get('conversation_id') ?? @json($conversation->id ?? null);
+    const guestToken = urlParams.get('guest_token') ?? @json($conversation->raw_guest_token ?? null);
+
     // Get data from backend
-    let currentProviderId = null;
-    let currentGuest = @json($guest);
-    let currentProvider = @json($provider);
-    let currentConversation = @json($conversation);
-    
+    let currentProviderId = @json($provider->id ?? null);
+    let currentGuest = @json($guest ?? null);
+    let currentProvider = @json($provider ?? null);
+    let currentConversation = @json($conversation ?? null);
+
+    // Set globals for Echo auth headers
+    window.guestId = currentGuest?.id ?? null;
+    window.guestToken = guestToken;
+
     console.log('🔐 Secure chat parameters:', {
         conversationId,
-        guestToken,
-        currentGuest: currentGuest?.id,
+        guestToken: window.guestToken,
+        currentGuest: window.guestId,
         currentProvider: currentProvider?.id
     });
 
