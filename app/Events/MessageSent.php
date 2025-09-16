@@ -27,7 +27,7 @@ class MessageSent implements ShouldBroadcastNow
     public function broadcastOn()
     {
         // Use private channel with conversation ID
-        return [new PrivateChannel('conversation.' . $this->message->conversation_id)];
+        return new PrivateChannel('conversation.' . $this->message->conversation_id);
     }
 
     public function broadcastWith(): array
