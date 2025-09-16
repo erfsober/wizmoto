@@ -185,7 +185,7 @@
                                                     </div>
                                                     <div class="card-body contacts_body">
                                                         <ul class="contacts">
-                                                            @forelse($conversation as $providerId => $conversation)
+                                                    
                                                                 @php
                                                                     $provider = $conversation->first()->provider;
                                                                     $lastMessage = $conversation
@@ -214,13 +214,7 @@
                                                                     </a>
                                                                 </li>
 
-                                                            @empty
-                                                                <li class="text-center py-4">
-                                                                    <p class="text-muted mb-0">No conversations yet</p>
-                                                                    <small class="text-muted">Messages from providers will
-                                                                        appear here</small>
-                                                                </li>
-                                                            @endforelse
+                                                        
                                                         </ul>
                                                     </div>
                                                 </div>
