@@ -25,16 +25,15 @@ window.Echo = new Echo({
     enabledTransports: ["ws", "wss"],
     authEndpoint: "/broadcasting/auth",
     auth: {
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-            "X-Guest-Token": window.guestToken,
-            "X-Guest-Id": window.guestId,
-        },
+        headers: function() {
+            return {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content || '',
+                "X-Guest-Token": window.guestToken || '',
+                "X-Guest-Id": window.guestId || '',
+            };
+        }
     },
 });
 
-console.log('bootstrap.js');
-console.log(window.guestToken, window.guestId);
-console.log(document.querySelector('meta[name="csrf-token"]').content);
+
 

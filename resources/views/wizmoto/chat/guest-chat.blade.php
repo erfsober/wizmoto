@@ -304,14 +304,22 @@
         $(document).ready(function() {
             window.guestToken = '{{ $guestToken ?? '' }}';
             window.guestId = '{{ $guestId ?? '' }}';
-            window.conversationId = '{{ $conversationId ?? '' }}';
+            const urlParams = new URLSearchParams(window.location.search);
+    const conversationId = urlParams.get('conversation_id') || '{{ $conversationId ?? "" }}';
+    const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? "" }}';
+    
 
             // Get data from backend
-            let currentProviderId = '{{ $provider->id ?? '' }}';
-            let currentGuest = '{{ $guest ?? '' }}';
-            let currentProvider = '{{ $provider ?? '' }}';
-            let currentConversation = '{{ $conversation ?? '' }}';
-
+            let currentProviderId = '{{ $provider->id ?? "" }}';
+    let currentGuest = @json($guest);
+    let currentProvider = @json($provider);
+    let currentConversation = @json($conversation);
+    console.log('🔐 Secure chat parameters:', {
+        conversationId,
+        guestToken,
+        currentGuest: currentGuest?.id,
+        currentProvider: currentProvider?.id
+    });
 
             // Initialize the page
             initializePage();
@@ -520,23 +528,9 @@
                     return;
                 }
 
-                if (window.Echo && window.Echo.connector && window.Echo.connector.pusher) {
-                    // Update auth headers for existing Echo instance
-                    window.Echo.connector.options.auth.headers['X-Guest-Token'] = guestToken;
-                    window.Echo.connector.options.auth.headers['X-Guest-Id'] = currentGuest.id;
-                }
-                console.log('🔐 Starting secure Pusher listeners for conversation:', conversationId);
-console.log(window.guestToken, window.guestId);
-console.log(document.querySelector('meta[name="csrf-token"]').content);
 
                 // Listen for messages on the conversation channel
-                window.Echo.private(`conversation.${conversationId}`, {
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "X-Guest-Token": window.guestToken,
-                            "X-Guest-Id": window.guestId,
-                        }
-                    })
+                window.Echo.private(`conversation.${conversationId}`)
                     .listen('.MessageSent', (e) => {
                         console.log('📨 New message received via secure Pusher:', e);
 
