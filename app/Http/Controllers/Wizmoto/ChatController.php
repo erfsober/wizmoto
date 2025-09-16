@@ -231,7 +231,7 @@ class ChatController extends Controller
             }
 
             // Validate guest token
-            $expectedHash = $conversation->guest_token_hash;
+            $expectedHash = $conversation->guestToken();
             $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
 
             if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
