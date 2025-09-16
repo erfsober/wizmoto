@@ -185,7 +185,7 @@
                                                     </div>
                                                     <div class="card-body contacts_body">
                                                         <ul class="contacts">
-                                                            @forelse($conversations as $providerId => $conversation)
+                                                            @forelse($conversation as $providerId => $conversation)
                                                                 @php
                                                                     $provider = $conversation->first()->provider;
                                                                     $lastMessage = $conversation
