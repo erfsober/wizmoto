@@ -179,7 +179,7 @@ class ChatController extends Controller
         }
 
         // Find conversation and validate token
-        $conversation = \App\Models\Conversation::find($request->conversation_id);
+        $conversation = Conversation::find($request->conversation_id);
         if (!$conversation) {
             return response()->json([
                 'success' => false,
@@ -188,7 +188,7 @@ class ChatController extends Controller
         }
 
         // Validate guest token
-        $expectedHash = $conversation->guest_token_hash;
+        $expectedHash = $conversation->guestToken();
         $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
 
         if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
