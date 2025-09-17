@@ -322,7 +322,7 @@
             });
 
             // Now initialize Echo
-            window.initEcho({ guestToken, guestId: currentGuestId });
+            window.initEcho({ guestToken, guestId: currentGuest?.id });
 
             console.log('Echo initialized', window.guestToken, window.guestId);
 
