@@ -16,23 +16,23 @@ import Pusher from "pusher-js";
 
 window.Pusher = Pusher;
 
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true,
-    enabledTransports: ["ws", "wss"],
-    auth: {
-        headers: function() {
-            return {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content || '',
-                "X-Guest-Token": window.guestToken || '',
-                "X-Guest-Id": window.guestId || '',
-            };
-        }
-    },
-});
-console.log('Echo initialized',window.guestToken,window.guestId);
+// window.Echo = new Echo({
+//     broadcaster: "pusher",
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+//     forceTLS: true,
+//     enabledTransports: ["ws", "wss"],
+//     auth: {
+//         headers: function() {
+//             return {
+//                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content || '',
+//                 "X-Guest-Token": window.guestToken || '',
+//                 "X-Guest-Id": window.guestId || '',
+//             };
+//         }
+//     },
+// });
+// console.log('Echo initialized',window.guestToken,window.guestId);
 
 
 

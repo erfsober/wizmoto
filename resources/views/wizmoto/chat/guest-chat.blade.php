@@ -307,27 +307,43 @@
     const conversationId = urlParams.get('conversation_id') || '{{ $conversationId ?? "" }}';
     const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? "" }}';
     
+// After setting global variables
+window.guestToken = guestToken;
+window.guestId = currentGuest?.id;
+window.conversationId = conversationId;
+
+console.log('Global tokens set:', {
+    guestToken: window.guestToken,
+    guestId: window.guestId,
+    conversationId: window.conversationId
+});
+
+// Now initialize Echo
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: true,
+    enabledTransports: ["ws", "wss"],
+    auth: {
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "X-Guest-Token": window.guestToken,
+            "X-Guest-Id": window.guestId
+        }
+    }
+});
+
+console.log('Echo initialized', window.guestToken, window.guestId);
+
+
 
             // Get data from backend
             let currentProviderId = '{{ $provider->id ?? "" }}';
     let currentGuest = @json($guest);
     let currentProvider = @json($provider);
     let currentConversation = @json($conversation);
-    console.log('🔐 Secure chat parameters:', {
-        conversationId,
-        guestToken,
-        currentGuest: currentGuest?.id,
-        currentProvider: currentProvider?.id
-    });
-    window.guestToken = guestToken;
-    window.guestId = currentGuest?.id;
-    window.conversationId = conversationId;
     
-    console.log('Global tokens set:', {
-        guestToken: window.guestToken,
-        guestId: window.guestId,
-        conversationId: window.conversationId
-    });
             // Initialize the page
             initializePage();
 
