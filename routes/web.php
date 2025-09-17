@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
 use Illuminate\Support\Facades\Broadcast;
-Broadcast::routes(['middleware' => []]);
+Broadcast::routes(['middleware' => ["auth:provider"]]);
 
 Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
 Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');
