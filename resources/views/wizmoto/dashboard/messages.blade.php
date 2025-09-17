@@ -143,11 +143,15 @@ $(document).ready(function() {
     let currentConversationId = null;
     let allConversations = @json($conversations);
     let refreshInterval;
+    let currentChannel = null; // Track current channel subscription
 
     console.log('🔐 Provider dashboard initialized:', {
         providerId: currentProviderId,
         conversationsCount: Object.keys(allConversations).length
     });
+
+    // Initialize Echo for provider (no guest tokens needed)
+    window.initEcho({ guestToken: '', guestId: '' });
 
     // Initialize the page
     initializePage();
@@ -158,9 +162,6 @@ $(document).ready(function() {
 
         // Load initial conversations
         loadConversations();
-
-        // Start Pusher listeners for real-time messages
-        startPusherListeners();
     }
 
     function bindEvents() {
@@ -258,6 +259,9 @@ $(document).ready(function() {
                     $('#chat-header').fadeIn();
                     $('#chat-footer').fadeIn();
                     $('#no-chat-selected').hide();
+
+                    // Subscribe to this conversation's channel
+                    subscribeToConversation(currentConversationId);
                 } else {
                     showChatError('Failed to load conversation');
                 }
@@ -273,6 +277,42 @@ $(document).ready(function() {
                 }
             }
         });
+    }
+
+    function subscribeToConversation(conversationId) {
+        // Check if Echo is available
+        if (typeof window.Echo === 'undefined') {
+            console.log('Echo not loaded yet, retrying in 1 second...');
+            setTimeout(() => subscribeToConversation(conversationId), 1000);
+            return;
+        }
+
+        // Unsubscribe from previous channel if exists
+        if (currentChannel) {
+            console.log('🔌 Unsubscribing from previous channel');
+            window.Echo.leaveChannel(`conversation.${currentChannel}`);
+            currentChannel = null;
+        }
+
+        // Subscribe to new channel
+        console.log('🔌 Subscribing to conversation channel:', conversationId);
+        
+        currentChannel = conversationId;
+        window.Echo.private(`conversation.${conversationId}`)
+            .listen('.MessageSent', (e) => {
+                console.log('📨 New message received via Pusher:', e);
+                
+                // Add the new message to current chat if it's the same guest
+                if (currentGuestId && currentGuestId == e.guest_id) {
+                    addMessageToChat(e);
+                }
+                
+                // Update conversation list
+                updateConversationList(e);
+            })
+            .error((error) => {
+                console.error('❌ Failed to subscribe to conversation channel:', error);
+            });
     }
 
     function displayConversation(messages, guest) {
@@ -399,41 +439,6 @@ $(document).ready(function() {
                 sendBtn.find('.text-dk').text('Send Message');
             }
         });
-    }
-
-    function startPusherListeners() {
-        const provider = @json($provider);
-        if (!provider) return;
-
-        // Check if Echo is available
-        if (typeof window.Echo === 'undefined') {
-            console.log('Echo not loaded yet, retrying in 1 second...');
-            setTimeout(startPusherListeners, 1000);
-            return;
-        }
-
-        console.log('🔐 Starting Pusher listeners for provider:', provider.id);
-
-        // Subscribe to all conversation channels for this provider
-        @foreach($conversations as $guestId => $conversation)
-            @php
-                $conversationId = $conversation->first()->conversation_id ?? null;
-            @endphp
-            @if($conversationId)
-                window.Echo.private(`conversation.{{ $conversationId }}`)
-                    .listen('.MessageSent', (e) => {
-                        console.log('📨 New message received via Pusher:', e);
-                        
-                        // Add the new message to current chat if it's the same guest
-                        if (currentGuestId && currentGuestId == e.guest_id) {
-                            addMessageToChat(e);
-                        }
-                        
-                        // Update conversation list
-                        updateConversationList(e);
-                    });
-            @endif
-        @endforeach
     }
 
     function addMessageToChat(messageData) {

@@ -326,10 +326,6 @@
 
             console.log('Echo initialized', window.guestToken, window.guestId);
 
-
-
-
-
             // Initialize the page
             initializePage();
 
