@@ -302,48 +302,48 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            
-            const urlParams = new URLSearchParams(window.location.search);
-    const conversationId = urlParams.get('conversation_id') || '{{ $conversationId ?? "" }}';
-    const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? "" }}';
-    
-// After setting global variables
-window.guestToken = guestToken;
-window.guestId = currentGuest?.id;
-window.conversationId = conversationId;
-
-console.log('Global tokens set:', {
-    guestToken: window.guestToken,
-    guestId: window.guestId,
-    conversationId: window.conversationId
-});
-
-// Now initialize Echo
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: '{{ env('PUSHER_APP_KEY') }}',
-    cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-    forceTLS: true,
-    enabledTransports: ["ws", "wss"],
-    auth: {
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-            "X-Guest-Token": window.guestToken,
-            "X-Guest-Id": window.guestId
-        }
-    }
-});
-
-console.log('Echo initialized', window.guestToken, window.guestId);
-
-
-
             // Get data from backend
-            let currentProviderId = '{{ $provider->id ?? "" }}';
-    let currentGuest = @json($guest);
-    let currentProvider = @json($provider);
-    let currentConversation = @json($conversation);
-    
+            let currentProviderId = '{{ $provider->id ?? '' }}';
+            let currentGuest = @json($guest);
+            let currentProvider = @json($provider);
+            let currentConversation = @json($conversation);
+            const urlParams = new URLSearchParams(window.location.search);
+            const conversationId =$conversation->id;
+            const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
+
+            // After setting global variables
+            window.guestToken = guestToken;
+            window.guestId = currentGuest?.id;
+            window.conversationId = conversationId;
+
+            console.log('Global tokens set:', {
+                guestToken: window.guestToken,
+                guestId: window.guestId,
+                conversationId: window.conversationId
+            });
+
+            // Now initialize Echo
+            window.Echo = new Echo({
+                broadcaster: "pusher",
+                key: '{{ env('PUSHER_APP_KEY') }}',
+                cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+                forceTLS: true,
+                enabledTransports: ["ws", "wss"],
+                auth: {
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Guest-Token": window.guestToken,
+                        "X-Guest-Id": window.guestId
+                    }
+                }
+            });
+
+            console.log('Echo initialized', window.guestToken, window.guestId);
+
+
+
+
+
             // Initialize the page
             initializePage();
 
@@ -444,7 +444,7 @@ console.log('Echo initialized', window.guestToken, window.guestId);
                 } else {
                     chatMessages.html(
                         '<div class="text-center text-muted py-4">No messages yet. Start the conversation!</div>'
-                        );
+                    );
                 }
             }
 
