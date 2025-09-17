@@ -32,6 +32,7 @@ window.Echo = new Echo({
         }
     },
 });
+console.log('Echo initialized',window.guestToken,window.guestId);
 
 
 
