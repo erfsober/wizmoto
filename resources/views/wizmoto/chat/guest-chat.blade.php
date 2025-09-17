@@ -302,8 +302,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            window.guestToken = '{{ $guestToken ?? '' }}';
-            window.guestId = '{{ $guestId ?? '' }}';
+            
             const urlParams = new URLSearchParams(window.location.search);
     const conversationId = urlParams.get('conversation_id') || '{{ $conversationId ?? "" }}';
     const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? "" }}';
@@ -320,7 +319,15 @@
         currentGuest: currentGuest?.id,
         currentProvider: currentProvider?.id
     });
-
+    window.guestToken = '{{ request("guest_token") ?? $guestToken ?? "" }}';
+    window.guestId = '{{ $guest->id ?? request("guest_id") ?? "" }}';
+    window.conversationId = '{{ request("conversation_id") ?? $conversation->id ?? "" }}';
+    
+    console.log('Global tokens set:', {
+        guestToken: window.guestToken,
+        guestId: window.guestId,
+        conversationId: window.conversationId
+    });
             // Initialize the page
             initializePage();
 
