@@ -36,3 +36,19 @@ window.Pusher = Pusher;
 
 
 
+window.initEcho = function({ guestToken, guestId }) {
+    window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+        forceTLS: true,
+        enabledTransports: ["ws", "wss"],
+        auth: {
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                "X-Guest-Token": guestToken,
+                "X-Guest-Id": guestId
+            }
+        }
+    });
+};

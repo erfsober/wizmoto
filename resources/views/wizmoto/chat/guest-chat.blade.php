@@ -322,20 +322,7 @@
             });
 
             // Now initialize Echo
-            window.Echo = new Echo({
-                broadcaster: "pusher",
-                key: '{{ env('PUSHER_APP_KEY') }}',
-                cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-                forceTLS: true,
-                enabledTransports: ["ws", "wss"],
-                auth: {
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "X-Guest-Token": window.guestToken,
-                        "X-Guest-Id": window.guestId
-                    }
-                }
-            });
+            window.initEcho({ guestToken, guestId: currentGuestId });
 
             console.log('Echo initialized', window.guestToken, window.guestId);
 
