@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
-    return true;
     Log::info('Channel auth attempt', [
         'conversation_id' => $conversationId,
         'user' => $user,

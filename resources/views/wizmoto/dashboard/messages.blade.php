@@ -294,6 +294,7 @@ $(document).ready(function() {
             currentChannel = null;
         }
 
+    
         // Subscribe to new channel
         console.log('🔌 Subscribing to conversation channel:', conversationId);
         
