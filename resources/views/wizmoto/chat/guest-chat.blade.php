@@ -308,7 +308,7 @@
             let currentProvider = @json($provider);
             let currentConversation = @json($conversation);
             const urlParams = new URLSearchParams(window.location.search);
-            const conversationId =$conversation->id;
+            const conversationId =$conversation?.id;
             const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
 
             // After setting global variables
