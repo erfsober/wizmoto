@@ -43,6 +43,7 @@ window.initEcho = function({ guestToken, guestId }) {
         cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
         forceTLS: true,
         enabledTransports: ["ws", "wss"],
+        authEndpoint: "/broadcasting/auth", 
         auth: {
             headers: {
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
