@@ -319,9 +319,9 @@
         currentGuest: currentGuest?.id,
         currentProvider: currentProvider?.id
     });
-    window.guestToken = '{{ request("guest_token") ?? $guestToken ?? "" }}';
-    window.guestId = '{{ $guest->id ?? request("guest_id") ?? "" }}';
-    window.conversationId = '{{ request("conversation_id") ?? $conversation->id ?? "" }}';
+    window.guestToken = guestToken;
+    window.guestId = currentGuest?.id;
+    window.conversationId = conversationId;
     
     console.log('Global tokens set:', {
         guestToken: window.guestToken,
