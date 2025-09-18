@@ -26,9 +26,9 @@ Route::get('/debug/token-validation', function () {
     }
     
     return response()->json([
-        'conversation_guest_token' => $conversation->guest_token,
+        'conversation_guest_token' => $conversation->raw_guest_token,
         'provided_guest_token' => $guestToken,
-        'tokens_match' => hash_equals($conversation->guest_token, $guestToken),
+        'tokens_match' => hash_equals($conversation->raw_guest_token, $guestToken),
         'guest_ids_match' => (int)$guestId === (int)$conversation->guest_id,
         'token_expired' => $conversation->token_expires_at && $conversation->token_expires_at->isPast(),
         'token_expires_at' => $conversation->token_expires_at
