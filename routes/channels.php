@@ -4,6 +4,7 @@ use App\Models\Conversation;
 use App\Models\Provider;
 use Illuminate\Support\Facades\Broadcast;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 Broadcast::routes([
@@ -12,12 +13,16 @@ Broadcast::routes([
 
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
+    if (!$user) {
+        Log::info('No user found, using provider guard');
+        // Use provider guard explicitly
+        $user = Auth::guard('provider')->user();
+    }
+
     Log::info('Channel auth attempt', [
-        'conversation_id' => $conversationId,
-        'user' => $user,
+        'user' => $user ? $user->id : null,
+        'conversationId' => $conversationId,
         'headers' => request()->headers->all(),
-        'guest_token' => request()->header('X-Guest-Token'),
-        'guest_id' => request()->header('X-Guest-Id'),
     ]);
     $conversation = Conversation::find($conversationId);       
 
