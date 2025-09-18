@@ -136,22 +136,14 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // Get data from backend
-    let currentProviderId = @json($provider->id);
-    let currentGuestId = null;
-    let currentGuest = null;
-    let currentConversationId = null;
-    let allConversations = @json($conversations);
-    let refreshInterval;
-    let currentChannel = null; // Track current channel subscription
 
-    console.log('🔐 Provider dashboard initialized:', {
-        providerId: currentProviderId,
-        conversationsCount: Object.keys(allConversations).length
-    });
 
-    // Initialize Echo for provider (no guest tokens needed)
-    window.initEcho({ guestToken: '', guestId: '' });
+    window.conversationData = {
+        conversationId: null,
+        guestToken:null  // null for provider
+    };
+
+    
 
     // Initialize the page
     initializePage();

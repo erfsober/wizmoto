@@ -7,10 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-Broadcast::routes([
-    'middleware' => ['web'], 
-]);
-
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
     Log::info('Channel auth attempt', [

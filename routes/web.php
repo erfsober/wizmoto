@@ -5,36 +5,10 @@ use App\Http\Controllers\Wizmoto\BlogController;
 use App\Http\Controllers\Wizmoto\ChatController;
 use App\Http\Controllers\Wizmoto\DashboardController;
 use App\Http\Controllers\Wizmoto\HomeController;
-use App\Http\Controllers\Wizmoto\Provider\Auth\AuthController;
-use App\Http\Controllers\Wizmoto\Provider\Auth\ProviderController;
 use App\Http\Controllers\Wizmoto\ReviewController;
-use App\Http\Controllers\Wizmoto\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Broadcast;
-// In routes/web.php
-Route::get('/debug/token-validation', function () {
-    $conversationId = request('conversation_id');
-    $guestToken = request('guest_token');
-    $guestId = request('guest_id');
-    
-    $conversation = \App\Models\Conversation::find($conversationId);
-    
-    if (!$conversation) {
-        return response()->json(['error' => 'Conversation not found']);
-    }
-    
-    return response()->json([
-        'conversation_guest_token' => $conversation->raw_guest_token,
-        'provided_guest_token' => $guestToken,
-        'tokens_match' => hash_equals($conversation->raw_guest_token, $guestToken),
-        'guest_ids_match' => (int)$guestId === (int)$conversation->guest_id,
-        'token_expired' => $conversation->token_expires_at && Carbon::parse($conversation->token_expires_at)->isPast(),
-        'token_expires_at' => $conversation->token_expires_at
-    ]);
-});
 
 Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
 Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');

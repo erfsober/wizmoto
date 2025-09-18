@@ -310,19 +310,13 @@
             const urlParams = new URLSearchParams(window.location.search);
             const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
 
-            // After setting global variables
-            window.guestToken = guestToken;
-            window.guestId = currentGuest?.id;
-            window.conversationId = currentConversation?.id;
 
-            console.log('Global tokens set:', {
-                guestToken: window.guestToken,
-                guestId: window.guestId,
-                conversationId: window.conversationId
-            });
+            window.conversationData = {
+        conversationId: currentConversation?.id,
+        guestToken:guestToken  // null for provider
+    };
 
-            // Now initialize Echo
-            window.initEcho({ guestToken, guestId: currentGuest?.id });
+         
 
             console.log('Echo initialized', window.guestToken, window.guestId);
 
@@ -352,7 +346,7 @@
                 loadConversation();
 
                 // Start Pusher listeners for real-time messages
-                startPusherListeners();
+                // startPusherListeners();
             }
 
             function bindEvents() {
@@ -547,17 +541,8 @@
                     })
                     .error((error) => {
                         console.error('❌ Failed to subscribe to conversation channel:', error);
-                        if (error.status === 403) {
-            console.error('🚫 Authentication Failed (403)');
-            console.log('Conversation ID:', conversationId);
-            console.log('Guest Token:', window.guestToken);
-            console.log('Guest ID:', window.guestId);
-            console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]')?.content);
-            
-            // Additional debug info
-            console.log('Current URL:', window.location.href);
-            console.log('Echo Instance:', window.Echo);
-        }
+                
+        
         
                     });
             }
