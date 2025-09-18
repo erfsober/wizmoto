@@ -142,8 +142,8 @@ $(document).ready(function() {
     let refreshInterval;
    
 
-    // Initialize Echo for provider (no guest token needed)
-    window.conversationData = null; // Start with no conversation selected
+    // Start with no conversation selected
+    let currentChannel = null;
 
     
 
@@ -288,38 +288,41 @@ $(document).ready(function() {
             currentChannel = null;
         }
 
-        // Set conversation data for provider (no guest token needed)
-        window.conversationData = {
+        // Initialize Echo with provider conversation data
+        const conversationData = {
             conversationId: String(conversationId) // Ensure it's a string
         };
     
-        // Subscribe to new channel
-        console.log('🔌 Subscribing to conversation channel:', conversationId);
+        console.log('🔌 Initializing provider chat for conversation:', conversationId);
         
+        // Initialize Echo with the conversation data
+        if (!window.initEcho(conversationData)) {
+            console.error('❌ Failed to initialize Echo');
+            showChatError('Failed to initialize chat. Please try again.');
+            return;
+        }
+
         currentChannel = conversationId;
-        window.Echo.private(`conversation.${conversationId}`)
-            .listen('.MessageSent', (e) => {
-                console.log('📨 New message received via Pusher:', {
-                    messageId: e.id,
-                    senderType: e.sender_type,
-                    guestId: e.guest_id,
-                    providerId: e.provider_id
-                });
-                
-                // Add the new message to current chat if it's the same guest
-                if (currentGuestId && currentGuestId == e.guest_id) {
-                    addMessageToChat(e);
-                }
-                
-                // Update conversation list
-                updateConversationList(e);
-            })
-            .error((error) => {
-                console.error('❌ Failed to subscribe to conversation channel:', error);
-                
-                // Clear conversation data on error
-                window.conversationData = null;
-            });
+
+        // Listen for custom events from Echo
+        window.addEventListener('messageSent', function(e) {
+            const messageData = e.detail;
+            console.log('📨 New message received:', messageData);
+            
+            // Add the new message to current chat if it's the same guest
+            if (currentGuestId && currentGuestId == messageData.guest_id) {
+                addMessageToChat(messageData);
+            }
+            
+            // Update conversation list
+            updateConversationList(messageData);
+        });
+
+        window.addEventListener('echoError', function(e) {
+            console.error('❌ Echo error:', e.detail);
+            showChatError('Lost connection to chat. Please try again.');
+            currentChannel = null;
+        });
     }
 
     function displayConversation(messages, guest) {

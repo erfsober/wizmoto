@@ -311,25 +311,46 @@
             const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
             conversationId = currentConversation?.id;
 
-            // Only set conversation data if we have valid values
+            // Initialize Echo with conversation data
             if (currentConversation?.id && guestToken && currentGuest?.id) {
-                window.conversationData = {
-                    conversationId: String(currentConversation.id), // Ensure it's a string
+                const conversationData = {
+                    conversationId: String(currentConversation.id),
                     guestToken: guestToken,
-                    guestId: String(currentGuest.id) // Ensure it's a string
+                    guestId: String(currentGuest.id)
                 };
                 
-                console.log('🔐 Setting secure chat parameters:', {
-                    conversationId: window.conversationData.conversationId,
-                    hasGuestToken: !!window.conversationData.guestToken,
-                    guestId: window.conversationData.guestId
+                console.log('🔐 Initializing chat with parameters:', {
+                    conversationId: conversationData.conversationId,
+                    hasGuestToken: !!conversationData.guestToken,
+                    guestId: conversationData.guestId
+                });
+
+                // Initialize Echo with the conversation data
+                if (!window.initEcho(conversationData)) {
+                    console.error('❌ Failed to initialize Echo');
+                    showChatError('Failed to initialize chat. Please refresh the page.');
+                    return;
+                }
+
+                // Listen for custom events from Echo
+                window.addEventListener('messageSent', function(e) {
+                    const messageData = e.detail;
+                    if (messageData.sender_type !== 'guest') {
+                        addMessageToChat(messageData);
+                    }
+                });
+
+                window.addEventListener('echoError', function(e) {
+                    console.error('❌ Echo error:', e.detail);
+                    showChatError('Lost connection to chat. Please refresh the page.');
                 });
             } else {
-                console.warn('⚠️ Missing required chat parameters:', {
+                console.error('❌ Missing required chat parameters:', {
                     hasConversationId: !!currentConversation?.id,
                     hasGuestToken: !!guestToken,
                     hasGuestId: !!currentGuest?.id
                 });
+                showChatError('Invalid chat parameters. Please try again.');
             }
 
 
