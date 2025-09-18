@@ -305,6 +305,7 @@ $(document).ready(function() {
     }
 
     function subscribeToConversation(conversationId) {
+        console.log('subscribeToConversation', conversationId);
         config.conversationId = conversationId;
         window.initEcho(config);
         // Check if Echo is available
