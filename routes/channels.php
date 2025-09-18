@@ -12,8 +12,6 @@ Broadcast::routes([
 ]);
 
 Log::info('Channel auth attempt', [
-    'user' => $user ? $user->id : null,
-    'conversationId' => $conversationId,
     'headers' => request()->headers->all(),
 ]);
 // Conversation private channel - handles both provider and guest authorization
