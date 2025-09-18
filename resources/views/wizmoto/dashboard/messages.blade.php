@@ -15,6 +15,9 @@
         hasProvider: !!window.CHAT_CONFIG.provider,
         conversationCount: window.CHAT_CONFIG.conversations ? Object.keys(window.CHAT_CONFIG.conversations).length : 0
     });
+
+    window.initEcho(window.CHAT_CONFIG);
+
 </script>
 @endpush
 
