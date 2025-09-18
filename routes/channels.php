@@ -11,14 +11,13 @@ Broadcast::routes([
     'middleware' => ['web'], 
 ]);
 
+Log::info('Channel auth attempt', [
+    'user' => $user ? $user->id : null,
+    'conversationId' => $conversationId,
+    'headers' => request()->headers->all(),
+]);
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
-    if (!$user) {
-        Log::info('No user found, using provider guard');
-        // Use provider guard explicitly
-        $user = Auth::guard('provider')->user();
-    }
-
     Log::info('Channel auth attempt', [
         'user' => $user ? $user->id : null,
         'conversationId' => $conversationId,
@@ -29,7 +28,8 @@ Broadcast::channel('conversation.{conversationId}', function ($user, $conversati
     if (!$conversation) return false;
 
     // Provider (authenticated user)
-    if ($user instanceof Provider) {
+    $provider = Auth::guard('provider')->user();
+    if ($provider && $user instanceof Provider) {
         return (int)$user->id === (int)$conversation->provider_id;
     }
 
