@@ -45,6 +45,7 @@ window.initEcho = function({ guestToken, guestId }) {
         enabledTransports: ["ws", "wss"],
         authEndpoint: "/broadcasting/auth", 
         withCredentials: true,
+        disableStats: true,
         auth: {
             headers: {
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
