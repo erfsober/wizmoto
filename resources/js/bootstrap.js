@@ -15,7 +15,7 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 window.Pusher = Pusher;
-
+console.log('Pusher', window.Pusher);
 // Helper function to validate conversation data
 function isValidConversationData(data) {
     if (!data || typeof data !== 'object') {

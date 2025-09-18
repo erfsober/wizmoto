@@ -366,12 +366,34 @@ $(document).ready(function() {
                     guestId: conversationData.guestId
                 });
 
-                // Initialize Echo with the conversation data
-                if (!window.initEcho(conversationData)) {
-                    console.error('❌ Failed to initialize Echo');
-                    showChatError('Failed to initialize chat. Please refresh the page.');
-                    return;
-                }
+        // Wait for Echo to be ready
+        const initEcho = () => {
+            if (!window.isEchoReady()) {
+                console.log('⏳ Waiting for Echo to be ready...');
+                setTimeout(initEcho, 100);
+                return;
+            }
+
+            // Initialize Echo with the conversation data
+            if (!window.initEcho(conversationData)) {
+                console.error('❌ Failed to initialize Echo');
+                showChatError('Failed to initialize chat. Please refresh the page.');
+                return;
+            }
+
+            // Listen for Echo events
+            window.addEventListener('echoConnected', function(e) {
+                console.log('✅ Echo connected successfully');
+                initializePage();
+            });
+
+            window.addEventListener('echoError', function(e) {
+                console.error('❌ Echo error:', e.detail);
+                showChatError('Lost connection to chat. Please refresh the page.');
+            });
+        };
+
+        initEcho();
 
                 // Listen for custom events from Echo
                 window.addEventListener('messageSent', function(e) {
