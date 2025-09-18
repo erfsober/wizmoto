@@ -164,7 +164,7 @@ $(document).ready(function() {
         showChatError('Provider configuration not found. Please refresh the page.');
         return;
     }
-    window.initEcho(config);
+  
 
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
@@ -305,6 +305,7 @@ $(document).ready(function() {
     }
 
     function subscribeToConversation(conversationId) {
+        window.initEcho(config);
         // Check if Echo is available
         if (typeof window.Echo === 'undefined') {
             console.log('Echo not loaded yet, retrying in 1 second...');
