@@ -16,8 +16,7 @@
         conversationCount: window.CHAT_CONFIG.conversations ? Object.keys(window.CHAT_CONFIG.conversations).length : 0
     });
 
-    window.initEcho(window.CHAT_CONFIG);
-
+   
 </script>
 @endpush
 
@@ -165,6 +164,7 @@ $(document).ready(function() {
         showChatError('Provider configuration not found. Please refresh the page.');
         return;
     }
+    window.initEcho(config);
 
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
