@@ -164,7 +164,7 @@ $(document).ready(function() {
         showChatError('Provider configuration not found. Please refresh the page.');
         return;
     }
-  
+
 
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
@@ -305,6 +305,7 @@ $(document).ready(function() {
     }
 
     function subscribeToConversation(conversationId) {
+        config.conversationId = conversationId;
         window.initEcho(config);
         // Check if Echo is available
         if (typeof window.Echo === 'undefined') {
@@ -322,8 +323,11 @@ $(document).ready(function() {
 
         // Initialize Echo with provider conversation data
         const conversationData = {
-            conversationId: String(conversationId) // Ensure it's a string
+            conversationId: String(conversationId), // Ensure it's a string
+            providerId: String(currentProviderId)
         };
+        config.conversationId = conversationId;
+        config.providerId = currentProviderId;
     
         console.log('🔌 Initializing provider chat for conversation:', conversationId);
         
