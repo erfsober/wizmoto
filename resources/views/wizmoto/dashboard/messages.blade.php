@@ -142,10 +142,8 @@ $(document).ready(function() {
     let refreshInterval;
    
 
-    window.conversationData = {
-        conversationId: null,
-        guestToken:null  // null for provider
-    };
+    // Initialize Echo for provider (no guest token needed)
+    window.conversationData = null; // Start with no conversation selected
 
     
 
@@ -290,6 +288,10 @@ $(document).ready(function() {
             currentChannel = null;
         }
 
+        // Set conversation data for provider (no guest token needed)
+        window.conversationData = {
+            conversationId: String(conversationId) // Ensure it's a string
+        };
     
         // Subscribe to new channel
         console.log('🔌 Subscribing to conversation channel:', conversationId);
@@ -297,8 +299,12 @@ $(document).ready(function() {
         currentChannel = conversationId;
         window.Echo.private(`conversation.${conversationId}`)
             .listen('.MessageSent', (e) => {
-                console.log(e.user, e.conversation, e.message);
-                console.log('📨 New message received via Pusher:', e);
+                console.log('📨 New message received via Pusher:', {
+                    messageId: e.id,
+                    senderType: e.sender_type,
+                    guestId: e.guest_id,
+                    providerId: e.provider_id
+                });
                 
                 // Add the new message to current chat if it's the same guest
                 if (currentGuestId && currentGuestId == e.guest_id) {
@@ -310,6 +316,9 @@ $(document).ready(function() {
             })
             .error((error) => {
                 console.error('❌ Failed to subscribe to conversation channel:', error);
+                
+                // Clear conversation data on error
+                window.conversationData = null;
             });
     }
 

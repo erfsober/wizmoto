@@ -309,14 +309,29 @@
             let currentConversation = @json($conversation);
             const urlParams = new URLSearchParams(window.location.search);
             const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
+            conversationId = currentConversation?.id;
 
+            // Only set conversation data if we have valid values
+            if (currentConversation?.id && guestToken && currentGuest?.id) {
+                window.conversationData = {
+                    conversationId: String(currentConversation.id), // Ensure it's a string
+                    guestToken: guestToken,
+                    guestId: String(currentGuest.id) // Ensure it's a string
+                };
+                
+                console.log('🔐 Setting secure chat parameters:', {
+                    conversationId: window.conversationData.conversationId,
+                    hasGuestToken: !!window.conversationData.guestToken,
+                    guestId: window.conversationData.guestId
+                });
+            } else {
+                console.warn('⚠️ Missing required chat parameters:', {
+                    hasConversationId: !!currentConversation?.id,
+                    hasGuestToken: !!guestToken,
+                    hasGuestId: !!currentGuest?.id
+                });
+            }
 
-            window.conversationData = {
-        conversationId: currentConversation?.id,
-        guestToken:guestToken  // null for provider
-    };
-
-         
 
             console.log('Echo initialized', window.guestToken, window.guestId);
 
