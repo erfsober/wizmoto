@@ -11,9 +11,6 @@ Broadcast::routes([
     'middleware' => ['web'], 
 ]);
 
-Log::info('Channel auth attempt', [
-    'headers' => request()->headers->all(),
-]);
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
     Log::info('Channel auth attempt', [
