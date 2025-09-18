@@ -7,10 +7,7 @@
         type: 'provider',
         provider: @json($provider ?? null),
         conversations: @json($conversations ?? null),
-        urls: {
-            getConversation: '{{ route("dashboard.conversation.by-id", ["conversationId" => ""]) }}',
-            sendMessage: '{{ route("dashboard.send-provider-message") }}'
-        }
+        conversationId: @json($conversation->id ?? null),
     };
 
     // Log configuration state for debugging
@@ -168,6 +165,7 @@ $(document).ready(function() {
 
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
+    let currentConversationId = config.conversationId;
     let refreshInterval;
    
 
@@ -229,6 +227,7 @@ $(document).ready(function() {
     function selectConversation(guestId) {
         currentGuestId = guestId;
         currentConversationId = null;
+        currentGuest = null;
 
         // Remove active class from all contacts
         $('.contact-item').removeClass('active');
