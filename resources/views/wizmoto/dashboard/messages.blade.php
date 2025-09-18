@@ -136,7 +136,11 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-
+    // Get data from backend
+    let currentProviderId = @json($provider->id);
+    let allConversations = @json($conversations);
+    let refreshInterval;
+   
 
     window.conversationData = {
         conversationId: null,
