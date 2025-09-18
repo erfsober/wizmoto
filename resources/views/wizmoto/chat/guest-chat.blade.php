@@ -537,6 +537,7 @@
                 // Listen for messages on the conversation channel
                 window.Echo.private(`conversation.${conversationId}`)
                     .listen('.MessageSent', (e) => {
+                        console.log(e.user, e.conversation, e.message);
                         console.log('📨 New message received via secure Pusher:', e);
 
                         // Only add message if it's not from current guest (to avoid duplicates)

@@ -301,6 +301,7 @@ $(document).ready(function() {
         currentChannel = conversationId;
         window.Echo.private(`conversation.${conversationId}`)
             .listen('.MessageSent', (e) => {
+                console.log(e.user, e.conversation, e.message);
                 console.log('📨 New message received via Pusher:', e);
                 
                 // Add the new message to current chat if it's the same guest
