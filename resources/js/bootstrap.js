@@ -33,7 +33,7 @@ window.Pusher = Pusher;
 //     },
 // });
 // console.log('Echo initialized',window.guestToken,window.guestId);
-
+console.log('conversationData',window.conversationData);
 if (window.conversationData) {
     const { conversationId, guestToken } = window.conversationData;
 
