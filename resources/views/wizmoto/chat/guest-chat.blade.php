@@ -537,7 +537,7 @@
                 // Listen for messages on the conversation channel
                 window.Echo.private(`conversation.${conversationId}`)
                     .listen('.MessageSent', (e) => {
-                        console.log(e.user, e.conversation, e.message);
+                            console.log(e.user, e.conversation, e.message);
                         console.log('📨 New message received via secure Pusher:', e);
 
                         // Only add message if it's not from current guest (to avoid duplicates)
@@ -547,6 +547,18 @@
                     })
                     .error((error) => {
                         console.error('❌ Failed to subscribe to conversation channel:', error);
+                        if (error.status === 403) {
+            console.error('🚫 Authentication Failed (403)');
+            console.log('Conversation ID:', conversationId);
+            console.log('Guest Token:', window.guestToken);
+            console.log('Guest ID:', window.guestId);
+            console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]')?.content);
+            
+            // Additional debug info
+            console.log('Current URL:', window.location.href);
+            console.log('Echo Instance:', window.Echo);
+        }
+        
                     });
             }
 
