@@ -7,6 +7,7 @@
 <div class="boxcar-wrapper @yield('main-div')">
     @yield('content')
 </div>
+@stack('before-scripts')
 @include('wizmoto.partials.scripts')
 @stack('scripts')
 </body>

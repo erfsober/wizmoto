@@ -43,7 +43,16 @@ function isValidConversationData(data) {
 
 // Initialize Echo function that can be called when conversation data is ready
 window.initEcho = function(conversationData) {
-    console.log('🔄 Initializing Echo with conversation data:', conversationData);
+    // Check if chat config exists
+    if (!window.CHAT_CONFIG) {
+        console.error('❌ Chat configuration not found');
+        return false;
+    }
+
+    console.log('🔄 Initializing Echo with conversation data:', {
+        conversationId: conversationData?.conversationId,
+        hasGuestToken: !!conversationData?.guestToken
+    });
 
     // Disconnect existing Echo instance if it exists
     if (window.Echo) {
@@ -59,12 +68,6 @@ window.initEcho = function(conversationData) {
 
     const { conversationId, guestToken, guestId } = conversationData;
     
-    console.log('🔐 Creating Echo instance with:', {
-        conversationId,
-        hasGuestToken: !!guestToken,
-        hasGuestId: !!guestId
-    });
-
     // Initialize Laravel Echo with Pusher
     window.Echo = new Echo({
         broadcaster: 'pusher',
@@ -87,12 +90,15 @@ window.initEcho = function(conversationData) {
     window.Echo.private(`conversation.${conversationId}`)
         .listen('.MessageSent', (event) => {
             console.log('📨 Received message event:', event);
-            // Dispatch a custom event that the blade files can listen to
-           
+            window.dispatchEvent(new CustomEvent('messageSent', { 
+                detail: event 
+            }));
         })
         .error((error) => {
             console.error('❌ Channel subscription error:', error);
-        
+            window.dispatchEvent(new CustomEvent('echoError', { 
+                detail: error 
+            }));
         });
 
     return true;

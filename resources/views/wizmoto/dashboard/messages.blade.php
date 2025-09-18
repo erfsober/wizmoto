@@ -1,4 +1,26 @@
 @extends('wizmoto.dashboard.master')
+
+@push('chat-config')
+<script>
+    // Global chat configuration for provider dashboard
+    window.CHAT_CONFIG = {
+        type: 'provider',
+        provider: @json($provider ?? null),
+        conversations: @json($conversations ?? null),
+        urls: {
+            getConversation: '{{ route("dashboard.conversation.by-id", ["conversationId" => ""]) }}',
+            sendMessage: '{{ route("dashboard.send-provider-message") }}'
+        }
+    };
+
+    // Log configuration state for debugging
+    console.log('🔧 Provider dashboard configuration loaded:', {
+        hasProvider: !!window.CHAT_CONFIG.provider,
+        conversationCount: window.CHAT_CONFIG.conversations ? Object.keys(window.CHAT_CONFIG.conversations).length : 0
+    });
+</script>
+@endpush
+
 @section('dashboard-content')
     <div class="content-column">
         <div class="inner-column">
@@ -136,9 +158,16 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // Get data from backend
-    let currentProviderId = @json($provider->id);
-    let allConversations = @json($conversations);
+    // Get data from global configuration
+    const config = window.CHAT_CONFIG;
+    if (!config || !config.provider) {
+        console.error('❌ Provider configuration not found');
+        showChatError('Provider configuration not found. Please refresh the page.');
+        return;
+    }
+
+    let currentProviderId = config.provider.id;
+    let allConversations = config.conversations;
     let refreshInterval;
    
 
