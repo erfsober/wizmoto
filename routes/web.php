@@ -12,6 +12,7 @@ use App\Http\Controllers\Wizmoto\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Broadcast;
 // In routes/web.php
 Route::get('/debug/token-validation', function () {
@@ -30,7 +31,7 @@ Route::get('/debug/token-validation', function () {
         'provided_guest_token' => $guestToken,
         'tokens_match' => hash_equals($conversation->raw_guest_token, $guestToken),
         'guest_ids_match' => (int)$guestId === (int)$conversation->guest_id,
-        'token_expired' => $conversation->token_expires_at && $conversation->token_expires_at->isPast(),
+        'token_expired' => $conversation->token_expires_at && Carbon::parse($conversation->token_expires_at)->isPast(),
         'token_expires_at' => $conversation->token_expires_at
     ]);
 });
