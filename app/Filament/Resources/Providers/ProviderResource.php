@@ -6,6 +6,7 @@ use App\Filament\Resources\Providers\Pages\CreateProvider;
 use App\Filament\Resources\Providers\Pages\EditProvider;
 use App\Filament\Resources\Providers\Pages\ListProviders;
 use App\Filament\Resources\Providers\RelationManagers\AdvertisementsRelationManager;
+use App\Filament\Resources\Providers\RelationManagers\ReviewsRelationManager;
 use App\Filament\Resources\Providers\Schemas\ProviderForm;
 use App\Filament\Resources\Providers\Tables\ProvidersTable;
 use App\Models\Provider;
@@ -38,6 +39,7 @@ class ProviderResource extends Resource
     {
         return [
             AdvertisementsRelationManager::class,
+            ReviewsRelationManager::class,
         ];
     }
 
