@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+Broadcast::routes([
+    'middleware' => ['web', 'auth:web,provider'] // allow both guards
+]);
 // Conversation private channel - handles both provider and guest authorization
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
     Log::info('Channel auth attempt', [
