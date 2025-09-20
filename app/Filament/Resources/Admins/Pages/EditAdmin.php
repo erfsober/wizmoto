@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\Admins\Pages;
 
 use App\Filament\Resources\Admins\AdminResource;
+use App\Models\Admin;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
-use App\Models\Admin;
+use Illuminate\Database\Eloquent\Model;
+
 class EditAdmin extends EditRecord
 {
     protected static string $resource = AdminResource::class;
@@ -24,4 +26,7 @@ class EditAdmin extends EditRecord
            
         ];
     }
+
+    // SpatieMediaLibraryFileUpload handles the media library integration automatically
+    // No need for custom handleRecordUpdate or mutateFormDataBeforeFill methods
 }

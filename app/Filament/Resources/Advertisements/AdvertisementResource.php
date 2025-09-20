@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Advertisements;
 use App\Filament\Resources\Advertisements\Pages\CreateAdvertisement;
 use App\Filament\Resources\Advertisements\Pages\EditAdvertisement;
 use App\Filament\Resources\Advertisements\Pages\ListAdvertisements;
+use App\Filament\Resources\Advertisements\RelationManagers\MediaRelationManager;
 use App\Filament\Resources\Advertisements\Schemas\AdvertisementForm;
 use App\Filament\Resources\Advertisements\Tables\AdvertisementsTable;
 use App\Models\Advertisement;
@@ -33,7 +34,7 @@ class AdvertisementResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // MediaRelationManager::class, // Temporarily disabled due to relationship issues
         ];
     }
 

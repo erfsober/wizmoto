@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Schemas\Schema;
 use App\Models\Advertisement;
 class AdvertisementForm
@@ -112,6 +113,30 @@ class AdvertisementForm
                     ->tel()
                     ->default(null),
                 Toggle::make('show_phone'),
+                
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->collection('covers')
+                    ->multiple()
+                    ->reorderable()
+                    ->appendFiles()
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->maxSize(5120)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
+                    ->openable()
+                    ->previewable()
+                    ->downloadable()
+                    ->deletable()
+                    ->moveFiles()
+                    ->preserveFilenames()
+                    ->label('Advertisement Images')
+                    ->helperText('Upload and manage images for this advertisement. You can drag and drop to reorder them.')
+                    ->columnSpanFull(),
             ]);
     }
 }

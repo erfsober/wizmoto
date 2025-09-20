@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +20,14 @@ class AdminsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Profile Image')
+                    ->getStateUsing(function ($record) {
+                        return $record->getFirstMediaUrl('image');
+                    })
+                    ->defaultImageUrl(url('/wizmoto/images/logo.png'))
+                    ->circular()
+                    ->size(60),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
