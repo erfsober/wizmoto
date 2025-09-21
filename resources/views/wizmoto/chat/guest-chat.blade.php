@@ -659,7 +659,7 @@ $(document).ready(function() {
             avatarHtml = `<div class="rounded-circle user_img_msg bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">G</div>`;
         } else {
             // Provider messages - try image first, then initials
-            const providerImage = message.provider && message.provider.avatar ? message.provider.avatar : null;
+            const providerImage = (window.CHAT_CONFIG && window.CHAT_CONFIG.provider && window.CHAT_CONFIG.provider.avatar) ? window.CHAT_CONFIG.provider.avatar : null;
             if (providerImage) {
                 avatarHtml = `<img src="${providerImage}" alt="" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">`;
             } else {
