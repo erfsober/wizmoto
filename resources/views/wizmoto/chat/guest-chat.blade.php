@@ -359,10 +359,11 @@ $(document).ready(function() {
     // Initialize Echo for public channel
     console.log('🔐 Initializing chat with session-based security');
 
-    // Wait for Echo to be ready
+    // Initialize Echo for public channel
     const initEcho = () => {
-        if (!window.isEchoReady()) {
-            console.log('⏳ Waiting for Echo to be ready...');
+        // Check if initEcho function is available
+        if (typeof window.initEcho !== 'function') {
+            console.log('⏳ Waiting for initEcho function to be available...');
             setTimeout(initEcho, 100);
             return;
         }
