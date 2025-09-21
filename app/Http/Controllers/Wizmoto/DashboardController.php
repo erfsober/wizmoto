@@ -346,6 +346,9 @@ class DashboardController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
+        // Add avatar URL to provider
+        $provider->avatar = $provider->getFirstMediaUrl('image');
+
         return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
     }
 
