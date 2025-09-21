@@ -338,25 +338,15 @@ class DashboardController extends Controller
 
     public function messagesIndex()
     {
-        $provider = Auth::guard('provider')
-            ->user();
+        $provider = Auth::guard('provider')->user();
 
-        // Get all conversations for this provider (grouped by guest)
-        $conversations = Message::where('provider_id', $provider->id)
-            ->with(['guest'])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->groupBy('guest_id')
-            ->map(function($messages) {
-                // Only return conversations that have messages
-                return $messages->isNotEmpty() ? $messages : null;
-            })
-            ->filter(); // Remove null values
+        // Get all conversations for this provider using the new conversation-based approach
+        $conversations = \App\Models\Conversation::where('provider_id', $provider->id)
+            ->with(['guest', 'provider', 'messages'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-        // Generate secure Pusher token for this provider (hide the algorithm)
-        $providerPusherToken = md5('provider.' . $provider->id . env('APP_KEY'));
-
-        return view('wizmoto.dashboard.messages', compact('provider', 'conversations', 'providerPusherToken'));
+        return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
     }
 
     public function fetchMessages()
