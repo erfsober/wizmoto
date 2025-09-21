@@ -454,6 +454,10 @@ $(document).ready(function() {
         $.ajax({
             url: '/chat/guest/messages',
             method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             data: {
                 conversation_uuid: conversationUuid,
                 _token: '{{ csrf_token() }}'
@@ -542,6 +546,10 @@ $(document).ready(function() {
         $.ajax({
             url: '/chat/guest/send',
             method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             data: {
                 conversation_uuid: conversationUuid,
                 message: message,
