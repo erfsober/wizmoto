@@ -482,15 +482,29 @@ $(document).ready(function() {
         const isProvider = message.sender_type === 'provider';
         const wrapperClass = isProvider ? 'justify-content-end reply' : 'justify-content-start';
         const senderName = isProvider ? 'You' : (message.guest ? message.guest.name : 'Guest');
-        const senderImage = isProvider ? 
-            'wizmoto/images/resource/candidate-3.png' : 
-            'wizmoto/images/resource/candidate-6.png';
         const timeFormatted = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        // For provider messages, try to use provider image or fallback to initials
+        let avatarHtml;
+        if (isProvider) {
+            // Provider messages - try image first, then initials
+            const providerImage = message.provider && message.provider.avatar ? message.provider.avatar : null;
+            if (providerImage) {
+                avatarHtml = `<img src="${providerImage}" alt="" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">`;
+            } else {
+                const initials = 'P'; // Provider initials
+                avatarHtml = `<div class="rounded-circle user_img_msg bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">${initials}</div>`;
+            }
+        } else {
+            // Guest messages - always use initials
+            const initials = message.guest ? message.guest.name.charAt(0).toUpperCase() : 'G';
+            avatarHtml = `<div class="rounded-circle user_img_msg bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">${initials}</div>`;
+        }
 
         return $(`
             <div class="d-flex ${wrapperClass} mb-2">
                 <div class="img_cont_msg">
-                    <img src="${senderImage}" alt="" class="rounded-circle user_img_msg">
+                    ${avatarHtml}
                     <div class="name">${senderName} <span class="msg_time">${timeFormatted}</span></div>
                 </div>
                 <div class="msg_cotainer">

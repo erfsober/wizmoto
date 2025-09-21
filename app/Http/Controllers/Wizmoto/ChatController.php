@@ -179,11 +179,15 @@ class ChatController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
+        // Get provider with avatar URL
+        $provider = $conversation->provider;
+        $provider->avatar = $provider->getFirstMediaUrl('image');
+
         return response()->json([
             'success' => true,
             'messages' => $messages,
             'guest' => $conversation->guest,
-            'provider' => $conversation->provider,
+            'provider' => $provider,
             'conversation' => $conversation
         ]);
     }
@@ -200,6 +204,7 @@ class ChatController extends Controller
         }
 
         $provider = $conversation->provider;
+        $provider->avatar = $provider->getFirstMediaUrl('image');
         $guest = $conversation->guest;
 
         return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
@@ -272,6 +277,9 @@ class ChatController extends Controller
             ->with(['guest', 'provider', 'messages'])
             ->orderBy('updated_at', 'desc')
             ->get();
+
+        // Add avatar URL to provider
+        $provider->avatar = $provider->getFirstMediaUrl('image');
 
         return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
     }
@@ -349,10 +357,15 @@ class ChatController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
+        // Get provider with avatar URL
+        $provider = $conversation->provider;
+        $provider->avatar = $provider->getFirstMediaUrl('image');
+
         return response()->json([
             'success' => true,
             'messages' => $messages,
             'guest' => $conversation->guest,
+            'provider' => $provider,
             'conversation' => $conversation
         ]);
     }

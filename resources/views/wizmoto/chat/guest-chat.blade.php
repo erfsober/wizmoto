@@ -513,10 +513,7 @@ $(document).ready(function() {
         $('#guest-email').fadeOut(200, function() {
                         $(this).text(provider.email).fadeIn(200);
         });
-        $('#guest-avatar').fadeOut(200, function() {
-                        $(this).attr('src', provider.avatar || '/wizmoto/images/default-avatar.png').fadeIn(
-                            200);
-                    });
+        // Keep the avatar as initials, don't change to image
                 }
             }
 
@@ -653,15 +650,28 @@ $(document).ready(function() {
         }
         
         senderName = isGuest ? 'You' : providerName;
-        const senderImage = isGuest ?
-                    '{{ asset('wizmoto/images/resource/candidate-6.png') }}' :
-                    '{{ asset('wizmoto/images/resource/candidate-3.png') }}';
         const timeFormatted = formatMessageTime(message.created_at);
+        
+        // For provider messages, try to use provider image or fallback to initials
+        let avatarHtml;
+        if (isGuest) {
+            // Guest messages - always use 'G'
+            avatarHtml = `<div class="rounded-circle user_img_msg bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">G</div>`;
+        } else {
+            // Provider messages - try image first, then initials
+            const providerImage = message.provider && message.provider.avatar ? message.provider.avatar : null;
+            if (providerImage) {
+                avatarHtml = `<img src="${providerImage}" alt="" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">`;
+            } else {
+                const initials = providerName ? providerName.charAt(0).toUpperCase() : 'P';
+                avatarHtml = `<div class="rounded-circle user_img_msg bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">${initials}</div>`;
+            }
+        }
 
         const messageDiv = $(`
 <div class="d-flex ${wrapperClass} mb-2">
   <div class="img_cont_msg">
-    <img src="${senderImage}" alt="" class="rounded-circle user_img_msg">
+    ${avatarHtml}
     <div class="name">${senderName} <span class="msg_time">${timeFormatted}</span></div>
   </div>
   <div class="msg_cotainer">
