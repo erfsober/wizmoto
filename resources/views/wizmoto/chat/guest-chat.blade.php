@@ -8,13 +8,33 @@
         provider: @json($provider ?? null),
         guest: @json($guest ?? null),
         conversation: @json($conversation ?? null),
-        conversationId: '{{ $conversation->id ?? "" }}',
-        guestToken: @json($guestToken ?? null),
-        guestId: @json($guest->id ?? null),
+        conversationUuid: '{{ $conversationUuid ?? "" }}',
         urls: {
             sendMessage: '{{ route("chat.guest.send") }}',
             getMessages: '{{ route("chat.guest.messages") }}'
         }
+    };
+
+    // Set conversation UUID in cookie for persistence (1 year expiration)
+    if (window.CHAT_CONFIG.conversationUuid) {
+        const expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1); // 1 year from now
+        
+        document.cookie = `conversation_uuid=${window.CHAT_CONFIG.conversationUuid}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Lax`;
+        
+        console.log('🍪 Conversation UUID saved to cookie:', window.CHAT_CONFIG.conversationUuid);
+    }
+
+    // Helper function to get UUID from cookie
+    window.getConversationUuid = function() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'conversation_uuid') {
+                return value;
+            }
+        }
+        return null;
     };
 
     // Log configuration state for debugging
@@ -22,7 +42,8 @@
         hasProvider: !!window.CHAT_CONFIG.provider,
         hasGuest: !!window.CHAT_CONFIG.guest,
         hasConversation: !!window.CHAT_CONFIG.conversation,
-        hasToken: !!window.CHAT_CONFIG.guestToken
+        conversationUuid: window.CHAT_CONFIG.conversationUuid,
+        cookieUuid: window.getConversationUuid()
     });
 </script>
 @endpush
@@ -245,7 +266,7 @@
 
 
                                                     </ul>
-                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat">
@@ -264,7 +285,7 @@
                                                             <span id="guest-name">Select a conversation</span>
                                                                 <p id="guest-email">Click on a contact to start chatting
                                                                 </p>
-                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="btn-box">
@@ -273,7 +294,7 @@
                                                             Conversation</button>
                                                             <button class="toggle-contact"><span
                                                                     class="fa fa-bars"></span></button>
-                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="card-body msg_card_body" id="chat-messages">
@@ -282,7 +303,7 @@
                                                         <h5 class="text-muted">Select a conversation</h5>
                                                             <p class="text-muted">Click on a contact from the list to view
                                                                 messages</p>
-                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="card-footer" id="chat-footer" style="display: none;">
@@ -343,112 +364,82 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-            // Get data from backend
-            let currentProviderId = '{{ $provider->id ?? '' }}';
+    // Get data from backend
+    let currentProviderId = '{{ $provider->id ?? '' }}';
     let currentGuest = @json($guest);
     let currentProvider = @json($provider);
-            let currentConversation = @json($conversation);
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestToken = urlParams.get('guest_token') || '{{ $guestToken ?? '' }}';
-            conversationId = currentConversation?.id;
+    let currentConversation = @json($conversation);
 
-            // Initialize Echo with conversation data
-            if (currentConversation?.id && guestToken && currentGuest?.id) {
-                const conversationData = {
-                    conversationId: String(currentConversation.id),
-                    guestToken: guestToken,
-                    guestId: String(currentGuest.id)
-                };
-                
-                console.log('🔐 Initializing chat with parameters:', {
-                    conversationId: conversationData.conversationId,
-                    hasGuestToken: !!conversationData.guestToken,
-                    guestId: conversationData.guestId
-                });
+    // Initialize Echo for public channel
+    console.log('🔐 Initializing chat with session-based security');
 
-        // Wait for Echo to be ready
-        const initEcho = () => {
-            if (!window.isEchoReady()) {
-                console.log('⏳ Waiting for Echo to be ready...');
-                setTimeout(initEcho, 100);
-                return;
-            }
+    // Wait for Echo to be ready
+    const initEcho = () => {
+        if (!window.isEchoReady()) {
+            console.log('⏳ Waiting for Echo to be ready...');
+            setTimeout(initEcho, 100);
+            return;
+        }
 
-            // Initialize Echo with the conversation data
-            if (!window.initEcho(conversationData)) {
-                console.error('❌ Failed to initialize Echo');
-                showChatError('Failed to initialize chat. Please refresh the page.');
-                return;
-            }
+        // Initialize Echo for public channel
+        if (!window.initEcho({})) {
+            console.error('❌ Failed to initialize Echo');
+            showChatError('Failed to initialize chat. Please refresh the page.');
+            return;
+        }
 
-            // Listen for Echo events
-            window.addEventListener('echoConnected', function(e) {
-                console.log('✅ Echo connected successfully');
-                initializePage();
-            });
+        // Listen for Echo events
+        window.addEventListener('echoConnected', function(e) {
+            console.log('✅ Echo connected successfully');
+            initializePage();
+        });
 
-            window.addEventListener('echoError', function(e) {
-                console.error('❌ Echo error:', e.detail);
-                showChatError('Lost connection to chat. Please refresh the page.');
-            });
-        };
+        window.addEventListener('echoError', function(e) {
+            console.error('❌ Echo error:', e.detail);
+            showChatError('Lost connection to chat. Please refresh the page.');
+        });
+    };
 
-        initEcho();
+    initEcho();
 
-                // Listen for custom events from Echo
-                window.addEventListener('messageSent', function(e) {
-                    const messageData = e.detail;
-                    if (messageData.sender_type !== 'guest') {
-                        addMessageToChat(messageData);
-                    }
-                });
+    // Listen for custom events from Echo
+    window.addEventListener('messageSent', function(e) {
+        const messageData = e.detail;
+        if (messageData.sender_type !== 'guest') {
+            addMessageToChat(messageData);
+        }
+    });
 
-                window.addEventListener('echoError', function(e) {
-                    console.error('❌ Echo error:', e.detail);
-                    showChatError('Lost connection to chat. Please refresh the page.');
-                });
-            } else {
-                console.error('❌ Missing required chat parameters:', {
-                    hasConversationId: !!currentConversation?.id,
-                    hasGuestToken: !!guestToken,
-                    hasGuestId: !!currentGuest?.id
-                });
-                showChatError('Invalid chat parameters. Please try again.');
-            }
-
-
-            console.log('Echo initialized', window.guestToken, window.guestId);
+    window.addEventListener('echoError', function(e) {
+        console.error('❌ Echo error:', e.detail);
+        showChatError('Lost connection to chat. Please refresh the page.');
+    });
 
     // Initialize the page
     initializePage();
 
     function initializePage() {
-                // Validate required parameters
-                if (!conversationId || !guestToken) {
-                    showChatError('Invalid conversation link. Missing required parameters.');
-                    return;
-                }
+        // Validate required parameters
+        if (!currentConversation) {
+            showChatError('Conversation not found.');
+            return;
+        }
 
-                if (!currentConversation) {
-                    showChatError('Conversation not found.');
-                    return;
-                }
-
-                // Set current provider from conversation
-                currentProviderId = currentConversation.provider_id;
-                currentProvider = currentConversation.provider;
+        // Set current provider from conversation
+        currentProviderId = currentConversation.provider_id;
+        currentProvider = currentConversation.provider;
 
         // Bind event handlers
         bindEvents();
 
-                // Load conversation messages
-                loadConversation();
+        // Load conversation messages
+        loadConversation();
 
         // Start Pusher listeners for real-time messages
-                // startPusherListeners();
-            }
+        startPusherListeners();
+    }
 
-            function bindEvents() {
+    function bindEvents() {
         // Handle send message
         $('#send-message-btn').on('click', function() {
             sendMessage();
@@ -462,43 +453,42 @@ $(document).ready(function() {
         });
             }
 
-            function loadConversation() {
-                if (!conversationId || !guestToken) {
-                    showChatError('Invalid conversation parameters');
+    function loadConversation() {
+        // Get UUID from cookie
+        const conversationUuid = window.getConversationUuid();
+        if (!conversationUuid) {
+            showChatError('Conversation not found. Please refresh the page.');
             return;
         }
 
-                // Show loading state
-                showLoadingState();
+        // Show loading state
+        showLoadingState();
 
         $.ajax({
-                    url: '/chat/guest/messages',
-                    method: 'POST',
+            url: '/chat/guest/messages',
+            method: 'POST',
             data: {
-                        conversation_id: conversationId,
-                        guest_token: guestToken,
-                        _token: '{{ csrf_token() }}'
+                conversation_uuid: conversationUuid,
+                _token: '{{ csrf_token() }}'
             },
             timeout: 10000,
             success: function(response) {
                 if (response.success) {
-                            displayMessages(response.messages);
-                            updateProviderInfo(response.provider);
+                    displayMessages(response.messages);
+                    updateProviderInfo(response.provider);
 
                     // Show chat header and footer
                     $('#chat-header').fadeIn();
                     $('#chat-footer').fadeIn();
                     $('#no-chat-selected').hide();
                 } else {
-                            showChatError(response.message || 'Failed to load conversation');
+                    showChatError(response.message || 'Failed to load conversation');
                 }
             },
             error: function(xhr, status, error) {
-                        console.error('Error loading conversation:', xhr.responseText);
-                if (xhr.status === 403) {
-                            showChatError('Access denied. Invalid or expired conversation link.');
-                        } else if (xhr.status === 404) {
-                            showChatError('Conversation not found.');
+                console.error('Error loading conversation:', xhr.responseText);
+                if (xhr.status === 404) {
+                    showChatError('Conversation not found.');
                 } else {
                     showChatError('Failed to load conversation. Please try again.');
                 }
@@ -539,112 +529,112 @@ $(document).ready(function() {
                 }
             }
 
-            function sendMessage() {
-                const message = $('#message-input').val().trim();
-                if (!message) return;
+    function sendMessage() {
+        const message = $('#message-input').val().trim();
+        if (!message) return;
 
-                if (!conversationId || !guestToken) {
-                    alert('Invalid conversation parameters');
-                    return;
-                }
-
-                // Disable send button with visual feedback
-                const sendBtn = $('#send-message-btn');
-                sendBtn.prop('disabled', true);
-                sendBtn.find('.text-dk').text('Sending...');
-
-                // Add sending indicator
-                const sendingIndicator = $(
-                    '<div class="d-flex justify-content-end mb-2"><div class="msg_cotainer sending">Sending...</div></div>'
-                );
-                $('#chat-messages').append(sendingIndicator);
-                scrollToBottom();
-
-                $.ajax({
-                    url: '/chat/guest/send',
-                    method: 'POST',
-                    data: {
-                        conversation_id: conversationId,
-                        message: message,
-                        guest_token: guestToken,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $('#message-input').val('');
-
-                            // Remove sending indicator
-                            $('.msg_cotainer.sending').parent().remove();
-
-                            // Add message to chat immediately for better UX
-                            const sentMessage = {
-                                id: response.data.id,
-                                message: message,
-                                sender_type: 'guest',
-                                created_at: new Date().toISOString(),
-                                guest_id: currentGuest.id,
-                                provider_id: currentProviderId,
-                                conversation_id: conversationId
-                            };
-                            addMessageToChat(sentMessage);
-                        } else {
-                            alert('Error: ' + (response.message || 'Failed to send message'));
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error sending message:', xhr.responseText);
-                        $('.msg_cotainer.sending').parent().remove();
-
-                        let errorMessage = 'Failed to send message. ';
-                        if (xhr.status === 403) {
-                            errorMessage += 'Invalid or expired conversation link.';
-                        } else if (xhr.status === 404) {
-                            errorMessage += 'Conversation not found.';
-                        } else if (xhr.status === 419) {
-                            errorMessage += 'CSRF token expired. Please refresh the page.';
-                        } else {
-                            errorMessage += 'Please try again.';
-                        }
-                        alert(errorMessage);
-                    },
-                    complete: function() {
-                        // Re-enable send button
-                        const sendBtn = $('#send-message-btn');
-                        sendBtn.prop('disabled', false);
-                        sendBtn.find('.text-dk').text('Send');
-                    }
-                });
-            }
-
-            function startPusherListeners() {
-                if (!currentGuest || !conversationId || !guestToken) return;
-
-                // Check if Echo is available
-                if (typeof window.Echo === 'undefined') {
-                    console.log('Echo not loaded yet, retrying in 1 second...');
-                    setTimeout(startPusherListeners, 1000);
+        // Get UUID from cookie
+        const conversationUuid = window.getConversationUuid();
+        if (!conversationUuid) {
+            alert('Conversation not found. Please refresh the page.');
             return;
         }
 
+        // Disable send button with visual feedback
+        const sendBtn = $('#send-message-btn');
+        sendBtn.prop('disabled', true);
+        sendBtn.find('.text-dk').text('Sending...');
 
-                // Listen for messages on the conversation channel
-                window.Echo.private(`conversation.${conversationId}`)
-                    .listen('.MessageSent', (e) => {
-                            console.log(e.user, e.conversation, e.message);
-                        console.log('📨 New message received via secure Pusher:', e);
+        // Add sending indicator
+        const sendingIndicator = $(
+            '<div class="d-flex justify-content-end mb-2"><div class="msg_cotainer sending">Sending...</div></div>'
+        );
+        $('#chat-messages').append(sendingIndicator);
+        scrollToBottom();
 
-                        // Only add message if it's not from current guest (to avoid duplicates)
-                        if (e.sender_type !== 'guest') {
-                            addMessageToChat(e);
-                        }
-                    })
-                    .error((error) => {
-                        console.error('❌ Failed to subscribe to conversation channel:', error);
-                
-        
-        
-                    });
+        $.ajax({
+            url: '/chat/guest/send',
+            method: 'POST',
+            data: {
+                conversation_uuid: conversationUuid,
+                message: message,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#message-input').val('');
+
+                    // Remove sending indicator
+                    $('.msg_cotainer.sending').parent().remove();
+
+                    // Add message to chat immediately for better UX
+                    const sentMessage = {
+                        id: response.data.id,
+                        message: message,
+                        sender_type: 'guest',
+                        created_at: new Date().toISOString(),
+                        guest_id: currentGuest.id,
+                        provider_id: currentProviderId,
+                        conversation_id: currentConversation.id
+                    };
+                    addMessageToChat(sentMessage);
+                } else {
+                    alert('Error: ' + (response.message || 'Failed to send message'));
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending message:', xhr.responseText);
+                $('.msg_cotainer.sending').parent().remove();
+
+                let errorMessage = 'Failed to send message. ';
+                if (xhr.status === 404) {
+                    errorMessage += 'Conversation not found.';
+                } else if (xhr.status === 419) {
+                    errorMessage += 'CSRF token expired. Please refresh the page.';
+                } else {
+                    errorMessage += 'Please try again.';
+                }
+                alert(errorMessage);
+            },
+            complete: function() {
+                // Re-enable send button
+                const sendBtn = $('#send-message-btn');
+                sendBtn.prop('disabled', false);
+                sendBtn.find('.text-dk').text('Send');
             }
+        });
+    }
+
+    function startPusherListeners() {
+        // Check if Echo is available
+        if (typeof window.Echo === 'undefined') {
+            console.log('Echo not loaded yet, retrying in 1 second...');
+            setTimeout(startPusherListeners, 1000);
+            return;
+        }
+
+        // Get UUID from cookie
+        const conversationUuid = window.getConversationUuid();
+        if (!conversationUuid) {
+            console.error('❌ No conversation UUID available in cookie');
+            return;
+        }
+
+        console.log('🍪 Using UUID from cookie for Pusher:', conversationUuid);
+
+        window.Echo.channel(`conversation.${conversationUuid}`)
+            .listen('.MessageSent', (e) => {
+                console.log('📨 New message received via public channel:', e);
+
+                // Only add message if it's not from current guest (to avoid duplicates)
+                if (e.sender_type !== 'guest') {
+                    addMessageToChat(e);
+                }
+            })
+            .error((error) => {
+                console.error('❌ Failed to subscribe to conversation channel:', error);
+            });
+    }
 
             function addMessageToChat(messageData) {
                 const chatMessages = $('#chat-messages');

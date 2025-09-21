@@ -26,8 +26,9 @@ class MessageSent implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        // Use private channel with conversation ID
-        return new PrivateChannel('conversation.' . $this->message->conversation_id);
+        // Use public channel with conversation UUID
+        $conversation = $this->message->conversation;
+        return new Channel('conversation.' . $conversation->uuid);
     }
 
     public function broadcastWith(): array
@@ -39,6 +40,9 @@ class MessageSent implements ShouldBroadcastNow
             'message' => $this->message->message,
             'created_at' => $this->message->created_at?->toDateTimeString(),
             'conversation_id' => $this->message->conversation_id,
+            'conversation_uuid' => $this->message->conversation->uuid,
+            'guest' => $this->message->guest,
+            'provider' => $this->message->provider,
         ];
     }
 

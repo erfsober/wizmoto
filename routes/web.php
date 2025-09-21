@@ -19,16 +19,13 @@ Route::post('/reviews/store' , [ ReviewController::class , 'store' , ])->name('r
 
 Route::get('/about-us' , [ AboutController::class , 'index' , ])->name('about.index');
 Route::get('/faq' , [ FaqController::class , 'index' , ])->name('faq.index');
-// Guest chat routes
+// Guest chat routes - UUID based
 Route::prefix('chat')->group(function () {
     Route::post('/initiate', [ChatController::class, 'initiateChat'])->name('chat.initiate');
     Route::post('/guest/send', [ChatController::class, 'sendGuestMessage'])->name('chat.guest.send');
     Route::post('/guest/messages', [ChatController::class, 'getChatMessages'])->name('chat.guest.messages');
-    Route::get('/guest/{providerId}', [ChatController::class, 'showGuestChat'])->name('chat.guest.show');
-    Route::get('/guest/conversation/{guestId}', [ChatController::class, 'getGuestConversation'])->name('chat.guest.conversation');
+    Route::get('/guest/{conversationUuid}', [ChatController::class, 'showGuestChat'])->name('chat.guest.show');
     Route::post('/guest/share-email', [ChatController::class, 'shareGuestEmail'])->name('chat.guest.share-email');
-   
-
 });
 // advertisements group
 Route::prefix('advertisements')->group(function () {
@@ -52,11 +49,10 @@ Route::middleware(["auth:provider"])->prefix('dashboard')
         Route::get('/messages', [DashboardController::class, 'fetchMessages'])->name('dashboard.fetch-messages');
         Route::post('/messages', [DashboardController::class, 'sendMessage'])->name('dashboard.send-message');
         
-        // Provider chat management
+        // Provider chat management - UUID based
         Route::get('/conversations', [ChatController::class, 'showProviderChats'])->name('dashboard.conversations');
-        Route::get('/conversations/{guestId}', [ChatController::class, 'getProviderConversation'])->name('dashboard.conversation.show');
-        Route::post('/conversations/{guestId}/request-contact', [ChatController::class, 'requestGuestContact'])->name('dashboard.conversation.request-contact');
-        Route::get('/conversations/{conversationId}', [ChatController::class, 'getProviderConversation'])->name('dashboard.get-conversation-by-id');
+        Route::get('/conversations/{conversationUuid}', [ChatController::class, 'getProviderConversation'])->name('dashboard.conversation.show');
+        Route::post('/conversations/{conversationUuid}/request-contact', [ChatController::class, 'requestGuestContact'])->name('dashboard.conversation.request-contact');
         Route::post('/send-provider-message', [ChatController::class, 'sendProviderMessage'])->name('dashboard.send-provider-message');
      });
 

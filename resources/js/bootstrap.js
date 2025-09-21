@@ -16,32 +16,19 @@ function isValidConversationData(data) {
         return false;
     }
 
-    const { conversationId, guestToken, guestId } = data;
-
-    // For guest chat, require all 3
-    if (guestToken) {
-        if (!guestId || !conversationId) {
-            console.warn("❌ Missing required guest chat parameters");
-            return false;
-        }
-        return true; // allow numeric IDs too
-    }
-
-    // For provider chat, require only conversationId
-    return !!conversationId;
+    // For UUID-based approach, we don't need complex validation
+    // Just check if we have the basic structure
+    return true;
 }
 
-// Initialize Echo function
+// Initialize Echo function for public channels
 window.initEcho = function (conversationData) {
     if (!window.CHAT_CONFIG) {
         console.error("❌ Chat configuration not found");
         return false;
     }
 
-    console.log("🔄 Initializing Echo with conversation data:", {
-        conversationId: conversationData?.conversationId,
-        hasGuestToken: !!conversationData?.guestToken,
-    });
+    console.log("🔄 Initializing Echo for public channels");
 
     // Disconnect existing Echo instance
     if (window.Echo) {
@@ -49,53 +36,20 @@ window.initEcho = function (conversationData) {
         window.Echo.disconnect();
     }
 
-    // Validate conversation data
-    if (!isValidConversationData(conversationData)) {
-        console.warn("⚠️ Invalid conversation data:", conversationData);
-        return false;
-    }
-
-    const { conversationId, guestToken, guestId } = conversationData;
-
-    // Init Echo
+    // Init Echo for public channels (no authentication needed)
     window.Echo = new Echo({
         broadcaster: "pusher",
         key: import.meta.env.VITE_PUSHER_APP_KEY,
         cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
         forceTLS: true,
-        authEndpoint: "/broadcasting/auth",
-        auth: {
-            headers: {
-                "X-CSRF-TOKEN":
-                    document.querySelector('meta[name="csrf-token"]')?.content || "",
-                ...(guestToken
-                    ? {
-                          "X-GUEST-TOKEN": guestToken,
-                          "X-GUEST-ID": guestId,
-                      }
-                    : {}),
-            },
-        },
     });
 
-    // Subscribe to conversation channel
-    window.Echo.private(`conversation.${conversationId}`)
-        .listen("MessageSent", (event) => {
-            console.log("📨 Received message event:", event);
-            window.dispatchEvent(
-                new CustomEvent("messageSent", {
-                    detail: event,
-                })
-            );
+    // Dispatch connected event
+    window.dispatchEvent(
+        new CustomEvent("echoConnected", {
+            detail: { status: "connected" },
         })
-        .error((error) => {
-            console.error("❌ Channel subscription error:", error);
-            window.dispatchEvent(
-                new CustomEvent("echoError", {
-                    detail: error,
-                })
-            );
-        });
+    );
 
     return true;
 };

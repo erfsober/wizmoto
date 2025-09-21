@@ -99,20 +99,18 @@ class ChatController extends Controller
             'success' => true,
             'message' => 'Your message has been sent! The dealer will respond via this platform.',
             'conversation_id' => $conversation->id,
-            'guest_token' => $conversation->raw_guest_token,
-            'expires_at' => $conversation->token_expires_at,
+            'conversation_uuid' => $conversation->uuid,
         ]);
     }
 
     /**
-     * Send message as guest
+     * Send message as guest using UUID validation
      */
     public function sendGuestMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'conversation_id' => 'required|exists:conversations,id',
-            'message' => 'required|string|max:1000',
-            'guest_token' => 'required|string'
+            'conversation_uuid' => 'required|string',
+            'message' => 'required|string|max:1000'
         ]);
 
         if ($validator->fails()) {
@@ -122,24 +120,13 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find conversation and validate token
-        $conversation = Conversation::find($request->conversation_id);
+        // Find conversation by UUID
+        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
         if (!$conversation) {
             return response()->json([
                 'success' => false,
                 'message' => 'Conversation not found'
             ], 404);
-        }
-
-        // Validate guest token
-        $expectedHash = $conversation->guestToken();
-        $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
-
-        if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid or expired token'
-            ], 403);
         }
 
         // Create the message
@@ -162,13 +149,12 @@ class ChatController extends Controller
     }
 
     /**
-     * Get chat messages for a conversation
+     * Get chat messages for a conversation using UUID validation
      */
     public function getChatMessages(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'conversation_id' => 'required|exists:conversations,id',
-            'guest_token' => 'required|string'
+            'conversation_uuid' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -178,24 +164,13 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find conversation and validate token
-        $conversation = Conversation::find($request->conversation_id);
+        // Find conversation by UUID
+        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
         if (!$conversation) {
             return response()->json([
                 'success' => false,
                 'message' => 'Conversation not found'
             ], 404);
-        }
-
-        // Validate guest token
-        $expectedHash = $conversation->guestToken();
-        $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
-
-        if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid or expired token'
-            ], 403);
         }
 
         // Get messages for this conversation
@@ -214,37 +189,21 @@ class ChatController extends Controller
     }
 
     /**
-     * Show chat interface for guest
+     * Show chat interface for guest using UUID
      */
-    public function showGuestChat(Request $request, $providerId)
+    public function showGuestChat(Request $request, $conversationUuid)
     {
-        $provider = Provider::findOrFail($providerId);
-        $guest = null;
-        $conversation = null;
+        $conversation = Conversation::where('uuid', $conversationUuid)->first();
 
-        // If conversation_id and token are provided, verify and load the conversation
-        if ($request->has('conversation_id') && $request->has('guest_token')) {
-            $conversation = Conversation::find($request->conversation_id);
-
-            if (!$conversation) {
-                abort(404, 'Conversation not found');
-            }
-
-            // Validate guest token
-            $expectedHash = $conversation->guestToken();
-            $providedHash = hash_hmac('sha256', $request->guest_token, config('app.key'));
-
-            if (!hash_equals($expectedHash, $providedHash) || !$conversation->isTokenValid()) {
-                abort(403, 'Invalid or expired conversation link');
-            }
-
-            $guest = $conversation->guest;
+        if (!$conversation) {
+            abort(404, 'Conversation not found');
         }
 
+        $provider = $conversation->provider;
+        $guest = $conversation->guest;
+
         return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
-            'guestToken' => $request->guest_token,
-            'guestId' => $guest?->id,
-            'conversationId' => $request->conversation_id
+            'conversationUuid' => $conversationUuid
         ]);
     }
 
@@ -309,12 +268,10 @@ class ChatController extends Controller
         $provider = Auth::guard('provider')->user();
 
         // Get all conversations for this provider
-        $conversations = Message::where('provider_id', $provider->id)
-            ->with(['guest', 'provider'])
-            ->select('guest_id', 'provider_id')
-            ->distinct()
-            ->get()
-            ->groupBy('guest_id');
+        $conversations = Conversation::where('provider_id', $provider->id)
+            ->with(['guest', 'provider', 'messages'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
         return view('wizmoto.dashboard.messages', compact('provider', 'conversations'));
     }
@@ -330,7 +287,7 @@ class ChatController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'conversation_id' => 'required|exists:conversations,id',
+            'conversation_uuid' => 'required|string',
             'message' => 'required|string|max:1000'
         ]);
 
@@ -341,7 +298,7 @@ class ChatController extends Controller
             ], 422);
         }
 
-        $conversation = Conversation::find($request->conversation_id);
+        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
         if (!$conversation || $conversation->provider_id !== $provider->id) {
             return response()->json([
                 'success' => false,
@@ -366,9 +323,9 @@ class ChatController extends Controller
         ]);
     }
     /**
-     * Get conversation messages for provider dashboard
+     * Get conversation messages for provider dashboard using UUID
      */
-    public function getProviderConversation(Request $request, $conversationId)
+    public function getProviderConversation(Request $request, $conversationUuid)
     {
         $provider = Auth::guard('provider')->user();
 
@@ -379,7 +336,7 @@ class ChatController extends Controller
             ], 401);
         }
 
-        $conversation = Conversation::find($conversationId);
+        $conversation = Conversation::where('uuid', $conversationUuid)->first();
         if (!$conversation || $conversation->provider_id !== $provider->id) {
             return response()->json([
                 'success' => false,

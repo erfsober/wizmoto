@@ -7,16 +7,17 @@
         type: 'provider',
         provider: @json($provider ?? null),
         conversations: @json($conversations ?? null),
-        conversationId: @json($conversation->id ?? null),
+        urls: {
+            sendMessage: '{{ route("dashboard.send-provider-message") }}',
+            getConversation: '{{ route("dashboard.conversation.show", ":uuid") }}'
+        }
     };
 
     // Log configuration state for debugging
     console.log('🔧 Provider dashboard configuration loaded:', {
         hasProvider: !!window.CHAT_CONFIG.provider,
-        conversationCount: window.CHAT_CONFIG.conversations ? Object.keys(window.CHAT_CONFIG.conversations).length : 0
+        conversationCount: window.CHAT_CONFIG.conversations ? window.CHAT_CONFIG.conversations.length : 0
     });
-
-   
 </script>
 @endpush
 
@@ -46,12 +47,12 @@
                                 </div>
                                 <div class="card-body contacts_body">
                                     <ul class="contacts">
-                                        @forelse($conversations as $guestId => $conversation)
+                                        @forelse($conversations as $conversation)
                                             @php
-                                                $guest = $conversation->first()->guest;
-                                                $lastMessage = $conversation->sortByDesc('created_at')->first();
+                                                $guest = $conversation->guest;
+                                                $lastMessage = $conversation->messages->sortByDesc('created_at')->first();
                                             @endphp
-                                            <li class="contact-item" data-guest-id="{{ $guestId }}">
+                                            <li class="contact-item" data-conversation-uuid="{{ $conversation->uuid }}">
                                                 <a href="#" class="conversation-link">
                                                     <div class="d-flex bd-highlight">
                                                         <div class="img_cont">
@@ -72,9 +73,9 @@
                                                         </div>
                                                         <span class="info">
                                                             {{ $lastMessage ? $lastMessage->created_at->diffForHumans() : '' }}
-                                                            @if ($conversation->where('read', false)->count() > 0)
+                                                            @if ($conversation->messages->where('read', false)->count() > 0)
                                                                 <span
-                                                                    class="count bg-success">{{ $conversation->where('read', false)->count() }}</span>
+                                                                    class="count bg-success">{{ $conversation->messages->where('read', false)->count() }}</span>
                                                             @endif
                                                         </span>
                                                     </div>
@@ -168,9 +169,9 @@ $(document).ready(function() {
 
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
-    let currentConversationId = config.conversationId;
+    let currentConversationUuid = null;
+    let currentGuest = null;
     let refreshInterval;
-   
 
     // Start with no conversation selected
     let currentChannel = null;
@@ -192,9 +193,9 @@ $(document).ready(function() {
         // Handle conversation selection
         $(document).on('click', '.conversation-link', function(e) {
             e.preventDefault();
-            const guestId = $(this).closest('.contact-item').data('guest-id');
-            if (guestId) {
-                selectConversation(guestId);
+            const conversationUuid = $(this).closest('.contact-item').data('conversation-uuid');
+            if (conversationUuid) {
+                selectConversation(conversationUuid);
             }
         });
 
@@ -227,22 +228,21 @@ $(document).ready(function() {
         console.log('📋 Loaded conversations:', allConversations);
     }
 
-    function selectConversation(guestId) {
-        currentGuestId = guestId;
-        currentConversationId = null;
+    function selectConversation(conversationUuid) {
+        currentConversationUuid = conversationUuid;
         currentGuest = null;
 
         // Remove active class from all contacts
         $('.contact-item').removeClass('active');
         
         // Add active class to selected contact
-        $(`.contact-item[data-guest-id="${guestId}"]`).addClass('active');
+        $(`.contact-item[data-conversation-uuid="${conversationUuid}"]`).addClass('active');
 
         // Show loading state
         showChatLoading();
 
         // Load conversation messages
-        loadConversation(guestId);
+        loadConversation(conversationUuid);
     }
 
     function showChatLoading() {
@@ -256,19 +256,16 @@ $(document).ready(function() {
         `);
     }
 
-    function loadConversation(guestId) {
-        // Find the conversation for this guest
-        const conversation = allConversations[guestId];
-        if (!conversation || !conversation.length) {
+    function loadConversation(conversationUuid) {
+        // Find the conversation by UUID
+        const conversation = allConversations.find(conv => conv.uuid === conversationUuid);
+        if (!conversation) {
             showChatError('Conversation not found');
             return;
         }
-
-        // Get the conversation ID from the first message
-        currentConversationId = conversation[0].conversation_id;
         
         $.ajax({
-            url: `/dashboard/conversations/${currentConversationId}`,
+            url: `/dashboard/conversations/${conversationUuid}`,
             method: 'GET',
             timeout: 10000,
             headers: {
@@ -286,7 +283,7 @@ $(document).ready(function() {
                     $('#no-chat-selected').hide();
 
                     // Subscribe to this conversation's channel
-                    subscribeToConversation(currentConversationId);
+                    subscribeToConversation(conversationUuid);
                 } else {
                     showChatError('Failed to load conversation');
                 }
@@ -304,14 +301,13 @@ $(document).ready(function() {
         });
     }
 
-    function subscribeToConversation(conversationId) {
-        console.log('subscribeToConversation', conversationId);
-        config.conversationId = conversationId;
-        window.initEcho(config);
+    function subscribeToConversation(conversationUuid) {
+        console.log('subscribeToConversation', conversationUuid);
+        
         // Check if Echo is available
         if (typeof window.Echo === 'undefined') {
             console.log('Echo not loaded yet, retrying in 1 second...');
-            setTimeout(() => subscribeToConversation(conversationId), 1000);
+            setTimeout(() => subscribeToConversation(conversationUuid), 1000);
             return;
         }
 
@@ -322,44 +318,31 @@ $(document).ready(function() {
             currentChannel = null;
         }
 
-        // Initialize Echo with provider conversation data
-        const conversationData = {
-            conversationId: String(conversationId), // Ensure it's a string
-            providerId: String(currentProviderId)
-        };
-        config.conversationId = conversationId;
-        config.providerId = currentProviderId;
-    
-        console.log('🔌 Initializing provider chat for conversation:', conversationId);
-        
-        // Initialize Echo with the conversation data
-        if (!window.initEcho(conversationData)) {
+        // Initialize Echo for public channels
+        if (!window.initEcho({})) {
             console.error('❌ Failed to initialize Echo');
             showChatError('Failed to initialize chat. Please try again.');
             return;
         }
 
-        currentChannel = conversationId;
+        currentChannel = conversationUuid;
 
-        // Listen for custom events from Echo
-        window.addEventListener('messageSent', function(e) {
-            const messageData = e.detail;
-            console.log('📨 New message received:', messageData);
-            
-            // Add the new message to current chat if it's the same guest
-            if (currentGuestId && currentGuestId == messageData.guest_id) {
-                addMessageToChat(messageData);
-            }
-            
-            // Update conversation list
-            updateConversationList(messageData);
-        });
-
-        window.addEventListener('echoError', function(e) {
-            console.error('❌ Echo error:', e.detail);
-            showChatError('Lost connection to chat. Please try again.');
-            currentChannel = null;
-        });
+        // Listen for messages on the public conversation channel
+        window.Echo.channel(`conversation.${conversationUuid}`)
+            .listen('.MessageSent', (e) => {
+                console.log('📨 New message received via public channel:', e);
+                
+                // Add the new message to current chat
+                addMessageToChat(e);
+                
+                // Update conversation list
+                updateConversationList(e);
+            })
+            .error((error) => {
+                console.error('❌ Failed to subscribe to conversation channel:', error);
+                showChatError('Lost connection to chat. Please try again.');
+                currentChannel = null;
+            });
     }
 
     function displayConversation(messages, guest) {
@@ -389,8 +372,8 @@ $(document).ready(function() {
 
     function sendMessage() {
         const message = $('#message-input').val().trim();
-        if (!message || !currentGuestId || !currentConversationId) {
-            if (!currentGuestId) {
+        if (!message || !currentConversationUuid) {
+            if (!currentConversationUuid) {
                 swal.fire({
                     toast: true,
                     title: 'Warning',
@@ -420,7 +403,7 @@ $(document).ready(function() {
             url: '/dashboard/send-provider-message',
             method: 'POST',
             data: {
-                conversation_id: currentConversationId,
+                conversation_uuid: currentConversationUuid,
                 message: message,
                 _token: '{{ csrf_token() }}'
             },
@@ -437,9 +420,9 @@ $(document).ready(function() {
                         message: message,
                         sender_type: 'provider',
                         created_at: new Date().toISOString(),
-                        guest_id: currentGuestId,
+                        guest_id: currentGuest?.id,
                         provider_id: currentProviderId,
-                        conversation_id: currentConversationId
+                        conversation_id: response.data.conversation_id
                     };
                     addMessageToChat(sentMessage);
                 } else {
