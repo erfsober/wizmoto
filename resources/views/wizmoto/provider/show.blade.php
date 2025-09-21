@@ -492,8 +492,8 @@
                         <p class="text-muted mb-4">Send a message to inquire about this dealer. Your email will be kept
                             private.</p>
 
-                        <form id="initiate-contact-form">
-
+                        <form id="initiate-contact-form" method="POST" action="{{ route('chat.initiate') }}">
+                            @csrf
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
                                     <label>Your Name *</label>
