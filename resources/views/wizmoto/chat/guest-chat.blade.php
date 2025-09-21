@@ -346,19 +346,6 @@
 
 @include('wizmoto.partials.footer')
 @endsection
-@push('before-scripts')
-    <script>
-        $(document).ready(function() {
-            // Get data from backend
-            let currentProviderId = '{{ $provider->id ?? '' }}';
-            let currentGuest = @json($guest);
-            let currentProvider = @json($provider);
-            let currentConversation = @json($conversation);
-            conversationId = currentConversation?.id;
-            guestId = @json($guest->id);
-        });
-    </script>
-@endpush
 
 @push('scripts')
 <script>

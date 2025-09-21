@@ -21,6 +21,11 @@ function isValidConversationData(data) {
     return true;
 }
 
+// Check if Echo is ready
+window.isEchoReady = function() {
+    return typeof window.Echo !== 'undefined' && window.Echo !== null;
+};
+
 // Initialize Echo function for public channels
 window.initEcho = function (conversationData) {
     if (!window.CHAT_CONFIG) {
