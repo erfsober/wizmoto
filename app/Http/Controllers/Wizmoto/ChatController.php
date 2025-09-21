@@ -191,9 +191,9 @@ class ChatController extends Controller
     /**
      * Show chat interface for guest using UUID
      */
-    public function showGuestChat(Request $request, $conversationUuid)
+    public function showGuestChat(Request $request, $accessToken)
     {
-        $conversation = Conversation::where('uuid', $conversationUuid)->first();
+        $conversation = Conversation::where('access_token', $accessToken)->first();
 
         if (!$conversation) {
             abort(404, 'Conversation not found');
@@ -203,7 +203,7 @@ class ChatController extends Controller
         $guest = $conversation->guest;
 
         return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
-            'conversationUuid' => $conversationUuid
+            'conversationUuid' => $conversation->uuid
         ]);
     }
 

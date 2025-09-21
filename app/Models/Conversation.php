@@ -9,11 +9,7 @@ use Illuminate\Support\Str;
 
 class Conversation extends Model
 {
-    protected $fillable = [
-        'provider_id',
-        'guest_id',
-        'uuid'
-    ];
+ 
     public function provider(): BelongsTo
     {
         return $this->belongsTo(Provider::class);
@@ -33,13 +29,19 @@ class Conversation extends Model
     {
         static::creating(function ($model) {
             $model->uuid = Str::uuid();
+            $model->access_token = Str::random(25);
         });
     }
 
     public function getConversationLink()
     {
         return route('chat.guest.show', [
-            'conversationUuid' => $this->uuid
+            'accessToken' => $this->access_token
         ]);
+    }
+
+    public function isTokenValid()
+    {
+        return true; // Tokens never expire
     }
 }
