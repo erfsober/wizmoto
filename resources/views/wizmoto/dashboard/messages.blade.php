@@ -304,15 +304,15 @@ $(document).ready(function() {
     function subscribeToConversation(conversationUuid) {
         console.log('subscribeToConversation', conversationUuid);
         
-        // Check if Echo is available
-        if (typeof window.Echo === 'undefined') {
+        // Check if initEcho function is available
+        if (typeof window.initEcho !== 'function') {
             console.log('Echo not loaded yet, retrying in 1 second...');
             setTimeout(() => subscribeToConversation(conversationUuid), 1000);
             return;
         }
 
         // Unsubscribe from previous channel if exists
-        if (currentChannel) {
+        if (currentChannel && window.Echo) {
             console.log('🔌 Unsubscribing from previous channel');
             window.Echo.leaveChannel(`conversation.${currentChannel}`);
             currentChannel = null;
