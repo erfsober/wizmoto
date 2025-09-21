@@ -109,7 +109,7 @@ class ChatController extends Controller
     public function sendGuestMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'conversation_uuid' => 'required|string',
+            'access_token' => 'required|string',
             'message' => 'required|string|max:1000'
         ]);
 
@@ -120,8 +120,8 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find conversation by UUID
-        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
+        // Find conversation by access token
+        $conversation = Conversation::where('access_token', $request->access_token)->first();
         if (!$conversation) {
             return response()->json([
                 'success' => false,
@@ -154,7 +154,7 @@ class ChatController extends Controller
     public function getChatMessages(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'conversation_uuid' => 'required|string'
+            'access_token' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -164,8 +164,8 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find conversation by UUID
-        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
+        // Find conversation by access token
+        $conversation = Conversation::where('access_token', $request->access_token)->first();
         if (!$conversation) {
             return response()->json([
                 'success' => false,
@@ -295,7 +295,7 @@ class ChatController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'conversation_uuid' => 'required|string',
+            'access_token' => 'required|string',
             'message' => 'required|string|max:1000'
         ]);
 
@@ -306,7 +306,7 @@ class ChatController extends Controller
             ], 422);
         }
 
-        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
+        $conversation = Conversation::where('access_token', $request->access_token)->first();
         if (!$conversation || $conversation->provider_id !== $provider->id) {
             return response()->json([
                 'success' => false,

@@ -230,6 +230,7 @@ $(document).ready(function() {
 
     function selectConversation(conversationUuid) {
         currentConversationUuid = conversationUuid;
+        currentConversationAccessToken = null; // Will be set when conversation loads
         currentGuest = null;
 
         // Remove active class from all contacts
@@ -274,6 +275,9 @@ $(document).ready(function() {
             success: function(response) {
                 console.log('📨 Conversation loaded successfully');
                 if (response.success) {
+                    // Store access token for API calls
+                    currentConversationAccessToken = response.conversation.access_token;
+                    
                     currentGuest = response.guest;
                     displayConversation(response.messages, response.guest);
 
@@ -403,7 +407,7 @@ $(document).ready(function() {
             url: '/dashboard/send-provider-message',
             method: 'POST',
             data: {
-                conversation_uuid: currentConversationUuid,
+                access_token: currentConversationAccessToken,
                 message: message,
                 _token: '{{ csrf_token() }}'
             },

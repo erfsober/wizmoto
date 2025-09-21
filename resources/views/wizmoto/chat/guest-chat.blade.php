@@ -9,6 +9,7 @@
         guest: @json($guest ?? null),
         conversation: @json($conversation ?? null),
         conversationUuid: '{{ $conversationUuid ?? "" }}',
+        accessToken: '{{ $conversation->access_token ?? "" }}',
         urls: {
             sendMessage: '{{ route("chat.guest.send") }}',
             getMessages: '{{ route("chat.guest.messages") }}'
@@ -441,9 +442,9 @@ $(document).ready(function() {
             }
 
     function loadConversation() {
-        // Get UUID from cookie
-        const conversationUuid = window.getConversationUuid();
-        if (!conversationUuid) {
+        // Get access token from config
+        const accessToken = window.CHAT_CONFIG.accessToken;
+        if (!accessToken) {
             showChatError('Conversation not found. Please refresh the page.');
             return;
         }
@@ -459,7 +460,7 @@ $(document).ready(function() {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             data: {
-                conversation_uuid: conversationUuid,
+                access_token: window.CHAT_CONFIG.accessToken,
                 _token: '{{ csrf_token() }}'
             },
             timeout: 10000,
@@ -521,9 +522,9 @@ $(document).ready(function() {
         const message = $('#message-input').val().trim();
         if (!message) return;
 
-        // Get UUID from cookie
-        const conversationUuid = window.getConversationUuid();
-        if (!conversationUuid) {
+        // Get access token from config
+        const accessToken = window.CHAT_CONFIG.accessToken;
+        if (!accessToken) {
             alert('Conversation not found. Please refresh the page.');
             return;
         }
@@ -548,7 +549,7 @@ $(document).ready(function() {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             data: {
-                conversation_uuid: conversationUuid,
+                access_token: window.CHAT_CONFIG.accessToken,
                 message: message,
                 _token: '{{ csrf_token() }}'
             },
