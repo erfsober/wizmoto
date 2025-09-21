@@ -355,8 +355,7 @@
             let currentProvider = @json($provider);
             let currentConversation = @json($conversation);
             conversationId = currentConversation?.id;
-            guestToken = @json($guestToken);
-            guestId = @json($guestId);
+            guestId = @json($guest->id);
         });
     </script>
 @endpush
