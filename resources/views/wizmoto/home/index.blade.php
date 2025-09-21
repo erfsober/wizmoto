@@ -130,7 +130,7 @@
 
                     <div class="right-box">
                         @if(!Auth::guard('provider')->check())
-                            <a href="{{ route('provider.auth') }}" title="" class="box-account">
+                            <a href="{{ route('provider.auth') }}" title="" >
                                 <span class="icon">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_147_6490)">
@@ -183,10 +183,10 @@
         <!-- End Header Search -->
 
         <div id="nav-mobile">
-            <ul>
-                <li>
-                    @if(!Auth::guard('provider')->check())
-                        <a href="{{ route('provider.auth') }}" title="" class="box-account">
+            <ul class="dropdown">
+                @if(!Auth::guard('provider')->check())
+                    <li style="float: inline-start">
+                        <a href="{{ route('provider.auth') }}" title="" >
                             <span class="icon">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_147_6490)">
@@ -202,6 +202,7 @@
                             </span>
                             Sign in
                         </a>
+                    </li>
                 @else
                     <li class="current-dropdown">
                         <span>
@@ -224,8 +225,7 @@
                     <form id="logout-form" action="{{ route('provider.logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                    @endif
-                    </li>
+                @endif
             </ul>
         </div>
     </header>
