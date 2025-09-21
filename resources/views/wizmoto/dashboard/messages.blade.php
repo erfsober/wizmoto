@@ -16,7 +16,9 @@
     // Log configuration state for debugging
     console.log('🔧 Provider dashboard configuration loaded:', {
         hasProvider: !!window.CHAT_CONFIG.provider,
-        conversationCount: window.CHAT_CONFIG.conversations ? window.CHAT_CONFIG.conversations.length : 0
+        conversationCount: window.CHAT_CONFIG.conversations ? window.CHAT_CONFIG.conversations.length : 0,
+        providerAvatar: window.CHAT_CONFIG.provider ? window.CHAT_CONFIG.provider.avatar : null,
+        fullProvider: window.CHAT_CONFIG.provider
     });
 </script>
 @endpush
@@ -489,6 +491,12 @@ $(document).ready(function() {
         if (isProvider) {
             // Provider messages - try image first, then initials
             const providerImage = (window.CHAT_CONFIG && window.CHAT_CONFIG.provider && window.CHAT_CONFIG.provider.avatar) ? window.CHAT_CONFIG.provider.avatar : null;
+            console.log('Provider avatar debug:', {
+                hasConfig: !!window.CHAT_CONFIG,
+                hasProvider: !!(window.CHAT_CONFIG && window.CHAT_CONFIG.provider),
+                providerAvatar: window.CHAT_CONFIG && window.CHAT_CONFIG.provider ? window.CHAT_CONFIG.provider.avatar : null,
+                providerImage: providerImage
+            });
             if (providerImage) {
                 avatarHtml = `<img src="${providerImage}" alt="" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">`;
             } else {
