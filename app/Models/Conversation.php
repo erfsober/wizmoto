@@ -39,7 +39,7 @@ class Conversation extends Model
     public function getConversationLink()
     {
         return route('chat.guest.show', [
-            'conversation_uuid' => $this->uuid
+            'conversationUuid' => $this->uuid
         ]);
     }
 }
