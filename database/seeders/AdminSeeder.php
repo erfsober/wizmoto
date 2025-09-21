@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
         Admin::query()->truncate();
         Admin::create([
             'name' => 'Admin',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@mail.com',
             'password' => Hash::make('123456'),
         ]);
     }
