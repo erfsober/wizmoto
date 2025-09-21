@@ -24,7 +24,7 @@ if($('#nav-mobile').length){
         .removeClass('navbar')
         .appendTo($mobileNav);
 
-        API=$mobileNav.mmenu({
+        var API = $mobileNav.mmenu({
           "counters": false,
           extensions 	: [ "position-left", "", "theme-black", ],
         offCanvas: {
@@ -33,15 +33,86 @@ if($('#nav-mobile').length){
         }
       });
 
-        var $closeBtn = $('    <a href="#" title="" class="close-nav-mobile">\n' +
-            '                    <img src="{{asset("wizmoto/images/icons/close.svg")}}" alt=""/>\n' +
-            '                </a>');
-        $mobileNav.find(".mm-panel:first").prepend($closeBtn);
+        // Function to add close button
+        function addCloseButton() {
+            // Check if close button already exists
+            if ($mobileNav.find('.close-nav-mobile').length > 0) {
+                return; // Exit if button already exists
+            }
+            
+            // Create close button with simple × symbol
+            var $closeBtn = $('<a href="#" title="Close Menu" class="close-nav-mobile">×</a>');
+            
+            // Try multiple locations to add the close button
+            var $firstPanel = $mobileNav.find(".mm-panel:first");
+            var $mmList = $mobileNav.find(".mm-listview:first");
+            var $mmNavbar = $mobileNav.find(".mm-navbar:first");
+            
+            if ($firstPanel.length > 0) {
+                $firstPanel.prepend($closeBtn);
+            } else if ($mmList.length > 0) {
+                $mmList.before($closeBtn);
+            } else if ($mmNavbar.length > 0) {
+                $mmNavbar.after($closeBtn);
+            } else {
+                // Last resort: add to the mobile nav container
+                $mobileNav.prepend($closeBtn);
+            }
 
-        // Bind click to close menu
-        $closeBtn.on("click", function (e) {
-            e.preventDefault();
-            API.close();
+            // Bind click to close menu
+            $closeBtn.on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Try different API methods to close the menu
+                if (typeof API.close === 'function') {
+                    API.close();
+                } else if (typeof API.closeMenu === 'function') {
+                    API.closeMenu();
+                } else if (typeof API.offcanvas.close === 'function') {
+                    API.offcanvas.close();
+                } else {
+                    // Fallback: try to close using mmenu's trigger method
+                    $mobileNav.trigger('close');
+                    // Also try the offcanvas close method
+                    if (typeof $mobileNav.data('mmenu') !== 'undefined') {
+                        $mobileNav.data('mmenu').close();
+                    }
+                    // Manual fallback: remove classes and trigger events
+                    $mobileNav.removeClass('mm-menu_opened');
+                    $('body').removeClass('mm-wrapper_opened');
+                    $('html').removeClass('mm-opened');
+                }
+            });
+        }
+
+        // Try to add close button multiple times
+        setTimeout(addCloseButton, 100);
+        setTimeout(addCloseButton, 500);
+        setTimeout(addCloseButton, 1000);
+
+        // Also close on escape key
+        $(document).on('keydown', function(e) {
+            if (e.keyCode === 27 && $mobileNav.hasClass('mm-menu_opened')) {
+                // Try different API methods to close the menu
+                if (typeof API.close === 'function') {
+                    API.close();
+                } else if (typeof API.closeMenu === 'function') {
+                    API.closeMenu();
+                } else if (typeof API.offcanvas.close === 'function') {
+                    API.offcanvas.close();
+                } else {
+                    // Fallback: try to close using mmenu's trigger method
+                    $mobileNav.trigger('close');
+                    // Also try the offcanvas close method
+                    if (typeof $mobileNav.data('mmenu') !== 'undefined') {
+                        $mobileNav.data('mmenu').close();
+                    }
+                    // Manual fallback: remove classes and trigger events
+                    $mobileNav.removeClass('mm-menu_opened');
+                    $('body').removeClass('mm-wrapper_opened');
+                    $('html').removeClass('mm-opened');
+                }
+            }
         });
 
 

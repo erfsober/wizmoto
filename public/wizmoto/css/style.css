@@ -2321,6 +2321,35 @@ Main Header
   color: var(--theme-color-light);
 }
 
+/* Mobile Menu Close Button */
+.close-nav-mobile {
+    position: absolute !important;
+    top: 30px !important;
+    right: 30px !important;
+    z-index: 9999 !important;
+    border-radius: 50%;
+    background-color: rgba(234, 234, 234, 0.6) !important;
+    -webkit-transition: all 500ms ease;
+    transition: all 500ms ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: #2b2b2b !important;
+    line-height: 1;
+}
+
+.close-nav-mobile:hover {
+    text-decoration: none;
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    color: #ffffff !important;
+}
+
 /***
 
 ====================================================================
