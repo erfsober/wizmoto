@@ -218,7 +218,7 @@ class ChatController extends Controller
     public function getGuestConversation(Request $request, $guestId)
     {
         $guest = Guest::find($guestId);
-
+        
         if (!$guest) {
             return response()->json([
                 'success' => false,
@@ -229,7 +229,7 @@ class ChatController extends Controller
         $providerId = $request->get('provider_id');
         $email = $request->get('email');
         $token = $request->get('token');
-
+        
         if (!$providerId) {
             return response()->json([
                 'success' => false,

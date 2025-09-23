@@ -548,6 +548,58 @@
                                             </div>
                                         </div>
 
+                                        <!-- Number of Cylinders -->
+                                        <div class="col-lg-12">
+                                            <div class="form_boxes">
+                                                <label>Number of Cylinders</label>
+                                                <div class="drop-menu" id="cylinders-dropdown">
+                                                    <div class="select">
+                                                        <span>Select Cylinders</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </div>
+                                                    <input type="hidden" name="cylinders">
+                                                    <ul class="dropdown" style="display: none;">
+                                                        <li data-id="1">1 Cylinder</li>
+                                                        <li data-id="2">2 Cylinders</li>
+                                                        <li data-id="3">3 Cylinders</li>
+                                                        <li data-id="4">4 Cylinders</li>
+                                                        <li data-id="6">6 Cylinders</li>
+                                                        <li data-id="8">8 Cylinders</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Engine Displacement Range -->
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Engine Displacement From (cc)</label>
+                                                <input type="number" name="motor_displacement_from" placeholder="From" min="0" step="50">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Engine Displacement To (cc)</label>
+                                                <input type="number" name="motor_displacement_to" placeholder="To" min="0" step="50">
+                                            </div>
+                                        </div>
+
+                                        <!-- Price Range -->
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Price From ($)</label>
+                                                <input type="number" name="price_from" placeholder="From" min="0" step="100">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Price To ($)</label>
+                                                <input type="number" name="price_to" placeholder="To" min="0" step="100">
+                                            </div>
+                                        </div>
+
                                         <!-- Vehicle Conditions -->
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
@@ -684,33 +736,28 @@
                                     <div class="col-lg-12">
                                         <div class="form_boxes">
                                             <label>Body Color</label>
-                                            <div class="color-filter-container">
-                                                <div class="color-grid">
-                                                    @foreach ($vehicleColors as $color)
-                                                        <label class="color-item">
-                                                            <input type="checkbox" name="color_ids[]"
-                                                                value="{{ $color->id }}">
-                                                            <div class="color-circle"
-                                                                style="background-color: {{ $color->hex_code }}"></div>
-                                                            <span class="color-name">{{ $color->name }}</span>
-                                                        </label>
-                                                    @endforeach
-                                                </div>
+                                            <div class="color-list">
+                                                @foreach ($vehicleColors as $color)
+                                                    <label class="checkbox-item"
+                                                        style="--box-color: {{ $color->hex_code }}">
+                                                        <input type="checkbox" name="color_ids[]"
+                                                            value="{{ $color->id }}">
+                                                        <span class="checkmark"></span>
+                                                        {{ $color->name }}
+                                                    </label>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <div class="form_boxes">
-                                            <label>Metallic Paint</label>
-                                            <div class="checkbox-container">
-                                                <label class="checkbox-item">
-                                                    <input type="checkbox" name="is_metallic_paint" value="1">
-                                                    <span class="checkmark"></span>
-                                                    Metallic Paint
-                                                </label>
-                                            </div>
-                                        </div>
+
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" name="is_metallic_paint" value="1">
+                                            <span class="checkmark"></span>
+                                            Metallic Paint
+                                        </label>
+
                                     </div>
                                 </div>
                             </div>
@@ -722,30 +769,7 @@
                                     <h6 class="title">Vehicle Conditions</h6>
                                 </div>
                                 <div class="filter-section-content">
-                                    <div class="col-lg-12">
-                                        <div class="form_boxes">
-                                            <label>Vehicle Category</label>
-                                            <div class="multi-select-container">
-                                                <div class="selected-options"></div>
-                                                <div class="multi-select-dropdown">
-                                                    <div class="multi-select-list">
-                                                        <label class="multi-select-item">
-                                                            <input type="checkbox" name="vehicle_category[]"
-                                                                value="Used">
-                                                            <span class="checkmark"></span>
-                                                            Used
-                                                        </label>
-                                                        <label class="multi-select-item">
-                                                            <input type="checkbox" name="vehicle_category[]"
-                                                                value="Era">
-                                                            <span class="checkmark"></span>
-                                                            Era
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
 
                                     <div class="col-lg-12">
                                         <div class="form_boxes">
@@ -781,33 +805,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12">
-                                        <div class="form_boxes">
-                                            <label>Additional Conditions</label>
-                                            <div class="conditions-grid">
-                                                <label class="condition-item">
-                                                    <input type="checkbox" name="damaged_vehicle" value="1">
-                                                    <span class="checkmark"></span>
-                                                    Damaged Vehicle
-                                                </label>
-                                                <label class="condition-item">
-                                                    <input type="checkbox" name="coupon_documentation" value="1">
-                                                    <span class="checkmark"></span>
-                                                    Coupon Documentation
-                                                </label>
-                                                <label class="condition-item">
-                                                    <input type="checkbox" name="price_negotiable" value="1">
-                                                    <span class="checkmark"></span>
-                                                    Price Negotiable
-                                                </label>
-                                                <label class="condition-item">
-                                                    <input type="checkbox" name="tax_deductible" value="1">
-                                                    <span class="checkmark"></span>
-                                                    Tax Deductible
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -847,42 +845,36 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form_boxes">
-                                            <label>CO2 Emissions (g/km)</label>
-                                            <div class="range-input-container">
-                                                <div class="range-inputs">
-                                                    <div class="range-input">
-                                                        <input type="number" name="co2_emissions_from"
-                                                            placeholder="From" min="0" max="500">
-                                                    </div>
-                                                    <div class="range-separator">to</div>
-                                                    <div class="range-input">
-                                                        <input type="number" name="co2_emissions_to" placeholder="To"
-                                                            min="0" max="500">
-                                                    </div>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>CO2 Emissions From (g/km)</label>
+                                                <input type="number" name="co2_emissions_from" class=""
+                                                    placeholder="From" min="0" max="500">
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-lg-6">
-                                        <div class="form_boxes">
-                                            <label>Fuel Consumption (L/100km)</label>
-                                            <div class="range-input-container">
-                                                <div class="range-inputs">
-                                                    <div class="range-input">
-                                                        <input type="number" name="fuel_consumption_from"
-                                                            placeholder="From" min="0" max="50"
-                                                            step="0.1">
-                                                    </div>
-                                                    <div class="range-separator">to</div>
-                                                    <div class="range-input">
-                                                        <input type="number" name="fuel_consumption_to" placeholder="To"
-                                                            min="0" max="50" step="0.1">
-                                                    </div>
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>CO2 Emissions To (g/km)</label>
+                                                <input type="number" name="co2_emissions_to" placeholder="To"
+                                                    min="0" max="500">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Fuel Consumption From (L/100km)</label>
+                                                <input type="number" name="fuel_consumption_from" placeholder="From"
+                                                    min="0" max="50" step="0.1">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Fuel Consumption To (L/100km)</label>
+                                                <input type="number" name="fuel_consumption_to" placeholder="To"
+                                                    min="0" max="50" step="0.1">
                                             </div>
                                         </div>
                                     </div>
@@ -895,7 +887,7 @@
                                     <h6 class="title">More Information</h6>
                                 </div>
                                 <div class="filter-section-content">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form_boxes">
                                             <label>Online From</label>
                                             <div class="drop-menu" id="online-from-dropdown">
@@ -920,190 +912,180 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div class="form_boxes">
-                                            <label>VAT Deductible</label>
-                                            <div class="checkbox-container">
-                                                <label class="checkbox-item">
-                                                    <input type="checkbox" name="tax_deductible" value="1">
-                                                    <span class="checkmark"></span>
-                                                    VAT Deductible
-                                                </label>
-                                            </div>
+                                        <div class="">
+
+
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="tax_deductible" value="1">
+                                                <span class="checkmark"></span>
+                                                VAT Deductible
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <div class="col-lg-6">
-                                <div class="form_boxes v2">
-                                    <label>Power Cv</label>
-                                    <div class="drop-menu active">
-                                        <input name="motor_power_cv" type="number" maxlength="4"
-                                            placeholder="ex. 120">
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         </div>
-                    </div><!--widget end-->
-                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div><!--widget end-->
+            </div>
+        </div>
+
+    </div>
+    <!-- cars-section-three -->
+    <section class="cars-section-four v1 layout-radius">
+        <div class="boxcar-container">
+            <div class="boxcar-title-three wow fadeInUp">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{{ route('home') }}">Home</a>
+                    </li>
+                    <li><span>MotorBike for Sale</span>
+                    </li>
+                </ul>
+                <h2>New and Used MotorBike For Sale</h2>
             </div>
 
-        </div>
-        <!-- cars-section-three -->
-        <section class="cars-section-four v1 layout-radius">
-            <div class="boxcar-container">
-                <div class="boxcar-title-three wow fadeInUp">
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="{{ route('home') }}">Home</a>
-                        </li>
-                        <li><span>MotorBike for Sale</span>
-                        </li>
-                    </ul>
-                    <h2>New and Used MotorBike For Sale</h2>
-                </div>
-
-                <div class="row wow fadeInUp">
-                    @foreach ($advertisements as $advertisement)
-                        @php
-                            $image = $advertisement->getMedia('covers')->first();
-                        @endphp
-                        <!-- car-block-four -->
-                        <div class="car-block-four col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image">
-                                        <a href="{{ $image?->getUrl('preview') }}"
-                                            data-fancybox="gallery-{{ $advertisement->id }}">
-                                            <img src="{{ $image?->getUrl('thumb') }}"
-                                                srcset="
+            <div class="row wow fadeInUp">
+                @foreach ($advertisements as $advertisement)
+                    @php
+                        $image = $advertisement->getMedia('covers')->first();
+                    @endphp
+                    <!-- car-block-four -->
+                    <div class="car-block-four col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <figure class="image">
+                                    <a href="{{ $image?->getUrl('preview') }}"
+                                        data-fancybox="gallery-{{ $advertisement->id }}">
+                                        <img src="{{ $image?->getUrl('thumb') }}"
+                                            srcset="
                    {{ $image?->getUrl('thumb') }} 300w,
                     {{ $image?->getUrl('preview') }} 800w
                 "
-                                                sizes="(max-width: 600px) 300px, 800px" loading="lazy"
-                                                alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
-                                        </a>
-                                    </figure>
-                                </div>
-                                <div class="content-box">
-                                    <h6 class="title">
-                                        <a
-                                            href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</a>
-                                    </h6>
-                                    <div class="text">{{ $advertisement->version_model }}</div>
-                                    <ul>
-                                        <li>
-                                            <i class="flaticon-gasoline-pump"></i>
-                                            {{ $advertisement->fuelType?->name ?? 'N/A' }}
-                                        </li>
-                                        <li>
-                                            <i
-                                                class="flaticon-speedometer"></i>{{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
-                                        </li>
-                                        <li>
-                                            <i class="flaticon-gearbox"></i> {{ $advertisement->motor_change ?? 'N/A' }}
-                                        </li>
-                                    </ul>
-                                    <div class="btn-box">
-                                        <span>${{ $advertisement->final_price }}</span>
+                                            sizes="(max-width: 600px) 300px, 800px" loading="lazy"
+                                            alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="content-box">
+                                <h6 class="title">
+                                    <a
+                                        href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</a>
+                                </h6>
+                                <div class="text">{{ $advertisement->version_model }}</div>
+                                <ul>
+                                    <li>
+                                        <i class="flaticon-gasoline-pump"></i>
+                                        {{ $advertisement->fuelType?->name ?? 'N/A' }}
+                                    </li>
+                                    <li>
+                                        <i
+                                            class="flaticon-speedometer"></i>{{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-gearbox"></i> {{ $advertisement->motor_change ?? 'N/A' }}
+                                    </li>
+                                </ul>
+                                <div class="btn-box">
+                                    <span>${{ $advertisement->final_price }}</span>
 
-                                        <a href="{{ route('advertisements.show', $advertisement->id) }}"
-                                            class="details">View Details
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                viewBox="0 0 14 14" fill="none">
-                                                <g clip-path="url(#clip0_601_4346)">
-                                                    <path
-                                                        d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
-                                                        fill="#405FF2" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_601_4346">
-                                                        <rect width="14" height="14" fill="white" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('advertisements.show', $advertisement->id) }}" class="details">View
+                                        Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 14 14" fill="none">
+                                            <g clip-path="url(#clip0_601_4346)">
+                                                <path
+                                                    d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
+                                                    fill="#405FF2" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_601_4346">
+                                                    <rect width="14" height="14" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-
-                <div class="pagination-sec">
-                    <nav aria-label="Page navigation example">
-                        @if ($advertisements->hasPages())
-                            <ul class="pagination">
-                                <li class="page-item {{ $advertisements->onFirstPage() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $advertisements->previousPageUrl() }}"
-                                        aria-label="Previous">
-                                        <span aria-hidden="true">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z"
-                                                    fill="#050B20" />
-                                            </svg>
-                                        </span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                @foreach ($advertisements->links()->elements[0] ?? [] as $page => $url)
-                                    <li class="page-item {{ $page == $advertisements->currentPage() ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                    </li>
-                                @endforeach
-
-                                <li class="page-item {{ !$advertisements->hasMorePages() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $advertisements->nextPageUrl() }}" aria-label="Next">
-                                        <span aria-hidden="true">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <g clip-path="url(#clip0_2880_6407)">
-                                                    <path
-                                                        d="M9.42017 6.00011C9.42017 6.2151 9.33808 6.43013 9.17427 6.5941L4.01441 11.7538C3.68618 12.0821 3.15402 12.0821 2.82592 11.7538C2.49783 11.4257 2.49783 10.8937 2.82592 10.5654L7.39159 6.00011L2.82624 1.43461C2.49815 1.10652 2.49815 0.574382 2.82624 0.246315C3.15434 -0.0820709 3.68634 -0.0820709 4.01457 0.246315L9.17446 5.40596C9.33824 5.57001 9.42017 5.78505 9.42017 6.00011Z"
-                                                        fill="#050B20" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_2880_6407">
-                                                        <rect width="12" height="12" fill="white"
-                                                            transform="translate(12 12) rotate(-180)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="text">Showing results
-                                {{ $advertisements->firstItem() }}-{{ $advertisements->lastItem() }}
-                                of {{ $advertisements->total() }}
-                            </div>
-                        @endif
-                    </nav>
-                </div>
+                    </div>
+                @endforeach
             </div>
-        </section>
-        <!-- End shop section two -->
+
+            <div class="pagination-sec">
+                <nav aria-label="Page navigation example">
+                    @if ($advertisements->hasPages())
+                        <ul class="pagination">
+                            <li class="page-item {{ $advertisements->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $advertisements->previousPageUrl() }}"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z"
+                                                fill="#050B20" />
+                                        </svg>
+                                    </span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            @foreach ($advertisements->links()->elements[0] ?? [] as $page => $url)
+                                <li class="page-item {{ $page == $advertisements->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+
+                            <li class="page-item {{ !$advertisements->hasMorePages() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $advertisements->nextPageUrl() }}" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_2880_6407)">
+                                                <path
+                                                    d="M9.42017 6.00011C9.42017 6.2151 9.33808 6.43013 9.17427 6.5941L4.01441 11.7538C3.68618 12.0821 3.15402 12.0821 2.82592 11.7538C2.49783 11.4257 2.49783 10.8937 2.82592 10.5654L7.39159 6.00011L2.82624 1.43461C2.49815 1.10652 2.49815 0.574382 2.82624 0.246315C3.15434 -0.0820709 3.68634 -0.0820709 4.01457 0.246315L9.17446 5.40596C9.33824 5.57001 9.42017 5.78505 9.42017 6.00011Z"
+                                                    fill="#050B20" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_2880_6407">
+                                                    <rect width="12" height="12" fill="white"
+                                                        transform="translate(12 12) rotate(-180)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="text">Showing results
+                            {{ $advertisements->firstItem() }}-{{ $advertisements->lastItem() }}
+                            of {{ $advertisements->total() }}
+                        </div>
+                    @endif
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- End shop section two -->
 
 
     </div><!-- End Page Wrapper -->
@@ -1351,6 +1333,23 @@
                     const cityName = $(this).text();
                     $(this).closest('#city-dropdown').find('.select span').text(cityName);
                     $(this).closest('#city-dropdown').find('input[type="hidden"]').val(cityId);
+                    $(this).closest('.dropdown').hide();
+                });
+
+                // Cylinders dropdown
+                $('#cylinders-dropdown').on('click', function(e) {
+                    e.stopPropagation();
+                    const $dropdown = $(this).find('.dropdown');
+                    $('.dropdown').not($dropdown).hide();
+                    $dropdown.toggle();
+                });
+
+                $('#cylinders-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const cylindersId = $(this).data('id');
+                    const cylindersText = $(this).text();
+                    $(this).closest('#cylinders-dropdown').find('.select span').text(cylindersText);
+                    $(this).closest('#cylinders-dropdown').find('input[type="hidden"]').val(cylindersId);
                     $(this).closest('.dropdown').hide();
                 });
 

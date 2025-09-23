@@ -2533,9 +2533,17 @@ Main Header
     transform: rotate(45deg);
 }
 
-/* Color Filter Section */
-.color-filter-container {
+/* Color list - 2 column layout with color styling */
+.color-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     margin-top: 10px;
+}
+
+/* Show actual color in checkmark */
+.color-list .checkbox-item .checkmark {
+    background-color: var(--box-color, #f0f0f0) !important;
 }
 
 .color-grid {
