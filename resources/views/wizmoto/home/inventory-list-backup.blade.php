@@ -2,79 +2,36 @@
 @section('content')
 
     <!-- Main Header-->
-	<header class="boxcar-header header-style-v1 style-two inner-header cus-style-1">
+    <header class="boxcar-header header-style-v1 style-two inner-header bb-0">
         <div class="header-inner">
             <div class="inner-container">
                 <!-- Main box -->
                 <div class="c-box">
                     <div class="logo-inner">
-                        <div class="logo"><a href="index.html"><img src="images/logo.svg" alt="" title="Boxcar"></a></div>
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="images/logo.svg" alt="" title="Boxcar">
+                            </a>
+                        </div>
                         <div class="layout-search style1">
-                            <div class="search-box">
-                                <svg class="icon"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
-                                </svg>  
-                                <input type="search" placeholder="Search Cars eg. Audi Q7" class="show-search" name="name" tabindex="2" value="" aria-required="true" required="">
-
-                            </div>
-                            <div class="box-content-search" id="box-content-search">
-                                <ul class="box-car-search">
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
-                                        <div class="box-img">
-                                            <img src="images/resource/car-search.jpg" alt="img">
-                                        </div>
-                                        <div class="info">
-                                            <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
-                                            <span class="price">$399</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
-                                        <div class="box-img">
-                                            <img src="images/resource/car-search.jpg" alt="img">
-                                        </div>
-                                        <div class="info">
-                                            <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
-                                            <span class="price">$399</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
-                                        <div class="box-img">
-                                            <img src="images/resource/car-search.jpg" alt="img">
-                                        </div>
-                                        <div class="info">
-                                            <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
-                                            <span class="price">$399</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a href="inventory-page-single.html" class="car-search-item">
-                                        <div class="box-img">
-                                            <img src="images/resource/car-search.jpg" alt="img">
-                                        </div>
-                                        <div class="info">
-                                            <p class="name">Audi, Q5 - 2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</p>
-                                            <span class="price">$399</span>
-                                        </div>
-                                    </a></li>
-                                </ul>
-                                <a href="inventory-page-single.html" class="btn-view-search">
-                                    View Details  
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_3114_6864)">
-                                        <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_3114_6864">
-                                        <rect width="14" height="14" fill="white"/>
-                                        </clipPath>
-                                        </defs>
+                            <form action="{{ route('inventory.list') }}" method="GET">
+                                <div class="search-box">
+                                    <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z"
+                                            fill="white" />
                                     </svg>
-                                </a>
-                            </div>
+                                    <input type="search" placeholder="Search Scooters, Motorbikes, Bikes..."
+                                        class="show-search" name="search" tabindex="2" value=""
+                                        aria-required="true" required="">
+                                </div>
+                            </form>
                         </div>
                     </div>
 
                     <!--Nav Box-->
-                    <div class="nav-out-bar">    
+                    <div class="nav-out-bar">
                         <nav class="nav main-menu">
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown current"><span>Home <i class="fa-solid fa-angle-down"></i></span>
@@ -278,669 +235,387 @@
                     <div class="inventory-sidebar">
                         <div class="inventroy-widget widget-location">
                             <div class="row">
-                                <!-- Main Data & Location Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">Main Data & Location</h6>
-                                    </div>
-                                    <div class="filter-section-content">
-                                        <div class="row">
-                                            <!-- Vehicle Search Group -->
-                                            <div class="vehicle-search-group" data-group="0">
-                                                <div class="col-lg-12">
-                                                    <div class="form_boxes">
-                                                        <label>Brand</label>
-                                                        <div class="drop-menu" id="brand-dropdown">
-                                                            <div class="select">
-                                                                <span>Select Brand</span>
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </div>
-                                                            <input type="hidden" name="brand_id[]" class="brand_id_input">
-                                                            <ul class="dropdown" style="display: none;">
-                                                                @foreach ($brands as $brand)
-                                                                    <li data-id="{{ $brand->id }}">{{ $brand->name }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form_boxes">
-                                                        <label>Model</label>
-                                                        <div class="drop-menu" id="model-dropdown">
-                                                            <div class="select">
-                                                                <span>Select Model</span>
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </div>
-                                                            <input type="hidden" name="vehicle_model_id[]"
-                                                                class="vehicle_model_id_input">
-                                                            <ul class="dropdown" style="display: none;" id="model-select">
-    
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form_boxes v2">
-                                                        <label>Version</label>
-                                                        <div class="drop-menu active">
-                                                            <input type="text" name="version_model[]"
-                                                                placeholder="Enter version">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="remove-vehicle-group"
-                                                    title="Remove this vehicle">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Location</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>New York</span>
+                                                <i class="fa fa-angle-down"></i>
                                             </div>
-    
-                                            <!-- Add Vehicle Button - Outside the box -->
-                                            <div class="col-lg-12 mb-5">
-                                                <div class="add-vehicle-group">
-                                                    <button type="button" class="add-vehicle-btn">
-                                                        <i class="fa fa-plus"></i>
-                                                        Add another vehicle
-                                                    </button>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Body Work -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Body Work</label>
-                                                    <div class="drop-menu" id="body-dropdown">
-                                                        <div class="select">
-                                                            <span>Select Body Work</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="vehicle_body_id">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @foreach ($vehicleBodies as $vehicleBody)
-                                                                <li data-id="{{ $vehicleBody->id }}">{{ $vehicleBody->name }}
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Fuel Type -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Fuel Type</label>
-                                                    <div class="drop-menu" id="fuel-dropdown">
-                                                        <div class="select">
-                                                            <span>Select Fuel Type</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="fuel_type_id">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @foreach ($fuelTypes as $fuelType)
-                                                                <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Registration Year</label>
-                                                    <div class="drop-menu" id="registration-year-dropdown">
-                                                        <div class="select">
-                                                            <span>From</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="registration_year_from">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @php
-                                                                $currentYear = date('Y');
-                                                            @endphp
-                                                            @for ($y = $currentYear; $y >= 1990; $y--)
-                                                                <li data-id="{{ $y }}">{{ $y }}</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Registration Year</label>
-                                                    <div class="drop-menu" id="registration-year-dropdown">
-                                                        <div class="select">
-                                                            <span>To</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="registration_year_to">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @php
-                                                                $currentYear = date('Y');
-                                                            @endphp
-                                                            @for ($y = $currentYear; $y >= 1990; $y--)
-                                                                <li data-id="{{ $y }}">{{ $y }}</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Mileage -->
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes v2">
-                                                    <label>Mileage From (km)</label>
-                                                    <div class="drop-menu active">
-                                                        <input type="text" name="mileage_from" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes v2">
-                                                    <label>Mileage To (km)</label>
-                                                    <div class="drop-menu active">
-                                                        <input type="text" name="mileage_to" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Power -->
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Power CV From (CV)</label>
-                                                    <div class="drop-menu" id="power-cv-from-dropdown">
-                                                        <div class="select">
-                                                            <span>From CV</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="power_cv_from">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @for ($cv = 10; $cv <= 500; $cv += 10)
-                                                                <li data-id="{{ $cv }}">{{ $cv }} CV</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Power CV To (CV)</label>
-                                                    <div class="drop-menu" id="power-cv-to-dropdown">
-                                                        <div class="select">
-                                                            <span>To CV</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="power_cv_to">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @for ($cv = 10; $cv <= 500; $cv += 10)
-                                                                <li data-id="{{ $cv }}">{{ $cv }} CV</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Power KW From (KW)</label>
-                                                    <div class="drop-menu" id="power-kw-from-dropdown">
-                                                        <div class="select">
-                                                            <span>From KW</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="power_kw_from">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @for ($kw = 5; $kw <= 400; $kw += 5)
-                                                                <li data-id="{{ $kw }}">{{ $kw }} KW</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Power KW To (KW)</label>
-                                                    <div class="drop-menu" id="power-kw-to-dropdown">
-                                                        <div class="select">
-                                                            <span>To KW</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="power_kw_to">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            @for ($kw = 5; $kw <= 400; $kw += 5)
-                                                                <li data-id="{{ $kw }}">{{ $kw }} KW</li>
-                                                            @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Transmission (Multi-select) -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Transmission</label>
-                                                    <div class="multi-select-container">
-                                                        <div class="selected-options">
-                                                            <!-- Selected options will appear here -->
-                                                        </div>
-                                                        <div class="multi-select-dropdown">
-                                                            <div class="multi-select-list">
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="motor_change[]"
-                                                                        value="Manual">
-                                                                    <span class="checkmark"></span>
-                                                                    Manual
-                                                                </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="motor_change[]"
-                                                                        value="Automatic">
-                                                                    <span class="checkmark"></span>
-                                                                    Automatic
-                                                                </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="motor_change[]"
-                                                                        value="Semi-automatic">
-                                                                    <span class="checkmark"></span>
-                                                                    Semi-automatic
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Number of Cylinders -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Number of Cylinders</label>
-                                                    <div class="drop-menu" id="cylinders-dropdown">
-                                                        <div class="select">
-                                                            <span>Select Cylinders</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="cylinders">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            <li data-id="1">1 Cylinder</li>
-                                                            <li data-id="2">2 Cylinders</li>
-                                                            <li data-id="3">3 Cylinders</li>
-                                                            <li data-id="4">4 Cylinders</li>
-                                                            <li data-id="6">6 Cylinders</li>
-                                                            <li data-id="8">8 Cylinders</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Engine Displacement Range -->
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Engine Displacement From (cc)</label>
-                                                    <input type="text" name="motor_displacement_from" placeholder="">
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Engine Displacement To (cc)</label>
-                                                    <input type="text" name="motor_displacement_to" placeholder="">
-                                                </div>
-                                            </div>
-    
-                                            <!-- Price Range -->
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Price From ($)</label>
-                                                    <input type="text" name="price_from" placeholder="">
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Price To ($)</label>
-                                                    <input type="text" name="price_to" placeholder="">
-                                                </div>
-                                            </div>
-    
-                                            <!-- Vehicle Conditions -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Vehicle Conditions</label>
-                                                    <div class="multi-select-container">
-                                                        <div class="selected-options">
-                                                            <!-- Selected options will appear here -->
-                                                        </div>
-                                                        <div class="multi-select-dropdown">
-                                                            <div class="multi-select-list">
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="vehicle_category[]"
-                                                                        value="Used">
-                                                                    <span class="checkmark"></span>
-                                                                    Used
-                                                                </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="vehicle_category[]"
-                                                                        value="Era">
-                                                                    <span class="checkmark"></span>
-                                                                    Era
-                                                                </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="damaged_vehicle"
-                                                                        value="1">
-                                                                    <span class="checkmark"></span>
-                                                                    Damaged Vehicle
-                                                                </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="coupon_documentation"
-                                                                        value="1">
-                                                                    <span class="checkmark"></span>
-                                                                    Coupon Documentation
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Village/City -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
-                                                    <label>Village/City</label>
-                                                    <div class="drop-menu" id="city-dropdown">
-                                                        <div class="select">
-                                                            <span>Select City</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
-                                                        <input type="hidden" name="city_id">
-                                                        <ul class="dropdown" style="display: none;">
-                                                            <li data-id="1">New York</li>
-                                                            <li data-id="2">Los Angeles</li>
-                                                            <li data-id="3">Chicago</li>
-                                                            <li data-id="4">Houston</li>
-                                                            <li data-id="5">Phoenix</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Postal Code -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes v2">
-                                                    <label>Postal Code</label>
-                                                    <div class="drop-menu active">
-                                                        <input type="text" name="postal_code" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- Radius -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes v2">
-                                                    <label>Search Radius (km)</label>
-                                                    <div class="drop-menu active">
-                                                        <input type="text" name="search_radius" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-    
-                                <!-- Equipment Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">Equipment</h6>
-                                    </div>
-                                    <div class="filter-section-content">
-                                        <div class="col-lg-12">
-                                            <div class="equipment-container">
-                                                <div class="equipment-list">
-                                                    @foreach ($equipments->take(3) as $equipment)
-                                                        <label class="equipment-item">
-                                                            <input type="checkbox" name="equipments[]"
-                                                                value="{{ $equipment->id }}">
-                                                            <span class="checkmark"></span>
-                                                            {{ $equipment->name }}
-                                                        </label>
-                                                    @endforeach
-                                                </div>
-                                                @if ($equipments->count() > 3)
-                                                    <div class="equipment-more" style="display: none;">
-                                                        @foreach ($equipments->skip(3) as $equipment)
-                                                            <label class="equipment-item">
-                                                                <input type="checkbox" name="equipments[]"
-                                                                    value="{{ $equipment->id }}">
-                                                                <span class="checkmark"></span>
-                                                                {{ $equipment->name }}
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="equipment-toggle">
-                                                        <a href="#" class="show-more-equipment">
-                                                            <i class="fa fa-plus"></i>
-                                                            Show more equipment ({{ $equipments->count() - 3 }} more)
-                                                        </a>
-                                                    </div>
-                                                @endif
+                                <div class="col-lg-7">
+                                    <div class="form_boxes">
+                                        <label>Search within</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>200 miles</span>
+                                                <i class="fa fa-angle-down"></i>
                                             </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>200 miles</li>
+                                                <li>200 miles</li>
+                                                <li>200 miles</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-    
-                                <!-- Exteriors Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">Exteriors</h6>
-                                    </div>
-                                    <div class="filter-section-content">
-                                        <div class="col-lg-12">
-                                            <div class="form_boxes">
-                                                <label>Body Color</label>
-                                                <div class="color-list">
-                                                    @foreach ($vehicleColors as $color)
-                                                        <label class="checkbox-item"
-                                                            style="--box-color: {{ $color->hex_code }}">
-                                                            <input type="checkbox" name="color_ids[]"
-                                                                value="{{ $color->id }}">
-                                                            <span class="checkmark"></span>
-                                                            {{ $color->name }}
-                                                        </label>
-                                                    @endforeach
-                                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form_boxes">
+                                        <label>Zip Code</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>02111</span>
+                                                <i class="fa fa-angle-down"></i>
                                             </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>02111</li>
+                                                <li>02111</li>
+                                                <li>02111</li>
+                                            </ul>
                                         </div>
-    
-                                        <div class="col-lg-12">
-    
-                                            <label class="checkbox-item">
-                                                <input type="checkbox" name="is_metallic_paint" value="1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Condition</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>New and Used</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="categories-box">
+                                        <h6 class="title">Type</h6>
+                                        <div class="cheak-box">
+                                            <label class="contain">SUV  (1,456)
+                                                <input type="checkbox" checked="checked">
                                                 <span class="checkmark"></span>
-                                                Metallic Paint
                                             </label>
-    
+                                            <label class="contain">Sedan  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Hatchback  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Coupe  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Convertible  (1,456)
+                                                <input type="checkbox" checked="checked">
+                                                <span class="checkmark"></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-    
-    
-                                <!-- Vehicle Conditions Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">Vehicle Conditions</h6>
-                                    </div>
-                                    <div class="filter-section-content">
-    
-    
-                                        <div class="col-lg-12">
-                                            <div class="form_boxes">
-                                                <label>Previous Owners</label>
-                                                <div class="previous-owners-container">
-                                                    <div class="owners-options">
-                                                        <label class="owners-option">
-                                                            <input type="radio" name="previous_owners_filter"
-                                                                value="any">
-                                                            <span class="radio-mark"></span>
-                                                            Any
-                                                        </label>
-                                                        <label class="owners-option">
-                                                            <input type="radio" name="previous_owners_filter"
-                                                                value="1">
-                                                            <span class="radio-mark"></span>
-                                                            1 Owner
-                                                        </label>
-                                                        <label class="owners-option">
-                                                            <input type="radio" name="previous_owners_filter"
-                                                                value="2">
-                                                            <span class="radio-mark"></span>
-                                                            2 Owners
-                                                        </label>
-                                                        <label class="owners-option">
-                                                            <input type="radio" name="previous_owners_filter"
-                                                                value="3">
-                                                            <span class="radio-mark"></span>
-                                                            3+ Owners
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Make</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Add Make</span>
+                                                <i class="fa fa-angle-down"></i>
                                             </div>
-                                        </div>
-    
-    
-                                    </div>
-                                </div>
-    
-                                <!-- Environment Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">Environment</h6>
-                                    </div>
-                                    <div class="filter-section-content">
-                                        <div class="col-lg-12">
-                                            <div class="form_boxes">
-                                                <label>Emission Class</label>
-                                                <div class="multi-select-container">
-                                                    <div class="selected-options"></div>
-                                                    <div class="multi-select-dropdown">
-                                                        <div class="multi-select-list">
-                                                            @php
-                                                                $emissionsClasses = [
-                                                                    'Euro 1',
-                                                                    'Euro 2',
-                                                                    'Euro 3',
-                                                                    'Euro 4',
-                                                                    'Euro 5',
-                                                                    'Euro 6',
-                                                                ];
-                                                            @endphp
-                                                            @foreach ($emissionsClasses as $emissionsClass)
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="emissions_class[]"
-                                                                        value="{{ $emissionsClass }}">
-                                                                    <span class="checkmark"></span>
-                                                                    {{ $emissionsClass }}
-                                                                </label>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>CO2 Emissions From (g/km)</label>
-                                                    <input type="text" name="co2_emissions_from" class=""
-                                                        placeholder="From" min="0" max="500">
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>CO2 Emissions To (g/km)</label>
-                                                    <input type="text" name="co2_emissions_to" placeholder="To"
-                                                        min="0" max="500">
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Fuel Consumption From (L/100km)</label>
-                                                    <input type="text" name="fuel_consumption_from" placeholder="From"
-                                                        min="0" max="50" step="0.1">
-                                                </div>
-                                            </div>
-    
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
-                                                    <label>Fuel Consumption To (L/100km)</label>
-                                                    <input type="text" name="fuel_consumption_to" placeholder="">
-                                                </div>
-                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-    
-                                <!-- More Information Section -->
-                                <div class="filter-section">
-                                    <div class="filter-section-header">
-                                        <h6 class="title">More Information</h6>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Model</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Add Model</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="filter-section-content">
-                                        <div class="col-lg-12">
-                                            <div class="form_boxes">
-                                                <label>Online From</label>
-                                                <div class="drop-menu" id="online-from-dropdown">
-                                                    <div class="select">
-                                                        <span>Select Period</span>
-                                                        <i class="fa fa-angle-down"></i>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_boxes">
+                                        <label>Min year</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>2019</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>2020</li>
+                                                <li>2021</li>
+                                                <li>2022</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_boxes">
+                                        <label>Max year</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>2023</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>2020</li>
+                                                <li>2021</li>
+                                                <li>2022</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Mileage</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Mileage</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Drive Type</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Any Type</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="price-box">
+                                        <h6 class="title">Price</h6>
+                                        <form class="row g-0">
+                                            <div class="form-column col-lg-6">
+                                                <div class="form_boxes">
+                                                    <label>Min price</label>
+                                                    <div class="drop-menu">
+                                                        <span id="slider-range-value1"></span>
+                                                       
                                                     </div>
-                                                    <input type="hidden" name="online_from_period">
-                                                    <ul class="dropdown" style="display: none;">
-                                                        <li data-id="1">1 day</li>
-                                                        <li data-id="2">2 days</li>
-                                                        <li data-id="3">3 days</li>
-                                                        <li data-id="7">1 week</li>
-                                                        <li data-id="14">2 weeks</li>
-                                                        <li data-id="30">1 month</li>
-                                                        <li data-id="90">3 months</li>
-                                                        <li data-id="180">6 months</li>
-                                                        <li data-id="365">1 year</li>
-                                                    </ul>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="col-lg-6">
-                                            <div class="">
-                                                <label class="checkbox-item">
-                                                    <input type="checkbox" name="tax_deductible" value="1">
-                                                    <span class="checkmark"></span>
-                                                    VAT Deductible
-                                                </label>
+                                            <div class="form-column v2 col-lg-6">
+                                                <div class="form_boxes">
+                                                    <label>Max price</label>
+                                                    <div class="drop-menu">
+                                                    <span id="slider-range-value2"></span>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="widget-price">
+                                            
+                                            <div id="slider-val"></div>
+                                            <div class="slider-labels">
+                                                <input type="hidden" name="min-value" value="">
+                                                <input type="hidden" name="max-value" value="">                                                                                  
                                             </div>
                                         </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="categories-box border-none-bottom">
+                                        <h6 class="title">Transmission</h6>
+                                        <div class="cheak-box">
+                                            <label class="contain">Automatic  (1,456)
+                                                <input type="checkbox" checked="checked">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Manual  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">CVT  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="categories-box border-none-bottom">
+                                        <h6 class="title">Fuel Type</h6>
+                                        <div class="cheak-box">
+                                            <label class="contain">Diesel  (1,456)
+                                                <input type="checkbox" checked="checked">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Petrol  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Hybird  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Electric  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Exterior Color</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Blue</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Interior Color</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>Black</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Doors</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>3</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
+                                        <label>Cylinders</label>
+                                        <div class="drop-menu">
+                                            <div class="select">
+                                                <span>6</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="gender">
+                                            <ul class="dropdown" style="display: none;">
+                                                <li>New York</li>
+                                                <li>Los Vegas</li>
+                                                <li>California</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="categories-box border-none-bottom m-0">
+                                        <h6 class="title">Key Features</h6>
+                                        <div class="cheak-box">
+                                            <label class="contain">360-degree camera  (1,456)
+                                                <input type="checkbox" checked="checked">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Bluetooth  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Keyless start  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Navigation System  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Active head restraints  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Brake assist  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="contain">Parking assist systems  (1,456)
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <a href="#" title="" class="show-more">Show 8 more</a>
                                     </div>
                                 </div>
                             </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
                         </div>
-                    </div><!--widget end-->
+                    </div>
                 </div>
                 <div class="col-xl-9 col-md-12 col-sm-12">
                     <div class="right-box">
@@ -1777,409 +1452,162 @@
         </div>
     </section>
     <!-- End shop section two -->
-    @include('wizmoto.partials.footer')
 
-@endsection
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            let groupCounter = 0;
-
-            // Add new vehicle group
-            $(document).on('click', '.add-vehicle-btn', function() {
-                groupCounter++;
-                const originalGroup = $('.vehicle-search-group').first();
-                const newGroup = originalGroup.clone();
-
-                // Update group data attribute
-                newGroup.attr('data-group', groupCounter);
-
-                // Clear form values
-                newGroup.find('input[type="hidden"]').val('');
-                newGroup.find('input[type="text"]').val('');
-                newGroup.find('.select span').text('Select Brand');
-                newGroup.find('.model-dropdown .select span').text('Select Model');
-
-                // Add remove button for all groups
-                newGroup.append(`
-            <button type="button" class="remove-vehicle-group" title="Remove this vehicle">
-                <i class="fa fa-times"></i>
-            </button>
-        `);
-
-                // Update background for additional groups
-                newGroup.css({
-                    'background': '#f9f9f9',
-                    'border': '1px solid #e0e0e0'
-                });
-
-                // Insert before the "Add another vehicle" button
-                $('.add-vehicle-group').parent().before(newGroup);
-
-                // Initialize dropdown functionality for new group
-                initializeDropdowns(newGroup);
-            });
-
-            // Remove vehicle group
-            $(document).on('click', '.remove-vehicle-group', function() {
-                $(this).closest('.vehicle-search-group').fadeOut(300, function() {
-                    $(this).remove();
-                });
-            });
-
-            // Initialize dropdown functionality
-            function initializeDropdowns(container) {
-                // Brand dropdown click handler
-                container.find('#brand-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-
-                    // Close other dropdowns
-                    $('.dropdown').not($dropdown).hide();
-
-                    $dropdown.toggle();
-                });
-
-                // Brand selection handler
-                container.find('#brand-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const brandId = $(this).data('id');
-                    const brandName = $(this).text();
-
-                    $(this).closest('#brand-dropdown').find('.select span').text(brandName);
-                    $(this).closest('#brand-dropdown').find('input[type="hidden"]').val(brandId);
-                    $(this).closest('.dropdown').hide();
-
-                    // Load models for selected brand
-                    loadModels(container, brandId);
-                });
-
-                // Model dropdown click handler
-                container.find('#model-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-
-                    // Close other dropdowns
-                    $('.dropdown').not($dropdown).hide();
-
-                    $dropdown.toggle();
-                });
-
-                // Model selection handler
-                container.find('#model-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const modelId = $(this).data('id');
-                    const modelName = $(this).text();
-
-                    $(this).closest('#model-dropdown').find('.select span').text(modelName);
-                    $(this).closest('#model-dropdown').find('input[type="hidden"]').val(modelId);
-                    $(this).closest('.dropdown').hide();
-                });
-            }
-
-            // Load models for selected brand
-            function loadModels(container, brandId) {
-                const $modelDropdown = container.find('#model-dropdown .dropdown');
-                const $modelSelect = container.find('#model-dropdown .select span');
-                const $modelInput = container.find('.vehicle_model_id_input');
-
-                // Reset model selection
-                $modelSelect.text('Select Model');
-                $modelInput.val('');
-                $modelDropdown.empty();
-
-                // Show loading
-                $modelSelect.text('Loading...');
-                $modelDropdown.html('<li>Loading models...</li>');
-
-                // Use the same route as create advertisement page
-                let url = "{{ route('vehicle-models.get-models-based-on-brand', ':brandId') }}";
-                url = url.replace(':brandId', brandId);
-
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(models) {
-                        $modelDropdown.empty();
-
-                        if (Object.keys(models).length === 0) {
-                            $modelDropdown.append('<li>No models available</li>');
-                        } else {
-                            // The response is an object with id as key and name as value
-                            $.each(models, function(modelId, modelName) {
-                                $modelDropdown.append('<li data-id="' + modelId + '">' +
-                                    modelName + '</li>');
-                            });
-                        }
-                        $modelSelect.text('Select Model');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching models:', error);
-                        $modelDropdown.html('<li>Error loading models</li>');
-                        $modelSelect.text('Select Model');
-                    }
-                });
-            }
-
-            // Close dropdowns when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.drop-menu').length) {
-                    $('.dropdown').hide();
-                }
-            });
-
-            // Initialize first group
-            initializeDropdowns($('.vehicle-search-group').first());
-
-            // Initialize all dropdowns in the page
-            initializeAllDropdowns();
-
-            // Function to initialize all dropdowns
-            function initializeAllDropdowns() {
-                // Body Work dropdown
-                $('#body-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#body-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const bodyId = $(this).data('id');
-                    const bodyName = $(this).text();
-                    $(this).closest('#body-dropdown').find('.select span').text(bodyName);
-                    $(this).closest('#body-dropdown').find('input[type="hidden"]').val(bodyId);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Fuel Type dropdown
-                $('#fuel-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#fuel-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const fuelId = $(this).data('id');
-                    const fuelName = $(this).text();
-                    $(this).closest('#fuel-dropdown').find('.select span').text(fuelName);
-                    $(this).closest('#fuel-dropdown').find('input[type="hidden"]').val(fuelId);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Year From dropdown
-                $('#year-from-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#year-from-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const year = $(this).data('id');
-                    const yearText = $(this).text();
-                    $(this).closest('#year-from-dropdown').find('.select span').text(yearText);
-                    $(this).closest('#year-from-dropdown').find('input[type="hidden"]').val(year);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Year To dropdown
-                $('#year-to-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#year-to-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const year = $(this).data('id');
-                    const yearText = $(this).text();
-                    $(this).closest('#year-to-dropdown').find('.select span').text(yearText);
-                    $(this).closest('#year-to-dropdown').find('input[type="hidden"]').val(year);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // City dropdown
-                $('#city-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#city-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const cityId = $(this).data('id');
-                    const cityName = $(this).text();
-                    $(this).closest('#city-dropdown').find('.select span').text(cityName);
-                    $(this).closest('#city-dropdown').find('input[type="hidden"]').val(cityId);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Cylinders dropdown
-                $('#cylinders-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#cylinders-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const cylindersId = $(this).data('id');
-                    const cylindersText = $(this).text();
-                    $(this).closest('#cylinders-dropdown').find('.select span').text(cylindersText);
-                    $(this).closest('#cylinders-dropdown').find('input[type="hidden"]').val(cylindersId);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Power CV From dropdown
-                $('#power-cv-from-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#power-cv-from-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const cv = $(this).data('id');
-                    const cvText = $(this).text();
-                    $(this).closest('#power-cv-from-dropdown').find('.select span').text(cvText);
-                    $(this).closest('#power-cv-from-dropdown').find('input[type="hidden"]').val(cv);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Power CV To dropdown
-                $('#power-cv-to-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#power-cv-to-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const cv = $(this).data('id');
-                    const cvText = $(this).text();
-                    $(this).closest('#power-cv-to-dropdown').find('.select span').text(cvText);
-                    $(this).closest('#power-cv-to-dropdown').find('input[type="hidden"]').val(cv);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Power KW From dropdown
-                $('#power-kw-from-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#power-kw-from-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const kw = $(this).data('id');
-                    const kwText = $(this).text();
-                    $(this).closest('#power-kw-from-dropdown').find('.select span').text(kwText);
-                    $(this).closest('#power-kw-from-dropdown').find('input[type="hidden"]').val(kw);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Power KW To dropdown
-                $('#power-kw-to-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#power-kw-to-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const kw = $(this).data('id');
-                    const kwText = $(this).text();
-                    $(this).closest('#power-kw-to-dropdown').find('.select span').text(kwText);
-                    $(this).closest('#power-kw-to-dropdown').find('input[type="hidden"]').val(kw);
-                    $(this).closest('.dropdown').hide();
-                });
-
-                // Multi-select functionality
-                $('.multi-select-item input[type="checkbox"]').on('change', function() {
-                    const $container = $(this).closest('.multi-select-container');
-                    const $selectedOptions = $container.find('.selected-options');
-                    const $checkbox = $(this);
-                    const value = $checkbox.val();
-                    const text = $checkbox.closest('.multi-select-item').text().trim();
-
-                    if ($checkbox.is(':checked')) {
-                        // Add selected option
-                        const optionHtml = `
-                    <div class="selected-option" data-value="${value}">
-                        ${text}
-                        <span class="remove-option">&times;</span>
+    <!-- main footer -->
+    <footer class="boxcar-footer footer-style-one v1 cus-st-1">
+        <div class="footer-top">
+            <div class="boxcar-container">
+                <div class="right-box">
+                    <div class="top-left wow fadeInUp">
+                        <h6 class="title">Join BoxCar</h6>
+                        <div class="text">Receive pricing updates, shopping tips & more!</div>
                     </div>
-                `;
-                        $selectedOptions.append(optionHtml);
-                    } else {
-                        // Remove selected option
-                        $selectedOptions.find(`[data-value="${value}"]`).remove();
-                    }
-                });
+                    <div class="subscribe-form wow fadeInUp" data-wow-delay="100ms">
+                        <form method="post" action="#">
+                            <div class="form-group">
+                                <input type="email" name="email" class="email" value="" placeholder="Your e-mail address" required="">
+                                <button type="button" class="theme-btn btn-style-one hover-light"><span class="btn-title">Sign Up</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widgets-section">
+            <div class="boxcar-container">
+                <div class="row">
+                    <!-- Footer COlumn -->
+                    <div class="footer-column-two col-lg-9 col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp">
+                                    <h4 class="widget-title">Useful Links</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="#">FAQs</a></li>
+                                            <li><a href="#">Finance</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                        </ul>                                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
+                                    <h4 class="widget-title">Quick Links</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Get in Touch</a></li>
+                                            <li><a href="#">Help center</a></li>
+                                            <li><a href="#">Live chat</a></li>
+                                            <li><a href="#">How it works</a></li>
+                                        </ul>                                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
+                                    <h4 class="widget-title">Our Brands</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Aston Martin</a></li>
+                                            <li><a href="#">Audi</a></li>
+                                            <li><a href="#">Bentley</a></li>
+                                            <li><a href="#">BMW</a></li>
+                                            <li><a href="#">Bugatti</a></li>
+                                            <li><a href="#">Ferrari</a></li>
+                                            <li><a href="#">Jaguar</a></li>
+                                            <li><a href="#">Lamborghini</a></li>
+                                        </ul>                                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="300ms">
+                                    <h4 class="widget-title">Vehicles Type</h4>
+                                    <div class="widget-content">
+                                        <ul class="user-links style-two">
+                                            <li><a href="#">Pickup</a></li>
+                                            <li><a href="#">Coup</a></li>
+                                            <li><a href="#">Family MPV</a></li>
+                                            <li><a href="#">Sedan</a></li>
+                                            <li><a href="#">SUVs</a></li>
+                                            <li><a href="#">Sport Coupe</a></li>
+                                            <li><a href="#">Convertible</a></li>
+                                            <li><a href="#">Wagon</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- footer column -->
+                    <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                        <div class="footer-widget social-widget wow fadeInUp" data-wow-delay="400ms">
+                        <h4 class="widget-title">Vehicles Type</h4>
+                            <div class="widget-content">
+                                <a href="#" class="store">
+                                    <img src="images/resource/apple.png">
+                                    <span>Download on the</span>
+                                    <h6 class="title">Apple Store</h6>
+                                </a>
+                                <a href="#" class="store two">
+                                    <img src="images/resource/play.png">
+                                    <span>Get in on</span>
+                                    <h6 class="title">Google Play</h6>
+                                </a>
+                                <div class="social-icons">
+                                    <h6 class="title">Connect With Us</h6>
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="boxcar-container">
+                <div class="inner-container">
+                    <div class="copyright-text wow fadeInUp">© <a href="#">2024 Boxcars.com. All rights reserved.</div>
 
-                // Remove selected option
-                $(document).on('click', '.remove-option', function() {
-                    const $option = $(this).closest('.selected-option');
-                    const value = $option.data('value');
+                    <ul class="footer-nav wow fadeInUp" data-wow-delay="100ms">
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Notice</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End boxcar-footer -->
 
-                    // Uncheck the corresponding checkbox
-                    $(`input[value="${value}"]`).prop('checked', false);
 
-                    // Remove the option
-                    $option.remove();
-                });
 
-                // Equipment "Show more" functionality
-                $('.show-more-equipment').on('click', function(e) {
-                    e.preventDefault();
-                    const $this = $(this);
-                    const $moreEquipment = $('.equipment-more');
-                    const $icon = $this.find('i');
+</div><!-- End Page Wrapper -->
 
-                    if ($moreEquipment.is(':visible')) {
-                        // Hide more equipment
-                        $moreEquipment.slideUp(300);
-                        $this.removeClass('expanded');
-                        $this.html('<i class="fa fa-plus"></i> Show more equipment');
-                    } else {
-                        // Show more equipment
-                        $moreEquipment.slideDown(300);
-                        $this.addClass('expanded');
-                        $this.html('<i class="fa fa-minus"></i> Show less equipment');
-                    }
-                });
+<!-- Scroll To Top -->
+<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
 
-                // Online From dropdown
-                $('#online-from-dropdown').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-                    $('.dropdown').not($dropdown).hide();
-                    $dropdown.toggle();
-                });
-
-                $('#online-from-dropdown .dropdown').on('click', 'li', function(e) {
-                    e.stopPropagation();
-                    const period = $(this).data('id');
-                    const text = $(this).text();
-
-                    $(this).closest('.drop-menu').find('.select span').text(text);
-                    $(this).closest('.drop-menu').find('input[type="hidden"]').val(period);
-                    $(this).closest('.dropdown').hide();
-                });
-            }
-        });
-    </script>
-@endpush
+<script src="js/jquery.js"></script> 
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/slick-animation.min.js"></script>
+<script src="js/jquery.fancybox.js"></script>
+<script src="js/wow.js"></script>
+<script src="js/appear.js"></script>
+<script src="js/mixitup.js"></script>
+<script src="js/knob.js"></script>
+<script src="js/mmenu.js"></script>
+<script src="js/rangle-slider.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
