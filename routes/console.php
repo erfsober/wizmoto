@@ -9,3 +9,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('ads:recalculate-price-evaluations')->dailyAt('3:00');
+
+// Geocode advertisements every 5 minutes
+Schedule::command('advertisements:geocode --scheduled --limit=20')->everyFiveMinutes();

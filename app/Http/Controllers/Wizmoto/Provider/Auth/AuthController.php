@@ -54,7 +54,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-        $provider->sendEmailVerificationNotification();
+        // $provider->sendEmailVerificationNotification();
         Auth::guard('provider')
             ->login($provider);
 

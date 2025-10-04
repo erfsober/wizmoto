@@ -508,6 +508,139 @@
                                 </div>
                             </div>
 
+                            {{-- Seller Type --}}
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Seller Type</label>
+                                    <div class="drop-menu" id="seller-type-dropdown">
+                                        <div class="select">
+                                            <span>Select Seller Type</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="seller_type" id="seller_type_input">
+                                        <ul class="dropdown" style="display: none;">
+                                            <li data-id="private">Private Seller</li>
+                                            <li data-id="dealer">Dealer</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Drive Type --}}
+                            <div class="form-column col-lg-12">
+                                <div class="form_boxes">
+                                    <label>Drive Type</label>
+                                    <div class="drop-menu" id="drive-type-dropdown">
+                                        <div class="select">
+                                            <span>Select Drive Type</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="drive_type" id="drive_type_input">
+                                        <ul class="dropdown" style="display: none;">
+                                            <li data-id="chain">Chain</li>
+                                            <li data-id="belt">Belt</li>
+                                            <li data-id="shaft">Shaft</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Technical Specifications --}}
+                            <h6>Technical Specifications</h6>
+                            
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Tank Capacity (Liters)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="tank_capacity_liters" placeholder="e.g. 15.5" step="0.1" min="0" max="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Seat Height (mm)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="seat_height_mm" placeholder="e.g. 800" min="0" max="2000">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Top Speed (km/h)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="top_speed_kmh" placeholder="e.g. 200" min="0" max="500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Torque (Nm)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="torque_nm" placeholder="e.g. 120" min="0" max="1000">
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Sales Features --}}
+                            <h6>Sales Features</h6>
+                            
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">First Owner
+                                        <input type="checkbox" name="first_owner">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">Service History Available
+                                        <input type="checkbox" name="service_history_available">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">Warranty Available
+                                        <input type="checkbox" name="warranty_available">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">Financing Available
+                                        <input type="checkbox" name="financing_available">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">Trade-in Possible
+                                        <input type="checkbox" name="trade_in_possible">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-column col-lg-12">
+                                <div class="cheak-box">
+                                    <label class="contain">Available Immediately
+                                        <input type="checkbox" name="available_immediately" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <hr class="mt-5">
                             {{--price--}}
                             <h6>Contact</h6>

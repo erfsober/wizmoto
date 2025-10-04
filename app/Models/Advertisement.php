@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Services\PriceEvaluationService;
+use App\Services\GeocodingService;
+use App\Enums\SellerTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Image\Enums\Fit;
@@ -13,6 +15,10 @@ class Advertisement extends Model implements HasMedia {
     use InteractsWithMedia;
 
     protected $with = [ 'media' ];
+
+    protected $casts = [
+        'seller_type' => SellerTypeEnum::class,
+    ];
 
     public function registerMediaCollections (): void {
         $this->addMediaCollection('covers');
@@ -47,6 +53,7 @@ class Advertisement extends Model implements HasMedia {
                 $ad->saveQuietly();
             }
         });
+
     }
 
     public function provider (): BelongsTo {
