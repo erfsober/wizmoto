@@ -138,14 +138,6 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="current-dropdown"><span>Blog <i class="fa-solid fa-angle-down"></i></span>
-                                    <ul class="dropdown">
-                                        <li><a href="blog-list-01.html">Blog List 01</a></li>
-                                        <li><a href="blog-list-02.html">Blog List 02</a></li>
-                                        <li><a href="blog-list-03.html">Blog List 03</a></li>
-                                        <li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
-                                </li>
                                 <li class="current-dropdown"><span>Shop <i class="fa-solid fa-angle-down"></i></span>
                                     <ul class="dropdown">
                                         <li><a href="shop-list.html">Shop List</a></li>
