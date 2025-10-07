@@ -655,9 +655,9 @@
                                     <figure class="image">
                                         <img src="images/resource/test-1.jpg" alt="">
                                     </figure>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="content-column col-lg-8 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
                                 <ul class="rating">
@@ -677,7 +677,7 @@
                                         <i class="fa fa-star"></i>
                                     </li>
                                     <span>4.8</span>
-                                </ul>
+                                    </ul>
                                 <h6 class="title">Ali TUFAN</h6>
                                 <span>Designer</span>
                                 <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
@@ -686,8 +686,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                                </div>
+                            </div>
                 <div class="testimonial-slide-two">
                     <div class="row">
                         <div class="image-column col-lg-4 col-md-12 col-sm-12">
@@ -696,9 +696,9 @@
                                     <figure class="image">
                                         <img src="images/resource/test-1.jpg" alt="">
                                     </figure>
-                                </div>
-                            </div>
                         </div>
+                                    </div>
+                                </div>
                         <div class="content-column col-lg-8 col-md-12 col-sm-12">
                             <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
                                 <ul class="rating">
@@ -718,7 +718,7 @@
                                         <i class="fa fa-star"></i>
                                     </li>
                                     <span>4.8</span>
-                                </ul>
+                                    </ul>
                                 <h6 class="title">Ali TUFAN</h6>
                                 <span>Designer</span>
                                 <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
@@ -727,10 +727,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
     </section>
     <!-- End boxcar-testimonial-section -->
     @include('wizmoto.partials.footer')

@@ -2021,11 +2021,11 @@
                                         ${filter.values.map(value => `
                                             <span class="filter-value-item">${value}</span>
                                         `).join('')}
-                </div>
+                            </div>
                                     <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
                                         <i class="fa fa-times"></i>
                                     </button>
-            </div>
+                    </div>
                             `);
                         } else {
                             // For single value and range filters
@@ -2036,7 +2036,7 @@
                                     <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
                                         <i class="fa fa-times"></i>
                                     </button>
-        </div>
+                </div>
                             `);
                         }
                         
@@ -2683,7 +2683,7 @@
                         <button type="button" class="remove-filter-btn" data-filter-key="advertisement_type_${advertisementTypeId}">
                             <i class="fa fa-times"></i>
                         </button>
-                    </div>
+                </div>
                 `);
                 
                 console.log('Created filter tag:', $filterTag);

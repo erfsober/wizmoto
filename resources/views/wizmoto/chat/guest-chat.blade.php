@@ -213,88 +213,89 @@
                             </div>
                             <div class="chat-widget">
                                 <div class="widget-content">
-                                    <div class="row">
-                                            <div class="contacts_column col-xl-4 col-lg-5 col-md-12 col-sm-12 chat"
-                                                id="chat_contacts">
+                                    <div class="row chat-container">
+                                        <!-- Mobile Toggle Button -->
+                                        <div class="col-12 d-lg-none mb-3">
+                                            <button class="mobile-contacts-btn" id="mobile-toggle-contacts">
+                                                <i class="fa fa-comments me-2"></i>
+                                                <span class="btn-text">Show Contacts</span>
+                                                <i class="fa fa-chevron-right ms-auto"></i>
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Contacts Sidebar -->
+                                        <div class="contacts_column col-xl-4 col-lg-5 col-12 chat" id="chat_contacts">
                                             <div class="card contacts_card">
                                                 <div class="card-header">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h5 class="mb-0">Messages</h5>
+                                                        <button class="btn btn-sm btn-outline-light d-lg-none" id="close-contacts-btn">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                     <div class="search-box-one">
                                                         <form method="post" action="#" id="search-form">
                                                             <div class="form-group">
                                                                 <span class="icon">
-                                                                        <img src="{{ asset('wizmoto/images/icons/search.svg') }}"
-                                                                            alt="" />
+                                                                    <img src="{{ asset('wizmoto/images/icons/search.svg') }}" alt="" />
                                                                 </span>
-                                                                    <input type="search" name="search-field"
-                                                                        id="search-input" value=""
-                                                                        placeholder="Search conversations..."
-                                                                        required="">
+                                                                <input type="search" name="search-field" id="search-input" value=""
+                                                                    placeholder="Search conversations..." required="">
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                                 <div class="card-body contacts_body">
                                                     <ul class="contacts">
-
-                                                            @php
-                                                                $provider = $conversation->first()->provider;
-                                                                $lastMessage = $conversation
-                                                                    ->messages()
-                                                                    ->orderByDesc('created_at')
-                                                                    ->first();
-                                                            @endphp
-                                                            <li class="contact-item"
-                                                                data-provider-id="{{ $provider->id }}">
-                                                                <a href="#" class="conversation-link">
-                                                                    <div class="d-flex bd-highlight">
-                                                                        <div class="img_cont">
-                                                                            <div
-                                                                                class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
-                                                                                {{ strtoupper(substr($provider->full_name, 0, 1)) }}
-                                                                            </div>
+                                                        @php
+                                                            $provider = $conversation->first()->provider;
+                                                            $lastMessage = $conversation
+                                                                ->messages()
+                                                                ->orderByDesc('created_at')
+                                                                ->first();
+                                                        @endphp
+                                                        <li class="contact-item" data-provider-id="{{ $provider->id }}">
+                                                            <a href="#" class="conversation-link">
+                                                                <div class="d-flex bd-highlight">
+                                                                    <div class="img_cont">
+                                                                        <div class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
+                                                                            {{ strtoupper(substr($provider->full_name, 0, 1)) }}
                                                                         </div>
-                                                                        <div class="user_info">
-                                                                            <span>{{ $provider->full_name }}</span>
-                                                                            <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}
-                                                                            </p>
-                                                                        </div>
-                                                                        <span class="info">
-                                                                            {{ $lastMessage ? $lastMessage->created_at->diffForHumans() : '' }}
-                                                                        </span>
                                                                     </div>
-                                                                </a>
-                                                            </li>
-
-
+                                                                    <div class="user_info">
+                                                                        <span>{{ $provider->full_name }}</span>
+                                                                        <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}</p>
+                                                                    </div>
+                                                                    <span class="info">
+                                                                        {{ $lastMessage ? $lastMessage->created_at->diffForHumans() : '' }}
+                                                                    </span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat">
+                                        
+                                        <!-- Chat Area -->
+                                        <div class="col-xl-8 col-lg-7 col-12 chat" id="chat-area">
                                             <div class="card message-card">
-                                                    <div class="card-header msg_head" id="chat-header"
-                                                        style="display: none;">
+                                                <div class="card-header msg_head" id="chat-header" style="display: none;">
                                                     <div class="d-flex bd-highlight">
                                                         <div class="img_cont">
-                                                            <div id="guest-avatar"
-                                                                class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center"
+                                                            <div id="guest-avatar" class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center"
                                                                 style="width: 40px; height: 40px; font-size: 18px;">
                                                                 G
                                                             </div>
                                                         </div>
                                                         <div class="user_info">
                                                             <span id="guest-name">Select a conversation</span>
-                                                                <p id="guest-email">Click on a contact to start chatting
-                                                                </p>
+                                                            <p id="guest-email">Click on a contact to start chatting</p>
                                                         </div>
                                                     </div>
-
                                                     <div class="btn-box">
-                                                            <button class="dlt-chat" id="delete-conversation"
-                                                                style="display: none;">Delete
-                                                            Conversation</button>
-                                                            <button class="toggle-contact"><span
-                                                                    class="fa fa-bars"></span></button>
+                                                        <button class="dlt-chat" id="delete-conversation" style="display: none;">Delete Conversation</button>
+                                                        <button class="toggle-contact d-lg-none"><span class="fa fa-bars"></span></button>
                                                     </div>
                                                 </div>
 
@@ -302,34 +303,30 @@
                                                     <div class="text-center py-5" id="no-chat-selected">
                                                         <i class="fa fa-comments fa-3x text-muted mb-3"></i>
                                                         <h5 class="text-muted">Select a conversation</h5>
-                                                            <p class="text-muted">Click on a contact from the list to view
-                                                                messages</p>
+                                                        <p class="text-muted">Click on a contact from the list to view messages</p>
                                                     </div>
                                                 </div>
 
                                                 <div class="card-footer" id="chat-footer" style="display: none;">
                                                     <div class="form-group mb-0">
-                                                        <textarea class="form-control type_msg" id="message-input" placeholder="Type a message..." rows="2"></textarea>
-                                                            <button type="button"
-                                                                class="theme-btn btn-style-one submit-btn"
-                                                            id="send-message-btn">
-                                                            <span class="text-dk">Send Message</span>
-                                                            <span class="text-mb">Send</span>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                                    height="14" viewBox="0 0 14 14" fill="none">
-                                                                <g clip-path="url(#clip0_601_692)">
-                                                                    <path
-                                                                        d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
-                                                                        fill="white"></path>
-                                                                </g>
-                                                                <defs>
-                                                                    <clipPath id="clip0_601_692">
-                                                                            <rect width="14" height="14"
-                                                                                fill="white"></rect>
-                                                                    </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                        </button>
+                                                        <div class="message-input-container">
+                                                            <textarea class="form-control type_msg" id="message-input" 
+                                                                placeholder="Type a message..." rows="2"></textarea>
+                                                            <button type="button" class="theme-btn btn-style-one submit-btn" id="send-message-btn">
+                                                                <span class="text-dk">Send Message</span>
+                                                                <span class="text-mb">Send</span>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                                                    <g clip-path="url(#clip0_601_692)">
+                                                                        <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
+                                                                    </g>
+                                                                    <defs>
+                                                                        <clipPath id="clip0_601_692">
+                                                                            <rect width="14" height="14" fill="white"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,6 +344,259 @@
 
 @include('wizmoto.partials.footer')
 @endsection
+
+@push('styles')
+<style>
+/* Simple Mobile Chat Styles */
+@media (max-width: 991.98px) {
+    /* Mobile contacts button - Modern design */
+    .mobile-contacts-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 16px 20px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    
+    .mobile-contacts-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .mobile-contacts-btn:hover::before {
+        left: 100%;
+    }
+    
+    .mobile-contacts-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    }
+    
+    .mobile-contacts-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+    }
+    
+    .mobile-contacts-btn i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+    
+    .mobile-contacts-btn:hover i:last-child {
+        transform: translateX(3px);
+    }
+    
+    .mobile-contacts-btn .btn-text {
+        flex: 1;
+        text-align: left;
+        margin-left: 8px;
+    }
+    
+    /* Hide contacts by default on mobile */
+    .contacts_column {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        z-index: 1050;
+        background: white;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+    }
+    
+    .contacts_column.show {
+        left: 0;
+    }
+    
+    /* Chat area takes full width on mobile */
+    #chat-area {
+        width: 100%;
+        padding: 0;
+    }
+    
+    /* Message input container */
+    .message-input-container {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+    }
+    
+    .message-input-container textarea {
+        flex: 1;
+        resize: none;
+        min-height: 40px;
+        max-height: 120px;
+    }
+    
+    .message-input-container button {
+        flex-shrink: 0;
+        height: 40px;
+        padding: 8px 16px;
+        white-space: nowrap;
+    }
+    
+    /* Hide desktop text, show mobile text */
+    .text-dk {
+        display: none;
+    }
+    
+    .text-mb {
+        display: inline;
+    }
+    
+    /* Message bubbles */
+    .msg_cotainer {
+        max-width: 85%;
+        word-wrap: break-word;
+    }
+    
+    /* Contact items */
+    .contact-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .contact-item .user_info span {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .contact-item .user_info p {
+        font-size: 14px;
+        margin: 4px 0 0 0;
+        color: #666;
+    }
+    
+    .contact-item .info {
+        font-size: 12px;
+        color: #999;
+    }
+    
+    /* Search box */
+    .search-box-one {
+        padding: 15px;
+    }
+    
+    .search-box-one input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+@media (min-width: 992px) {
+    /* Desktop styles */
+    .text-dk {
+        display: inline;
+    }
+    
+    .text-mb {
+        display: none;
+    }
+    
+    .message-input-container {
+        display: block;
+    }
+    
+    .message-input-container textarea {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .message-input-container button {
+        width: 100%;
+    }
+}
+
+/* Overlay for mobile contacts */
+@media (max-width: 991.98px) {
+    .contacts-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1040;
+        display: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    
+    .contacts-overlay.show {
+        display: block;
+    }
+    
+    /* Ensure page colors don't change when overlay is active */
+    body.contacts-open {
+        background-color: #f8f9fa !important;
+        color: #333 !important;
+    }
+    
+    /* Prevent any color changes to main content */
+    .blog-section,
+    .boxcar-container,
+    .chat-widget,
+    .widget-content,
+    .chat-container,
+    .row,
+    .col-12,
+    .col-xl-8,
+    .col-lg-7 {
+        background-color: inherit !important;
+        color: inherit !important;
+    }
+    
+    /* Ensure no yellow tinting or color changes */
+    * {
+        filter: none !important;
+        -webkit-filter: none !important;
+    }
+    
+    /* Keep original page background */
+    body {
+        background-color: #f8f9fa !important;
+        color: #333 !important;
+    }
+    
+    /* Ensure chat area maintains proper colors */
+    #chat-area {
+        background-color: #f8f9fa !important;
+    }
+    
+    .message-card {
+        background-color: white !important;
+    }
+}
+
+/* Mobile close button styling */
+@media (max-width: 991.98px) {
+    #close-contacts-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 10;
+    }
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -439,7 +689,82 @@ $(document).ready(function() {
                 sendMessage();
             }
         });
+
+        // Mobile toggle functionality
+        $('#mobile-toggle-contacts').on('click', function() {
+            toggleMobileContacts();
+        });
+
+        // Close mobile contacts when clicking the close button
+        $('#close-contacts-btn').on('click', function() {
+            closeMobileContacts();
+        });
+
+        // Close mobile contacts when clicking outside
+        $(document).on('click', '.contacts-overlay', function() {
+            closeMobileContacts();
+        });
+
+        // Auto-resize textarea
+        $('#message-input').on('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Close mobile contacts when a contact is selected
+        $('.contact-item').on('click', function() {
+            if ($(window).width() < 992) {
+                closeMobileContacts();
             }
+        });
+    }
+
+    function toggleMobileContacts() {
+        const contactsColumn = $('#chat_contacts');
+        const isVisible = contactsColumn.hasClass('show');
+        
+        if (isVisible) {
+            closeMobileContacts();
+        } else {
+            openMobileContacts();
+        }
+    }
+
+    function openMobileContacts() {
+        // Add body class to prevent color changes
+        $('body').addClass('contacts-open');
+        
+        // Add overlay
+        $('body').append('<div class="contacts-overlay show"></div>');
+        
+        // Show contacts
+        $('#chat_contacts').addClass('show');
+        
+        // Update button text and icon
+        $('#mobile-toggle-contacts').html(`
+            <i class="fa fa-times me-2"></i>
+            <span class="btn-text">Hide Contacts</span>
+            <i class="fa fa-chevron-left ms-auto"></i>
+        `);
+    }
+
+    function closeMobileContacts() {
+        // Remove body class
+        $('body').removeClass('contacts-open');
+        
+        // Remove overlay
+        $('.contacts-overlay').remove();
+        
+        // Hide contacts
+        $('#chat_contacts').removeClass('show');
+        
+        // Update button text and icon
+        $('#mobile-toggle-contacts').html(`
+            <i class="fa fa-comments me-2"></i>
+            <span class="btn-text">Show Contacts</span>
+            <i class="fa fa-chevron-right ms-auto"></i>
+        `);
+    }
 
     function loadConversation() {
         // Get access token from config
