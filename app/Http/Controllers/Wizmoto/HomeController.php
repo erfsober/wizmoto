@@ -27,7 +27,7 @@ class HomeController extends Controller
             ->get();
 
         $brands = Brand::all();
-        $vehicleModels = VehicleModel::all();
+        $vehicleModels = VehicleModel::with('Brand')->select('id', 'name', 'brand_id')->get();
         $advertisementTypes = AdvertisementType::all();
         $fuelTypes = FuelType::all();
         $vehicleBodies = VehicleBody::all();
@@ -47,7 +47,7 @@ class HomeController extends Controller
     public function inventoryList(Request $request)
     {
         $brands = Brand::all();
-        $vehicleModels = VehicleModel::all();
+        $vehicleModels = VehicleModel::with('Brand')->select('id', 'name', 'brand_id')->get();
         $advertisementTypes = AdvertisementType::all();
         $fuelTypes = FuelType::all();
         $vehicleBodies = VehicleBody::all();
@@ -73,6 +73,7 @@ class HomeController extends Controller
                 });
             })
             ->when($request->advertisement_type, function ($query, $type) {
+                \Log::info('Filtering by advertisement_type: ' . $type);
                 $query->where('advertisement_type_id', $type);
             })
             
@@ -231,6 +232,10 @@ class HomeController extends Controller
             ->latest('id')
             ->paginate(10);
 
+        // Debug logging
+        \Log::info('Advertisement type filter applied: ' . ($request->advertisement_type ?? 'none'));
+        \Log::info('Total advertisements found: ' . $advertisements->total());
+
         // If it's an AJAX request, return JSON with HTML and pagination info
         if ($request->ajax()) {
             $html = view('wizmoto.home.partials.vehicle-cards', compact('advertisements'))->render();
@@ -247,7 +252,7 @@ class HomeController extends Controller
             ]);
         }
 
-        return view('wizmoto.home.inventory-list', compact('advertisements', 'brands', 'vehicleModels', 'advertisementTypes', 'fuelTypes', 'vehicleBodies', 'vehicleColors', 'equipments'));
+        return view('wizmoto.home.inventory-list', compact('advertisements', 'brands', 'vehicleModels', 'advertisementTypes', 'fuelTypes', 'vehicleBodies', 'vehicleColors', 'equipments', 'request'));
     }
 
     /**

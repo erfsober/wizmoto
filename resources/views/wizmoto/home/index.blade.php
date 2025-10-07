@@ -253,8 +253,9 @@
                                             </div>
                                             <input type="hidden" name="brand_id">
                                             <ul class="dropdown" style="display: none;">
+                                                <li data-id="" class="clear-option">Any Brands</li>
                                                 @foreach($brands as $brand)
-                                                    <li>{{ $brand->name }}</li>
+                                                    <li data-id="{{ $brand->id }}">{{ $brand->name }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -267,8 +268,9 @@
                                             </div>
                                             <input type="hidden" name="vehicle_model_id">
                                             <ul class="dropdown" style="display: none;">
+                                                <li data-id="" class="clear-option">Any Models</li>
                                                 @foreach($vehicleModels as $model)
-                                                    <li>{{ $model->name }}</li>
+                                                    <li data-id="{{ $model->id }}">{{ $model->name }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -281,14 +283,22 @@
                                             </div>
                                             <input type="hidden" name="fuel_type_id">
                                             <ul class="dropdown" style="display: none;">
+                                                <li data-id="" class="clear-option">Any Fuel Type</li>
                                                 @foreach($fuelTypes as $fuelType)
-                                                    <li>{{ $fuelType->name }}</li>
+                                                    <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="form_boxes">
-                                        <a href="#" title="" class="filter-popup">
+                                        <a href="{{ route('inventory.list') }}" title="" class="filter-link" style="   display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #050B20;
+    font-size: 15px;
+    height: 100%;
+    margin-left: 30px;">
                                             <img src="{{asset("wizmoto/images/icons/filter.svg")}}" alt=""/> More Filters
                                         </a>
                                     </div>
@@ -723,415 +733,6 @@
     </section>
     <!-- blog-section-two -->
 
-    <div class="wrap-fixed-sidebar">
-        <div class="sidebar-backdrop"></div>
-        <div class="widget-sidebar-filter">
-            <div class="fixed-sidebar-title">
-                <h3>More Filter</h3>
-                <a href="#" title="" class="close-filters">
-                    <img src="{{asset("wizmoto/images/icons/close.svg")}}" alt=""/>
-                </a>
-            </div>
-            <div class="inventory-sidebar">
-                <div class="inventroy-widget widget-location">
-                    <div class="row ">
-                        <h6 class="title">Main Data</h6>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Brand</label>
-                                <div class="drop-menu" id="brand-dropdown">
-                                    <div class="select">
-                                        <span>Select Brand</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="brand_id" id="brand_id_input">
-                                    <ul class="dropdown" style="display: none;">
-                                        @foreach($brands as $brand)
-                                            <li data-id="{{ $brand->id }}">{{$brand->name}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Model</label>
-                                <div class="drop-menu" id="model-dropdown">
-                                    <div class="select">
-                                        <span>Select</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="vehicle_model_id" id="vehicle_model_id_input">
-                                    <ul class="dropdown" style="display: none;" id="model-select">
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form_boxes v2">
-                                <label>Version</label>
-                                <div class="drop-menu active">
-                                    <input type="text" name="version_model">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>BodyWork</label>
-                                <div class="drop-menu" id="brand-dropdown">
-                                    <div class="select">
-                                        <span>Select BodyWork</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="vehicle_body_id">
-                                    <ul class="dropdown" style="display: none;">
-                                        @foreach($vehicleBodies as $vehicleBody)
-                                            <li data-id="{{ $vehicleBody->id }}">{{$vehicleBody->name}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Fuel type</label>
-                                <div class="drop-menu" id="motor-change-dropdown">
-                                    <div class="select">
-                                        <span>Select Fuel type</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="fuel_type_id">
-                                    <ul class="dropdown" style="display: none;">
-                                        @foreach($fuelTypes as $fuelType)
-                                            <li data-id="{{ $fuelType->id }}">{{$fuelType->name}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Registration Year</label>
-                                <div class="drop-menu" id="registration-year-dropdown">
-                                    <div class="select">
-                                        <span>From</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="registration_year_from">
-                                    <ul class="dropdown" style="display: none;">
-                                        @php
-                                            $currentYear = date('Y');
-                                        @endphp
-                                        @for($y = $currentYear; $y >= 1990; $y--)
-                                            <li data-id="{{ $y }}">{{ $y }}</li>
-                                        @endfor
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Registration Year</label>
-                                <div class="drop-menu" id="registration-year-dropdown">
-                                    <div class="select">
-                                        <span>To</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="registration_year_to">
-                                    <ul class="dropdown" style="display: none;">
-                                        @php
-                                            $currentYear = date('Y');
-                                        @endphp
-                                        @for($y = $currentYear; $y >= 1990; $y--)
-                                            <li data-id="{{ $y }}">{{ $y }}</li>
-                                        @endfor
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Vehicle Condition</label>
-                                <div class="drop-menu" id="vehicle-category-dropdown">
-                                    <div class="select">
-                                        <span>Select Vehicle Condition</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="vehicle_category">
-                                    <ul class="dropdown" style="display: none;">
-                                        <li data-id="Used">Used</li>
-                                        <li data-id="Era">Era</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Mileage</label>
-                                <div class="drop-menu">
-                                    <div class="select">
-                                        <span>From</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="mileage_from">
-                                    <ul class="dropdown" style="display: none;">
-                                        @php
-                                            $step = 1500; // step size in km
-                                            $maxMileage = 150000; // maximum mileage to show
-                                        @endphp
-                                        @for ($mileage = 1000; $mileage <= $maxMileage; $mileage += $step)
-                                            <li data-id="{{ $mileage }}">{{ number_format($mileage) }} km</li>
-                                        @endfor
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Mileage</label>
-                                <div class="drop-menu">
-                                    <div class="select">
-                                        <span>To</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="mileage_to">
-                                    <ul class="dropdown" style="display: none;">
-                                        @php
-                                            $step = 1500; // step size in km
-                                            $maxMileage = 150000; // maximum mileage to show
-                                        @endphp
-                                        @for ($mileage = 1000; $mileage <= $maxMileage; $mileage += $step)
-                                            <li data-id="{{ $mileage }}">{{ number_format($mileage) }} km</li>
-                                        @endfor
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes v2">
-                                <label>Power Kw</label>
-                                <div class="drop-menu active">
-                                    <input name="motor_power_kw" type="number" maxlength="4" placeholder="ex. 88">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form_boxes v2">
-                                <label>Power Cv</label>
-                                <div class="drop-menu active">
-                                    <input name="motor_power_cv" type="number" maxlength="4" placeholder="ex. 120">
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="title">Equipment</h6>
-                        <div class="col-lg-12">
-                            <div class="equipment-list categories-box border-none-bottom">
-                                @foreach($equipments as $equipment)
-                                    <label class="contain">
-                                        {{ $equipment->name }}
-                                        <input type="checkbox" name="equipments[]" value="{{ $equipment->id }}">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        </div>
-                        <h6 class="title">Exteriors</h6>
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Exterior color</label>
-                                <div class="color-list categories-box border-none-bottom">
-                                    @foreach($vehicleColors as $color)
-                                        <label class="contain" style="--box-color: {{ $color->hex_code }}">
-                                            <span class="color-name">{{$color->name}}</span>
-                                            <input type="checkbox" name="color_ids[]" value="{{ $color->id }}">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <label class="contain">Metallic Paint
-                                <input type="checkbox" name="is_metallic_paint">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <h6 class="title">Vehicle conditions</h6>
-                        <div class="col-lg-6">
-                            <div class="btn-box">
-                                <label>Previous Owners</label>
-                                <div class="number" style="padding: 10px">
-                                    <span class="minus">-</span>
-                                    <input type="text" value="1" name="previous_owners">
-                                    <span class="plus">+</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 my-5">
-                            <div class="cheak-box">
-                                <label class="contain">Coupon Documentation
-                                    <input type="checkbox" name="coupon_documentation">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 mb-5">
-                            <div class="cheak-box">
-                                <label class="contain">Damaged Vehicle
-                                    <input type="checkbox" name="damaged_vehicle">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-12">
-                            <div class="form_boxes">
-                                <label>Change</label>
-                                <div class="drop-menu" id="motor-change-dropdown">
-                                    <div class="select">
-                                        <span>Select Change</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="motor_change">
-                                    <ul class="dropdown" style="display: none;">
-                                        <li data-id="Manual">Manual</li>
-                                        <li data-id="Automatic">Automatic</li>
-                                        <li data-id="Semi-automatic">Semi-automatic</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <div class="btn-box">
-                                <label>Marches</label>
-                                <div class="number" style="padding: 10px">
-                                    <span class="minus">-</span>
-                                    <input type="text" value="1" name="motor_marches">
-                                    <span class="plus">+</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 ">
-                            <div class="btn-box">
-                                <label>Cylinders</label>
-                                <div class="number" style="padding: 10px">
-                                    <span class="minus">-</span>
-                                    <input type="text" value="1" name="motor_cylinders">
-                                    <span class="plus">+</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Displacement</label>
-                                <div class="drop-menu" id="motor-displacement-dropdown">
-                                    <input type="text" name="motor_displacement" placeholder="Engine displacement in cc">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Empty Weight</label>
-                                <div class="drop-menu" id="motor-empty-weight-dropdown">
-                                    <input type="text" name="motor_empty_weight" placeholder="Empty weight in kg">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes v2">
-                                <label>Combined fuel consumption</label>
-                                <div class="drop-menu active">
-                                    <input type="text" name="combined_fuel_consumption" maxlength="5">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form_boxes">
-                                <label>Emissions class</label>
-                                <div class="drop-menu" id="motor-change-dropdown">
-                                    <div class="select">
-                                        <span>Select Emissions class</span>
-                                        <i class="fa fa-angle-down"></i>
-                                    </div>
-                                    <input type="hidden" name="emissions_class">
-                                    <ul class="dropdown" style="display: none;">
-                                        @php
-                                            $emissionsClasses=[
-                                                'Euro 1',
-                                                'Euro 2',
-                                                'Euro 3',
-                                                'Euro 4',
-                                                'Euro 5',
-                                                'Euro 6',
-];
-                                        @endphp
-                                        @foreach($emissionsClasses as $emissionsClass)
-                                            <li data-id="{{ $emissionsClass }}">{{$emissionsClass}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-column col-lg-12">
-                            <div class="cheak-box">
-                                <label class="contain">Deductible VAT
-                                    <input type="checkbox" name="tax_deductible">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        {{--                        price--}}
-                        <div class="col-lg-12">
-                            <div class="price-box">
-                                <h6 class="title">Price</h6>
-                                <form class="row g-0">
-                                    <div class="form-column col-lg-6">
-                                        <div class="form_boxes">
-                                            <label>Min price</label>
-                                            <div class="drop-menu">
-                                                <!-- <input type="text" id="slider-range-value1" name="gender"> -->
-                                                <span id="slider-range-value1"></span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-column v2 col-lg-6">
-                                        <div class="form_boxes">
-                                            <label>Max price</label>
-                                            <div class="drop-menu">
-                                                <span id="slider-range-value2"></span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="widget-price">
-
-                                    <div id="slider-val"></div>
-                                    <div class="slider-labels">
-                                        <input type="hidden" name="min-value" value="">
-                                        <input type="hidden" name="max-value" value="">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!--widget end-->
-            </div>
-        </div>
-
-    </div>
-
     @include('wizmoto.partials.footer')
 
 @endsection
@@ -1195,6 +796,212 @@
             display: block;
         }
 
+        /* Clear option styling */
+        .clear-option {
+            font-style: italic;
+            color: #999;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .clear-option:hover {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+
     </style>
+@endpush
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Initialize dropdown functionality for home page search
+    initializeHomePageDropdowns();
+    
+    function initializeHomePageDropdowns() {
+        // Only initialize on home page - check if we're on the home page
+        if (!$('.boxcar-banner-section-v1').length) {
+            return;
+        }
+        
+        // Brand dropdown
+        $('.boxcar-banner-section-v1 .form_boxes .drop-menu').each(function() {
+            const $dropdown = $(this);
+            const $select = $dropdown.find('.select');
+            const $dropdownList = $dropdown.find('.dropdown');
+            const $hiddenInput = $dropdown.find('input[type="hidden"]');
+            
+            // Remove any existing event handlers to prevent conflicts
+            $select.off('click.homepage');
+            $dropdownList.off('click.homepage', 'li');
+            
+            // Toggle dropdown on click
+            $select.on('click.homepage', function(e) {
+                e.stopPropagation();
+                
+                // Close other dropdowns on home page only
+                $('.boxcar-banner-section-v1 .drop-menu .dropdown').not($dropdownList).hide();
+                
+                // Toggle current dropdown
+                if ($dropdownList.is(':visible')) {
+                    $dropdownList.hide();
+                } else {
+                    $dropdownList.show();
+                }
+            });
+            
+            // Handle option selection
+            $dropdownList.on('click.homepage', 'li', function(e) {
+                e.stopPropagation();
+                const selectedText = $(this).text().trim();
+                const selectedValue = $(this).data('id') || selectedText;
+                
+                // Convert selectedValue to string to avoid trim() errors
+                const selectedValueStr = String(selectedValue);
+                
+                // Update display
+                $select.find('span').text(selectedText);
+                
+                // Update hidden input
+                $hiddenInput.val(selectedValue);
+                
+                // Hide dropdown
+                $dropdownList.hide();
+                
+                // Handle brand selection - load models for selected brand
+                if ($hiddenInput.attr('name') === 'brand_id') {
+                    console.log('Brand selection detected:', selectedText, 'ID:', selectedValue);
+                    if (selectedValueStr && selectedValueStr.trim() !== '') {
+                        console.log('Loading models for brand ID:', selectedValue);
+                        loadModelsForBrand(selectedValue);
+                    } else {
+                        console.log('Resetting to show all models');
+                        // Reset to show all models when "Any Brands" is selected
+                        resetModelDropdown();
+                    }
+                    clearModelSelection();
+                }
+                
+                // Only redirect if a specific option was selected (not clear option)
+                if (selectedValueStr && selectedValueStr.trim() !== '') {
+                    console.log('Selection made, redirecting to inventory list...');
+                    redirectToInventoryList();
+                } else {
+                    console.log('Selection cleared');
+                }
+            });
+        });
+        
+        // Close dropdowns when clicking outside (home page only)
+        $(document).off('click.homepage').on('click.homepage', function(e) {
+            if (!$(e.target).closest('.boxcar-banner-section-v1 .drop-menu').length) {
+                $('.boxcar-banner-section-v1 .drop-menu .dropdown').hide();
+            }
+        });
+    }
+    
+    // Function to load models for selected brand
+    function loadModelsForBrand(brandId) {
+        console.log('Loading models for brand ID:', brandId, 'Type:', typeof brandId);
+        
+        // Get all models data from the page
+        const allModels = @json($vehicleModels);
+        console.log('All models data:', allModels);
+        
+        // Convert brandId to number for comparison
+        const brandIdNum = parseInt(brandId);
+        
+        const brandModels = allModels.filter(model => {
+            console.log('Checking model:', model.name, 'brand_id:', model.brand_id, 'brand relationship:', model.brand);
+            // Check both brand_id field and brand relationship
+            return model.brand_id == brandIdNum || (model.brand && model.brand.id == brandIdNum);
+        });
+        
+        console.log('Filtered brand models:', brandModels);
+        
+        // Update model dropdown
+        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu').find('.dropdown');
+        
+        // Clear existing options except the first "Any Models" option
+        $modelDropdown.find('li:not(.clear-option)').remove();
+        
+        // Add models for selected brand
+        brandModels.forEach(model => {
+            $modelDropdown.append(`<li data-id="${model.id}">${model.name}</li>`);
+        });
+        
+        console.log('Loaded', brandModels.length, 'models for brand');
+        console.log('Available models:', brandModels);
+    }
+    
+    // Function to clear model selection
+    function clearModelSelection() {
+        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
+        $modelDropdown.find('.select span').text('Any Models');
+        $modelDropdown.find('input[type="hidden"]').val('');
+    }
+    
+    // Function to reset model dropdown to show all models
+    function resetModelDropdown() {
+        console.log('Resetting model dropdown to show all models');
+        
+        // Get all models data from the page
+        const allModels = @json($vehicleModels);
+        
+        // Update model dropdown
+        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu').find('.dropdown');
+        
+        // Clear existing options except the first "Any Models" option
+        $modelDropdown.find('li:not(.clear-option)').remove();
+        
+        // Add all models
+        allModels.forEach(model => {
+            $modelDropdown.append(`<li data-id="${model.id}">${model.name}</li>`);
+        });
+        
+        console.log('Reset model dropdown with', allModels.length, 'models');
+    }
+    
+    function redirectToInventoryList() {
+        // Only redirect if we're on the home page
+        if (!$('.boxcar-banner-section-v1').length) {
+            return;
+        }
+        
+        // Collect all selected filters from home page only
+        const filters = {};
+        
+        // Get brand filter from home page
+        const brandId = $('.boxcar-banner-section-v1 input[name="brand_id"]').val();
+        if (brandId && brandId.trim() !== '') {
+            filters.brand_id = brandId;
+        }
+        
+        // Get model filter from home page
+        const modelId = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').val();
+        if (modelId && modelId.trim() !== '') {
+            filters.vehicle_model_id = modelId;
+        }
+        
+        // Get fuel type filter from home page
+        const fuelTypeId = $('.boxcar-banner-section-v1 input[name="fuel_type_id"]').val();
+        if (fuelTypeId && fuelTypeId.trim() !== '') {
+            filters.fuel_type_id = fuelTypeId;
+        }
+        
+        // Build URL with filters
+        const baseUrl = '{{ route("inventory.list") }}';
+        const urlParams = new URLSearchParams(filters);
+        const finalUrl = baseUrl + '?' + urlParams.toString();
+        
+        console.log('Redirecting to:', finalUrl);
+        console.log('Filters:', filters);
+        
+        // Redirect to inventory list
+        window.location.href = finalUrl;
+    }
+});
+</script>
 @endpush
 

@@ -10,11 +10,12 @@ class AdvertisementTypeSeeder extends Seeder {
 
         $types = [
             [
-                'title' => 'Motorcycle' ,
-            ] ,
-            [
                 'title' => 'Motor Scooter' ,
             ] ,
+            [
+                'title' => 'Motorcycle' ,
+            ] ,
+        
             [
                 'title' => 'Scooter' ,
             ] ,

@@ -6031,7 +6031,7 @@ Section Title
   margin-top: 1px;
   overflow: hidden;
   display: none;
-  max-height: 144px;
+  max-height: 250px;
   overflow-y: auto;
   z-index: 9999;
   background: #fff;

@@ -252,7 +252,7 @@
                     <li><a href="{{ route('home') }}">Home</a></li>
                     <li><span>Filtered List</span></li>
                 </ul>
-                <h2>What Kind of Motorcycle Should I Get? Try Boxcars Motorcycle Finder to Find a Motorcycle</h2>
+                <h2>What Kind of Motorcycle Should I Get?</h2>
                 
                 <!-- Selected Filters Bar -->
                 <div class="selected-filters-bar" id="selected-filters-bar" style="display: none;">
@@ -273,9 +273,9 @@
                 </div>
                 
                 <div class="quick-filters-container">
-                    <ul class="service-list">
+                <ul class="service-list">
                  
-                    </ul>
+                </ul>
                 </div>
             </div>
             <div class="row">
@@ -299,54 +299,54 @@
                                         <div class="row">
                                             <!-- Vehicle Search Group -->
                                             <div class="vehicle-search-group" data-group="0">
-                                                <div class="col-lg-12">
-                                                    <div class="form_boxes">
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                         <label>Brand</label>
                                                         <div class="drop-menu" id="brand-dropdown">
-                                                            <div class="select">
+                                            <div class="select">
                                                                 <span>Select Brand</span>
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                             <input type="hidden" name="brand_id[]" class="brand_id_input">
-                                                            <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                                 @foreach ($brands as $brand)
                                                                     <li data-id="{{ $brand->id }}">{{ $brand->name }}
                                                                     </li>
                                                                 @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                                 <div class="col-lg-12">
-                                                    <div class="form_boxes">
+                                    <div class="form_boxes">
                                                         <label>Model</label>
                                                         <div class="drop-menu" id="model-dropdown">
-                                                            <div class="select">
+                                            <div class="select">
                                                                 <span>Select Model</span>
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                             <input type="hidden" name="vehicle_model_id[]"
                                                                 class="vehicle_model_id_input">
                                                             <ul class="dropdown" style="display: none;" id="model-select">
     
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                                 <div class="col-lg-12">
                                                     <div class="form_boxes v2">
                                                         <label>Version</label>
                                                         <div class="drop-menu active">
                                                             <input type="text" name="version_model[]"
                                                                 placeholder="Enter version">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                                 <button type="button" class="remove-vehicle-group"
                                                     title="Remove this vehicle">
                                                     <i class="fa fa-times"></i>
                                                 </button>
-                                            </div>
+                                </div>
     
                                             <!-- Add Vehicle Button - Outside the box -->
                                             <div class="col-lg-12 mb-5">
@@ -359,84 +359,84 @@
                                             </div>
     
                                             <!-- Body Work -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                     <label>Body Work</label>
                                                     <div class="drop-menu" id="body-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>Select Body Work</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="vehicle_body_id">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @foreach ($vehicleBodies as $vehicleBody)
                                                                 <li data-id="{{ $vehicleBody->id }}">{{ $vehicleBody->name }}
                                                                 </li>
                                                             @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
     
                                             <!-- Fuel Type -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                     <label>Fuel Type</label>
                                                     <div class="drop-menu" id="fuel-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>Select</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="fuel_type_id">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @foreach ($fuelTypes as $fuelType)
                                                                 <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
                                                             @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
     
                                             <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                    <div class="form_boxes">
                                                     <label>Register Year</label>
                                                     <div class="drop-menu" id="registration-year-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>From</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="registration_year_from">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
                                                             @for ($y = $currentYear; $y >= 1990; $y--)
                                                                 <li data-id="{{ $y }}">{{ $y }}</li>
                                                             @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_boxes">
                                                     <label>Register Year</label>
                                                     <div class="drop-menu" id="registration-year-to-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>To</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="registration_year_to">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
                                                             @for ($y = $currentYear; $y >= 1990; $y--)
                                                                 <li data-id="{{ $y }}">{{ $y }}</li>
                                                             @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
     
                                             <!-- Mileage -->
                                             <div class="col-lg-6">
@@ -457,58 +457,58 @@
                                             </div>
     
                                             <!-- Power -->
-                                            <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                <div class="col-lg-6">
+                                    <div class="form_boxes">
                                                     <label>Power(CV)</label>
                                                     <div class="drop-menu" id="power-cv-from-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>From</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="power_cv_from">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
                                                                 <li data-id="{{ $cv }}">{{ $cv }} CV</li>
                                                             @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                             <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                    <div class="form_boxes">
                                                     <label>Power(CV)</label>
                                                     <div class="drop-menu" id="power-cv-to-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>To</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="power_cv_to">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
                                                                 <li data-id="{{ $cv }}">{{ $cv }} CV</li>
                                                             @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
     
                                             <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                    <div class="form_boxes">
                                                     <label>Power(KW)</label>
                                                     <div class="drop-menu" id="power-kw-from-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>From</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="power_kw_from">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
                                                     <label>Power(KW)</label>
@@ -516,19 +516,19 @@
                                                         <div class="select">
                                                             <span>To</span>
                                                             <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                    </div>
                                                         <input type="hidden" name="power_kw_to">
                                                         <ul class="dropdown" style="display: none;">
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
                                                         </ul>
-                                                    </div>
                                                 </div>
                                             </div>
+                                                    </div>
     
                                             <!-- Transmission (Multi-select) -->
-                                            <div class="col-lg-12">
+                                <div class="col-lg-12">
                                                 <div class="form_boxes">
                                                     <label>Transmission</label>
                                                     <div class="multi-select-container">
@@ -540,139 +540,139 @@
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
                                                                         value="Manual">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Manual
-                                                                </label>
+                                            </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
                                                                         value="Automatic">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Automatic
-                                                                </label>
+                                            </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
                                                                         value="Semi-automatic">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Semi-automatic
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                        </div>
+                                    </div>
     
                                             <!-- Number of Cylinders -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                     <label>Number of Cylinders</label>
                                                     <div class="drop-menu" id="cylinders-dropdown">
-                                                        <div class="select">
+                                            <div class="select">
                                                             <span>Select Cylinders</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
                                                         <input type="hidden" name="cylinders">
-                                                        <ul class="dropdown" style="display: none;">
+                                            <ul class="dropdown" style="display: none;">
                                                             <li data-id="1">1 Cylinder</li>
                                                             <li data-id="2">2 Cylinders</li>
                                                             <li data-id="3">3 Cylinders</li>
                                                             <li data-id="4">4 Cylinders</li>
                                                             <li data-id="6">6 Cylinders</li>
                                                             <li data-id="8">8 Cylinders</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
     
                                             <!-- Engine Displacement Range -->
                                             <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                    <div class="form_boxes">
                                                     <label>Displacement From (cc)</label>
                                                     <input type="text" name="motor_displacement_from" placeholder="">
-                                                </div>
                                             </div>
+                                        </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
                                                     <label>Displacement To (cc)</label>
                                                     <input type="text" name="motor_displacement_to" placeholder="">
-                                                </div>
-                                            </div>
+                                    </div>
+                                </div>
     
                                             <!-- Price Range -->
                                             <div class="col-lg-6">
-                                                <div class="form_boxes">
+                                    <div class="form_boxes">
                                                     <label>Price From ($)</label>
                                                     <input type="text" name="price_from" placeholder="">
-                                                </div>
                                             </div>
+                                        </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
                                                     <label>Price To ($)</label>
                                                     <input type="text" name="price_to" placeholder="">
-                                                </div>
-                                            </div>
+                                    </div>
+                                </div>
     
                                             <!-- Vehicle Conditions -->
-                                            <div class="col-lg-12">
-                                                <div class="form_boxes">
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                     <label>Vehicle Conditions</label>
                                                     <div class="multi-select-container">
                                                         <div class="selected-options">
                                                             <!-- Selected options will appear here -->
-                                                        </div>
+                                            </div>
                                                         <div class="multi-select-dropdown">
                                                             <div class="multi-select-list">
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="vehicle_category[]"
                                                                         value="Used">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Used
-                                                                </label>
+                                            </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="vehicle_category[]"
                                                                         value="Era">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Era
-                                                                </label>
+                                            </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="damaged_vehicle"
                                                                         value="1">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Damaged Vehicle
-                                                                </label>
+                                            </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="coupon_documentation"
                                                                         value="1">
-                                                                    <span class="checkmark"></span>
+                                                <span class="checkmark"></span>
                                                                     Coupon Documentation
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
     
                                             <!-- Village/City -->
                                             <div class="col-lg-12">
                                                 <div class="form_boxes">
                                                     <label>Village/City</label>
                                                     <div class="drop-menu" id="city-dropdown">
-                                                        <div class="select">
+                                        <div class="select">
                                                             <span>Select City</span>
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </div>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
                                                         <input type="hidden" name="city_id">
-                                                        <ul class="dropdown" style="display: none;">
+                                        <ul class="dropdown" style="display: none;">
                                                             <li data-id="1">New York</li>
                                                             <li data-id="2">Los Angeles</li>
                                                             <li data-id="3">Chicago</li>
                                                             <li data-id="4">Houston</li>
                                                             <li data-id="5">Phoenix</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                        </div>
     
                                             <!-- Postal Code -->
                                             <div class="col-lg-12">
@@ -680,7 +680,7 @@
                                                     <label>Postal Code</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="postal_code" placeholder="">
-                                                    </div>
+                                </div>
                                                 </div>
                                             </div>
     
@@ -690,13 +690,13 @@
                                                     <label>Search Radius (km)</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="search_radius" placeholder="">
-                                                    </div>
+                                                </div>
+                                            </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-    
+                                            </div>
+                                            
                                 <!-- Equipment Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
@@ -714,7 +714,7 @@
                                                             {{ $equipment->name }}
                                                         </label>
                                                     @endforeach
-                                                </div>
+                                </div>
                                                 @if ($equipments->count() > 10)
                                                     <div class="equipment-toggle">
                                                         <button type="button" class="btn btn-outline-primary show-more-equipment" 
@@ -722,18 +722,18 @@
                                                             <i class="fa fa-plus"></i>
                                                             Show more equipment ({{ $equipments->count() - 10 }} more)
                                                         </button>
-                                                    </div>
+                            </div>
                                                 @endif
-                                            </div>
-                                        </div>
-                                    </div>
+                        </div>
                                 </div>
+                                                </div>
+                                            </div>
     
                                 <!-- Exteriors Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
                                         <h6 class="title">Exteriors</h6>
-                                    </div>
+                                                </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
@@ -748,10 +748,10 @@
                                                             {{ $color->name }}
                                                         </label>
                                                     @endforeach
-                                                </div>
                                             </div>
-                                        </div>
-    
+                                            </div>
+                                                </div>
+                                                
                                         <div class="col-lg-12">
     
                                             <label class="checkbox-item">
@@ -759,17 +759,17 @@
                                                 <span class="checkmark"></span>
                                                 Metallic Paint
                                             </label>
-    
+                                                
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
     
     
                                 <!-- Vehicle Conditions Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
                                         <h6 class="title">Vehicle Conditions</h6>
-                                    </div>
+                                                </div>
                                     <div class="filter-section-content">
     
     
@@ -802,20 +802,20 @@
                                                             <span class="radio-mark"></span>
                                                             3+ Owners
                                                         </label>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
-    
-    
                                     </div>
-                                </div>
+                                            </div>
+    
+    
+                                                </div>
+                                            </div>
     
                                 <!-- Environment Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
                                         <h6 class="title">Environment</h6>
-                                    </div>
+                                                </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
@@ -842,27 +842,27 @@
                                                                     {{ $emissionsClass }}
                                                                 </label>
                                                             @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                            </div>
+                                    </div>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
                                                     <label>Emissions From</label>
                                                     <input type="text" name="co2_emissions_from" class=""
                                                         placeholder="" >
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
                                                     <label>Emissions To</label>
                                                     <input type="text" name="co2_emissions_to" placeholder=""
                                                         >
-                                                </div>
-                                            </div>
+                        </div>
+                                </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
@@ -880,13 +880,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                            </div>
     
                                 <!-- More Information Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
                                         <h6 class="title">More Information</h6>
-                                    </div>
+                                                </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
@@ -895,7 +895,7 @@
                                                     <div class="select">
                                                         <span>Select Period</span>
                                                         <i class="fa fa-angle-down"></i>
-                                                    </div>
+                                            </div>
                                                     <input type="hidden" name="online_from_period">
                                                     <ul class="dropdown" style="display: none;">
                                                         <li data-id="1">1 day</li>
@@ -907,10 +907,10 @@
                                                         <li data-id="90">3 months</li>
                                                         <li data-id="180">6 months</li>
                                                         <li data-id="365">1 year</li>
-                                                    </ul>
-                                                </div>
+                                        </ul>
+                                    </div>
                                             </div>
-                                        </div>
+                                    </div>
     
                                         <div class="col-lg-6">
                                             <div class="">
@@ -919,32 +919,32 @@
                                                     <span class="checkmark"></span>
                                                     VAT Deductible
                                                 </label>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
                         </div>
+                                </div>
+                                                </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                                                
+                                            </div>
                     </div><!--widget end-->
-                </div>
+                                        </div>
                 <div class="col-xl-9 col-md-12 col-sm-12">
                     <div class="right-box">
                         <div class="text-box">
@@ -954,20 +954,20 @@
                                 @else
                                     No vehicles found
                                 @endif
-                            </div>
-                        </div>
+                                    </div>
+                                            </div>
                         <!-- service-block-thirteen -->
                         <div class="service-block-thirteen" id="vehicle-cards-container">
                             <!-- Loading indicator -->
                             <div id="loading-indicator" style="display: none; text-align: center; padding: 50px;">
                                 <div class="spinner-border" role="status">
                                     <span class="sr-only">Loading...</span>
-                                </div>
+                                    </div>
                                 <p>Loading vehicles...</p>
-                            </div>
+                                </div>
                             
                             @include('wizmoto.home.partials.vehicle-cards')
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -979,6 +979,11 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // Only initialize on inventory list page
+            if (!$('.inventory-sidebar').length) {
+                return;
+            }
+            
             console.log('jQuery loaded, document ready');
             console.log('Quick filter elements found:', $('.quick-filter').length);
             
@@ -2016,11 +2021,11 @@
                                         ${filter.values.map(value => `
                                             <span class="filter-value-item">${value}</span>
                                         `).join('')}
-                                    </div>
+                </div>
                                     <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
                                         <i class="fa fa-times"></i>
                                     </button>
-                                </div>
+            </div>
                             `);
                         } else {
                             // For single value and range filters
@@ -2031,7 +2036,7 @@
                                     <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
                                         <i class="fa fa-times"></i>
                                     </button>
-                                </div>
+        </div>
                             `);
                         }
                         
@@ -2087,6 +2092,20 @@
                         }
                     });
                     
+                    // Fuel type filter
+                    const fuelTypeId = $('input[name="fuel_type_id"]').val();
+                    if (fuelTypeId && fuelTypeId.trim() !== '') {
+                        const fuelTypeName = $('#fuel-dropdown .select span').text().trim();
+                        if (fuelTypeName && !fuelTypeName.includes('Select')) {
+                            filters[`fuel_type_${fuelTypeId}`] = {
+                                name: 'Fuel Type',
+                                value: fuelTypeName,
+                                type: 'single',
+                                fuelTypeId: fuelTypeId
+                            };
+                        }
+                    }
+                    
                     // Price range
                     const priceFrom = $('input[name="price_from"]').val();
                     const priceTo = $('input[name="price_to"]').val();
@@ -2116,15 +2135,6 @@
                         };
                     }
                     
-                    // Fuel type
-                    const fuelType = $('#fuel-dropdown .select span').text();
-                    if (fuelType && !fuelType.includes('Select')) {
-                        filters.fuel = {
-                            name: 'Fuel Type',
-                            value: fuelType,
-                            type: 'single'
-                        };
-                    }
                     
                     // Registration year (From and To)
                     const regYearFrom = $('#registration-year-dropdown .select span').text();
@@ -2405,6 +2415,25 @@
                         return;
                     }
                     
+                    // Handle individual fuel type removal (fuel_type_123 format)
+                    if (filterKey.startsWith('fuel_type_')) {
+                        const fuelTypeId = filterKey.replace('fuel_type_', '');
+                        // Clear the fuel type input
+                        $('input[name="fuel_type_id"]').val('');
+                        // Reset the dropdown display
+                        $('#fuel-dropdown .select span').text('Select');
+                        return;
+                    }
+                    
+                    // Handle advertisement type removal (advertisement_type_123 format)
+                    if (filterKey.startsWith('advertisement_type_')) {
+                        // Remove the advertisement_type parameter from URL
+                        const url = new URL(window.location);
+                        url.searchParams.delete('advertisement_type');
+                        window.location.href = url.toString();
+                        return;
+                    }
+                    
                     switch(filterKey) {
                         case 'brands':
                             // Remove all brands
@@ -2547,6 +2576,127 @@
 
             // Initialize selected filters bar
             initializeSelectedFiltersBar();
+            
+            // Pre-fill filters from URL parameters
+            prefillFiltersFromURL();
+            
+            // Function to pre-fill filters from URL parameters
+            function prefillFiltersFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                console.log('Pre-filling filters from URL parameters:', Object.fromEntries(urlParams));
+                
+                // Pre-fill brand filter
+                const brandId = urlParams.get('brand_id');
+                if (brandId) {
+                    const brandName = getBrandNameById(brandId);
+                    if (brandName) {
+                        $('#brand-dropdown .select span').text(brandName);
+                        $('#brand-dropdown input[type="hidden"]').val(brandId);
+                    }
+                }
+                
+                // Pre-fill model filter
+                const modelId = urlParams.get('vehicle_model_id');
+                if (modelId) {
+                    const modelName = getModelNameById(modelId);
+                    if (modelName) {
+                        $('#model-dropdown .select span').text(modelName);
+                        $('#model-dropdown input[type="hidden"]').val(modelId);
+                    }
+                }
+                
+                // Pre-fill fuel type filter
+                const fuelTypeId = urlParams.get('fuel_type_id');
+                if (fuelTypeId) {
+                    const fuelTypeName = getFuelTypeNameById(fuelTypeId);
+                    if (fuelTypeName) {
+                        $('#fuel-dropdown .select span').text(fuelTypeName);
+                        $('#fuel-dropdown input[type="hidden"]').val(fuelTypeId);
+                    }
+                }
+                
+                // Pre-fill advertisement type filter
+                const advertisementTypeId = urlParams.get('advertisement_type');
+                console.log('Advertisement type ID from URL:', advertisementTypeId);
+                if (advertisementTypeId) {
+                    const advertisementTypeName = getAdvertisementTypeNameById(advertisementTypeId);
+                    console.log('Advertisement type name:', advertisementTypeName);
+                    if (advertisementTypeName) {
+                        console.log('Adding advertisement type to filters...');
+                        // Add to selected filters bar
+                        addAdvertisementTypeToFilters(advertisementTypeId, advertisementTypeName);
+                    } else {
+                        console.log('Advertisement type name not found for ID:', advertisementTypeId);
+                    }
+                } else {
+                    console.log('No advertisement_type parameter found in URL');
+                }
+                
+                // Update selected filters bar after pre-filling
+                setTimeout(updateSelectedFiltersBar, 500);
+            }
+            
+            // Helper functions to get names by ID
+            function getBrandNameById(id) {
+                const brands = @json($brands);
+                const brand = brands.find(b => b.id == id);
+                return brand ? brand.name : null;
+            }
+            
+            function getModelNameById(id) {
+                const models = @json($vehicleModels);
+                const model = models.find(m => m.id == id);
+                return model ? model.name : null;
+            }
+            
+            function getFuelTypeNameById(id) {
+                const fuelTypes = @json($fuelTypes);
+                const fuelType = fuelTypes.find(f => f.id == id);
+                return fuelType ? fuelType.name : null;
+            }
+            
+            function getAdvertisementTypeNameById(id) {
+                const advertisementTypes = @json($advertisementTypes);
+                console.log('All advertisement types:', advertisementTypes);
+                console.log('Looking for ID:', id, 'Type:', typeof id);
+                const advertisementType = advertisementTypes.find(a => a.id == id);
+                console.log('Found advertisement type:', advertisementType);
+                return advertisementType ? advertisementType.title : null;
+            }
+            
+            function addAdvertisementTypeToFilters(advertisementTypeId, advertisementTypeName) {
+                console.log('addAdvertisementTypeToFilters called with:', advertisementTypeId, advertisementTypeName);
+                
+                const $bar = $('#selected-filters-bar');
+                const $list = $('#selected-filters-list');
+                
+                console.log('Filters bar element:', $bar.length);
+                console.log('Filters list element:', $list.length);
+                
+                // Show the filters bar if it's hidden
+                $bar.show();
+                
+                const $filterTag = $(`
+                    <div class="selected-filter-tag" data-filter-key="advertisement_type_${advertisementTypeId}">
+                        <span class="filter-name">Type:</span>
+                        <span class="filter-value">${advertisementTypeName}</span>
+                        <button type="button" class="remove-filter-btn" data-filter-key="advertisement_type_${advertisementTypeId}">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                `);
+                
+                console.log('Created filter tag:', $filterTag);
+                $list.append($filterTag);
+                console.log('Appended filter tag to list');
+                
+                // Add click handler for removal
+                $filterTag.find('.remove-filter-btn').on('click', function() {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('advertisement_type');
+                    window.location.href = url.toString();
+                });
+            }
         });
     </script>
     
