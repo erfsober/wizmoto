@@ -231,6 +231,22 @@ class HomeController extends Controller
             ->latest('id')
             ->paginate(10);
 
+        // If it's an AJAX request, return JSON with HTML and pagination info
+        if ($request->ajax()) {
+            $html = view('wizmoto.home.partials.vehicle-cards', compact('advertisements'))->render();
+            return response()->json([
+                'html' => $html,
+                'pagination' => [
+                    'first_item' => $advertisements->firstItem(),
+                    'last_item' => $advertisements->lastItem(),
+                    'total' => $advertisements->total(),
+                    'current_page' => $advertisements->currentPage(),
+                    'per_page' => $advertisements->perPage(),
+                    'has_pages' => $advertisements->hasPages()
+                ]
+            ]);
+        }
+
         return view('wizmoto.home.inventory-list', compact('advertisements', 'brands', 'vehicleModels', 'advertisementTypes', 'fuelTypes', 'vehicleBodies', 'vehicleColors', 'equipments'));
     }
 
@@ -378,5 +394,34 @@ class HomeController extends Controller
             ->orderBy('distance')
             ->limit($limit)
             ->get();
+    }
+
+    /**
+     * Load more equipment items via AJAX
+     */
+    public function loadMoreEquipment(Request $request)
+    {
+        $offset = $request->get('offset', 0);
+        $limit = $request->get('limit', 10);
+        
+        $equipments = Equipment::query()
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+        
+        $html = '';
+        foreach ($equipments as $equipment) {
+            $html .= '<label class="equipment-item">
+                <input type="checkbox" name="equipments[]" value="' . $equipment->id . '">
+                <span class="checkmark"></span>
+                ' . $equipment->name . '
+            </label>';
+        }
+        
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $equipments->count() === $limit,
+            'nextOffset' => $offset + $limit
+        ]);
     }
 }

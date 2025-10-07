@@ -249,22 +249,34 @@
         <div class="boxcar-container">
             <div class="boxcar-title-three wow fadeInUp">
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><span>Cars for Sale</span></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><span>Filtered List</span></li>
                 </ul>
-                <h2>What Kind of Car Should I Get? Try Boxcars Car Finder to Find a Car</h2>
-                <ul class="service-list">
-                    <li><a href="#">SUV</a></li>
-                    <li><a href="#">Automatic</a></li>
-                    <li><a href="#">$5,0000-$10,000</a></li>
-                    <li><a href="#">HAtchback</a></li>
-                    <li><a href="#">2020+</a></li>
-                    <li><a href="#">All Wheel Drive</a></li>
-                    <li><a href="#">Great Price</a></li>
-                    <li><a href="#">Up to 75.000 miles</a></li>
-                    <li><a href="#">Low Mileage</a></li>
-                    <li><a href="#">Diseal</a></li>
-                </ul>
+                <h2>What Kind of Motorcycle Should I Get? Try Boxcars Motorcycle Finder to Find a Motorcycle</h2>
+                
+                <!-- Selected Filters Bar -->
+                <div class="selected-filters-bar" id="selected-filters-bar" style="display: none;">
+                    <div class="selected-filters-container">
+                        <div class="selected-filters-label">
+                            <i class="fa fa-filter"></i>
+                            <span>Active Filters:</span>
+                        </div>
+                        <div class="selected-filters-list" id="selected-filters-list">
+                            <!-- Selected filters will be dynamically added here -->
+                        </div>
+                        <div class="selected-filters-actions">
+                            <button type="button" class="clear-all-filters-btn">
+                                <i class="fa fa-times"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-filters-container">
+                    <ul class="service-list">
+                 
+                    </ul>
+                </div>
             </div>
             <div class="row">
                 <div class="wrap-sidebar-dk side-bar col-xl-3 col-md-12 col-sm-12">
@@ -372,7 +384,7 @@
                                                     <label>Fuel Type</label>
                                                     <div class="drop-menu" id="fuel-dropdown">
                                                         <div class="select">
-                                                            <span>Select Fuel Type</span>
+                                                            <span>Select</span>
                                                             <i class="fa fa-angle-down"></i>
                                                         </div>
                                                         <input type="hidden" name="fuel_type_id">
@@ -387,7 +399,7 @@
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Registration Year</label>
+                                                    <label>Register Year</label>
                                                     <div class="drop-menu" id="registration-year-dropdown">
                                                         <div class="select">
                                                             <span>From</span>
@@ -407,8 +419,8 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Registration Year</label>
-                                                    <div class="drop-menu" id="registration-year-dropdown">
+                                                    <label>Register Year</label>
+                                                    <div class="drop-menu" id="registration-year-to-dropdown">
                                                         <div class="select">
                                                             <span>To</span>
                                                             <i class="fa fa-angle-down"></i>
@@ -429,7 +441,7 @@
                                             <!-- Mileage -->
                                             <div class="col-lg-6">
                                                 <div class="form_boxes v2">
-                                                    <label>Mileage From (km)</label>
+                                                    <label>Mileage From</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="mileage_from" placeholder="">
                                                     </div>
@@ -437,7 +449,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes v2">
-                                                    <label>Mileage To (km)</label>
+                                                    <label>Mileage To</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="mileage_to" placeholder="">
                                                     </div>
@@ -447,10 +459,10 @@
                                             <!-- Power -->
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Power CV From (CV)</label>
+                                                    <label>Power(CV)</label>
                                                     <div class="drop-menu" id="power-cv-from-dropdown">
                                                         <div class="select">
-                                                            <span>From CV</span>
+                                                            <span>From</span>
                                                             <i class="fa fa-angle-down"></i>
                                                         </div>
                                                         <input type="hidden" name="power_cv_from">
@@ -464,10 +476,10 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Power CV To (CV)</label>
+                                                    <label>Power(CV)</label>
                                                     <div class="drop-menu" id="power-cv-to-dropdown">
                                                         <div class="select">
-                                                            <span>To CV</span>
+                                                            <span>To</span>
                                                             <i class="fa fa-angle-down"></i>
                                                         </div>
                                                         <input type="hidden" name="power_cv_to">
@@ -482,10 +494,10 @@
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Power KW From (KW)</label>
+                                                    <label>Power(KW)</label>
                                                     <div class="drop-menu" id="power-kw-from-dropdown">
                                                         <div class="select">
-                                                            <span>From KW</span>
+                                                            <span>From</span>
                                                             <i class="fa fa-angle-down"></i>
                                                         </div>
                                                         <input type="hidden" name="power_kw_from">
@@ -499,10 +511,10 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Power KW To (KW)</label>
+                                                    <label>Power(KW)</label>
                                                     <div class="drop-menu" id="power-kw-to-dropdown">
                                                         <div class="select">
-                                                            <span>To KW</span>
+                                                            <span>To</span>
                                                             <i class="fa fa-angle-down"></i>
                                                         </div>
                                                         <input type="hidden" name="power_kw_to">
@@ -574,14 +586,14 @@
                                             <!-- Engine Displacement Range -->
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Engine Displacement From (cc)</label>
+                                                    <label>Displacement From (cc)</label>
                                                     <input type="text" name="motor_displacement_from" placeholder="">
                                                 </div>
                                             </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Engine Displacement To (cc)</label>
+                                                    <label>Displacement To (cc)</label>
                                                     <input type="text" name="motor_displacement_to" placeholder="">
                                                 </div>
                                             </div>
@@ -693,8 +705,8 @@
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="equipment-container">
-                                                <div class="equipment-list">
-                                                    @foreach ($equipments->take(3) as $equipment)
+                                                <div class="equipment-list" id="equipment-list">
+                                                    @foreach ($equipments->take(10) as $equipment)
                                                         <label class="equipment-item">
                                                             <input type="checkbox" name="equipments[]"
                                                                 value="{{ $equipment->id }}">
@@ -703,22 +715,13 @@
                                                         </label>
                                                     @endforeach
                                                 </div>
-                                                @if ($equipments->count() > 3)
-                                                    <div class="equipment-more" style="display: none;">
-                                                        @foreach ($equipments->skip(3) as $equipment)
-                                                            <label class="equipment-item">
-                                                                <input type="checkbox" name="equipments[]"
-                                                                    value="{{ $equipment->id }}">
-                                                                <span class="checkmark"></span>
-                                                                {{ $equipment->name }}
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
+                                                @if ($equipments->count() > 10)
                                                     <div class="equipment-toggle">
-                                                        <a href="#" class="show-more-equipment">
+                                                        <button type="button" class="btn btn-outline-primary show-more-equipment" 
+                                                                data-loaded="10" data-total="{{ $equipments->count() }}">
                                                             <i class="fa fa-plus"></i>
-                                                            Show more equipment ({{ $equipments->count() - 3 }} more)
-                                                        </a>
+                                                            Show more equipment ({{ $equipments->count() - 10 }} more)
+                                                        </button>
                                                     </div>
                                                 @endif
                                             </div>
@@ -847,31 +850,31 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>CO2 Emissions From (g/km)</label>
+                                                    <label>Emissions From</label>
                                                     <input type="text" name="co2_emissions_from" class=""
-                                                        placeholder="From" min="0" max="500">
+                                                        placeholder="" >
                                                 </div>
                                             </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>CO2 Emissions To (g/km)</label>
-                                                    <input type="text" name="co2_emissions_to" placeholder="To"
-                                                        min="0" max="500">
+                                                    <label>Emissions To</label>
+                                                    <input type="text" name="co2_emissions_to" placeholder=""
+                                                        >
                                                 </div>
                                             </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Fuel Consumption From (L/100km)</label>
-                                                    <input type="text" name="fuel_consumption_from" placeholder="From"
-                                                        min="0" max="50" step="0.1">
+                                                    <label>Fuel Consumption From</label>
+                                                    <input type="text" name="fuel_consumption_from" placeholder=""
+                                                        >
                                                 </div>
                                             </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Fuel Consumption To (L/100km)</label>
+                                                    <label>Fuel Consumption To</label>
                                                     <input type="text" name="fuel_consumption_to" placeholder="">
                                                 </div>
                                             </div>
@@ -945,833 +948,26 @@
                 <div class="col-xl-9 col-md-12 col-sm-12">
                     <div class="right-box">
                         <div class="text-box">
-                            <div class="text">Showing 1 to 16 of 1559 vehicles</div>
-                            <form>
-                                <div class="form_boxes v3">
-                                    <small>Sort by</small>
-                                    <div class="drop-menu">
-                                        <div class="select">
-                                            <span>Any Makes</span>
-                                            <i class="fa fa-angle-down"></i>
-                                        </div>
-                                        <input type="hidden" name="gender">
-                                        <ul class="dropdown" style="display: none;">
-                                            <li>Audi</li>
-                                            <li>Honda</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-1.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">New Range Rover, Evoque</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                            
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="text" id="pagination-info">
+                                @if($advertisements->count() > 0)
+                                    Showing {{ $advertisements->firstItem() }} to {{ $advertisements->lastItem() }} of {{ $advertisements->total() }} vehicles
+                                @else
+                                    No vehicles found
+                                @endif
                             </div>
                         </div>
                         <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-2.jpg" alt=""></a></figure>
+                        <div class="service-block-thirteen" id="vehicle-cards-container">
+                            <!-- Loading indicator -->
+                            <div id="loading-indicator" style="display: none; text-align: center; padding: 50px;">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
                                 </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Audi, Q5</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
+                                <p>Loading vehicles...</p>
                             </div>
+                            
+                            @include('wizmoto.home.partials.vehicle-cards')
                         </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-3.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Honda, Accord</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-4.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Volkswagen, CC</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-5.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Hyundai, Exter</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-6.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Mercedes-Benz, GLA</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- service-block-thirteen -->
-                        <div class="service-block-thirteen">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><a href="#"><img src="images/resource/shop13-7.jpg" alt=""></a></figure>
-                                </div>
-                                <div class="right-box">
-                                    <div class="content-box">
-                                        <h4 class="title"><a href="#">Mercedes-Benz, S Class</a></h4>
-                                        <div class="text">2023 C300e AMG Line Night Ed Premium Plus 5dr 9G-Tronic</div>
-                                        <div class="inspection-sec">
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5319)">
-                                                        <path d="M18 10.6482C18 12.6227 17.3716 14.497 16.1827 16.0687C15.9482 16.379 15.5071 16.4391 15.1978 16.2052C14.8881 15.971 14.827 15.53 15.0612 15.2203C16.0638 13.895 16.5938 12.3139 16.5938 10.6482C16.5938 6.45117 13.1947 3.05859 9 3.05859C4.8024 3.05859 1.40625 6.45378 1.40625 10.6482C1.40625 12.3139 1.9362 13.895 2.93871 15.2203C3.17299 15.53 3.11188 15.971 2.8022 16.2052C2.49239 16.4395 2.05156 16.3784 1.81714 16.0687C0.628418 14.497 0 12.6227 0 10.6482C0 5.67361 4.02814 1.65234 9 1.65234C13.9746 1.65234 18 5.67636 18 10.6482ZM13.4551 6.41368C13.7296 6.6882 13.7296 7.13342 13.4551 7.40794L11.1632 9.69983C11.3519 10.0477 11.4593 10.4459 11.4593 10.8686C11.4593 12.2248 10.356 13.3279 9 13.3279C7.64388 13.3279 6.54071 12.2248 6.54071 10.8686C6.54071 9.51265 7.64388 8.40935 9 8.40935C9.42284 8.40935 9.82095 8.51674 10.1688 8.70543L12.4607 6.41354C12.7354 6.13902 13.1804 6.13902 13.4551 6.41368ZM10.053 10.8688C10.053 10.2881 9.58063 9.81573 9 9.81573C8.41937 9.81573 7.94696 10.2881 7.94696 10.8688C7.94696 11.4494 8.41937 11.9218 9 11.9218C9.58063 11.9218 10.053 11.4494 10.053 10.8688Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5319">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </span>
-                                                <div class="info">
-                                                    <span>Mileage</span>
-                                                    <small>72,925</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_2880_5323)">
-                                                        <path d="M10.6875 3.375C10.6875 3.06432 10.4357 2.8125 10.125 2.8125H4.5C4.18932 2.8125 3.9375 3.06432 3.9375 3.375V7.875C3.9375 8.18568 4.18932 8.4375 4.5 8.4375H10.125C10.4357 8.4375 10.6875 8.18568 10.6875 7.875V3.375ZM9.5625 7.3125H5.0625V3.9375H9.5625V7.3125Z" fill="#050B20"/>
-                                                        <path d="M17.14 3.98858L14.8967 2.86358C14.6182 2.72405 14.2843 2.8375 14.1453 3.11516C14.0064 3.39311 14.1206 3.73096 14.3986 3.86993L15.2529 4.29669C15.2301 4.35786 15.2005 4.42255 15.2005 4.49177C15.2005 5.22415 15.75 5.84269 16.3125 6.0756V12.9293C16.3125 13.2394 16.0601 13.4918 15.75 13.4918C15.4399 13.4918 15.1875 13.2394 15.1875 12.9293V8.42927C15.1875 7.07115 14.0625 5.93497 12.9375 5.67362V2.24177C12.9375 1.00114 11.955 0 10.7144 0H3.96436C2.72373 0 1.6875 1.00114 1.6875 2.24177V14.8315L0.873422 15.2386C0.682805 15.3339 0.5625 15.5286 0.5625 15.7418V17.4293C0.5625 17.7399 0.841219 18 1.15186 18H13.5269C13.8375 18 14.0625 17.7399 14.0625 17.4293V15.7418C14.0625 15.5286 13.9422 15.3339 13.7516 15.2386L12.9375 14.8315V6.84545C13.5 7.07836 14.0625 7.6969 14.0625 8.42927V12.9293C14.0625 13.8598 14.8194 14.6168 15.75 14.6168C16.6806 14.6168 17.4375 13.8598 17.4375 12.9293V4.49177C17.4375 4.27862 17.3306 4.08389 17.14 3.98858ZM12.9375 16.875H1.6875V16.0895L2.50158 15.6824C2.6922 15.5871 2.8125 15.3924 2.8125 15.1792V2.24174C2.8125 1.6213 3.34389 1.125 3.96436 1.125H10.7144C11.3348 1.125 11.8125 1.6213 11.8125 2.24177V15.1793C11.8125 15.3924 11.9328 15.5872 12.1234 15.6825L12.9375 16.0895V16.875Z" fill="#050B20"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_2880_5323">
-                                                        <rect width="18" height="18" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Fuel Type</span>
-                                                    <small>Petrol</small>
-                                                </div>
-                                            </div>
-                                            <div class="inspection-box">
-                                                <span class="icon">
-                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.6875C1.8615 1.6875 0.9375 2.6115 0.9375 3.75C0.9375 4.8885 1.8615 5.8125 3 5.8125C4.1385 5.8125 5.0625 4.8885 5.0625 3.75C5.0625 2.6115 4.1385 1.6875 3 1.6875ZM3 2.8125C3.5175 2.8125 3.9375 3.2325 3.9375 3.75C3.9375 4.2675 3.5175 4.6875 3 4.6875C2.4825 4.6875 2.0625 4.2675 2.0625 3.75C2.0625 3.2325 2.4825 2.8125 3 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.1875C1.8615 12.1875 0.9375 13.1115 0.9375 14.25C0.9375 15.3885 1.8615 16.3125 3 16.3125C4.1385 16.3125 5.0625 15.3885 5.0625 14.25C5.0625 13.1115 4.1385 12.1875 3 12.1875ZM3 13.3125C3.5175 13.3125 3.9375 13.7325 3.9375 14.25C3.9375 14.7675 3.5175 15.1875 3 15.1875C2.4825 15.1875 2.0625 14.7675 2.0625 14.25C2.0625 13.7325 2.4825 13.3125 3 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.6875C7.8615 1.6875 6.9375 2.6115 6.9375 3.75C6.9375 4.8885 7.8615 5.8125 9 5.8125C10.1385 5.8125 11.0625 4.8885 11.0625 3.75C11.0625 2.6115 10.1385 1.6875 9 1.6875ZM9 2.8125C9.5175 2.8125 9.9375 3.2325 9.9375 3.75C9.9375 4.2675 9.5175 4.6875 9 4.6875C8.4825 4.6875 8.0625 4.2675 8.0625 3.75C8.0625 3.2325 8.4825 2.8125 9 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.1875C7.8615 12.1875 6.9375 13.1115 6.9375 14.25C6.9375 15.3885 7.8615 16.3125 9 16.3125C10.1385 16.3125 11.0625 15.3885 11.0625 14.25C11.0625 13.1115 10.1385 12.1875 9 12.1875ZM9 13.3125C9.5175 13.3125 9.9375 13.7325 9.9375 14.25C9.9375 14.7675 9.5175 15.1875 9 15.1875C8.4825 15.1875 8.0625 14.7675 8.0625 14.25C8.0625 13.7325 8.4825 13.3125 9 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 1.6875C13.8615 1.6875 12.9375 2.6115 12.9375 3.75C12.9375 4.8885 13.8615 5.8125 15 5.8125C16.1385 5.8125 17.0625 4.8885 17.0625 3.75C17.0625 2.6115 16.1385 1.6875 15 1.6875ZM15 2.8125C15.5175 2.8125 15.9375 3.2325 15.9375 3.75C15.9375 4.2675 15.5175 4.6875 15 4.6875C14.4825 4.6875 14.0625 4.2675 14.0625 3.75C14.0625 3.2325 14.4825 2.8125 15 2.8125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.1875C13.8615 12.1875 12.9375 13.1115 12.9375 14.25C12.9375 15.3885 13.8615 16.3125 15 16.3125C16.1385 16.3125 17.0625 15.3885 17.0625 14.25C17.0625 13.1115 16.1385 12.1875 15 12.1875ZM15 13.3125C15.5175 13.3125 15.9375 13.7325 15.9375 14.25C15.9375 14.7675 15.5175 15.1875 15 15.1875C14.4825 15.1875 14.0625 14.7675 14.0625 14.25C14.0625 13.7325 14.4825 13.3125 15 13.3125Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.4375 5.25V12.75C2.4375 13.0605 2.6895 13.3125 3 13.3125C3.3105 13.3125 3.5625 13.0605 3.5625 12.75V5.25C3.5625 4.9395 3.3105 4.6875 3 4.6875C2.6895 4.6875 2.4375 4.9395 2.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.4375 5.25V12.75C8.4375 13.0605 8.6895 13.3125 9 13.3125C9.3105 13.3125 9.5625 13.0605 9.5625 12.75V5.25C9.5625 4.9395 9.3105 4.6875 9 4.6875C8.6895 4.6875 8.4375 4.9395 8.4375 5.25Z" fill="#050B20"/>
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 5.25V8.25C14.4375 8.3535 14.3535 8.4375 14.25 8.4375H3C2.6895 8.4375 2.4375 8.6895 2.4375 9C2.4375 9.3105 2.6895 9.5625 3 9.5625H14.25C14.9753 9.5625 15.5625 8.9745 15.5625 8.25C15.5625 7.15575 15.5625 5.25 15.5625 5.25C15.5625 4.9395 15.3105 4.6875 15 4.6875C14.6895 4.6875 14.4375 4.9395 14.4375 5.25Z" fill="#050B20"/>
-                                                    </svg>
-                                                        
-                                                </span>
-                                                <div class="info">
-                                                    <span>Transmission</span>
-                                                <small>Automatic</small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <ul class="ul-cotent">
-                                            <li><a href="#">Bluetooth</a></li>
-                                            <li><a href="#">Keyless start</a></li>
-                                            <li><a href="#">Brake assist</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-box-two">
-                                        <a href="#" title="" class="icon-box">
-                                            <span>save</span>
-                                            <div class="box-bookmark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                    <g clip-path="url(#clip0_601_1274)">
-                                                    <path d="M9.39062 12C9.15156 12 8.91671 11.9312 8.71128 11.8009L6.11794 10.1543C6.04701 10.1091 5.95296 10.1096 5.88256 10.1543L3.28869 11.8009C2.8048 12.1082 2.13755 12.0368 1.72722 11.6454C1.47556 11.4047 1.33685 11.079 1.33685 10.728V1.2704C1.33738 0.570053 1.90743 0 2.60778 0H9.39272C10.0931 0 10.6631 0.570053 10.6631 1.2704V10.728C10.6631 11.4294 10.0925 12 9.39062 12ZM6.00025 9.06935C6.24193 9.06935 6.47783 9.13765 6.68169 9.26743L9.27503 10.9135C9.31233 10.9371 9.35069 10.9487 9.39114 10.9487C9.48046 10.9487 9.61286 10.8788 9.61286 10.728V1.2704C9.61233 1.14956 9.51356 1.05079 9.39272 1.05079H2.60778C2.48642 1.05079 2.38817 1.14956 2.38817 1.2704V10.728C2.38817 10.7911 2.41023 10.8436 2.45384 10.8851C2.52582 10.9539 2.63563 10.9708 2.72599 10.9135L5.31934 9.2669C5.52267 9.13765 5.75857 9.06935 6.00025 9.06935Z" fill="black"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_601_1274">
-                                                    <rect width="12" height="12" fill="white"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </div>
-                                        </a>
-                                        <h4 class="title">$399</h4>
-                                        <span>Calculate financing</span>
-                                        <a href="#" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <g clip-path="url(#clip0_989_6940)">
-                                              <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="#405FF2"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_989_6940">
-                                                <rect width="14" height="14" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pagination-sec">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                  <span aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z" fill="#050B20"/>
-                                </svg> </span>
-                                  <span class="sr-only">Previous</span>
-                                </a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item"><a class="page-link" href="#">4</a></li>
-                              <li class="page-item"><a class="page-link" href="#">5</a></li>
-                              <li class="page-item"><a class="page-link" href="#">...</a></li>
-                              <li class="page-item"><a class="page-link" href="#">20</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_2880_6407)">
-                                    <path d="M9.42017 6.00011C9.42017 6.2151 9.33808 6.43013 9.17427 6.5941L4.01441 11.7538C3.68618 12.0821 3.15402 12.0821 2.82592 11.7538C2.49783 11.4257 2.49783 10.8937 2.82592 10.5654L7.39159 6.00011L2.82624 1.43461C2.49815 1.10652 2.49815 0.574382 2.82624 0.246315C3.15434 -0.0820709 3.68634 -0.0820709 4.01457 0.246315L9.17446 5.40596C9.33824 5.57001 9.42017 5.78505 9.42017 6.00011Z" fill="#050B20"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_2880_6407">
-                                    <rect width="12" height="12" fill="white" transform="translate(12 12) rotate(-180)"/>
-                                    </clipPath>
-                                    </defs>
-                                </svg> </span>
-                                  <span class="sr-only">Next</span>
-                                </a>
-                              </li>
-                            </ul>
-                            <div class="text">Showing results 1-30 of 1,415</div>
-                          </nav>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1783,6 +979,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            console.log('jQuery loaded, document ready');
+            console.log('Quick filter elements found:', $('.quick-filter').length);
+            
             let groupCounter = 0;
 
             // Add new vehicle group
@@ -1793,6 +992,10 @@
 
                 // Update group data attribute
                 newGroup.attr('data-group', groupCounter);
+
+                // Update IDs to be unique
+                newGroup.find('#brand-dropdown').attr('id', `brand-dropdown-${groupCounter}`);
+                newGroup.find('#model-dropdown').attr('id', `model-dropdown-${groupCounter}`);
 
                 // Clear form values
                 newGroup.find('input[type="hidden"]').val('');
@@ -1807,11 +1010,8 @@
             </button>
         `);
 
-                // Update background for additional groups
-                newGroup.css({
-                    'background': '#f9f9f9',
-                    'border': '1px solid #e0e0e0'
-                });
+                // Keep the same styling as the original group
+                // No need to change background color
 
                 // Insert before the "Add another vehicle" button
                 $('.add-vehicle-group').parent().before(newGroup);
@@ -1830,7 +1030,7 @@
             // Initialize dropdown functionality
             function initializeDropdowns(container) {
                 // Brand dropdown click handler
-                container.find('#brand-dropdown').on('click', function(e) {
+                container.find('[id^="brand-dropdown"]').on('click', function(e) {
                     e.stopPropagation();
                     const $dropdown = $(this).find('.dropdown');
 
@@ -1841,21 +1041,33 @@
                 });
 
                 // Brand selection handler
-                container.find('#brand-dropdown .dropdown').on('click', 'li', function(e) {
+                container.find('[id^="brand-dropdown"] .dropdown').on('click', 'li', function(e) {
                     e.stopPropagation();
                     const brandId = $(this).data('id');
                     const brandName = $(this).text();
+                    const $brandDropdown = $(this).closest('[id^="brand-dropdown"]');
 
-                    $(this).closest('#brand-dropdown').find('.select span').text(brandName);
-                    $(this).closest('#brand-dropdown').find('input[type="hidden"]').val(brandId);
+                    $brandDropdown.find('.select span').text(brandName);
+                    $brandDropdown.find('input[type="hidden"]').val(brandId);
+                    
+                    console.log('Brand dropdown updated:');
+                    console.log('- Display text:', $brandDropdown.find('.select span').text());
+                    console.log('- Hidden input value:', $brandDropdown.find('input[type="hidden"]').val());
                     $(this).closest('.dropdown').hide();
 
                     // Load models for selected brand
                     loadModels(container, brandId);
+                    
+                    // Update selected filters bar
+                    console.log('Brand selected in existing handler:', brandName);
+                    console.log('Calling updateSelectedFiltersBar immediately...');
+                    updateSelectedFiltersBar();
+                    console.log('Also calling with timeout...');
+                    setTimeout(updateSelectedFiltersBar, 200);
                 });
 
                 // Model dropdown click handler
-                container.find('#model-dropdown').on('click', function(e) {
+                container.find('[id^="model-dropdown"]').on('click', function(e) {
                     e.stopPropagation();
                     const $dropdown = $(this).find('.dropdown');
 
@@ -1866,21 +1078,26 @@
                 });
 
                 // Model selection handler
-                container.find('#model-dropdown .dropdown').on('click', 'li', function(e) {
+                container.find('[id^="model-dropdown"] .dropdown').on('click', 'li', function(e) {
                     e.stopPropagation();
                     const modelId = $(this).data('id');
                     const modelName = $(this).text();
+                    const $modelDropdown = $(this).closest('[id^="model-dropdown"]');
 
-                    $(this).closest('#model-dropdown').find('.select span').text(modelName);
-                    $(this).closest('#model-dropdown').find('input[type="hidden"]').val(modelId);
+                    $modelDropdown.find('.select span').text(modelName);
+                    $modelDropdown.find('input[type="hidden"]').val(modelId);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    console.log('Model selected in existing handler:', modelName);
+                    setTimeout(updateSelectedFiltersBar, 200);
                 });
             }
 
             // Load models for selected brand
             function loadModels(container, brandId) {
-                const $modelDropdown = container.find('#model-dropdown .dropdown');
-                const $modelSelect = container.find('#model-dropdown .select span');
+                const $modelDropdown = container.find('[id^="model-dropdown"] .dropdown');
+                const $modelSelect = container.find('[id^="model-dropdown"] .select span');
                 const $modelInput = container.find('.vehicle_model_id_input');
 
                 // Reset model selection
@@ -1952,6 +1169,10 @@
                     $(this).closest('#body-dropdown').find('.select span').text(bodyName);
                     $(this).closest('#body-dropdown').find('input[type="hidden"]').val(bodyId);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    console.log('Body selected:', bodyName);
+                    setTimeout(updateSelectedFiltersBar, 200);
                 });
 
                 // Fuel Type dropdown
@@ -1969,6 +1190,10 @@
                     $(this).closest('#fuel-dropdown').find('.select span').text(fuelName);
                     $(this).closest('#fuel-dropdown').find('input[type="hidden"]').val(fuelId);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    console.log('Fuel selected:', fuelName);
+                    setTimeout(updateSelectedFiltersBar, 200);
                 });
 
                 // Year From dropdown
@@ -2003,6 +1228,41 @@
                     $(this).closest('#year-to-dropdown').find('.select span').text(yearText);
                     $(this).closest('#year-to-dropdown').find('input[type="hidden"]').val(year);
                     $(this).closest('.dropdown').hide();
+                });
+
+                // Registration Year To dropdown
+                $('#registration-year-to-dropdown').on('click', function(e) {
+                    e.stopPropagation();
+                    const $dropdown = $(this).find('.dropdown');
+                    $('.dropdown').not($dropdown).hide();
+                    $dropdown.toggle();
+                });
+
+                $('#registration-year-to-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const year = $(this).data('id');
+                    const yearText = $(this).text();
+                    $(this).closest('#registration-year-to-dropdown').find('.select span').text(yearText);
+                    $(this).closest('#registration-year-to-dropdown').find('input[type="hidden"]').val(year);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    console.log('Year To selected:', yearText);
+                    setTimeout(updateSelectedFiltersBar, 200);
+                });
+                
+                // Registration Year From dropdown li click handler
+                $('#registration-year-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const year = $(this).data('id');
+                    const yearText = $(this).text();
+                    $(this).closest('#registration-year-dropdown').find('.select span').text(yearText);
+                    $(this).closest('#registration-year-dropdown').find('input[type="hidden"]').val(year);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    console.log('Year From selected:', yearText);
+                    setTimeout(updateSelectedFiltersBar, 200);
                 });
 
                 // City dropdown
@@ -2146,20 +1406,50 @@
                 $('.show-more-equipment').on('click', function(e) {
                     e.preventDefault();
                     const $this = $(this);
-                    const $moreEquipment = $('.equipment-more');
-                    const $icon = $this.find('i');
-
-                    if ($moreEquipment.is(':visible')) {
-                        // Hide more equipment
-                        $moreEquipment.slideUp(300);
-                        $this.removeClass('expanded');
-                        $this.html('<i class="fa fa-plus"></i> Show more equipment');
-                    } else {
-                        // Show more equipment
-                        $moreEquipment.slideDown(300);
-                        $this.addClass('expanded');
-                        $this.html('<i class="fa fa-minus"></i> Show less equipment');
-                    }
+                    const $equipmentList = $('#equipment-list');
+                    
+                    // Show loading state
+                    $this.prop('disabled', true);
+                    $this.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+                    
+                    // Get current loaded count and total
+                    const currentLoaded = parseInt($this.data('loaded'));
+                    const total = parseInt($this.data('total'));
+                    const nextOffset = currentLoaded;
+                    
+                    // Make AJAX request
+                    $.ajax({
+                        url: '{{ route("equipment.load-more") }}',
+                        method: 'GET',
+                        data: {
+                            offset: nextOffset,
+                            limit: 10
+                        },
+                        success: function(response) {
+                            // Append new equipment items
+                            $equipmentList.append(response.html);
+                            
+                            // Update button data
+                            $this.data('loaded', response.nextOffset);
+                            
+                            // Update button text or hide if no more items
+                            if (response.hasMore) {
+                                const remaining = total - response.nextOffset;
+                                $this.html('<i class="fa fa-plus"></i> Show more equipment (' + remaining + ' more)');
+                            } else {
+                                $this.hide(); // Hide button if no more items
+                            }
+                            
+                            // Re-enable button
+                            $this.prop('disabled', false);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error loading more equipment:', error);
+                            $this.html('<i class="fa fa-plus"></i> Show more equipment');
+                            $this.prop('disabled', false);
+                            alert('Error loading more equipment. Please try again.');
+                        }
+                    });
                 });
 
                 // Online From dropdown
@@ -2180,6 +1470,1530 @@
                     $(this).closest('.dropdown').hide();
                 });
             }
+
+            // Function to collect all filter values (global scope)
+            function collectFilterValues() {
+                    const filters = {};
+                    
+                    // Brand filters
+                    const brandIds = [];
+                    $('.brand_id_input').each(function() {
+                        if ($(this).val()) {
+                            brandIds.push($(this).val());
+                        }
+                    });
+                    if (brandIds.length > 0) {
+                        filters.brand_ids = brandIds;
+                    }
+
+                    // Model filters
+                    const modelIds = [];
+                    $('.vehicle_model_id_input').each(function() {
+                        if ($(this).val()) {
+                            modelIds.push($(this).val());
+                        }
+                    });
+                    if (modelIds.length > 0) {
+                        filters.model_ids = modelIds;
+                    }
+
+                    // Version filters
+                    const versions = [];
+                    $('input[name="version_model[]"]').each(function() {
+                        if ($(this).val()) {
+                            versions.push($(this).val());
+                        }
+                    });
+                    if (versions.length > 0) {
+                        filters.versions = versions;
+                    }
+
+                    // Body work
+                    if ($('input[name="vehicle_body_id"]').val()) {
+                        filters.vehicle_body_id = $('input[name="vehicle_body_id"]').val();
+                    }
+
+                    // Fuel type
+                    if ($('input[name="fuel_type_id"]').val()) {
+                        filters.fuel_type_id = $('input[name="fuel_type_id"]').val();
+                    }
+
+                    // Registration year
+                    if ($('input[name="registration_year_from"]').val()) {
+                        filters.registration_year_from = $('input[name="registration_year_from"]').val();
+                    }
+                    if ($('input[name="registration_year_to"]').val()) {
+                        filters.registration_year_to = $('input[name="registration_year_to"]').val();
+                    }
+
+                    // Mileage
+                    if ($('input[name="mileage_from"]').val()) {
+                        filters.mileage_from = $('input[name="mileage_from"]').val();
+                    }
+                    if ($('input[name="mileage_to"]').val()) {
+                        filters.mileage_to = $('input[name="mileage_to"]').val();
+                    }
+
+                    // Power CV
+                    if ($('input[name="power_cv_from"]').val()) {
+                        filters.power_cv_from = $('input[name="power_cv_from"]').val();
+                    }
+                    if ($('input[name="power_cv_to"]').val()) {
+                        filters.power_cv_to = $('input[name="power_cv_to"]').val();
+                    }
+
+                    // Power KW
+                    if ($('input[name="power_kw_from"]').val()) {
+                        filters.power_kw_from = $('input[name="power_kw_from"]').val();
+                    }
+                    if ($('input[name="power_kw_to"]').val()) {
+                        filters.power_kw_to = $('input[name="power_kw_to"]').val();
+                    }
+
+                    // Transmission
+                    const transmissions = [];
+                    $('input[name="motor_change[]"]:checked').each(function() {
+                        transmissions.push($(this).val());
+                    });
+                    if (transmissions.length > 0) {
+                        filters.motor_change = transmissions;
+                    }
+
+                    // Cylinders
+                    if ($('input[name="cylinders"]').val()) {
+                        filters.cylinders = $('input[name="cylinders"]').val();
+                    }
+
+                    // Engine displacement
+                    if ($('input[name="motor_displacement_from"]').val()) {
+                        filters.motor_displacement_from = $('input[name="motor_displacement_from"]').val();
+                    }
+                    if ($('input[name="motor_displacement_to"]').val()) {
+                        filters.motor_displacement_to = $('input[name="motor_displacement_to"]').val();
+                    }
+
+                    // Price
+                    if ($('input[name="price_from"]').val()) {
+                        filters.price_from = $('input[name="price_from"]').val();
+                    }
+                    if ($('input[name="price_to"]').val()) {
+                        filters.price_to = $('input[name="price_to"]').val();
+                    }
+
+                    // Vehicle conditions
+                    const vehicleCategories = [];
+                    $('input[name="vehicle_category[]"]:checked').each(function() {
+                        vehicleCategories.push($(this).val());
+                    });
+                    if (vehicleCategories.length > 0) {
+                        filters.vehicle_category = vehicleCategories;
+                    }
+
+                    if ($('input[name="damaged_vehicle"]:checked').length > 0) {
+                        filters.damaged_vehicle = 1;
+                    }
+                    if ($('input[name="coupon_documentation"]:checked').length > 0) {
+                        filters.coupon_documentation = 1;
+                    }
+
+                    // City
+                    if ($('input[name="city_id"]').val()) {
+                        filters.city_id = $('input[name="city_id"]').val();
+                    }
+
+                    // Postal code
+                    if ($('input[name="postal_code"]').val()) {
+                        filters.postal_code = $('input[name="postal_code"]').val();
+                    }
+
+                    // Search radius
+                    if ($('input[name="search_radius"]').val()) {
+                        filters.search_radius = $('input[name="search_radius"]').val();
+                    }
+
+                    // Equipment
+                    const equipmentIds = [];
+                    $('input[name="equipments[]"]:checked').each(function() {
+                        equipmentIds.push($(this).val());
+                    });
+                    if (equipmentIds.length > 0) {
+                        filters.equipments = equipmentIds;
+                    }
+
+                    // Colors
+                    const colorIds = [];
+                    $('input[name="color_ids[]"]:checked').each(function() {
+                        colorIds.push($(this).val());
+                    });
+                    if (colorIds.length > 0) {
+                        filters.color_ids = colorIds;
+                    }
+
+                    // Metallic paint
+                    if ($('input[name="is_metallic_paint"]:checked').length > 0) {
+                        filters.is_metallic_paint = 1;
+                    }
+
+                    // Previous owners
+                    if ($('input[name="previous_owners_filter"]:checked').val()) {
+                        filters.previous_owners_filter = $('input[name="previous_owners_filter"]:checked').val();
+                    }
+
+                    // Emissions class
+                    const emissionsClasses = [];
+                    $('input[name="emissions_class[]"]:checked').each(function() {
+                        emissionsClasses.push($(this).val());
+                    });
+                    if (emissionsClasses.length > 0) {
+                        filters.emissions_class = emissionsClasses;
+                    }
+
+                    // CO2 emissions
+                    if ($('input[name="co2_emissions_from"]').val()) {
+                        filters.co2_emissions_from = $('input[name="co2_emissions_from"]').val();
+                    }
+                    if ($('input[name="co2_emissions_to"]').val()) {
+                        filters.co2_emissions_to = $('input[name="co2_emissions_to"]').val();
+                    }
+
+                    // Fuel consumption
+                    if ($('input[name="fuel_consumption_from"]').val()) {
+                        filters.fuel_consumption_from = $('input[name="fuel_consumption_from"]').val();
+                    }
+                    if ($('input[name="fuel_consumption_to"]').val()) {
+                        filters.fuel_consumption_to = $('input[name="fuel_consumption_to"]').val();
+                    }
+
+                    // Online from
+                    if ($('input[name="online_from_period"]').val()) {
+                        filters.online_from_period = $('input[name="online_from_period"]').val();
+                    }
+
+                    // VAT deductible
+                    if ($('input[name="tax_deductible"]:checked').length > 0) {
+                        filters.tax_deductible = 1;
+                    }
+
+                    return filters;
+                }
+
+            // Function to update vehicle cards (global scope)
+            function updateVehicleCards() {
+                console.log('updateVehicleCards called');
+                const filters = collectFilterValues();
+                console.log('Collected filters:', filters);
+                
+                // Show loading indicator
+                $('#loading-indicator').show();
+                $('.inner-box').hide();
+
+                // Make AJAX request
+                $.ajax({
+                    url: '{{ route("inventory.list") }}',
+                    method: 'GET',
+                    data: filters,
+                    success: function(response) {
+                        console.log('AJAX success, updating cards');
+                        // Update the vehicle cards container with new content
+                        $('#vehicle-cards-container').html(response.html);
+                        
+                        // Update pagination info from the response
+                        updatePaginationInfo(response.pagination);
+                        
+                        // Hide loading indicator
+                        $('#loading-indicator').hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error filtering vehicles:', error);
+                        $('#loading-indicator').hide();
+                        $('.inner-box').show();
+                        
+                        // Show error message
+                        alert('Error loading vehicles. Please try again.');
+                    }
+                });
+            }
+
+            // Function to update pagination info (global scope)
+            function updatePaginationInfo(pagination) {
+                console.log('Updating pagination info:', pagination);
+                const $paginationInfo = $('#pagination-info');
+                
+                if (pagination.total > 0) {
+                    $paginationInfo.text(`Showing ${pagination.first_item} to ${pagination.last_item} of ${pagination.total} vehicles`);
+                } else {
+                    $paginationInfo.text('No vehicles found');
+                }
+            }
+
+            // Dynamic filtering functionality
+            function initializeDynamicFiltering() {
+                // Debounce function to limit API calls
+                function debounce(func, wait) {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                }
+
+                // Debounced update function (wait 500ms after last change)
+                const debouncedUpdate = debounce(updateVehicleCards, 500);
+
+                // Bind events to all filter inputs
+                $('.inventory-sidebar').on('change', 'input, select', debouncedUpdate);
+                $('.inventory-sidebar').on('click', '.dropdown li', function() {
+                    // Small delay to allow the dropdown value to be set
+                    setTimeout(debouncedUpdate, 100);
+                });
+
+                // Bind events to text inputs with a longer delay
+                $('.inventory-sidebar').on('input', 'input[type="text"], input[type="number"]', debouncedUpdate);
+            }
+
+            // Initialize dynamic filtering
+            initializeDynamicFiltering();
+
+            // Dynamic pagination functionality
+            function initializeDynamicPagination() {
+                // Handle pagination clicks
+                $(document).on('click', '.pagination .page-link', function(e) {
+                    e.preventDefault();
+                    
+                    const url = $(this).attr('href');
+                    if (!url || url === '#') return;
+                    
+                    // Show loading indicator
+                    $('#loading-indicator').show();
+                    $('.inner-box').hide();
+                    
+                    // Extract page number from URL
+                    const urlParams = new URLSearchParams(url.split('?')[1]);
+                    const page = urlParams.get('page') || 1;
+                    
+                    // Get current filter values
+                    const filters = collectFilterValues();
+                    filters.page = page;
+                    
+                    // Make AJAX request
+                    $.ajax({
+                        url: '{{ route("inventory.list") }}',
+                        method: 'GET',
+                        data: filters,
+                        success: function(response) {
+                            // Update the vehicle cards container with new content
+                            $('#vehicle-cards-container').html(response.html);
+                            
+                            // Update pagination info from the response
+                            updatePaginationInfo(response.pagination);
+                            
+                            // Hide loading indicator
+                            $('#loading-indicator').hide();
+                            
+                            // Scroll to top of results
+                            $('html, body').animate({
+                                scrollTop: $('#vehicle-cards-container').offset().top - 100
+                            }, 500);
+                            
+                            // Update URL without page reload
+                            updateURL(filters);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error loading page:', error);
+                            $('#loading-indicator').hide();
+                            $('.inner-box').show();
+                            
+                            // Show error message
+                            alert('Error loading page. Please try again.');
+                        }
+                    });
+                });
+            }
+
+            // Function to update URL without page reload
+            function updateURL(filters) {
+                const url = new URL(window.location);
+                
+                // Clear existing parameters
+                url.search = '';
+                
+                // Add filter parameters
+                Object.keys(filters).forEach(key => {
+                    if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
+                        if (Array.isArray(filters[key])) {
+                            filters[key].forEach(value => {
+                                url.searchParams.append(key + '[]', value);
+                            });
+                        } else {
+                            url.searchParams.set(key, filters[key]);
+                        }
+                    }
+                });
+                
+                // Update URL without page reload
+                window.history.pushState({}, '', url);
+            }
+
+            // Initialize dynamic pagination
+            initializeDynamicPagination();
+
+            // Quick filter functionality
+            function initializeQuickFilters() {
+                console.log('Initializing quick filters...');
+                
+                $(document).on('click', '.quick-filter', function(e) {
+                    e.preventDefault();
+                    console.log('Quick filter clicked!', $(this).text());
+                    
+                    const filterType = $(this).data('filter');
+                    const filterValue = $(this).data('value');
+                    
+                    console.log('Filter type:', filterType, 'Value:', filterValue);
+                    
+                    // Apply the quick filter based on type
+                    applyQuickFilter(filterType, filterValue);
+                    
+                    // Add visual feedback
+                    $(this).addClass('active');
+                    setTimeout(() => {
+                        $(this).removeClass('active');
+                    }, 200);
+                });
+            }
+
+            // Apply quick filter based on type and value
+            function applyQuickFilter(filterType, filterValue) {
+                console.log('Applying quick filter:', filterType, filterValue);
+                
+                switch(filterType) {
+                    case 'body':
+                        // Find the body type in the dropdown and select it
+                        const bodyDropdown = $('#body-dropdown');
+                        const bodyOption = bodyDropdown.find(`li:contains("${filterValue}")`);
+                        if (bodyOption.length) {
+                            const bodyId = bodyOption.data('id');
+                            bodyDropdown.find('.select span').text(filterValue);
+                            bodyDropdown.find('input[type="hidden"]').val(bodyId);
+                        }
+                        break;
+                        
+                    case 'transmission':
+                        // Check the transmission checkbox
+                        $(`input[name="motor_change[]"][value="${filterValue}"]`).prop('checked', true);
+                        break;
+                        
+                    case 'price':
+                        if (filterValue === '5000-10000') {
+                            $('input[name="price_from"]').val('5000');
+                            $('input[name="price_to"]').val('10000');
+                        } else if (filterValue === 'great-price') {
+                            // Define great price as under $15,000
+                            $('input[name="price_to"]').val('15000');
+                        }
+                        break;
+                        
+                    case 'year':
+                        if (filterValue === '2020+') {
+                            // Set the registration year dropdown to 2020
+                            const yearDropdown = $('#registration-year-dropdown');
+                            yearDropdown.find('.select span').text('2020');
+                            yearDropdown.find('input[type="hidden"]').val('2020');
+                        }
+                        break;
+                        
+                    case 'drive':
+                        // This would need to be mapped to your actual drive type field
+                        // For now, we'll add it as a custom filter
+                        break;
+                        
+                    case 'mileage':
+                        if (filterValue === '0-75000') {
+                            $('input[name="mileage_to"]').val('75000');
+                        } else if (filterValue === '0-50000') {
+                            $('input[name="mileage_to"]').val('50000');
+                        }
+                        break;
+                        
+                    case 'fuel':
+                        // Find the fuel type in the dropdown and select it
+                        const fuelDropdown = $('#fuel-dropdown');
+                        const fuelOption = fuelDropdown.find(`li:contains("${filterValue}")`);
+                        if (fuelOption.length) {
+                            const fuelId = fuelOption.data('id');
+                            fuelDropdown.find('.select span').text(filterValue);
+                            fuelDropdown.find('input[type="hidden"]').val(fuelId);
+                        }
+                        break;
+                }
+                
+                console.log('Triggering vehicle cards update...');
+                // Trigger the filter update
+                updateVehicleCards();
+            }
+
+            // Initialize quick filters
+            console.log('About to initialize quick filters...');
+            initializeQuickFilters();
+            console.log('Quick filters initialized');
+
+            // Clear all filters functionality
+            function initializeClearFilters() {
+                $(document).on('click', '.clear-filters-btn', function(e) {
+                    e.preventDefault();
+                    
+                    // Clear all form inputs
+                    $('.inventory-sidebar input[type="text"]').val('');
+                    $('input[type="number"]').val('');
+                    $('input[type="checkbox"]').prop('checked', false);
+                    $('input[type="radio"]').prop('checked', false);
+                    
+                    // Reset dropdowns
+                    $('.drop-menu .select span').each(function() {
+                        const originalText = $(this).closest('.drop-menu').find('label').text();
+                        if (originalText.includes('Select')) {
+                            $(this).text(originalText);
+                        } else {
+                            $(this).text('Select ' + originalText);
+                        }
+                    });
+                    $('input[type="hidden"]').val('');
+                    
+                    // Reset multi-select containers
+                    $('.selected-options').empty();
+                    
+                    // Trigger filter update
+                    updateVehicleCards();
+                    
+                    // Show feedback
+                    $(this).addClass('active');
+                    setTimeout(() => {
+                        $(this).removeClass('active');
+                    }, 200);
+                });
+            }
+
+            // Initialize clear filters
+            initializeClearFilters();
+
+            // Function to update the selected filters bar (global scope)
+            function updateSelectedFiltersBar() {
+                    console.log('=== updateSelectedFiltersBar called ===');
+                    const selectedFilters = collectSelectedFilters();
+                    const $bar = $('#selected-filters-bar');
+                    const $list = $('#selected-filters-list');
+                    
+                    console.log('Selected filters count:', Object.keys(selectedFilters).length);
+                    console.log('Selected filters:', selectedFilters);
+                    
+                    // Clear existing filters
+                    $list.empty();
+                    
+                    if (Object.keys(selectedFilters).length === 0) {
+                        console.log('No filters selected, hiding bar');
+                        $bar.hide();
+                        return;
+                    }
+                    
+                    console.log('Showing filters bar with', Object.keys(selectedFilters).length, 'filters');
+                    // Show the bar
+                    $bar.show();
+                    
+                    // Add each selected filter
+                    Object.keys(selectedFilters).forEach(filterKey => {
+                        const filter = selectedFilters[filterKey];
+                        let $filterTag;
+                        
+                        if (filter.type === 'multi-select') {
+                            // For multi-select filters (like transmission, brands, etc.)
+                            $filterTag = $(`
+                                <div class="selected-filter-tag multi-select" data-filter-key="${filterKey}">
+                                    <span class="filter-name">${filter.name}:</span>
+                                    <div class="filter-values-box">
+                                        ${filter.values.map(value => `
+                                            <span class="filter-value-item">${value}</span>
+                                        `).join('')}
+                                    </div>
+                                    <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            `);
+                        } else {
+                            // For single value and range filters
+                            $filterTag = $(`
+                                <div class="selected-filter-tag" data-filter-key="${filterKey}">
+                                    <span class="filter-name">${filter.name}:</span>
+                                    <span class="filter-value">${filter.value}</span>
+                                    <button type="button" class="remove-filter-btn" data-filter-key="${filterKey}">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            `);
+                        }
+                        
+                        $list.append($filterTag);
+                    });
+                }
+                
+            // Function to collect currently selected filters (global scope)
+            function collectSelectedFilters() {
+                    console.log('Collecting selected filters...');
+                    const filters = {};
+                    
+                    // Brand filters - create individual filter for each brand
+                    console.log('Checking brand inputs...');
+                    console.log('Found brand inputs:', $('input[name="brand_id[]"]').length);
+                    
+                    $('input[name="brand_id[]"]').each(function() {
+                        const brandId = $(this).val();
+                        console.log('Brand input found, ID:', brandId);
+                        
+                        if (brandId && brandId.trim() !== '') {
+                            const $brandDropdown = $(this).closest('[id^="brand-dropdown"]');
+                            const brandName = $brandDropdown.find('.select span').text().trim();
+                            console.log('Brand name from dropdown:', brandName);
+                            if (brandName && !brandName.includes('Select')) {
+                                // Create individual filter for each brand
+                                filters[`brand_${brandId}`] = {
+                                    name: 'Brand',
+                                    value: brandName,
+                                    type: 'single',
+                                    brandId: brandId
+                                };
+                                console.log('Added individual brand filter:', brandName);
+                            }
+                        }
+                    });
+                    
+                    // Model filters - create individual filter for each model
+                    $('input[name="vehicle_model_id[]"]').each(function() {
+                        const modelId = $(this).val();
+                        if (modelId && modelId.trim() !== '') {
+                            const $modelDropdown = $(this).closest('[id^="model-dropdown"]');
+                            const modelName = $modelDropdown.find('.select span').text().trim();
+                            if (modelName && !modelName.includes('Select')) {
+                                // Create individual filter for each model
+                                filters[`model_${modelId}`] = {
+                                    name: 'Model',
+                                    value: modelName,
+                                    type: 'single',
+                                    modelId: modelId
+                                };
+                            }
+                        }
+                    });
+                    
+                    // Price range
+                    const priceFrom = $('input[name="price_from"]').val();
+                    const priceTo = $('input[name="price_to"]').val();
+                    if (priceFrom || priceTo) {
+                        let priceValue = '';
+                        if (priceFrom && priceTo) {
+                            priceValue = `$${priceFrom} - $${priceTo}`;
+                        } else if (priceFrom) {
+                            priceValue = `From $${priceFrom}`;
+                        } else if (priceTo) {
+                            priceValue = `Up to $${priceTo}`;
+                        }
+                        filters.price = {
+                            name: 'Price',
+                            value: priceValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Body type
+                    const bodyType = $('#body-dropdown .select span').text();
+                    if (bodyType && !bodyType.includes('Select')) {
+                        filters.body = {
+                            name: 'Body Type',
+                            value: bodyType,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Fuel type
+                    const fuelType = $('#fuel-dropdown .select span').text();
+                    if (fuelType && !fuelType.includes('Select')) {
+                        filters.fuel = {
+                            name: 'Fuel Type',
+                            value: fuelType,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Registration year (From and To)
+                    const regYearFrom = $('#registration-year-dropdown .select span').text();
+                    const regYearTo = $('#registration-year-to-dropdown .select span').text();
+                    
+                    if ((regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select')) || 
+                        (regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select'))) {
+                        
+                        let yearValue = '';
+                        if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select') && 
+                            regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select')) {
+                            yearValue = `${regYearFrom} - ${regYearTo}`;
+                        } else if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select')) {
+                            yearValue = `From ${regYearFrom}`;
+                        } else if (regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select')) {
+                            yearValue = `Up to ${regYearTo}`;
+                        }
+                        
+                        if (yearValue) {
+                            filters.year = {
+                                name: 'Year',
+                                value: yearValue,
+                                type: 'range'
+                            };
+                        }
+                    }
+                    
+                    // Mileage
+                    const mileageFrom = $('input[name="mileage_from"]').val();
+                    const mileageTo = $('input[name="mileage_to"]').val();
+                    if (mileageFrom || mileageTo) {
+                        let mileageValue = '';
+                        if (mileageFrom && mileageTo) {
+                            mileageValue = `${mileageFrom} - ${mileageTo} miles`;
+                        } else if (mileageFrom) {
+                            mileageValue = `From ${mileageFrom} miles`;
+                        } else if (mileageTo) {
+                            mileageValue = `Up to ${mileageTo} miles`;
+                        }
+                        filters.mileage = {
+                            name: 'Mileage',
+                            value: mileageValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Transmission
+                    const selectedTransmissions = [];
+                    $('input[name="motor_change[]"]:checked').each(function() {
+                        selectedTransmissions.push($(this).val());
+                    });
+                    if (selectedTransmissions.length > 0) {
+                        filters.transmission = {
+                            name: 'Transmission',
+                            values: selectedTransmissions,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Vehicle condition
+                    const selectedConditions = [];
+                    $('input[name="advertisement_type_id[]"]:checked').each(function() {
+                        const conditionName = $(this).closest('label').text().trim();
+                        selectedConditions.push(conditionName);
+                    });
+                    if (selectedConditions.length > 0) {
+                        filters.condition = {
+                            name: 'Condition',
+                            values: selectedConditions,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Equipment
+                    const selectedEquipment = [];
+                    $('input[name="equipments[]"]:checked').each(function() {
+                        const equipmentName = $(this).closest('label').text().trim();
+                        selectedEquipment.push(equipmentName);
+                    });
+                    if (selectedEquipment.length > 0) {
+                        filters.equipment = {
+                            name: 'Equipment',
+                            values: selectedEquipment,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Color
+                    const selectedColors = [];
+                    $('input[name="color_ids[]"]:checked').each(function() {
+                        const colorName = $(this).closest('label').text().trim();
+                        selectedColors.push(colorName);
+                    });
+                    if (selectedColors.length > 0) {
+                        filters.color = {
+                            name: 'Color',
+                            values: selectedColors,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Vehicle Category
+                    const selectedCategories = [];
+                    $('input[name="vehicle_category[]"]:checked').each(function() {
+                        const categoryName = $(this).closest('label').text().trim();
+                        selectedCategories.push(categoryName);
+                    });
+                    if (selectedCategories.length > 0) {
+                        filters.category = {
+                            name: 'Category',
+                            values: selectedCategories,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Emissions Class
+                    const selectedEmissions = [];
+                    $('input[name="emissions_class[]"]:checked').each(function() {
+                        const emissionName = $(this).closest('label').text().trim();
+                        selectedEmissions.push(emissionName);
+                    });
+                    if (selectedEmissions.length > 0) {
+                        filters.emissions = {
+                            name: 'Emissions',
+                            values: selectedEmissions,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    // Version Model
+                    const versionModel = $('input[name="version_model[]"]').val();
+                    if (versionModel && versionModel.trim() !== '') {
+                        filters.version = {
+                            name: 'Version',
+                            value: versionModel,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Power CV
+                    const powerCvFrom = $('input[name="power_cv_from"]').val();
+                    const powerCvTo = $('input[name="power_cv_to"]').val();
+                    if (powerCvFrom || powerCvTo) {
+                        let powerCvValue = '';
+                        if (powerCvFrom && powerCvTo) {
+                            powerCvValue = `${powerCvFrom} - ${powerCvTo} CV`;
+                        } else if (powerCvFrom) {
+                            powerCvValue = `From ${powerCvFrom} CV`;
+                        } else if (powerCvTo) {
+                            powerCvValue = `Up to ${powerCvTo} CV`;
+                        }
+                        filters.powerCv = {
+                            name: 'Power CV',
+                            value: powerCvValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Power KW
+                    const powerKwFrom = $('input[name="power_kw_from"]').val();
+                    const powerKwTo = $('input[name="power_kw_to"]').val();
+                    if (powerKwFrom || powerKwTo) {
+                        let powerKwValue = '';
+                        if (powerKwFrom && powerKwTo) {
+                            powerKwValue = `${powerKwFrom} - ${powerKwTo} KW`;
+                        } else if (powerKwFrom) {
+                            powerKwValue = `From ${powerKwFrom} KW`;
+                        } else if (powerKwTo) {
+                            powerKwValue = `Up to ${powerKwTo} KW`;
+                        }
+                        filters.powerKw = {
+                            name: 'Power KW',
+                            value: powerKwValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Motor Displacement
+                    const displacementFrom = $('input[name="motor_displacement_from"]').val();
+                    const displacementTo = $('input[name="motor_displacement_to"]').val();
+                    if (displacementFrom || displacementTo) {
+                        let displacementValue = '';
+                        if (displacementFrom && displacementTo) {
+                            displacementValue = `${displacementFrom} - ${displacementTo} L`;
+                        } else if (displacementFrom) {
+                            displacementValue = `From ${displacementFrom} L`;
+                        } else if (displacementTo) {
+                            displacementValue = `Up to ${displacementTo} L`;
+                        }
+                        filters.displacement = {
+                            name: 'Displacement',
+                            value: displacementValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Fuel Consumption
+                    const consumptionFrom = $('input[name="fuel_consumption_from"]').val();
+                    const consumptionTo = $('input[name="fuel_consumption_to"]').val();
+                    if (consumptionFrom || consumptionTo) {
+                        let consumptionValue = '';
+                        if (consumptionFrom && consumptionTo) {
+                            consumptionValue = `${consumptionFrom} - ${consumptionTo} L/100km`;
+                        } else if (consumptionFrom) {
+                            consumptionValue = `From ${consumptionFrom} L/100km`;
+                        } else if (consumptionTo) {
+                            consumptionValue = `Up to ${consumptionTo} L/100km`;
+                        }
+                        filters.consumption = {
+                            name: 'Fuel Consumption',
+                            value: consumptionValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Special filters
+                    const specialFilters = [];
+                    if ($('input[name="damaged_vehicle"]:checked').length > 0) {
+                        specialFilters.push('Damaged Vehicle');
+                    }
+                    if ($('input[name="coupon_documentation"]:checked').length > 0) {
+                        specialFilters.push('Coupon Documentation');
+                    }
+                    if ($('input[name="is_metallic_paint"]:checked').length > 0) {
+                        specialFilters.push('Metallic Paint');
+                    }
+                    if ($('input[name="tax_deductible"]:checked').length > 0) {
+                        specialFilters.push('Tax Deductible');
+                    }
+                    if (specialFilters.length > 0) {
+                        filters.special = {
+                            name: 'Special',
+                            values: specialFilters,
+                            type: 'multi-select'
+                        };
+                    }
+                    
+                    console.log('Collected filters:', filters);
+                    return filters;
+                }
+                
+                // Handle remove individual filter
+                $(document).on('click', '.remove-filter-btn', function(e) {
+                    e.preventDefault();
+                    const filterKey = $(this).data('filter-key');
+                    removeFilter(filterKey);
+                    updateSelectedFiltersBar();
+                    updateVehicleCards();
+                });
+                
+                // Handle clear all filters
+                $(document).on('click', '.clear-all-filters-btn', function(e) {
+                    e.preventDefault();
+                    clearAllFilters();
+                    updateSelectedFiltersBar();
+                    updateVehicleCards();
+                });
+                
+            // Function to remove a specific filter (global scope)
+            function removeFilter(filterKey) {
+                    // Handle individual brand removal (brand_123 format)
+                    if (filterKey.startsWith('brand_')) {
+                        const brandId = filterKey.replace('brand_', '');
+                        // Find and clear the specific brand input
+                        $(`input[name="brand_id[]"][value="${brandId}"]`).val('');
+                        // Reset the dropdown display
+                        $('#brand-dropdown .select span').text('Select Brand');
+                        return;
+                    }
+                    
+                    // Handle individual model removal (model_123 format)
+                    if (filterKey.startsWith('model_')) {
+                        const modelId = filterKey.replace('model_', '');
+                        // Find and clear the specific model input
+                        $(`input[name="vehicle_model_id[]"][value="${modelId}"]`).val('');
+                        // Reset the dropdown display
+                        $('#model-dropdown .select span').text('Select Model');
+                        return;
+                    }
+                    
+                    switch(filterKey) {
+                        case 'brands':
+                            // Remove all brands
+                            $('#brand-dropdown .select span').text('Select Brand');
+                            $('#brand-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'models':
+                            // Remove all models
+                            $('#model-dropdown .select span').text('Select Model');
+                            $('#model-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'price':
+                            $('input[name="price_from"]').val('');
+                            $('input[name="price_to"]').val('');
+                            break;
+                        case 'body':
+                            $('#body-dropdown .select span').text('Select Body Work');
+                            $('#body-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'fuel':
+                            $('#fuel-dropdown .select span').text('Select Fuel Type');
+                            $('#fuel-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'year':
+                            $('#registration-year-dropdown .select span').text('From');
+                            $('#registration-year-dropdown input[type="hidden"]').val('');
+                            $('#registration-year-to-dropdown .select span').text('To');
+                            $('#registration-year-to-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'mileage':
+                            $('input[name="mileage_from"]').val('');
+                            $('input[name="mileage_to"]').val('');
+                            break;
+                        case 'transmission':
+                            $('input[name="motor_change[]"]:checked').prop('checked', false);
+                            break;
+                        case 'condition':
+                            $('input[name="advertisement_type_id[]"]:checked').prop('checked', false);
+                            break;
+                        case 'equipment':
+                            $('input[name="equipments[]"]:checked').prop('checked', false);
+                            break;
+                        case 'color':
+                            $('input[name="color_ids[]"]:checked').prop('checked', false);
+                            break;
+                        case 'category':
+                            $('input[name="vehicle_category[]"]:checked').prop('checked', false);
+                            break;
+                        case 'emissions':
+                            $('input[name="emissions_class[]"]:checked').prop('checked', false);
+                            break;
+                        case 'version':
+                            $('input[name="version_model[]"]').val('');
+                            break;
+                        case 'powerCv':
+                            $('input[name="power_cv_from"]').val('');
+                            $('input[name="power_cv_to"]').val('');
+                            break;
+                        case 'powerKw':
+                            $('input[name="power_kw_from"]').val('');
+                            $('input[name="power_kw_to"]').val('');
+                            break;
+                        case 'displacement':
+                            $('input[name="motor_displacement_from"]').val('');
+                            $('input[name="motor_displacement_to"]').val('');
+                            break;
+                        case 'consumption':
+                            $('input[name="fuel_consumption_from"]').val('');
+                            $('input[name="fuel_consumption_to"]').val('');
+                            break;
+                        case 'special':
+                            $('input[name="damaged_vehicle"]:checked').prop('checked', false);
+                            $('input[name="coupon_documentation"]:checked').prop('checked', false);
+                            $('input[name="is_metallic_paint"]:checked').prop('checked', false);
+                            $('input[name="tax_deductible"]:checked').prop('checked', false);
+                            break;
+                    }
+                }
+                
+            // Function to clear all filters (global scope)
+            function clearAllFilters() {
+                    $('.inventory-sidebar input[type="text"]').val('');
+                    $('input[type="number"]').val('');
+                    $('input[type="checkbox"]').prop('checked', false);
+                    $('input[type="radio"]').prop('checked', false);
+                    
+                    // Reset dropdowns
+                    $('.drop-menu .select span').each(function() {
+                        const originalText = $(this).closest('.drop-menu').find('label').text();
+                        if (originalText.includes('Select')) {
+                            $(this).text(originalText);
+                        } else {
+                            $(this).text('Select ' + originalText);
+                        }
+                    });
+                    $('input[type="hidden"]').val('');
+                    
+                    // Reset multi-select containers
+                    $('.selected-options').empty();
+                }
+                
+                // Update the bar whenever filters change
+                $(document).on('change', '.inventory-sidebar input, .inventory-sidebar select', function() {
+                    console.log('Filter changed:', $(this).attr('name'), $(this).val());
+                    setTimeout(updateSelectedFiltersBar, 100);
+                });
+                
+                // Also listen for clicks on dropdown items
+                $(document).on('click', '.inventory-sidebar .dropdown li', function() {
+                    console.log('Dropdown item clicked:', $(this).text());
+                    setTimeout(updateSelectedFiltersBar, 100);
+                });
+                
+                // Listen for checkbox changes
+                $(document).on('change', '.inventory-sidebar input[type="checkbox"]', function() {
+                    console.log('Checkbox changed:', $(this).attr('name'), $(this).is(':checked'));
+                    setTimeout(updateSelectedFiltersBar, 100);
+                });
+                
+                // Listen for text input changes
+                $(document).on('input', '.inventory-sidebar input[type="text"], .inventory-sidebar input[type="number"]', function() {
+                    console.log('Text input changed:', $(this).attr('name'), $(this).val());
+                    setTimeout(updateSelectedFiltersBar, 100);
+                });
+                
+                // Note: Individual dropdown handlers are already set up in the existing code above
+                
+            // Selected Filters Bar functionality
+            function initializeSelectedFiltersBar() {
+                // Initial update
+                console.log('Running initial updateSelectedFiltersBar...');
+                updateSelectedFiltersBar();
+                
+                // Test function - call it after 2 seconds to see if it works
+                setTimeout(function() {
+                    console.log('=== TEST: Calling updateSelectedFiltersBar after 2 seconds ===');
+                    updateSelectedFiltersBar();
+                }, 2000);
+            }
+
+            // Initialize selected filters bar
+            initializeSelectedFiltersBar();
         });
     </script>
+    
+    <style>
+        /* Dynamic Pagination Styles - AutoScout24 Style */
+        .pagination-sec {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .page-item {
+            list-style: none;
+        }
+        
+        .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .page-link:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            color: #007bff;
+        }
+        
+        .page-item.active .page-link {
+            background: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        
+        .page-item.disabled .page-link {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .pagination-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .pagination-info .text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .pagination-info .page-info {
+            color: #999;
+            font-size: 13px;
+        }
+        
+        /* Loading indicator styles */
+        #loading-indicator {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .spinner-border {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 0.25em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spinner-border 0.75s linear infinite;
+        }
+        
+        @keyframes spinner-border {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive pagination */
+        @media (max-width: 768px) {
+            .pagination {
+                flex-wrap: wrap;
+                gap: 3px;
+            }
+            
+            .page-link {
+                min-width: 35px;
+                height: 35px;
+                padding: 6px 8px;
+                font-size: 14px;
+            }
+            
+            .pagination-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Quick Filter Styles */
+        .quick-filters-container {
+            margin-top: 20px;
+        }
+
+        .service-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .clear-filters-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .clear-filters-btn:hover {
+            background: #dc3545;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .clear-filters-btn.active {
+            background: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .service-list li {
+            list-style: none;
+        }
+
+        .service-list .quick-filter {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-list .quick-filter:hover {
+            background: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .service-list .quick-filter.active {
+            background: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Responsive quick filters */
+        @media (max-width: 768px) {
+            .service-list {
+                gap: 8px;
+            }
+            
+            .service-list .quick-filter {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Equipment Show More Button */
+        .equipment-toggle {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .show-more-equipment {
+            padding: 8px 20px;
+            border: 2px solid #007bff;
+            background: #fff;
+            color: #007bff;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .show-more-equipment:hover:not(:disabled) {
+            background: #007bff;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .show-more-equipment:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .equipment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .equipment-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .equipment-item:hover {
+            background: #e9ecef;
+            border-color: #007bff;
+        }
+
+        .equipment-item input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        /* Loading animation */
+        .fa-spinner.fa-spin {
+            animation: fa-spin 1s infinite linear;
+        }
+
+        @keyframes fa-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Selected Filters Bar - AutoScout24 Style */
+        .selected-filters-bar {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selected-filters-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .selected-filters-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #6c757d;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .selected-filters-label i {
+            color: #6c757d;
+            font-size: 16px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .selected-filters-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .selected-filter-tag {
+            display: inline-flex;
+            align-items: center;
+            background: #ffffff;
+            color: #495057;
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            gap: 6px;
+            margin: 3px;
+            border: 1px solid #dee2e6;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .selected-filter-tag.multi-select {
+            background: #ffffff;
+            padding: 8px 12px;
+            border-radius: 18px;
+        }
+
+        .selected-filter-tag .filter-name {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .selected-filter-tag .filter-value {
+            font-weight: 400;
+        }
+
+        .filter-values-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .filter-value-item {
+            background: #dee2e6;
+            color: #495057;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
+            border: 1px solid #ced4da;
+        }
+
+        .remove-filter-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            padding: 2px 4px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+        }
+
+        .remove-filter-btn:hover {
+            background: #dee2e6;
+            color: #495057;
+        }
+
+        .selected-filters-actions {
+            margin-left: auto;
+        }
+
+        .clear-all-filters-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 12px;
+            background: #6c757d;
+            color: #fff;
+            border: 1px solid #6c757d;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .clear-all-filters-btn:hover {
+            background: #5a6268;
+            border-color: #545b62;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .selected-filters-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .selected-filters-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .clear-all-filters-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .selected-filters-list {
+                width: 100%;
+            }
+        }
+    </style>
 @endpush
