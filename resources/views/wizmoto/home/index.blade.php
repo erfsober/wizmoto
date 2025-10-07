@@ -520,100 +520,7 @@
 
 
 
-    <!-- boxcar-testimonial-section -->
-    <section class="boxcar-testimonial-section home1">
-        <div class="boxcar-container">
-            <div class="boxcar-title wow fadeInUp">
-                <h2>What our customers say</h2>
-                <div class="text">Rated 4.7 / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
-            </div>
-            <div class="testimonial-slider-two">
-                <div class="testimonial-slide-two">
-                    <div class="row">
-                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
-                            <div class="inner-column wow fadeInUp">
-                                <div class="image-box">
-                                    <figure class="image">
-                                        <img src="images/resource/test-1.jpg" alt="">
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
-                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
-                                <ul class="rating">
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <span>4.8</span>
-                                </ul>
-                                <h6 class="title">Ali TUFAN</h6>
-                                <span>Designer</span>
-                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
-                                                  a friend because I had great service from my salesman Patrick
-                                                  and all of the team.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slide-two">
-                    <div class="row">
-                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
-                            <div class="inner-column wow fadeInUp">
-                                <div class="image-box">
-                                    <figure class="image">
-                                        <img src="images/resource/test-1.jpg" alt="">
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
-                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
-                                <ul class="rating">
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i>
-                                    </li>
-                                    <span>4.8</span>
-                                </ul>
-                                <h6 class="title">Ali TUFAN</h6>
-                                <span>Designer</span>
-                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
-                                                  a friend because I had great service from my salesman Patrick
-                                                  and all of the team.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End boxcar-testimonial-section -->
+
 
     <!-- blog section -->
     <section class="blog-section">
@@ -732,7 +639,100 @@
         </div>
     </section>
     <!-- blog-section-two -->
-
+    <!-- boxcar-testimonial-section -->
+    <section class="boxcar-testimonial-section home1">
+        <div class="boxcar-container">
+            <div class="boxcar-title wow fadeInUp">
+                <h2>What our customers say</h2>
+                <div class="text">Rated 4.7 / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
+            </div>
+            <div class="testimonial-slider-two">
+                <div class="testimonial-slide-two">
+                    <div class="row">
+                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp">
+                                <div class="image-box">
+                                    <figure class="image">
+                                        <img src="images/resource/test-1.jpg" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
+                                <ul class="rating">
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <span>4.8</span>
+                                </ul>
+                                <h6 class="title">Ali TUFAN</h6>
+                                <span>Designer</span>
+                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
+                                                  a friend because I had great service from my salesman Patrick
+                                                  and all of the team.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide-two">
+                    <div class="row">
+                        <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp">
+                                <div class="image-box">
+                                    <figure class="image">
+                                        <img src="images/resource/test-1.jpg" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                            <div class="inner-column wow fadeInUp" data-wow-delay="100ms">
+                                <ul class="rating">
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <span>4.8</span>
+                                </ul>
+                                <h6 class="title">Ali TUFAN</h6>
+                                <span>Designer</span>
+                                <div class="text">I'd suggest Macklin Motors Nissan Glasgow South to
+                                                  a friend because I had great service from my salesman Patrick
+                                                  and all of the team.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End boxcar-testimonial-section -->
     @include('wizmoto.partials.footer')
 
 @endsection

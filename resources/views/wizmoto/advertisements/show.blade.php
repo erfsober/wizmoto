@@ -636,7 +636,19 @@
                             <p class="mb-3">Your message has been sent to {{ $advertisement->provider->full_name }}.</p>
                             <div class="alert alert-success">
                                 <strong>Your conversation link:</strong><br>
-                                <span id="conversation-link" class="text-break"></span>
+                                <div class="conversation-link-container mt-2">
+                                    <div class="conversation-link-box" id="conversation-link" onclick="selectAndCopyLink()">
+                                        <span class="link-text"></span>
+                                        <div class="action-buttons">
+                                            <button class="action-btn go-btn" id="go-to-conversation-btn" onclick="event.stopPropagation(); goToConversation()" title="Go to conversation">
+                                                <i class="fa fa-external-link"></i>
+                                            </button>
+                                            <button class="action-btn copy-btn" id="copy-link-btn" onclick="event.stopPropagation(); copyToClipboard()" title="Copy to clipboard">
+                                                <i class="fa fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <p class="text-muted">
                                 <i class="fa fa-bookmark"></i> <strong>Bookmark this link</strong> to continue the
@@ -712,7 +724,7 @@
                             // Show success message
                             $('#contact-form').addClass('d-none');
                             $('#contact-success').removeClass('d-none');
-                            $('#conversation-link').text(response.conversation_link);
+                            $('#conversation-link .link-text').text(response.conversation_link);
 
                             // Store email in localStorage for future use
                             localStorage.setItem('guest_email_' + providerId, email);
@@ -781,5 +793,238 @@
                 $('#guest-email').val(savedEmail);
             }
         });
+
+        // Global functions for conversation link
+        window.selectAndCopyLink = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            if (linkText) {
+                // Select the text
+                if (window.getSelection) {
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(document.querySelector('#conversation-link .link-text'));
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+                
+                // Copy to clipboard
+                copyToClipboard();
+            }
+        };
+
+        window.goToConversation = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            if (linkText) {
+                // Open the conversation link in a new tab
+                window.open(linkText, '_blank');
+            }
+        };
+
+        window.copyToClipboard = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            
+            if (linkText) {
+                // Try modern clipboard API first
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(linkText).then(function() {
+                        showCopySuccess();
+                    }).catch(function(err) {
+                        console.error('Clipboard API failed:', err);
+                        fallbackCopy(linkText);
+                    });
+                } else {
+                    // Fallback for older browsers
+                    fallbackCopy(linkText);
+                }
+            }
+        };
+
+        function fallbackCopy(text) {
+            try {
+                // Create a temporary textarea
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    showCopySuccess();
+                } else {
+                    throw new Error('execCommand failed');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Failed to copy link. Please select and copy manually.');
+            }
+        }
+
+        function showCopySuccess() {
+            const $btn = $('#copy-link-btn');
+            const $icon = $btn.find('i');
+            
+            // Change button appearance
+            $btn.addClass('copied');
+            $icon.attr('class', 'fa fa-check');
+            
+            // Show notification
+            if (typeof toastr !== 'undefined') {
+                toastr.success('Link copied to clipboard!');
+            } else {
+                // Create a temporary success message
+                const $successMsg = $('<div class="copy-success-msg">Copied!</div>');
+                $successMsg.css({
+                    position: 'absolute',
+                    top: '-30px',
+                    right: '0',
+                    background: '#28a745',
+                    color: 'white',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    zIndex: 1000
+                });
+                
+                $btn.parent().css('position', 'relative').append($successMsg);
+                
+                setTimeout(function() {
+                    $successMsg.remove();
+                }, 2000);
+            }
+            
+            // Reset button after 2 seconds
+            setTimeout(function() {
+                $btn.removeClass('copied');
+                $icon.attr('class', 'fa fa-copy');
+            }, 2000);
+        }
     </script>
+@endpush
+
+@push('styles')
+<style>
+.conversation-link-container {
+    width: 100%;
+}
+
+.conversation-link-box {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    word-break: break-all;
+}
+
+.conversation-link-box:hover {
+    background: #e9ecef;
+    border-color: #007bff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+}
+
+.conversation-link-box:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0,123,255,0.2);
+}
+
+.link-text {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #495057;
+    line-height: 1.4;
+    margin-right: 12px;
+    user-select: all;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    min-width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.go-btn {
+    background: #28a745;
+}
+
+.go-btn:hover {
+    background: #218838;
+    transform: scale(1.05);
+}
+
+.go-btn:active {
+    transform: scale(0.95);
+}
+
+.copy-btn {
+    background: #007bff;
+}
+
+.copy-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
+}
+
+.copy-btn.copied {
+    background: #28a745;
+}
+
+.copy-btn.copied i {
+    transform: scale(1.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .conversation-link-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .link-text {
+        margin-right: 0;
+        text-align: center;
+    }
+    
+    .action-buttons {
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .action-btn {
+        flex: 1;
+        max-width: 120px;
+    }
+}
+</style>
 @endpush
