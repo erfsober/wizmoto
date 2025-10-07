@@ -194,8 +194,6 @@ class HomeController extends Controller
             
             // VEHICLE CONDITIONS
             ->when($request->filled('previous_owners'), fn($q) => $q->where('previous_owners', '<=', (int)$request->previous_owners))
-            ->when($request->filled('damaged_vehicle'), fn($q) => $q->where('damaged_vehicle', false))
-            ->when($request->filled('coupon_documentation'), fn($q) => $q->where('coupon_documentation', true))
             ->when($request->filled('price_negotiable'), fn($q) => $q->where('price_negotiable', true))
             ->when($request->filled('tax_deductible'), fn($q) => $q->where('tax_deductible', true))
             

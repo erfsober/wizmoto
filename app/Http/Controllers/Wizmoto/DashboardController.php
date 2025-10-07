@@ -87,10 +87,8 @@ class DashboardController extends Controller
         $data = $request->validated();
         $data['is_metallic_paint'] = $request->has('is_metallic_paint');
         $data['show_phone'] = $request->has('show_phone');
-        $data['damaged_vehicle'] = $request->has('damaged_vehicle');
         $data['price_negotiable'] = $request->has('price_negotiable');
         $data['tax_deductible'] = $request->has('tax_deductible');
-        $data['coupon_documentation'] = $request->has('coupon_documentation');
         $advertisement = Advertisement::create($data);
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
@@ -271,10 +269,8 @@ class DashboardController extends Controller
         $advertisement = Advertisement::findOrFail($request->advertisement_id);
         $data['is_metallic_paint'] = $request->has('is_metallic_paint');
         $data['show_phone'] = $request->has('show_phone');
-        $data['damaged_vehicle'] = $request->has('damaged_vehicle');
         $data['price_negotiable'] = $request->has('price_negotiable');
         $data['tax_deductible'] = $request->has('tax_deductible');
-        $data['coupon_documentation'] = $request->has('coupon_documentation');
         // Update advertisement
         $advertisement->update($data);
         // Handle new media uploads and map filename->media id

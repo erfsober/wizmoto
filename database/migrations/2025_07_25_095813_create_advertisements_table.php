@@ -24,12 +24,10 @@ return new class extends Migration {
             $table->string('registration_month')->nullable();
             $table->string('registration_year')->nullable();
             $table->integer('previous_owners')->nullable();
-            $table->boolean('coupon_documentation')->default(false);
             $table->string('next_review_year')->nullable();
             $table->string('next_review_month')->nullable();
             $table->string('last_service_month')->nullable();
             $table->string('last_service_year')->nullable();
-            $table->boolean('damaged_vehicle')->default(false);
 
             ///motor
             $table->string('motor_change')->nullable()->comment('Manual / Automatic');

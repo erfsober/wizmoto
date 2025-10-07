@@ -627,18 +627,6 @@
                                                 <span class="checkmark"></span>
                                                                     Era
                                             </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="damaged_vehicle"
-                                                                        value="1">
-                                                <span class="checkmark"></span>
-                                                                    Damaged Vehicle
-                                            </label>
-                                                                <label class="multi-select-item">
-                                                                    <input type="checkbox" name="coupon_documentation"
-                                                                        value="1">
-                                                <span class="checkmark"></span>
-                                                                    Coupon Documentation
-                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -2344,12 +2332,6 @@
                     
                     // Special filters
                     const specialFilters = [];
-                    if ($('input[name="damaged_vehicle"]:checked').length > 0) {
-                        specialFilters.push('Damaged Vehicle');
-                    }
-                    if ($('input[name="coupon_documentation"]:checked').length > 0) {
-                        specialFilters.push('Coupon Documentation');
-                    }
                     if ($('input[name="is_metallic_paint"]:checked').length > 0) {
                         specialFilters.push('Metallic Paint');
                     }

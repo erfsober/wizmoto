@@ -277,22 +277,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-column col-lg-12 my-5">
-                                <div class="cheak-box">
-                                    <label class="contain">Coupon Documentation
-                                        <input type="checkbox" name="coupon_documentation">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-column col-lg-12 mb-5">
-                                <div class="cheak-box">
-                                    <label class="contain">Damaged Vehicle
-                                        <input type="checkbox" name="damaged_vehicle">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
                             <hr class="my-5"/>
                             {{-- Equipment--}}
                             <h6>Equipment</h6>
