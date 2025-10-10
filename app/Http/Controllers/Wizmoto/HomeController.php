@@ -130,6 +130,16 @@ class HomeController extends Controller
                 $q->whereIn('vehicle_model_id', array_filter($modelIds));
             })
             
+            // VERSION FILTER
+            ->when($request->filled('versions'), function ($q) use ($request) {
+                $versions = is_array($request->versions) ? $request->versions : [$request->versions];
+                $q->where(function($query) use ($versions) {
+                    foreach ($versions as $version) {
+                        $query->orWhere('version_model', 'like', "%{$version}%");
+                    }
+                });
+            })
+            
             // YEAR RANGE
             ->when($request->filled('registration_year_from'), fn($q) => $q->where(DB::raw('CAST(registration_year AS UNSIGNED)'), '>=', (int)$request->registration_year_from))
             ->when($request->filled('registration_year_to'), fn($q) => $q->where(DB::raw('CAST(registration_year AS UNSIGNED)'), '<=', (int)$request->registration_year_to))
@@ -200,8 +210,11 @@ class HomeController extends Controller
             
             // VEHICLE CONDITIONS
             ->when($request->filled('previous_owners'), fn($q) => $q->where('previous_owners', '<=', (int)$request->previous_owners))
+            ->when($request->filled('previous_owners_filter'), fn($q) => $q->where('previous_owners', '<=', (int)$request->previous_owners_filter))
             ->when($request->filled('price_negotiable'), fn($q) => $q->where('price_negotiable', true))
             ->when($request->filled('tax_deductible'), fn($q) => $q->where('tax_deductible', true))
+            ->when($request->filled('damaged_vehicle'), fn($q) => $q->where('damaged_vehicle', true))
+            ->when($request->filled('coupon_documentation'), fn($q) => $q->where('coupon_documentation', true))
             
             // SALES FEATURES
             ->when($request->filled('first_owner'), fn($q) => $q->where('first_owner', true))
@@ -210,6 +223,17 @@ class HomeController extends Controller
             ->when($request->filled('financing_available'), fn($q) => $q->where('financing_available', true))
             ->when($request->filled('trade_in_possible'), fn($q) => $q->where('trade_in_possible', true))
             ->when($request->filled('available_immediately'), fn($q) => $q->where('available_immediately', true))
+            
+            // LOCATION FILTERS
+            ->when($request->filled('city'), fn($q) => $q->where('city', 'like', "%{$request->city}%"))
+            ->when($request->filled('zip_code'), fn($q) => $q->where('zip_code', 'like', "%{$request->zip_code}%"))
+            
+            // ONLINE PERIOD
+            ->when($request->filled('online_from_period'), function ($q) use ($request) {
+                $period = (int)$request->online_from_period;
+                $date = now()->subDays($period);
+                $q->where('created_at', '>=', $date);
+            })
             
             // ENVIRONMENT
             ->when($request->filled('emissions_class'), fn($q) => $q->whereIn('emissions_class', (array)$request->emissions_class))
@@ -244,6 +268,24 @@ class HomeController extends Controller
         if ($request->ajax() && $request->has('get_brands_only')) {
             return response()->json([
                 'brands' => $brands->toArray()
+            ]);
+        }
+
+        // If it's an AJAX request for fuel types only, return just the fuel types
+        if ($request->ajax() && $request->has('get_fuel_types_only')) {
+            $fuelTypes = collect();
+            
+            if ($request->filled('advertisement_type')) {
+                $fuelTypes = FuelType::where('advertisement_type_id', $request->advertisement_type)
+                    ->orderBy('name')
+                    ->get();
+            } else {
+                // If no advertisement type specified, return all fuel types
+                $fuelTypes = FuelType::orderBy('name')->get();
+            }
+            
+            return response()->json([
+                'fuel_types' => $fuelTypes->toArray()
             ]);
         }
 
@@ -340,8 +382,14 @@ class HomeController extends Controller
         }
 
         // If no existing coordinates found, use geocoding service
-        $geocodingService = app(GeocodingService::class);
-        return $geocodingService->geocode($city, $zipCode);
+        if ($city || $zipCode) {
+            $geocodingService = app(GeocodingService::class);
+            // If only zip code is provided, use it as the city parameter
+            $cityForGeocoding = $city ?: $zipCode;
+            return $geocodingService->geocode($cityForGeocoding, $zipCode);
+        }
+        
+        return null;
     }
 
     /**

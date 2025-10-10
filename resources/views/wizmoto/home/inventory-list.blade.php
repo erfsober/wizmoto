@@ -15,18 +15,18 @@
                         </div>
                         <div class="layout-search style1">
                             <form action="{{ route('inventory.list') }}" method="GET">
-                                <div class="search-box">
+                            <div class="search-box">
                                     <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
-                                    </svg>
+                                    <path d="M7.29301 1.2876C3.9872 1.2876 1.29431 3.98048 1.29431 7.28631C1.29431 10.5921 3.9872 13.2902 7.29301 13.2902C8.70502 13.2902 10.0036 12.7954 11.03 11.9738L13.5287 14.4712C13.6548 14.5921 13.8232 14.6588 13.9979 14.657C14.1725 14.6552 14.3395 14.5851 14.4631 14.4617C14.5867 14.3382 14.6571 14.1713 14.6591 13.9967C14.6611 13.822 14.5947 13.6535 14.474 13.5272L11.9753 11.0285C12.7976 10.0006 13.293 8.69995 13.293 7.28631C13.293 3.98048 10.5988 1.2876 7.29301 1.2876ZM7.29301 2.62095C9.87824 2.62095 11.9584 4.70108 11.9584 7.28631C11.9584 9.87153 9.87824 11.9569 7.29301 11.9569C4.70778 11.9569 2.62764 9.87153 2.62764 7.28631C2.62764 4.70108 4.70778 2.62095 7.29301 2.62095Z" fill="white"/>
+                                </svg>  
                                     <input type="search" placeholder="Search ..." class="show-search" name="search" tabindex="2" value="" aria-required="true" required="">
-                                </div>
+                            </div>
                             </form>
                         </div>
                     </div>
 
                     <!--Nav Box-->
-                    <div class="nav-out-bar">
+                    <div class="nav-out-bar">    
                         <!-- Main Menu -->
                         <nav class="main-menu navbar-expand-lg">
                             <div class="navbar-header">
@@ -40,9 +40,9 @@
                             <div class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
                                     <li><a href="{{ route('home') }}">Home</a></li>
-                                  
-                                </ul>
-                            </div>
+                                                
+                                            </ul>
+                                        </div>
                         </nav>
                         <!-- Main Menu End-->
                     </div>
@@ -50,19 +50,19 @@
                     <div class="right-box">
                         @if(auth('provider')->check())
                             <a href="{{ route('dashboard.my-advertisements') }}" title="" class="box-account"> 
-                                <div class="icon">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_147_6490)">
-                                        <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
-                                        <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_147_6490">
-                                        <rect width="16" height="16" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                    </svg>
-                                </div>
+                            <div class="icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_147_6490)">
+                                    <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
+                                    <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_147_6490">
+                                    <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
                                 <span>Dashboard</span>
                             </a>
                         @else
@@ -88,7 +88,7 @@
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
-                                <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="22" height="2" fill="white"/>
                                     <rect y="9" width="22" height="2" fill="white"/>
                                 </svg>
@@ -543,7 +543,7 @@
                                                             <span>Select City</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                                        <input type="hidden" name="city_id">
+                                                        <input type="hidden" name="city">
                                         <ul class="dropdown" style="display: none;">
                                                             <li data-id="1">New York</li>
                                                             <li data-id="2">Los Angeles</li>
@@ -560,7 +560,7 @@
                                                 <div class="form_boxes v2">
                                                     <label>Postal Code</label>
                                                     <div class="drop-menu active">
-                                                        <input type="text" name="postal_code" placeholder="">
+                                                        <input type="text" name="zip_code" placeholder="">
                                 </div>
                                                 </div>
                                             </div>
@@ -601,7 +601,7 @@
                                                         <button type="button" class="btn btn-outline-primary show-more-equipment" 
                                                                 data-loaded="10" data-total="{{ $equipments->count() }}">
                                                             <i class="fa fa-plus"></i>
-                                                            Show more equipment ({{ $equipments->count() - 10 }} more)
+                                                            Show +10 more equipment
                                                         </button>
                             </div>
                                                 @endif
@@ -1038,6 +1038,70 @@
                 });
             }
 
+            // Load fuel types for specific advertisement type
+            function loadFuelTypesForAdvertisementType(advertisementTypeId) {
+                console.log('Loading fuel types for advertisement type:', advertisementTypeId);
+                
+                const $fuelDropdown = $('#fuel-dropdown .dropdown');
+                const $fuelSelect = $('#fuel-dropdown .select span');
+                const $fuelInput = $('#fuel-dropdown input[type="hidden"]');
+
+                // Reset fuel type selection
+                $fuelSelect.text('Select Fuel Type');
+                $fuelInput.val('');
+                $fuelDropdown.empty();
+
+                if (!advertisementTypeId) {
+                    console.log('No advertisement type selected, showing all fuel types');
+                    // Load all fuel types
+                    loadAllFuelTypes();
+                    return;
+                }
+
+                // Make AJAX request to get fuel types for this advertisement type
+                $.ajax({
+                    url: '{{ route("inventory.list") }}',
+                    method: 'GET',
+                    data: { 
+                        advertisement_type: advertisementTypeId,
+                        get_fuel_types_only: true // Flag to indicate we only want fuel types
+                    },
+                    success: function(response) {
+                        console.log('Fuel types loaded successfully:', response);
+                        
+                        if (response.fuel_types && response.fuel_types.length > 0) {
+                            // Populate fuel type dropdown with filtered fuel types
+                            response.fuel_types.forEach(function(fuelType) {
+                                $fuelDropdown.append(`
+                                    <li data-id="${fuelType.id}">${fuelType.name}</li>
+                                `);
+                            });
+                            console.log('Fuel type dropdown populated with', response.fuel_types.length, 'fuel types');
+                        } else {
+                            $fuelDropdown.append('<li>No fuel types available for this category</li>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading fuel types:', error);
+                        $fuelDropdown.append('<li>Error loading fuel types</li>');
+                    }
+                });
+            }
+
+            // Load all fuel types (when no category is selected)
+            function loadAllFuelTypes() {
+                const $fuelDropdown = $('#fuel-dropdown .dropdown');
+                const fuelTypes = @json($fuelTypes);
+                
+                $fuelDropdown.empty();
+                fuelTypes.forEach(function(fuelType) {
+                    $fuelDropdown.append(`
+                        <li data-id="${fuelType.id}">${fuelType.name}</li>
+                    `);
+                });
+                console.log('All fuel types loaded:', fuelTypes.length);
+            }
+
             // Load all brands (when no category is selected)
             function loadAllBrands() {
                 const $brandDropdown = $('#brand-dropdown .dropdown');
@@ -1112,6 +1176,9 @@
             
             // Initialize brand dropdown with all brands
             loadAllBrands();
+            
+            // Initialize fuel type dropdown with all fuel types
+            loadAllFuelTypes();
 
             // Function to initialize all dropdowns
             function initializeAllDropdowns() {
@@ -1135,15 +1202,19 @@
                     $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId);
                     $(this).closest('.dropdown').hide();
                     
-                    // Clear brand and model selections when category changes
+                    // Clear brand, model, and fuel type selections when category changes
                     $('#brand-dropdown .select span').text('Select Brand');
                     $('#brand-dropdown input[type="hidden"]').val('');
                     $('#model-dropdown .select span').text('Select Model');
                     $('#model-dropdown input[type="hidden"]').val('');
+                    $('#fuel-dropdown .select span').text('Select Fuel Type');
+                    $('#fuel-dropdown input[type="hidden"]').val('');
                     
-                    // Load brands for selected advertisement type
+                    // Load brands and fuel types for selected advertisement type
                     console.log('About to call loadBrandsForAdvertisementType with:', advertisementTypeId);
                     loadBrandsForAdvertisementType(advertisementTypeId);
+                    console.log('About to call loadFuelTypesForAdvertisementType with:', advertisementTypeId);
+                    loadFuelTypesForAdvertisementType(advertisementTypeId);
                     
                     // Update selected filters bar
                     console.log('Advertisement type selected:', advertisementTypeName);
@@ -1299,8 +1370,11 @@
                     const cityId = $(this).data('id');
                     const cityName = $(this).text();
                     $(this).closest('#city-dropdown').find('.select span').text(cityName);
-                    $(this).closest('#city-dropdown').find('input[type="hidden"]').val(cityId);
+                    $(this).closest('#city-dropdown').find('input[type="hidden"]').val(cityName);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
                     
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for city...');
@@ -1323,6 +1397,9 @@
                     $(this).closest('#cylinders-dropdown').find('input[type="hidden"]').val(cylindersId);
                     $(this).closest('.dropdown').hide();
                     
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
+                    
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for cylinders...');
                     updateVehicleCards();
@@ -1343,6 +1420,9 @@
                     $(this).closest('#power-cv-from-dropdown').find('.select span').text(cvText);
                     $(this).closest('#power-cv-from-dropdown').find('input[type="hidden"]').val(cv);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
                     
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for power CV from...');
@@ -1365,6 +1445,9 @@
                     $(this).closest('#power-cv-to-dropdown').find('input[type="hidden"]').val(cv);
                     $(this).closest('.dropdown').hide();
                     
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
+                    
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for power CV to...');
                     updateVehicleCards();
@@ -1386,6 +1469,9 @@
                     $(this).closest('#power-kw-from-dropdown').find('input[type="hidden"]').val(kw);
                     $(this).closest('.dropdown').hide();
                     
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
+                    
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for power KW from...');
                     updateVehicleCards();
@@ -1406,6 +1492,9 @@
                     $(this).closest('#power-kw-to-dropdown').find('.select span').text(kwText);
                     $(this).closest('#power-kw-to-dropdown').find('input[type="hidden"]').val(kw);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Update selected filters bar
+                    setTimeout(updateSelectedFiltersBar, 100);
                     
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for power KW to...');
@@ -1539,7 +1628,7 @@
                         filters.brand_id = brandIds;
                         console.log('Brand IDs:', brandIds);
                     }
-                    
+
                     // Model filters
                     const modelIds = [];
                     $('.vehicle_model_id_input').each(function() {
@@ -1652,13 +1741,13 @@
                     }
 
                     // City
-                    if ($('input[name="city_id"]').val()) {
-                        filters.city_id = $('input[name="city_id"]').val();
+                    if ($('input[name="city"]').val()) {
+                        filters.city = $('input[name="city"]').val();
                     }
 
                     // Postal code
-                    if ($('input[name="postal_code"]').val()) {
-                        filters.postal_code = $('input[name="postal_code"]').val();
+                    if ($('input[name="zip_code"]').val()) {
+                        filters.zip_code = $('input[name="zip_code"]').val();
                     }
 
                     // Search radius
@@ -2185,6 +2274,15 @@
                         };
                     }
                     
+                    // City
+                    const city = $('#city-dropdown .select span').text();
+                    if (city && !city.includes('Select')) {
+                        filters.city = {
+                            name: 'City',
+                            value: city,
+                            type: 'single'
+                        };
+                    }
                     
                     // Registration year (From and To)
                     const regYearFrom = $('#registration-year-dropdown .select span').text();
@@ -2320,6 +2418,36 @@
                         filters.version = {
                             name: 'Version',
                             value: versionModel,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Cylinders
+                    const cylinders = $('#cylinders-dropdown .select span').text();
+                    if (cylinders && !cylinders.includes('Select')) {
+                        filters.cylinders = {
+                            name: 'Cylinders',
+                            value: cylinders,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Zip Code
+                    const zipCode = $('input[name="zip_code"]').val();
+                    if (zipCode && zipCode.trim() !== '') {
+                        filters.zipCode = {
+                            name: 'Postal Code',
+                            value: zipCode,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Search Radius
+                    const searchRadius = $('input[name="search_radius"]').val();
+                    if (searchRadius && searchRadius.trim() !== '') {
+                        filters.searchRadius = {
+                            name: 'Search Radius',
+                            value: `${searchRadius} km`,
                             type: 'single'
                         };
                     }
@@ -2497,6 +2625,10 @@
                             $('#body-dropdown .select span').text('Select Body Work');
                             $('#body-dropdown input[type="hidden"]').val('');
                             break;
+                        case 'city':
+                            $('#city-dropdown .select span').text('Select City');
+                            $('#city-dropdown input[type="hidden"]').val('');
+                            break;
                         case 'fuel':
                             $('#fuel-dropdown .select span').text('Select Fuel Type');
                             $('#fuel-dropdown input[type="hidden"]').val('');
@@ -2532,13 +2664,27 @@
                         case 'version':
                             $('input[name="version_model[]"]').val('');
                             break;
+                        case 'cylinders':
+                            $('input[name="cylinders"]').val('');
+                            $('#cylinders-dropdown .select span').text('Select Cylinders');
+                            break;
+                        case 'zipCode':
+                            $('input[name="zip_code"]').val('');
+                            break;
+                        case 'searchRadius':
+                            $('input[name="search_radius"]').val('');
+                            break;
                         case 'powerCv':
                             $('input[name="power_cv_from"]').val('');
                             $('input[name="power_cv_to"]').val('');
+                            $('#power-cv-from-dropdown .select span').text('From');
+                            $('#power-cv-to-dropdown .select span').text('To');
                             break;
                         case 'powerKw':
                             $('input[name="power_kw_from"]').val('');
                             $('input[name="power_kw_to"]').val('');
+                            $('#power-kw-from-dropdown .select span').text('From');
+                            $('#power-kw-to-dropdown .select span').text('To');
                             break;
                         case 'displacement':
                             $('input[name="motor_displacement_from"]').val('');
@@ -2575,6 +2721,14 @@
                     });
                     $('input[type="hidden"]').val('');
                     
+                    // Reset specific dropdowns that don't follow the general pattern
+                    $('#power-cv-from-dropdown .select span').text('From');
+                    $('#power-cv-to-dropdown .select span').text('To');
+                    $('#power-kw-from-dropdown .select span').text('From');
+                    $('#power-kw-to-dropdown .select span').text('To');
+                    $('#registration-year-dropdown .select span').text('From');
+                    $('#registration-year-to-dropdown .select span').text('To');
+                    
                     // Reset multi-select containers
                     $('.selected-options').empty();
                 }
@@ -2589,18 +2743,24 @@
                 $(document).on('click', '.inventory-sidebar .dropdown li', function() {
                     console.log('Dropdown item clicked:', $(this).text());
                     setTimeout(updateSelectedFiltersBar, 100);
+                    // Also update vehicle cards when dropdown items are clicked
+                    setTimeout(updateVehicleCards, 200);
                 });
                 
                 // Listen for checkbox changes
                 $(document).on('change', '.inventory-sidebar input[type="checkbox"]', function() {
                     console.log('Checkbox changed:', $(this).attr('name'), $(this).is(':checked'));
                     setTimeout(updateSelectedFiltersBar, 100);
+                    // Also update vehicle cards when checkboxes change
+                    setTimeout(updateVehicleCards, 200);
                 });
                 
                 // Listen for text input changes
                 $(document).on('input', '.inventory-sidebar input[type="text"], .inventory-sidebar input[type="number"]', function() {
                     console.log('Text input changed:', $(this).attr('name'), $(this).val());
                     setTimeout(updateSelectedFiltersBar, 100);
+                    // Also update vehicle cards when text inputs change
+                    setTimeout(updateVehicleCards, 200);
                 });
                 
                 // Note: Individual dropdown handlers are already set up in the existing code above
@@ -2898,7 +3058,7 @@
             cursor: pointer;
         }
 
-      
+
         /* Responsive quick filters */
         @media (max-width: 768px) {
             .service-list {
