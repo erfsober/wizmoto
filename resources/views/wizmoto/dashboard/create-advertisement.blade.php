@@ -492,8 +492,10 @@
                                 </div>
                             </div>
 
+                            <hr class="my-5"/>
                             {{-- Seller Type --}}
-                            <div class="form-column col-lg-12">
+                            <h6>Seller Type</h6>
+                            <div class="form-column col-lg-6">
                                 <div class="form_boxes">
                                     <label>Seller Type</label>
                                     <div class="drop-menu" id="seller-type-dropdown">
@@ -503,15 +505,37 @@
                                         </div>
                                         <input type="hidden" name="seller_type" id="seller_type_input">
                                         <ul class="dropdown" style="display: none;">
-                                            <li data-id="private">Private Seller</li>
+                                            <li data-id="private">Private</li>
                                             <li data-id="dealer">Dealer</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Drive Type --}}
-                            <div class="form-column col-lg-12">
+                            <hr class="my-5"/>
+                            {{-- Vehicle Condition --}}
+                            <h6>Vehicle Condition</h6>
+                            <div class="form-column col-lg-6">
+                                <div class="cheak-box">
+                                    <label class="contain">Service History Available
+                                        <input type="checkbox" name="service_history_available">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="cheak-box">
+                                    <label class="contain">Warranty Available
+                                        <input type="checkbox" name="warranty_available">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="my-5"/>
+                            {{-- Technical Specs --}}
+                            <h6>Technical Specifications</h6>
+                            <div class="form-column col-lg-6">
                                 <div class="form_boxes">
                                     <label>Drive Type</label>
                                     <div class="drop-menu" id="drive-type-dropdown">
@@ -521,77 +545,50 @@
                                         </div>
                                         <input type="hidden" name="drive_type" id="drive_type_input">
                                         <ul class="dropdown" style="display: none;">
-                                            <li data-id="chain">Chain</li>
-                                            <li data-id="belt">Belt</li>
-                                            <li data-id="shaft">Shaft</li>
+                                            <li data-id="Chain">Chain</li>
+                                            <li data-id="Belt">Belt</li>
+                                            <li data-id="Shaft">Shaft</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- Technical Specifications --}}
-                            <h6>Technical Specifications</h6>
-                            
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>Tank Capacity (Liters)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="tank_capacity_liters" placeholder="" >
+                                        <input type="number" name="tank_capacity_liters" step="0.01" min="0" max="100" placeholder="">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>Seat Height (mm)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="seat_height_mm" >
+                                        <input type="number" name="seat_height_mm" min="0" max="2000" placeholder="">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>Top Speed (km/h)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="top_speed_kmh" placeholder="">
+                                        <input type="number" name="top_speed_kmh" min="0" max="500" placeholder="">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
                                     <label>Torque (Nm)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="torque_nm" placeholder="">
+                                        <input type="number" name="torque_nm" min="0" max="10000" placeholder="">
                                     </div>
                                 </div>
                             </div>
 
+                            <hr class="my-5"/>
                             {{-- Sales Features --}}
                             <h6>Sales Features</h6>
-                            
-                        
-
-                            <div class="form-column col-lg-12">
-                                <div class="cheak-box">
-                                    <label class="contain">Service History Available
-                                        <input type="checkbox" name="service_history_available">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-column col-lg-12">
-                                <div class="cheak-box">
-                                    <label class="contain">Warranty Available
-                                        <input type="checkbox" name="warranty_available">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-column col-lg-12">
+                            <div class="form-column col-lg-4">
                                 <div class="cheak-box">
                                     <label class="contain">Financing Available
                                         <input type="checkbox" name="financing_available">
@@ -599,8 +596,7 @@
                                     </label>
                                 </div>
                             </div>
-
-                            <div class="form-column col-lg-12">
+                            <div class="form-column col-lg-4">
                                 <div class="cheak-box">
                                     <label class="contain">Trade-in Possible
                                         <input type="checkbox" name="trade_in_possible">
@@ -608,8 +604,7 @@
                                     </label>
                                 </div>
                             </div>
-
-                            <div class="form-column col-lg-12">
+                            <div class="form-column col-lg-4">
                                 <div class="cheak-box">
                                     <label class="contain">Available Immediately
                                         <input type="checkbox" name="available_immediately" checked>
@@ -838,6 +833,12 @@
             justify-content: center;
             z-index: 10;
         }
+
+        /* SweetAlert smaller font size */
+        .swal-title-small {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+        }
     </style>
 @endpush
 @push('scripts')
@@ -885,6 +886,22 @@
         $('#advertisement-type-dropdown ul.dropdown').on('click', 'li', function () {
             let advertisementTypeId = $(this).data('id');
             loadAdvertisementData(advertisementTypeId);
+        });
+
+        // Handle seller type dropdown
+        $('#seller-type-dropdown ul.dropdown').on('click', 'li', function() {
+            let sellerType = $(this).data('id');
+            $('#seller-type-dropdown .select span').text($(this).text());
+            $('#seller_type_input').val(sellerType);
+            $('#seller-type-dropdown ul.dropdown').hide();
+        });
+
+        // Handle drive type dropdown
+        $('#drive-type-dropdown ul.dropdown').on('click', 'li', function() {
+            let driveType = $(this).data('id');
+            $('#drive-type-dropdown .select span').text($(this).text());
+            $('#drive_type_input').val(driveType);
+            $('#drive-type-dropdown ul.dropdown').hide();
         });
 
         function loadAdvertisementData(adTypeId) {
@@ -1108,12 +1125,26 @@
 
                         if (xhr.status === 422) {
                             showValidationErrors(xhr.responseJSON.errors);
-
                         } else {
+                            // Handle server errors with more details
+                            let errorMessage = 'Something went wrong!';
+                            let errorDetails = 'Please try again later.';
+                            
+                            if (xhr.responseJSON) {
+                                if (xhr.responseJSON.message) {
+                                    errorMessage = xhr.responseJSON.message;
+                                }
+                                if (xhr.responseJSON.error_details && xhr.responseJSON.error_details !== 'Server error') {
+                                    errorDetails = xhr.responseJSON.error_details;
+                                }
+                            }
+                            
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Something went wrong!',
-                                text: 'Please try again later.'
+                                title: errorMessage,
+                                text: errorDetails,
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK'
                             });
                         }
                     }
@@ -1126,33 +1157,37 @@
             $('.error-text').text('');
             $('.input-error, .drop-menu-error').removeClass('input-error drop-menu-error');
 
-            for (let field in errors) {
-                let $input = $('[name="' + field + '"]');
-                let $formBox = $input.closest('.form_boxes');
-
-                // Show error message below form box
-                // $formBox.closest('.form-column').find('.error-text').text(errors[field][0]);
-                Swal.fire({
-                    toast: true,
-                    icon: 'error',
-                    title: errors[field][0],
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-                // Highlight form box
-                if ($input.attr('type') === 'hidden') {
-                    $formBox.addClass('drop-menu-error'); // dropdowns
-                } else {
-                    $formBox.addClass('input-error');     // text inputs
+            // Get the first error (first key in the errors object)
+            const firstErrorField = Object.keys(errors)[0];
+            const firstErrorMessage = errors[firstErrorField][0];
+            
+            // Show only the first error
+            Swal.fire({
+                toast: true,
+                icon: 'error',
+                title: firstErrorMessage,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                customClass: {
+                    title: 'swal-title-small'
                 }
+            });
+            
+            // Highlight only the first error field
+            let $firstInput = $('[name="' + firstErrorField + '"]');
+            let $firstFormBox = $firstInput.closest('.form_boxes');
+            
+            if ($firstInput.attr('type') === 'hidden') {
+                $firstFormBox.addClass('drop-menu-error'); // dropdowns
+            } else {
+                $firstFormBox.addClass('input-error');     // text inputs
             }
 
             // Scroll to first error
-            let $firstError = $('.input-error, .drop-menu-error').first();
-            if ($firstError.length) {
+            if ($firstFormBox.length) {
                 $('html, body').animate({
-                    scrollTop: $firstError.offset().top - 50
+                    scrollTop: $firstFormBox.offset().top - 50
                 }, 500);
             }
         }

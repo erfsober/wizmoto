@@ -315,14 +315,18 @@
                             <h6>Equipment</h6>
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
-                                    <div class="equipment-list" style="display: flex; flex-wrap: wrap; gap: 40px;">
+                                    <div class="equipment-list-inventory row g-4" >
                                         @foreach ($equipments as $equipment)
+                                        <div class="equipment-item-list col-3" style="display: flex;
+            align-items: center;
+            gap: 10px;">
                                             <label class="contain">
                                                 {{ $equipment->name }}
                                                 <input type="checkbox" name="equipments[]" value="{{ $equipment->id }}"
-                                                    {{ in_array($equipment->id, $advertisement->equipments->toArray()) ? 'checked' : '' }}>
+                                                    {{ $advertisement->equipments->pluck('id')->contains($equipment->id) ? 'checked' : '' }}>
                                                 <span class="checkmark"></span>
                                             </label>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -573,7 +577,128 @@
                                 </div>
                             </div>
 
-                            <hr class="mt-5">
+                            <hr class="my-5"/>
+                            {{-- Seller Type --}}
+                            <h6>Seller Type</h6>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes">
+                                    <label>Seller Type</label>
+                                    <div class="drop-menu" id="seller-type-dropdown">
+                                        <div class="select">
+                                            <span class="selected">{{ old('seller_type', $advertisement->seller_type ?? 'Select Seller Type') }}</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="seller_type" id="seller_type_input" value="{{ old('seller_type', $advertisement->seller_type) }}">
+                                        <ul class="dropdown" style="display: none;">
+                                            <li data-id="private">Private</li>
+                                            <li data-id="dealer">Dealer</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-5"/>
+                            {{-- Vehicle Condition --}}
+                            <h6>Vehicle Condition</h6>
+                            <div class="form-column col-lg-6">
+                                <div class="cheak-box">
+                                    <label class="contain">Service History Available
+                                        <input type="checkbox" name="service_history_available" value="1" {{ $advertisement->service_history_available ? 'checked' : '' }}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="cheak-box">
+                                    <label class="contain">Warranty Available
+                                        <input type="checkbox" name="warranty_available" value="1" {{ $advertisement->warranty_available ? 'checked' : '' }}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="my-5"/>
+                            {{-- Technical Specs --}}
+                            <h6>Technical Specifications</h6>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes">
+                                    <label>Drive Type</label>
+                                    <div class="drop-menu" id="drive-type-dropdown">
+                                        <div class="select">
+                                            <span class="selected">{{ old('drive_type', $advertisement->drive_type ?? 'Select Drive Type') }}</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="drive_type" id="drive_type_input" value="{{ old('drive_type', $advertisement->drive_type) }}">
+                                        <ul class="dropdown" style="display: none;">
+                                            <li data-id="Chain">Chain</li>
+                                            <li data-id="Belt">Belt</li>
+                                            <li data-id="Shaft">Shaft</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Tank Capacity (Liters)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="tank_capacity_liters" step="0.01" min="0" max="100" value="{{ old('tank_capacity_liters', $advertisement->tank_capacity_liters) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Seat Height (mm)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="seat_height_mm" min="0" max="2000" value="{{ old('seat_height_mm', $advertisement->seat_height_mm) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Top Speed (km/h)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="top_speed_kmh" min="0" max="500" value="{{ old('top_speed_kmh', $advertisement->top_speed_kmh) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
+                                    <label>Torque (Nm)</label>
+                                    <div class="drop-menu active">
+                                        <input type="number" name="torque_nm" min="0" max="10000" value="{{ old('torque_nm', $advertisement->torque_nm) }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-5"/>
+                            {{-- Sales Features --}}
+                            <h6>Sales Features</h6>
+                            <div class="form-column col-lg-4">
+                                <div class="cheak-box">
+                                    <label class="contain">Financing Available
+                                        <input type="checkbox" name="financing_available" value="1" {{ $advertisement->financing_available ? 'checked' : '' }}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-4">
+                                <div class="cheak-box">
+                                    <label class="contain">Trade-in Possible
+                                        <input type="checkbox" name="trade_in_possible" value="1" {{ $advertisement->trade_in_possible ? 'checked' : '' }}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-4">
+                                <div class="cheak-box">
+                                    <label class="contain">Available Immediately
+                                        <input type="checkbox" name="available_immediately" value="1" {{ $advertisement->available_immediately ? 'checked' : '' }}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="my-5"/>
                             {{-- Contact --}}
                             <h6>Contact</h6>
                             <div class="form-column col-lg-6">
@@ -598,7 +723,7 @@
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes">
                                     <label>International prefix</label>
-                                    <div class="drop-menu" id="brand-dropdown">
+                                    <div class="drop-menu" id="international-prefix-dropdown">
                                         <div class="select">
                                             <span
                                                 class="selected">{{ old('international_prefix', $advertisement->international_prefix ?? 'Selection') }}</span>
@@ -632,6 +757,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
                                     <label class="contain">Display your phone number in your listing as a contact option?
@@ -758,11 +884,11 @@
         }
 
         .color-item {
-            flex: 1 1 45%;
+          
             /* flex-grow:1, flex-shrink:1, flex-basis:50% */
             display: flex;
             align-items: center;
-            width: 50%;
+
             /* two items per row */
             gap: 10px;
         }
@@ -854,6 +980,22 @@
             loadAdvertisementData(advertisementTypeId);
         });
 
+        // Handle seller type dropdown
+        $('#seller-type-dropdown ul.dropdown').on('click', 'li', function() {
+            let sellerType = $(this).data('id');
+            $('#seller-type-dropdown .select span').text($(this).text());
+            $('#seller_type_input').val(sellerType);
+            $('#seller-type-dropdown ul.dropdown').hide();
+        });
+
+        // Handle drive type dropdown
+        $('#drive-type-dropdown ul.dropdown').on('click', 'li', function() {
+            let driveType = $(this).data('id');
+            $('#drive-type-dropdown .select span').text($(this).text());
+            $('#drive_type_input').val(driveType);
+            $('#drive-type-dropdown ul.dropdown').hide();
+        });
+
         function loadAdvertisementData(adTypeId) {
             let url = "{{ route('vehicle-models.get-data', ':id') }}";
             url = url.replace(':id', adTypeId);
@@ -901,15 +1043,24 @@
                     // ------------------------
                     // Populate Equipments
                     // ------------------------
-                    let $equipmentList = $('.equipment-list');
+                    let $equipmentList = $('.equipment-list-inventory');
                     $equipmentList.empty();
+                    
+                    // Get currently selected equipment IDs
+                    let selectedEquipmentIds = @json($advertisement->equipments->pluck('id')->toArray());
+                    
                     $.each(data.equipments, function(index, equipment) {
+                        let isChecked = selectedEquipmentIds.includes(equipment.id) ? 'checked' : '';
                         let equipmentItem = `
+                    <div class="equipment-item-list col-3" style="display: flex;
+            align-items: center;
+            gap: 10px;">
                     <label class="contain">
                         ${equipment.name}
-                        <input type="checkbox" name="equipments[]" value="${equipment.id}">
+                        <input type="checkbox" name="equipments[]" value="${equipment.id}" ${isChecked}>
                         <span class="checkmark"></span>
-                    </label>`;
+                    </label>
+                    </div>`;
                         $equipmentList.append(equipmentItem);
                     });
 

@@ -84,28 +84,54 @@ class DashboardController extends Controller
 
     public function storeAdvertisement(StoreAdvertisementRequest $request)
     {
-        $data = $request->validated();
-        $data['is_metallic_paint'] = $request->has('is_metallic_paint');
-        $data['show_phone'] = $request->has('show_phone');
-        $data['price_negotiable'] = $request->has('price_negotiable');
-        $data['tax_deductible'] = $request->has('tax_deductible');
-        $advertisement = Advertisement::create($data);
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $advertisement->addMedia($file)
-                    ->toMediaCollection('covers');
+        try {
+            $data = $request->validated();
+            $data['is_metallic_paint'] = $request->has('is_metallic_paint');
+            $data['show_phone'] = $request->has('show_phone');
+            $data['price_negotiable'] = $request->has('price_negotiable');
+            $data['tax_deductible'] = $request->has('tax_deductible');
+            $data['service_history_available'] = $request->has('service_history_available');
+            $data['warranty_available'] = $request->has('warranty_available');
+            $data['financing_available'] = $request->has('financing_available');
+            $data['trade_in_possible'] = $request->has('trade_in_possible');
+            $data['available_immediately'] = $request->has('available_immediately');
+            
+            $advertisement = Advertisement::create($data);
+            
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $advertisement->addMedia($file)
+                        ->toMediaCollection('covers');
+                }
             }
-        }
-        if ($request->has('equipments')) {
-            $advertisement->equipments()
-                ->sync($request->equipments);
-        }
+            
+            if ($request->has('equipments')) {
+                $advertisement->equipments()
+                    ->sync($request->equipments);
+            }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Advertisement created successfully.',
-            'data' => $advertisement,
-        ], 201);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Advertisement created successfully.',
+                'data' => $advertisement,
+            ], 201);
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+           
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Database error occurred. Please check your data and try again.',
+                'error_details' => config('app.debug') ? $e->getMessage() : 'Database error'
+            ], 500);
+            
+        } catch (\Exception $e) {
+   
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An unexpected error occurred. Please try again.',
+                'error_details' => config('app.debug') ? $e->getMessage() : 'Server error'
+            ], 500);
+        }
     }
 
     public function myAdvertisements(Request $request)
@@ -271,6 +297,11 @@ class DashboardController extends Controller
         $data['show_phone'] = $request->has('show_phone');
         $data['price_negotiable'] = $request->has('price_negotiable');
         $data['tax_deductible'] = $request->has('tax_deductible');
+        $data['service_history_available'] = $request->has('service_history_available');
+        $data['warranty_available'] = $request->has('warranty_available');
+        $data['financing_available'] = $request->has('financing_available');
+        $data['trade_in_possible'] = $request->has('trade_in_possible');
+        $data['available_immediately'] = $request->has('available_immediately');
         // Update advertisement
         $advertisement->update($data);
         // Handle new media uploads and map filename->media id
