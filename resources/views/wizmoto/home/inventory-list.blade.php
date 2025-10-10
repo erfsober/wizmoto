@@ -2689,35 +2689,10 @@
             margin-top: 15px;
         }
 
-        .clear-filters-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #fff;
-            border: 2px solid #dc3545;
-            color: #dc3545;
-            text-decoration: none;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
 
-        .clear-filters-btn:hover {
-            background: #dc3545;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
-        }
+    
 
-        .clear-filters-btn.active {
-            background: #28a745;
-            border-color: #28a745;
-            color: #fff;
-            transform: scale(1.05);
-        }
+       
 
         .service-list li {
             list-style: none;
@@ -2737,21 +2712,7 @@
             cursor: pointer;
         }
 
-        .service-list .quick-filter:hover {
-            background: #007bff;
-            border-color: #007bff;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
-        }
-
-        .service-list .quick-filter.active {
-            background: #28a745;
-            border-color: #28a745;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
+      
         /* Responsive quick filters */
         @media (max-width: 768px) {
             .service-list {
@@ -2772,9 +2733,9 @@
 
         .show-more-equipment {
             padding: 8px 20px;
-            border: 2px solid #007bff;
+            border: 2px solid #000000;
             background: #fff;
-            color: #007bff;
+            color: #030303;
             border-radius: 25px;
             font-size: 14px;
             font-weight: 500;
@@ -2782,40 +2743,13 @@
             cursor: pointer;
         }
 
-        .show-more-equipment:hover:not(:disabled) {
-            background: #007bff;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
-        }
+
 
         .show-more-equipment:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        .equipment-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .equipment-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            background: #f8f9fa;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .equipment-item:hover {
-            background: #e9ecef;
-            border-color: #007bff;
-        }
 
         .equipment-item input[type="checkbox"] {
             margin-right: 8px;

@@ -2371,7 +2371,7 @@ Main Header
 }
 
 .add-vehicle-btn {
-    background: #007bff;
+    background: #040404;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -2385,7 +2385,7 @@ Main Header
 }
 
 .add-vehicle-btn:hover {
-    background: #0056b3;
+    background: #525252;
     transform: translateY(-1px);
 }
 
@@ -2478,8 +2478,8 @@ Main Header
 }
 
 .equipment-item input[type="checkbox"]:checked + .checkmark {
-    background: #007bff;
-    border-color: #007bff;
+    background: #050505;
+    border-color: #050505;
 }
 
 .equipment-item input[type="checkbox"]:checked + .checkmark:after {
@@ -2510,7 +2510,7 @@ Main Header
 }
 
 .show-more-equipment {
-    color: #007bff;
+    color: #060606;
     text-decoration: none;
     font-size: 14px;
     display: inline-flex;
@@ -2520,7 +2520,7 @@ Main Header
 }
 
 .show-more-equipment:hover {
-    color: #0056b3;
+    color: #050505;
     text-decoration: none;
 }
 
@@ -2565,23 +2565,20 @@ Main Header
     text-align: center;
 }
 
-.color-item:hover {
-    border-color: #007bff;
-    background-color: #f8f9fa;
-}
+
 
 .color-item input[type="checkbox"] {
     display: none;
 }
 
 .color-item input[type="checkbox"]:checked + .color-circle {
-    border: 3px solid #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 0 0 2px rgba(126, 126, 126, 0.2);
 }
 
 .color-item input[type="checkbox"]:checked {
     background-color: #e3f2fd;
-    border-color: #007bff;
+    border-color: #e0e0e0;
 }
 
 .color-circle {
@@ -2645,8 +2642,8 @@ Main Header
 }
 
 .checkbox-item input[type="checkbox"]:checked + .checkmark {
-    background: #007bff;
-    border-color: #007bff;
+    background: #000000;
+    border-color: #000000;
 }
 
 .checkbox-item input[type="checkbox"]:checked + .checkmark:after {
@@ -2857,8 +2854,8 @@ Main Header
 }
 
 .selected-option {
-    background: #007bff;
-    color: white;
+    background: #dee2e6;
+    color: rgb(6, 6, 6);
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 12px;
@@ -2911,8 +2908,8 @@ Main Header
 }
 
 .multi-select-item input[type="checkbox"]:checked + .checkmark {
-    background: #007bff;
-    border-color: #007bff;
+    background: #000000;
+    border-color: #000000;
 }
 
 .multi-select-item input[type="checkbox"]:checked + .checkmark:after {
@@ -31014,3 +31011,62 @@ li.nav-sub.mm-listitem .mm-listitem__btn {
 #slider-range-value1::after {
   margin: 0 2px;
 }
+
+/* General checkbox styling for all pages */
+.contain {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--theme-color-dark);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.contain input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.contain .checkmark {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 5px;
+}
+
+.contain input:checked ~ .checkmark {
+    background-color: var(--theme-color-dark);
+}
+
+.contain .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.contain input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.contain .checkmark:after {
+    left: 6px;
+    top: 3px;
+    width: 7px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+

@@ -282,7 +282,7 @@
                             <h6>Equipment</h6>
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
-                                    <div class="equipment-list" style="display: flex; flex-wrap: wrap; gap: 40px;">
+                                    <div class="equipment-list-inventory row g-4" >
 
                                     </div>
                                 </div>
@@ -787,10 +787,8 @@
         }
 
         .color-item {
-            flex: 1 1 45%; /* flex-grow:1, flex-shrink:1, flex-basis:50% */
             display: flex;
             align-items: center;
-            width: 50%; /* two items per row */
             gap: 10px;
         }
 
@@ -941,15 +939,19 @@
                     // ------------------------
                     // Populate Equipments
                     // ------------------------
-                    let $equipmentList = $('.equipment-list');
+                    let $equipmentList = $('.equipment-list-inventory');
                     $equipmentList.empty();
                     $.each(data.equipments, function (index, equipment) {
                         let equipmentItem = `
+                        <div class="equipment-item-list col-3" style="display: flex;
+            align-items: center;
+            gap: 10px;">
                     <label class="contain">
                         ${equipment.name}
                         <input type="checkbox" name="equipments[]" value="${equipment.id}">
                         <span class="checkmark"></span>
-                    </label>`;
+                    </label>
+                    </div>`;
                         $equipmentList.append(equipmentItem);
                     });
 
