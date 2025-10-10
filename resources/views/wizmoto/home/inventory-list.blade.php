@@ -2432,6 +2432,24 @@
                         };
                     }
                     
+                    // Previous Owners
+                    const previousOwners = $('input[name="previous_owners_filter"]:checked').val();
+                    if (previousOwners && previousOwners !== 'any') {
+                        let previousOwnersValue = '';
+                        if (previousOwners === '1') {
+                            previousOwnersValue = '1 Owner';
+                        } else if (previousOwners === '2') {
+                            previousOwnersValue = '2 Owners';
+                        } else if (previousOwners === '3') {
+                            previousOwnersValue = '3+ Owners';
+                        }
+                        filters.previousOwners = {
+                            name: 'Previous Owners',
+                            value: previousOwnersValue,
+                            type: 'single'
+                        };
+                    }
+                    
                     // Zip Code
                     const zipCode = $('input[name="zip_code"]').val();
                     if (zipCode && zipCode.trim() !== '') {
@@ -2449,6 +2467,48 @@
                             name: 'Search Radius',
                             value: `${searchRadius} km`,
                             type: 'single'
+                        };
+                    }
+                    
+                    // Emission Class
+                    const emissionClasses = [];
+                    $('input[name="emissions_class[]"]:checked').each(function() {
+                        emissionClasses.push($(this).next('label').text().trim());
+                    });
+                    if (emissionClasses.length > 0) {
+                        filters.emissionClass = {
+                            name: 'Emission Class',
+                            value: emissionClasses.join(', '),
+                            type: 'multi'
+                        };
+                    }
+                    
+                    // Online From Period
+                    const onlineFromPeriod = $('#online-from-dropdown .select span').text();
+                    if (onlineFromPeriod && !onlineFromPeriod.includes('Select')) {
+                        filters.onlineFromPeriod = {
+                            name: 'Online From',
+                            value: onlineFromPeriod,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // CO2 Emissions
+                    const co2EmissionsFrom = $('input[name="co2_emissions_from"]').val();
+                    const co2EmissionsTo = $('input[name="co2_emissions_to"]').val();
+                    if (co2EmissionsFrom || co2EmissionsTo) {
+                        let co2EmissionsValue = '';
+                        if (co2EmissionsFrom && co2EmissionsTo) {
+                            co2EmissionsValue = `${co2EmissionsFrom} - ${co2EmissionsTo} g/km`;
+                        } else if (co2EmissionsFrom) {
+                            co2EmissionsValue = `From ${co2EmissionsFrom} g/km`;
+                        } else if (co2EmissionsTo) {
+                            co2EmissionsValue = `To ${co2EmissionsTo} g/km`;
+                        }
+                        filters.co2Emissions = {
+                            name: 'CO2 Emissions',
+                            value: co2EmissionsValue,
+                            type: 'range'
                         };
                     }
                     
@@ -2658,7 +2718,7 @@
                         case 'category':
                             $('input[name="vehicle_category[]"]:checked').prop('checked', false);
                             break;
-                        case 'emissions':
+                        case 'emissionClass':
                             $('input[name="emissions_class[]"]:checked').prop('checked', false);
                             break;
                         case 'version':
@@ -2667,6 +2727,17 @@
                         case 'cylinders':
                             $('input[name="cylinders"]').val('');
                             $('#cylinders-dropdown .select span').text('Select Cylinders');
+                            break;
+                        case 'onlineFromPeriod':
+                            $('#online-from-dropdown .select span').text('Select Period');
+                            $('#online-from-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'co2Emissions':
+                            $('input[name="co2_emissions_from"]').val('');
+                            $('input[name="co2_emissions_to"]').val('');
+                            break;
+                        case 'previousOwners':
+                            $('input[name="previous_owners_filter"][value="any"]').prop('checked', true);
                             break;
                         case 'zipCode':
                             $('input[name="zip_code"]').val('');
@@ -2731,6 +2802,9 @@
                     
                     // Reset multi-select containers
                     $('.selected-options').empty();
+                    
+                    // Reset previous owners to "any"
+                    $('input[name="previous_owners_filter"][value="any"]').prop('checked', true);
                 }
                 
                 // Update the bar whenever filters change

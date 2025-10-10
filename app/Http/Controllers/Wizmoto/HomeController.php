@@ -210,7 +210,19 @@ class HomeController extends Controller
             
             // VEHICLE CONDITIONS
             ->when($request->filled('previous_owners'), fn($q) => $q->where('previous_owners', '<=', (int)$request->previous_owners))
-            ->when($request->filled('previous_owners_filter'), fn($q) => $q->where('previous_owners', '<=', (int)$request->previous_owners_filter))
+            ->when($request->filled('previous_owners_filter'), function ($q) use ($request) {
+                $filter = $request->previous_owners_filter;
+                if ($filter === 'any') {
+                    // "Any" means no filter - don't add any condition
+                    return $q;
+                } elseif ($filter === '3') {
+                    // "3+ Owners" means 3 or more previous owners
+                    $q->where('previous_owners', '>=', 3);
+                } else {
+                    // For 1 and 2 owners, filter by <= that number
+                    $q->where('previous_owners', '<=', (int)$filter);
+                }
+            })
             ->when($request->filled('price_negotiable'), fn($q) => $q->where('price_negotiable', true))
             ->when($request->filled('tax_deductible'), fn($q) => $q->where('tax_deductible', true))
             ->when($request->filled('damaged_vehicle'), fn($q) => $q->where('damaged_vehicle', true))
