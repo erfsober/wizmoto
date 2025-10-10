@@ -109,17 +109,16 @@
                     </div>
                     <ul class="ul-cotent">
                         @forelse($advertisement->equipments->take(3) as $equipment)
-                            <li><a href="#">{{ $equipment->name }}</a></li>
+                            <li><a href="#">{{ Str::limit($equipment->name, 20) }}</a></li>
+                           
                         @empty
                             <li><a href="#">Standard Features</a></li>
                         @endforelse
                  
                     </ul>
                 </div>
-                <div class="content-box-two">
-                 
+                <div class="content-box-two"  style="display: flex;flex-direction: column;justify-content: center;">
                     <h4 class="title">${{ $advertisement->final_price }}</h4>
-                    <span>Calculate financing</span>
                     <a href="{{ route('advertisements.show', $advertisement->id) }}" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg"
                             width="14" height="14" viewBox="0 0 14 14" fill="none">
                             <g clip-path="url(#clip0_989_6940)">
