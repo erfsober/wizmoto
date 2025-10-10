@@ -31070,3 +31070,50 @@ li.nav-sub.mm-listitem .mm-listitem__btn {
     transform: rotate(45deg);
 }
 
+/* Seller Type Badge Styles */
+.seller-type-badge {
+    margin: 8px 0 12px 0;
+}
+
+.seller-type-badge .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.seller-type-badge .badge-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.seller-type-badge .badge-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.seller-type-badge .badge-secondary {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+.seller-type-badge .badge-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+}
+
+/* Responsive badge */
+@media (max-width: 768px) {
+    .seller-type-badge .badge {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+}
+

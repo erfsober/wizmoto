@@ -19,6 +19,8 @@ class AdvertisementController extends Controller
             'equipments',
             'provider'
         ])->findOrFail($id);
+       
+    
 
         $relatedAdvertisements = Advertisement::where('id', '!=', $id)
             ->where(function ($query) use ($advertisement) {

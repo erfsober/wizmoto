@@ -536,7 +536,7 @@
                                 <div class="form_boxes v2">
                                     <label>Tank Capacity (Liters)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="tank_capacity_liters" placeholder="e.g. 15.5" step="0.1" min="0" max="100">
+                                        <input type="number" name="tank_capacity_liters" placeholder="" >
                                     </div>
                                 </div>
                             </div>
@@ -545,7 +545,7 @@
                                 <div class="form_boxes v2">
                                     <label>Seat Height (mm)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="seat_height_mm" placeholder="e.g. 800" min="0" max="2000">
+                                        <input type="number" name="seat_height_mm" >
                                     </div>
                                 </div>
                             </div>
@@ -554,7 +554,7 @@
                                 <div class="form_boxes v2">
                                     <label>Top Speed (km/h)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="top_speed_kmh" placeholder="e.g. 200" min="0" max="500">
+                                        <input type="number" name="top_speed_kmh" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -563,7 +563,7 @@
                                 <div class="form_boxes v2">
                                     <label>Torque (Nm)</label>
                                     <div class="drop-menu active">
-                                        <input type="number" name="torque_nm" placeholder="e.g. 120" min="0" max="1000">
+                                        <input type="number" name="torque_nm" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -571,14 +571,7 @@
                             {{-- Sales Features --}}
                             <h6>Sales Features</h6>
                             
-                            <div class="form-column col-lg-12">
-                                <div class="cheak-box">
-                                    <label class="contain">First Owner
-                                        <input type="checkbox" name="first_owner">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
+                        
 
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">

@@ -381,14 +381,31 @@
                     <div class="inner-column">
                         <div class="contact-box">
                             <div class="icon-box">
-                                <img src="{{ $advertisement->provider?->getFirstMediaUrl('image', 'thumb') }}"
-                                    alt="Header Image"
-                                    style="width: 80px; height: 80px;      border-radius: 80%;  object-fit: cover; ">
-
+                                @if($advertisement->provider?->getFirstMediaUrl('image', 'thumb'))
+                                    <img src="{{ $advertisement->provider->getFirstMediaUrl('image', 'thumb') }}"
+                                        alt="Provider Image"
+                                        style="width: 80px; height: 80px; border-radius: 80%; object-fit: cover;">
+                                @else
+                                    <div style="width: 80px; height: 80px; border-radius: 80%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#666"/>
+                                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#666"/>
+                                        </svg>
+                                    </div>
+                                @endif
                             </div>
                             <div class="content-box">
                                 {{-- Dealer / Provider Name (assuming from provider relation) --}}
                                 <h6 class="title">{{ $advertisement->provider->full_name ?? 'Unknown Dealer' }}</h6>
+
+                                {{-- Seller Type Badge --}}
+                                @if($advertisement->seller_type)
+                                    <div class="seller-type-badge">
+                                        <span class="badge badge-{{ $advertisement->seller_type == \App\Enums\SellerTypeEnum::DEALER->value ? 'primary' : 'secondary' }}">
+                                            {{ ucfirst($advertisement->seller_type->value) }}
+                                        </span>
+                                    </div>
+                                @endif
 
                                 {{-- Address --}}
                                 <div class="text">
