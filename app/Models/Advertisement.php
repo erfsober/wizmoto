@@ -43,6 +43,11 @@ class Advertisement extends Model implements HasMedia {
              ->fit(Fit::Crop , 360 , 240)
              ->quality(75)
              ->format('webp');
+        // Vehicle card image for inventory list
+        $this->addMediaConversion('vehicle-card')
+             ->fit(Fit::Crop , 373 , 351)
+             ->quality(75)
+             ->format('webp');
     }
 
     protected static function booted () {

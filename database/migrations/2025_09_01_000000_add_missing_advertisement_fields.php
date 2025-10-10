@@ -11,8 +11,6 @@ return new class extends Migration {
             $table->string('seller_type')->default('private');
             
             // Vehicle Condition
-            
-            $table->boolean('first_owner')->default(false);
             $table->boolean('service_history_available')->default(false);
             $table->boolean('warranty_available')->default(false);
             

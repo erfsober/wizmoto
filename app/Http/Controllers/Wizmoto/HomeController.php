@@ -22,6 +22,7 @@ class HomeController extends Controller
     public function index()
     {
         $newAdvertisements = Advertisement::query()
+            ->with(['brand', 'vehicleModel', 'equipments'])
             ->latest()
             ->limit(12)
             ->get();
@@ -62,6 +63,7 @@ class HomeController extends Controller
                 'vehicleBody',
                 'vehicleColor',
                 'fuelType',
+                'equipments',
             ])
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
@@ -343,6 +345,7 @@ class HomeController extends Controller
                 'vehicleBody',
                 'vehicleColor',
                 'fuelType',
+                'equipments',
             ])
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
@@ -380,6 +383,7 @@ class HomeController extends Controller
                 'vehicleBody',
                 'vehicleColor',
                 'fuelType',
+                'equipments',
             ])
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')

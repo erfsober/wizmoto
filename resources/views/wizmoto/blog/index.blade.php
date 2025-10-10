@@ -33,11 +33,7 @@
                                     Home
                                 </a>
                             </li>
-                            <li class="current-dropdown">
-                                <a class="box-account" href="{{route('blogs.index')}}">
-                                    Blog
-                                </a>
-                            </li>
+                         
                             @if(Auth::guard('provider')->check())
                                 <li class="current-dropdown">
                                     <span>
