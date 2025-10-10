@@ -634,7 +634,7 @@
                                     <div class="filter-section-header">
                                         <h6 class="title">Technical Specifications</h6>
                                     </div>
-                                    <div class="filter-section-content">
+                                    <div class="filter-section-content row">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
                                                 <label>Drive Type</label>
@@ -654,65 +654,65 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Tank Capacity (L)</label>
+                                                <label>Tank Capacity (from)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="tank_capacity_from" placeholder="From">
+                                                    <input type="text" name="tank_capacity_from" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Tank Capacity (L)</label>
+                                                <label>Tank Capacity (to)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="tank_capacity_to" placeholder="To">
+                                                    <input type="text" name="tank_capacity_to" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Seat Height (mm)</label>
+                                                <label>Seat Height (from)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="seat_height_from" placeholder="From">
+                                                    <input type="text" name="seat_height_from" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Seat Height (mm)</label>
+                                                <label>Seat Height (to)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="seat_height_to" placeholder="To">
+                                                    <input type="text" name="seat_height_to" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Top Speed (km/h)</label>
+                                                <label>Top Speed (from)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="top_speed_from" placeholder="From">
+                                                    <input type="text" name="top_speed_from" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Top Speed (km/h)</label>
+                                                <label>Top Speed (to)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="top_speed_to" placeholder="To">
+                                                    <input type="text" name="top_speed_to" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Torque (Nm)</label>
+                                                <label>Torque (from)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="torque_from" placeholder="From">
+                                                    <input type="text" name="torque_from" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Torque (Nm)</label>
+                                                <label>Torque (to)</label>
                                                 <div class="drop-menu active">
-                                                    <input type="text" name="torque_to" placeholder="To">
+                                                    <input type="text" name="torque_to" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
