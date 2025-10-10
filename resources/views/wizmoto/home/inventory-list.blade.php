@@ -578,6 +578,179 @@
                                         </div>
                                             </div>
                                             
+                                <!-- Seller Type Section -->
+                                <div class="filter-section">
+                                    <div class="filter-section-header">
+                                        <h6 class="title">Seller Type</h6>
+                                    </div>
+                                    <div class="filter-section-content">
+                                        <div class="col-lg-12">
+                                            <div class="form_boxes">
+                                                <label>Seller Type</label>
+                                                <div class="drop-menu" id="seller-type-dropdown">
+                                                    <div class="select">
+                                                        <span>Select Seller Type</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </div>
+                                                    <input type="hidden" name="seller_type" class="seller_type_input">
+                                                    <ul class="dropdown" style="display: none;">
+                                                        <li data-value="private">Private</li>
+                                                        <li data-value="dealer">Dealer</li>
+                                                        <li data-value="garage">Garage</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vehicle Condition Section -->
+                                <div class="filter-section">
+                                    <div class="filter-section-header">
+                                        <h6 class="title">Vehicle Condition</h6>
+                                    </div>
+                                    <div class="filter-section-content">
+                                        <div class="col-lg-12">
+                                            <div class="checkbox-container">
+                                                <div class="contain">
+                                                    <input type="checkbox" name="service_history_available" id="service_history_available">
+                                                    <span class="checkmark"></span>
+                                                    <label for="service_history_available">Service History Available</label>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-container">
+                                                <div class="contain">
+                                                    <input type="checkbox" name="warranty_available" id="warranty_available">
+                                                    <span class="checkmark"></span>
+                                                    <label for="warranty_available">Warranty Available</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Technical Specifications Section -->
+                                <div class="filter-section">
+                                    <div class="filter-section-header">
+                                        <h6 class="title">Technical Specifications</h6>
+                                    </div>
+                                    <div class="filter-section-content">
+                                        <div class="col-lg-12">
+                                            <div class="form_boxes">
+                                                <label>Drive Type</label>
+                                                <div class="drop-menu" id="drive-type-dropdown">
+                                                    <div class="select">
+                                                        <span>Select Drive Type</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </div>
+                                                    <input type="hidden" name="drive_type" class="drive_type_input">
+                                                    <ul class="dropdown" style="display: none;">
+                                                        <li data-value="chain">Chain</li>
+                                                        <li data-value="belt">Belt</li>
+                                                        <li data-value="shaft">Shaft</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Tank Capacity (L)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="tank_capacity_from" placeholder="From">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Tank Capacity (L)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="tank_capacity_to" placeholder="To">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Seat Height (mm)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="seat_height_from" placeholder="From">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Seat Height (mm)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="seat_height_to" placeholder="To">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Top Speed (km/h)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="top_speed_from" placeholder="From">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Top Speed (km/h)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="top_speed_to" placeholder="To">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Torque (Nm)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="torque_from" placeholder="From">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form_boxes">
+                                                <label>Torque (Nm)</label>
+                                                <div class="drop-menu active">
+                                                    <input type="text" name="torque_to" placeholder="To">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sales Features Section -->
+                                <div class="filter-section">
+                                    <div class="filter-section-header">
+                                        <h6 class="title">Sales Features</h6>
+                                    </div>
+                                    <div class="filter-section-content">
+                                        <div class="col-lg-12">
+                                            <div class="checkbox-container">
+                                                <div class="contain">
+                                                    <input type="checkbox" name="financing_available" id="financing_available">
+                                                    <span class="checkmark"></span>
+                                                    <label for="financing_available">Financing Available</label>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-container">
+                                                <div class="contain">
+                                                    <input type="checkbox" name="trade_in_possible" id="trade_in_possible">
+                                                    <span class="checkmark"></span>
+                                                    <label for="trade_in_possible">Trade-in Possible</label>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-container">
+                                                <div class="contain">
+                                                    <input type="checkbox" name="available_immediately" id="available_immediately">
+                                                    <span class="checkmark"></span>
+                                                    <label for="available_immediately">Available Immediately</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                            
                                 <!-- Equipment Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
@@ -1607,6 +1780,52 @@
                     console.log('Triggering updateVehicleCards for online from...');
                     updateVehicleCards();
                 });
+
+                // Seller Type dropdown
+                $('#seller-type-dropdown').on('click', function(e) {
+                    e.stopPropagation();
+                    const $dropdown = $(this).find('.dropdown');
+                    $('.dropdown').not($dropdown).hide();
+                    $dropdown.toggle();
+                });
+
+                $('#seller-type-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const sellerTypeValue = $(this).data('value');
+                    const sellerTypeName = $(this).text();
+                    const $sellerTypeDropdown = $(this).closest('#seller-type-dropdown');
+
+                    $sellerTypeDropdown.find('.select span').text(sellerTypeName);
+                    $sellerTypeDropdown.find('input[type="hidden"]').val(sellerTypeValue);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for seller type...');
+                    updateVehicleCards();
+                });
+
+                // Drive Type dropdown
+                $('#drive-type-dropdown').on('click', function(e) {
+                    e.stopPropagation();
+                    const $dropdown = $(this).find('.dropdown');
+                    $('.dropdown').not($dropdown).hide();
+                    $dropdown.toggle();
+                });
+
+                $('#drive-type-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const driveTypeValue = $(this).data('value');
+                    const driveTypeName = $(this).text();
+                    const $driveTypeDropdown = $(this).closest('#drive-type-dropdown');
+
+                    $driveTypeDropdown.find('.select span').text(driveTypeName);
+                    $driveTypeDropdown.find('input[type="hidden"]').val(driveTypeValue);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for drive type...');
+                    updateVehicleCards();
+                });
             }
 
             // Function to collect all filter values (global scope)
@@ -1816,6 +2035,59 @@
                     // VAT deductible
                     if ($('input[name="tax_deductible"]:checked').length > 0) {
                         filters.tax_deductible = 1;
+                    }
+
+                    // Seller Type
+                    if ($('input[name="seller_type"]').val()) {
+                        filters.seller_type = $('input[name="seller_type"]').val();
+                    }
+
+                    // Vehicle Condition
+                    if ($('input[name="service_history_available"]:checked').length > 0) {
+                        filters.service_history_available = true;
+                    }
+                    if ($('input[name="warranty_available"]:checked').length > 0) {
+                        filters.warranty_available = true;
+                    }
+
+                    // Technical Specifications
+                    if ($('input[name="drive_type"]').val()) {
+                        filters.drive_type = $('input[name="drive_type"]').val();
+                    }
+                    if ($('input[name="tank_capacity_from"]').val()) {
+                        filters.tank_capacity_from = $('input[name="tank_capacity_from"]').val();
+                    }
+                    if ($('input[name="tank_capacity_to"]').val()) {
+                        filters.tank_capacity_to = $('input[name="tank_capacity_to"]').val();
+                    }
+                    if ($('input[name="seat_height_from"]').val()) {
+                        filters.seat_height_from = $('input[name="seat_height_from"]').val();
+                    }
+                    if ($('input[name="seat_height_to"]').val()) {
+                        filters.seat_height_to = $('input[name="seat_height_to"]').val();
+                    }
+                    if ($('input[name="top_speed_from"]').val()) {
+                        filters.top_speed_from = $('input[name="top_speed_from"]').val();
+                    }
+                    if ($('input[name="top_speed_to"]').val()) {
+                        filters.top_speed_to = $('input[name="top_speed_to"]').val();
+                    }
+                    if ($('input[name="torque_from"]').val()) {
+                        filters.torque_from = $('input[name="torque_from"]').val();
+                    }
+                    if ($('input[name="torque_to"]').val()) {
+                        filters.torque_to = $('input[name="torque_to"]').val();
+                    }
+
+                    // Sales Features
+                    if ($('input[name="financing_available"]:checked').length > 0) {
+                        filters.financing_available = true;
+                    }
+                    if ($('input[name="trade_in_possible"]:checked').length > 0) {
+                        filters.trade_in_possible = true;
+                    }
+                    if ($('input[name="available_immediately"]:checked').length > 0) {
+                        filters.available_immediately = true;
                     }
 
                     return filters;
@@ -2604,6 +2876,148 @@
                         };
                     }
                     
+                    // Seller Type
+                    const sellerType = $('#seller-type-dropdown .select span').text();
+                    if (sellerType && !sellerType.includes('Select')) {
+                        filters.sellerType = {
+                            name: 'Seller Type',
+                            value: sellerType,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Vehicle Condition
+                    const serviceHistory = $('input[name="service_history_available"]:checked').length > 0;
+                    const warranty = $('input[name="warranty_available"]:checked').length > 0;
+                    
+                    if (serviceHistory) {
+                        filters.serviceHistory = {
+                            name: 'Service History',
+                            value: 'Available',
+                            type: 'single'
+                        };
+                    }
+                    if (warranty) {
+                        filters.warranty = {
+                            name: 'Warranty',
+                            value: 'Available',
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Drive Type
+                    const driveType = $('#drive-type-dropdown .select span').text();
+                    if (driveType && !driveType.includes('Select')) {
+                        filters.driveType = {
+                            name: 'Drive Type',
+                            value: driveType,
+                            type: 'single'
+                        };
+                    }
+                    
+                    // Tank Capacity
+                    const tankCapacityFrom = $('input[name="tank_capacity_from"]').val();
+                    const tankCapacityTo = $('input[name="tank_capacity_to"]').val();
+                    if (tankCapacityFrom || tankCapacityTo) {
+                        let tankCapacityValue = '';
+                        if (tankCapacityFrom && tankCapacityTo) {
+                            tankCapacityValue = `${tankCapacityFrom} - ${tankCapacityTo} L`;
+                        } else if (tankCapacityFrom) {
+                            tankCapacityValue = `From ${tankCapacityFrom} L`;
+                        } else if (tankCapacityTo) {
+                            tankCapacityValue = `To ${tankCapacityTo} L`;
+                        }
+                        filters.tankCapacity = {
+                            name: 'Tank Capacity',
+                            value: tankCapacityValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Seat Height
+                    const seatHeightFrom = $('input[name="seat_height_from"]').val();
+                    const seatHeightTo = $('input[name="seat_height_to"]').val();
+                    if (seatHeightFrom || seatHeightTo) {
+                        let seatHeightValue = '';
+                        if (seatHeightFrom && seatHeightTo) {
+                            seatHeightValue = `${seatHeightFrom} - ${seatHeightTo} mm`;
+                        } else if (seatHeightFrom) {
+                            seatHeightValue = `From ${seatHeightFrom} mm`;
+                        } else if (seatHeightTo) {
+                            seatHeightValue = `To ${seatHeightTo} mm`;
+                        }
+                        filters.seatHeight = {
+                            name: 'Seat Height',
+                            value: seatHeightValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Top Speed
+                    const topSpeedFrom = $('input[name="top_speed_from"]').val();
+                    const topSpeedTo = $('input[name="top_speed_to"]').val();
+                    if (topSpeedFrom || topSpeedTo) {
+                        let topSpeedValue = '';
+                        if (topSpeedFrom && topSpeedTo) {
+                            topSpeedValue = `${topSpeedFrom} - ${topSpeedTo} km/h`;
+                        } else if (topSpeedFrom) {
+                            topSpeedValue = `From ${topSpeedFrom} km/h`;
+                        } else if (topSpeedTo) {
+                            topSpeedValue = `To ${topSpeedTo} km/h`;
+                        }
+                        filters.topSpeed = {
+                            name: 'Top Speed',
+                            value: topSpeedValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Torque
+                    const torqueFrom = $('input[name="torque_from"]').val();
+                    const torqueTo = $('input[name="torque_to"]').val();
+                    if (torqueFrom || torqueTo) {
+                        let torqueValue = '';
+                        if (torqueFrom && torqueTo) {
+                            torqueValue = `${torqueFrom} - ${torqueTo} Nm`;
+                        } else if (torqueFrom) {
+                            torqueValue = `From ${torqueFrom} Nm`;
+                        } else if (torqueTo) {
+                            torqueValue = `To ${torqueTo} Nm`;
+                        }
+                        filters.torque = {
+                            name: 'Torque',
+                            value: torqueValue,
+                            type: 'range'
+                        };
+                    }
+                    
+                    // Sales Features
+                    const financing = $('input[name="financing_available"]:checked').length > 0;
+                    const tradeIn = $('input[name="trade_in_possible"]:checked').length > 0;
+                    const availableImmediately = $('input[name="available_immediately"]:checked').length > 0;
+                    
+                    if (financing) {
+                        filters.financing = {
+                            name: 'Financing',
+                            value: 'Available',
+                            type: 'single'
+                        };
+                    }
+                    if (tradeIn) {
+                        filters.tradeIn = {
+                            name: 'Trade-in',
+                            value: 'Possible',
+                            type: 'single'
+                        };
+                    }
+                    if (availableImmediately) {
+                        filters.availableImmediately = {
+                            name: 'Available',
+                            value: 'Immediately',
+                            type: 'single'
+                        };
+                    }
+                    
                     console.log('Collected filters:', filters);
                     return filters;
                 }
@@ -2771,6 +3185,45 @@
                             $('input[name="is_metallic_paint"]:checked').prop('checked', false);
                             $('input[name="tax_deductible"]:checked').prop('checked', false);
                             break;
+                        case 'sellerType':
+                            $('#seller-type-dropdown .select span').text('Select Seller Type');
+                            $('#seller-type-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'serviceHistory':
+                            $('input[name="service_history_available"]:checked').prop('checked', false);
+                            break;
+                        case 'warranty':
+                            $('input[name="warranty_available"]:checked').prop('checked', false);
+                            break;
+                        case 'driveType':
+                            $('#drive-type-dropdown .select span').text('Select Drive Type');
+                            $('#drive-type-dropdown input[type="hidden"]').val('');
+                            break;
+                        case 'tankCapacity':
+                            $('input[name="tank_capacity_from"]').val('');
+                            $('input[name="tank_capacity_to"]').val('');
+                            break;
+                        case 'seatHeight':
+                            $('input[name="seat_height_from"]').val('');
+                            $('input[name="seat_height_to"]').val('');
+                            break;
+                        case 'topSpeed':
+                            $('input[name="top_speed_from"]').val('');
+                            $('input[name="top_speed_to"]').val('');
+                            break;
+                        case 'torque':
+                            $('input[name="torque_from"]').val('');
+                            $('input[name="torque_to"]').val('');
+                            break;
+                        case 'financing':
+                            $('input[name="financing_available"]:checked').prop('checked', false);
+                            break;
+                        case 'tradeIn':
+                            $('input[name="trade_in_possible"]:checked').prop('checked', false);
+                            break;
+                        case 'availableImmediately':
+                            $('input[name="available_immediately"]:checked').prop('checked', false);
+                            break;
                     }
                 }
                 
@@ -2827,6 +3280,16 @@
                     setTimeout(updateSelectedFiltersBar, 100);
                     // Also update vehicle cards when checkboxes change
                     setTimeout(updateVehicleCards, 200);
+                });
+                
+                // Handle custom checkbox clicks
+                $(document).on('click', '.inventory-sidebar .contain', function(e) {
+                    e.preventDefault();
+                    const $checkbox = $(this).find('input[type="checkbox"]');
+                    if ($checkbox.length) {
+                        $checkbox.prop('checked', !$checkbox.prop('checked'));
+                        $checkbox.trigger('change');
+                    }
                 });
                 
                 // Listen for text input changes

@@ -269,6 +269,29 @@ class HomeController extends Controller
                 }
             })
             
+            // SELLER TYPE
+            ->when($request->filled('seller_type'), fn($q) => $q->where('seller_type', $request->seller_type))
+            
+            // VEHICLE CONDITION
+            ->when($request->filled('service_history_available'), fn($q) => $q->where('service_history_available', true))
+            ->when($request->filled('warranty_available'), fn($q) => $q->where('warranty_available', true))
+            
+            // TECHNICAL SPECIFICATIONS
+            ->when($request->filled('drive_type'), fn($q) => $q->where('drive_type', $request->drive_type))
+            ->when($request->filled('tank_capacity_from'), fn($q) => $q->where('tank_capacity_liters', '>=', (float)$request->tank_capacity_from))
+            ->when($request->filled('tank_capacity_to'), fn($q) => $q->where('tank_capacity_liters', '<=', (float)$request->tank_capacity_to))
+            ->when($request->filled('seat_height_from'), fn($q) => $q->where('seat_height_mm', '>=', (int)$request->seat_height_from))
+            ->when($request->filled('seat_height_to'), fn($q) => $q->where('seat_height_mm', '<=', (int)$request->seat_height_to))
+            ->when($request->filled('top_speed_from'), fn($q) => $q->where('top_speed_kmh', '>=', (int)$request->top_speed_from))
+            ->when($request->filled('top_speed_to'), fn($q) => $q->where('top_speed_kmh', '<=', (int)$request->top_speed_to))
+            ->when($request->filled('torque_from'), fn($q) => $q->where('torque_nm', '>=', (int)$request->torque_from))
+            ->when($request->filled('torque_to'), fn($q) => $q->where('torque_nm', '<=', (int)$request->torque_to))
+            
+            // SALES FEATURES
+            ->when($request->filled('financing_available'), fn($q) => $q->where('financing_available', true))
+            ->when($request->filled('trade_in_possible'), fn($q) => $q->where('trade_in_possible', true))
+            ->when($request->filled('available_immediately'), fn($q) => $q->where('available_immediately', true))
+            
             ->latest('id')
             ->paginate(10);
 
