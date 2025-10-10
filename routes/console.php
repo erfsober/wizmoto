@@ -10,5 +10,8 @@ Artisan::command('inspire', function () {
 
 Schedule::command('ads:recalculate-price-evaluations')->dailyAt('3:00');
 
+// Autoscout24 scraper - run at 3 AM daily to extract 50 ads
+Schedule::command('import:autoscout24-images --limit=50')->dailyAt('3:00');
+
 // Geocode advertisements every 5 minutes
 Schedule::command('advertisements:geocode --scheduled --limit=20')->everyFiveMinutes();
