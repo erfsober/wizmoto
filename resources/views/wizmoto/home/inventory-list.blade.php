@@ -177,6 +177,23 @@
                                             <div class="vehicle-search-group" data-group="0">
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
+                                        <label>Vehicle Category</label>
+                                        <div class="drop-menu" id="advertisement-type-dropdown">
+                                            <div class="select">
+                                                <span>Select Category</span>
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <input type="hidden" name="advertisement_type" class="advertisement_type_input">
+                                            <ul class="dropdown" style="display: none;">
+                                                @foreach ($advertisementTypes as $type)
+                                                    <li data-id="{{ $type->id }}">{{ $type->title }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form_boxes">
                                                         <label>Brand</label>
                                                         <div class="drop-menu" id="brand-dropdown">
                                             <div class="select">
@@ -933,6 +950,10 @@
                     updateSelectedFiltersBar();
                     console.log('Also calling with timeout...');
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for brand...');
+                    updateVehicleCards();
                 });
 
                 // Model dropdown click handler
@@ -960,7 +981,75 @@
                     // Update selected filters bar
                     console.log('Model selected in existing handler:', modelName);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for model...');
+                    updateVehicleCards();
                 });
+            }
+
+            // Load brands for selected advertisement type (single)
+            function loadBrandsForAdvertisementType(advertisementTypeId) {
+                console.log('Loading brands for advertisement type:', advertisementTypeId);
+                
+                const $brandDropdown = $('#brand-dropdown .dropdown');
+                const $brandSelect = $('#brand-dropdown .select span');
+                const $brandInput = $('#brand-dropdown input[type="hidden"]');
+
+                // Reset brand selection
+                $brandSelect.text('Select Brand');
+                $brandInput.val('');
+                $brandDropdown.empty();
+
+                if (!advertisementTypeId) {
+                    console.log('No advertisement type selected, showing all brands');
+                    // Load all brands
+                    loadAllBrands();
+                    return;
+                }
+
+                // Make AJAX request to get brands for this advertisement type
+                $.ajax({
+                    url: '{{ route("inventory.list") }}',
+                    method: 'GET',
+                    data: { 
+                        advertisement_type: advertisementTypeId,
+                        get_brands_only: true // Flag to indicate we only want brands
+                    },
+                    success: function(response) {
+                        console.log('Brands loaded successfully:', response);
+                        
+                        if (response.brands && response.brands.length > 0) {
+                            // Populate brand dropdown with filtered brands
+                            response.brands.forEach(function(brand) {
+                                $brandDropdown.append(`
+                                    <li data-id="${brand.id}">${brand.name}</li>
+                                `);
+                            });
+                            console.log('Brand dropdown populated with', response.brands.length, 'brands');
+                        } else {
+                            $brandDropdown.append('<li>No brands available for this category</li>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading brands:', error);
+                        $brandDropdown.append('<li>Error loading brands</li>');
+                    }
+                });
+            }
+
+            // Load all brands (when no category is selected)
+            function loadAllBrands() {
+                const $brandDropdown = $('#brand-dropdown .dropdown');
+                const brands = @json($brands);
+                
+                $brandDropdown.empty();
+                brands.forEach(function(brand) {
+                    $brandDropdown.append(`
+                        <li data-id="${brand.id}">${brand.name}</li>
+                    `);
+                });
+                console.log('All brands loaded:', brands.length);
             }
 
             // Load models for selected brand
@@ -1020,9 +1109,48 @@
 
             // Initialize all dropdowns in the page
             initializeAllDropdowns();
+            
+            // Initialize brand dropdown with all brands
+            loadAllBrands();
 
             // Function to initialize all dropdowns
             function initializeAllDropdowns() {
+                // Advertisement Type dropdown
+                $('#advertisement-type-dropdown').on('click', function(e) {
+                    e.stopPropagation();
+                    const $dropdown = $(this).find('.dropdown');
+                    $('.dropdown').not($dropdown).hide();
+                    $dropdown.toggle();
+                });
+
+                $('#advertisement-type-dropdown .dropdown').on('click', 'li', function(e) {
+                    e.stopPropagation();
+                    const advertisementTypeId = $(this).data('id');
+                    const advertisementTypeName = $(this).text();
+                    const $advertisementTypeDropdown = $(this).closest('#advertisement-type-dropdown');
+
+                    console.log('Advertisement type clicked:', advertisementTypeId, advertisementTypeName);
+
+                    $advertisementTypeDropdown.find('.select span').text(advertisementTypeName);
+                    $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Clear brand and model selections when category changes
+                    $('#brand-dropdown .select span').text('Select Brand');
+                    $('#brand-dropdown input[type="hidden"]').val('');
+                    $('#model-dropdown .select span').text('Select Model');
+                    $('#model-dropdown input[type="hidden"]').val('');
+                    
+                    // Load brands for selected advertisement type
+                    console.log('About to call loadBrandsForAdvertisementType with:', advertisementTypeId);
+                    loadBrandsForAdvertisementType(advertisementTypeId);
+                    
+                    // Update selected filters bar
+                    console.log('Advertisement type selected:', advertisementTypeName);
+                    setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // NOTE: Advertisement type is NOT used for filtering vehicles - only for loading brands
+                });
                 // Body Work dropdown
                 $('#body-dropdown').on('click', function(e) {
                     e.stopPropagation();
@@ -1042,6 +1170,10 @@
                     // Update selected filters bar
                     console.log('Body selected:', bodyName);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for body...');
+                    updateVehicleCards();
                 });
 
                 // Fuel Type dropdown
@@ -1063,6 +1195,10 @@
                     // Update selected filters bar
                     console.log('Fuel selected:', fuelName);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for fuel...');
+                    updateVehicleCards();
                 });
 
                 // Year From dropdown
@@ -1080,6 +1216,10 @@
                     $(this).closest('#year-from-dropdown').find('.select span').text(yearText);
                     $(this).closest('#year-from-dropdown').find('input[type="hidden"]').val(year);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for year from...');
+                    updateVehicleCards();
                 });
 
                 // Year To dropdown
@@ -1097,6 +1237,10 @@
                     $(this).closest('#year-to-dropdown').find('.select span').text(yearText);
                     $(this).closest('#year-to-dropdown').find('input[type="hidden"]').val(year);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for year to...');
+                    updateVehicleCards();
                 });
 
                 // Registration Year To dropdown
@@ -1118,6 +1262,10 @@
                     // Update selected filters bar
                     console.log('Year To selected:', yearText);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for registration year to...');
+                    updateVehicleCards();
                 });
                 
                 // Registration Year From dropdown li click handler
@@ -1132,6 +1280,10 @@
                     // Update selected filters bar
                     console.log('Year From selected:', yearText);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for registration year from...');
+                    updateVehicleCards();
                 });
 
                 // City dropdown
@@ -1149,6 +1301,10 @@
                     $(this).closest('#city-dropdown').find('.select span').text(cityName);
                     $(this).closest('#city-dropdown').find('input[type="hidden"]').val(cityId);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for city...');
+                    updateVehicleCards();
                 });
 
                 // Cylinders dropdown
@@ -1166,6 +1322,10 @@
                     $(this).closest('#cylinders-dropdown').find('.select span').text(cylindersText);
                     $(this).closest('#cylinders-dropdown').find('input[type="hidden"]').val(cylindersId);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for cylinders...');
+                    updateVehicleCards();
                 });
 
                 // Power CV From dropdown
@@ -1183,6 +1343,10 @@
                     $(this).closest('#power-cv-from-dropdown').find('.select span').text(cvText);
                     $(this).closest('#power-cv-from-dropdown').find('input[type="hidden"]').val(cv);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for power CV from...');
+                    updateVehicleCards();
                 });
 
                 // Power CV To dropdown
@@ -1200,6 +1364,10 @@
                     $(this).closest('#power-cv-to-dropdown').find('.select span').text(cvText);
                     $(this).closest('#power-cv-to-dropdown').find('input[type="hidden"]').val(cv);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for power CV to...');
+                    updateVehicleCards();
                 });
 
                 // Power KW From dropdown
@@ -1217,6 +1385,10 @@
                     $(this).closest('#power-kw-from-dropdown').find('.select span').text(kwText);
                     $(this).closest('#power-kw-from-dropdown').find('input[type="hidden"]').val(kw);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for power KW from...');
+                    updateVehicleCards();
                 });
 
                 // Power KW To dropdown
@@ -1234,6 +1406,10 @@
                     $(this).closest('#power-kw-to-dropdown').find('.select span').text(kwText);
                     $(this).closest('#power-kw-to-dropdown').find('input[type="hidden"]').val(kw);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for power KW to...');
+                    updateVehicleCards();
                 });
 
                 // Multi-select functionality
@@ -1337,12 +1513,20 @@
                     $(this).closest('.drop-menu').find('.select span').text(text);
                     $(this).closest('.drop-menu').find('input[type="hidden"]').val(period);
                     $(this).closest('.dropdown').hide();
+                    
+                    // Trigger vehicle cards update
+                    console.log('Triggering updateVehicleCards for online from...');
+                    updateVehicleCards();
                 });
             }
 
             // Function to collect all filter values (global scope)
             function collectFilterValues() {
                     const filters = {};
+                    
+                    console.log('Collecting filter values...');
+                    
+                    // Advertisement Type is NOT used for filtering - only for loading brands
                     
                     // Brand filters
                     const brandIds = [];
@@ -1352,9 +1536,10 @@
                         }
                     });
                     if (brandIds.length > 0) {
-                        filters.brand_ids = brandIds;
+                        filters.brand_id = brandIds;
+                        console.log('Brand IDs:', brandIds);
                     }
-
+                    
                     // Model filters
                     const modelIds = [];
                     $('.vehicle_model_id_input').each(function() {
@@ -1363,7 +1548,8 @@
                         }
                     });
                     if (modelIds.length > 0) {
-                        filters.model_ids = modelIds;
+                        filters.vehicle_model_id = modelIds;
+                        console.log('Model IDs:', modelIds);
                     }
 
                     // Version filters

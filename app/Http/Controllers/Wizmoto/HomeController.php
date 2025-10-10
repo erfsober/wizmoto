@@ -47,7 +47,15 @@ class HomeController extends Controller
 
     public function inventoryList(Request $request)
     {
-        $brands = Brand::all();
+        // Get brands based on advertisement type filter
+        $brandsQuery = Brand::select('id', 'name', 'advertisement_type_id');
+        
+        // If filtering by advertisement type, show only relevant brands
+        if ($request->filled('advertisement_type')) {
+            $brandsQuery->where('advertisement_type_id', $request->advertisement_type);
+        }
+        
+        $brands = $brandsQuery->orderBy('name')->get();
         $vehicleModels = VehicleModel::with('Brand')->select('id', 'name', 'brand_id')->get();
         $advertisementTypes = AdvertisementType::all();
         $fuelTypes = FuelType::all();
@@ -73,10 +81,6 @@ class HomeController extends Controller
                         ->orWhereHas('brand', fn($q2) => $q2->where('name', 'like', "%{$request->search}%"))
                         ->orWhereHas('vehicleModel', fn($q2) => $q2->where('name', 'like', "%{$request->search}%"));
                 });
-            })
-            ->when($request->advertisement_type, function ($query, $type) {
-                \Log::info('Filtering by advertisement_type: ' . $type);
-                $query->where('advertisement_type_id', $type);
             })
             
             // LOCATION FILTERS
@@ -235,6 +239,13 @@ class HomeController extends Controller
         // Debug logging
         \Log::info('Advertisement type filter applied: ' . ($request->advertisement_type ?? 'none'));
         \Log::info('Total advertisements found: ' . $advertisements->total());
+
+        // If it's an AJAX request for brands only, return just the brands
+        if ($request->ajax() && $request->has('get_brands_only')) {
+            return response()->json([
+                'brands' => $brands->toArray()
+            ]);
+        }
 
         // If it's an AJAX request, return JSON with HTML and pagination info
         if ($request->ajax()) {
