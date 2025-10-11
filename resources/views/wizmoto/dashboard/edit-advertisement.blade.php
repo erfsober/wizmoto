@@ -936,6 +936,21 @@
 @endpush
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            // On page load, if advertisement type is selected, load its data
+            var currentAdTypeId = $('#advertisement_type_id_input').val();
+            var currentBrandId = $('#brand_id_input').val();
+            
+            if (currentAdTypeId) {
+                loadAdvertisementData(currentAdTypeId, function() {
+                    // After brands are loaded, if there's a selected brand, load its models
+                    if (currentBrandId) {
+                        loadModels(currentBrandId);
+                    }
+                });
+            }
+        });
+
         $('#brand-dropdown ul.dropdown').on('click', 'li', function() {
             let brandId = $(this).data('id');
             loadModels(brandId);
@@ -945,10 +960,10 @@
         function loadModels(brandId) {
             let url = "{{ route('vehicle-models.get-models-based-on-brand', ':brandId') }}";
             url = url.replace(':brandId', brandId);
-
-            $('#model-dropdown .select span').text('Select');
-            $('#vehicle_model_id_input').val('');
-            $('#model-dropdown ul.dropdown').empty();
+            
+            // Store current selected model
+            var currentModelId = $('#vehicle_model_id_input').val();
+            var currentModelName = $('#model-dropdown .select span').text();
 
             $.ajax({
                 url: url,
@@ -961,11 +976,24 @@
 
                     if (models.length === 0) {
                         $modelDropdown.append('<li>No models available</li>');
+                        $('#model-dropdown .select span').text('Select');
+                        $('#vehicle_model_id_input').val('');
                     } else {
+                        // Convert models object to array with id and name
+                        let modelsArray = Object.entries(models).map(([id, name]) => ({id: id, name: name}));
+                        
                         $.each(models, function(index, model) {
-
                             $modelDropdown.append('<li data-id="' + index + '">' + model + '</li>');
                         });
+                        
+                        // Restore selected model if it exists in the loaded data
+                        if (currentModelId && models[currentModelId]) {
+                            $('#vehicle_model_id_input').val(currentModelId);
+                            $('#model-dropdown .select span').text(currentModelName);
+                        } else {
+                            $('#model-dropdown .select span').text('Select');
+                            $('#vehicle_model_id_input').val('');
+                        }
                     }
                     
                     // Reinitialize searchable dropdown for model after AJAX load
@@ -1001,9 +1029,15 @@
             $('#drive-type-dropdown ul.dropdown').hide();
         });
 
-        function loadAdvertisementData(adTypeId) {
+        function loadAdvertisementData(adTypeId, callback) {
             let url = "{{ route('vehicle-models.get-data', ':id') }}";
             url = url.replace(':id', adTypeId);
+            
+            // Store current values to preserve them
+            var currentBrandId = $('#brand_id_input').val();
+            var currentBrandName = $('#brand-dropdown .select span').text();
+            var currentFuelTypeId = $('input[name="fuel_type_id"]').val();
+            var currentFuelTypeName = $('#fuel-type-dropdown .select span').text();
 
             $.ajax({
                 url: url,
@@ -1016,16 +1050,25 @@
                     // ------------------------
                     let $brandDropdown = $('#brand-dropdown ul.dropdown');
                     $brandDropdown.empty();
-                    $('#brand-dropdown .select span').text('Select Brand');
-                    $('#brand_id_input').val('');
 
                     if (data.brands.length === 0) {
                         $brandDropdown.append('<li>No brands available</li>');
+                        $('#brand-dropdown .select span').text('Select Brand');
+                        $('#brand_id_input').val('');
                     } else {
                         $.each(data.brands, function(index, brand) {
                             $brandDropdown.append('<li data-id="' + brand.id + '">' + brand.name +
                                 '</li>');
                         });
+                        
+                        // Restore selected brand if it exists in the loaded data
+                        if (currentBrandId && data.brands.find(b => b.id == currentBrandId)) {
+                            $('#brand_id_input').val(currentBrandId);
+                            $('#brand-dropdown .select span').text(currentBrandName);
+                        } else {
+                            $('#brand-dropdown .select span').text('Select Brand');
+                            $('#brand_id_input').val('');
+                        }
                     }
                     
                     // Reinitialize searchable dropdown for brand after AJAX load
@@ -1077,18 +1120,32 @@
                     // ------------------------
                     // Populate Fuel Types Dropdown
                     // ------------------------
-                    let $fuelDropdown = $('#motor-change-dropdown ul.dropdown');
+                    let $fuelDropdown = $('#fuel-type-dropdown ul.dropdown');
                     $fuelDropdown.empty();
-                    $('#fuel-type-dropdown .select span').text('Select Fuel type');
-                    $('input[name="fuel_type_id"]').val('');
 
                     if (data.fuelTypes.length === 0) {
                         $fuelDropdown.append('<li>No Fuel types available</li>');
+                        $('#fuel-type-dropdown .select span').text('Select Fuel type');
+                        $('input[name="fuel_type_id"]').val('');
                     } else {
                         $.each(data.fuelTypes, function(index, fuel) {
                             $fuelDropdown.append('<li data-id="' + fuel.id + '">' + fuel.name +
                                 '</li>');
                         });
+                        
+                        // Restore selected fuel type if it exists in the loaded data
+                        if (currentFuelTypeId && data.fuelTypes.find(f => f.id == currentFuelTypeId)) {
+                            $('input[name="fuel_type_id"]').val(currentFuelTypeId);
+                            $('#fuel-type-dropdown .select span').text(currentFuelTypeName);
+                        } else {
+                            $('#fuel-type-dropdown .select span').text('Select Fuel type');
+                            $('input[name="fuel_type_id"]').val('');
+                        }
+                    }
+                    
+                    // Call callback if provided (for chaining)
+                    if (typeof callback === 'function') {
+                        callback();
                     }
                 },
                 error: function(xhr, status, error) {
