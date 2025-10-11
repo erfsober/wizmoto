@@ -15,6 +15,7 @@ use App\Models\VehicleModel;
 use App\Services\GeocodingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -569,6 +570,64 @@ class HomeController extends Controller
 
         return response()->json([
             'count' => $count
+        ]);
+    }
+
+    /**
+     * Live search advertisements via AJAX
+     */
+    public function liveSearch(Request $request)
+    {
+        $searchTerm = $request->get('search', '');
+        
+        if (strlen($searchTerm) < 2) {
+            return response()->json([
+                'results' => []
+            ]);
+        }
+
+        $advertisements = Advertisement::query()
+            ->with(['brand', 'vehicleModel', 'media'])
+            ->where(function ($q) use ($searchTerm) {
+                $q->where('description', 'like', "%{$searchTerm}%")
+                    ->orWhere('city', 'like', "%{$searchTerm}%")
+                    ->orWhere('version_model', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('brand', fn($query) => $query->where('name', 'like', "%{$searchTerm}%"))
+                    ->orWhereHas('vehicleModel', fn($query) => $query->where('name', 'like', "%{$searchTerm}%"));
+            })
+            ->limit(5)
+            ->get()
+            ->map(function ($ad) {
+                // Get the first cover image with thumb conversion
+                $image = $ad->getFirstMediaUrl('covers', 'thumb');
+                if (!$image) {
+                    // Use a placeholder if no image
+                    $image = asset('wizmoto/images/logo.png');
+                }
+                
+                // Build title from brand and model
+                $title = trim(($ad->brand->name ?? '') . ' ' . ($ad->vehicleModel->name ?? ''));
+                if ($ad->version_model) {
+                    $title .= ' ' . $ad->version_model;
+                }
+                if ($ad->registration_year) {
+                    $title .= ' (' . $ad->registration_year . ')';
+                }
+                
+                return [
+                    'id' => $ad->id,
+                    'title' => $title ?: 'Motorcycle',
+                    'price' => $ad->final_price ? '€' . number_format($ad->final_price, 0, ',', '.') : 'Price on request',
+                    'image' => $image,
+                    'url' => route('advertisements.show', $ad->id),
+                    'brand' => $ad->brand->name ?? '',
+                    'model' => $ad->vehicleModel->name ?? '',
+                    'year' => $ad->registration_year ?? '',
+                ];
+            });
+
+        return response()->json([
+            'results' => $advertisements
         ]);
     }
 }
