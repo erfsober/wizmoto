@@ -8,6 +8,7 @@
     <link href="{{ asset('wizmoto/css/mmenu.css') }}" rel="stylesheet">
     <link href="{{ asset('wizmoto/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('wizmoto/css/jquery-ui.css') }}" rel="stylesheet">
+    <link href="{{ asset('wizmoto/css/searchable-dropdown.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{asset("wizmoto/images/favicon.png")}}" type="image/x-icon">
     <link rel="icon" href="{{asset("wizmoto/images/favicon.png")}}" type="image/x-icon">

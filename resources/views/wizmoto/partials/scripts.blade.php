@@ -13,6 +13,7 @@
 <script src="{{ asset('wizmoto/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('wizmoto/js/swalalert.min.js') }}"></script>
 <script src="{{ asset('wizmoto/js/scripts.js') }}"></script>
+<script src="{{ asset('wizmoto/js/searchable-dropdown.js') }}"></script>
 
 <!-- Pusher for real-time chat -->
 @vite(['resources/js/app.js'])

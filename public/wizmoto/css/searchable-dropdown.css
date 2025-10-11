@@ -1,0 +1,60 @@
+/**
+ * Searchable Dropdown Styles
+ * Add 'searchable-dropdown' class to any .drop-menu to enable search functionality
+ */
+
+/* Dropdown scrollbar and max-height */
+.drop-menu .dropdown,
+.drop-menu ul.dropdown {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for dropdown */
+.drop-menu .dropdown::-webkit-scrollbar,
+.drop-menu ul.dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.drop-menu .dropdown::-webkit-scrollbar-track,
+.drop-menu ul.dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.drop-menu .dropdown::-webkit-scrollbar-thumb,
+.drop-menu ul.dropdown::-webkit-scrollbar-thumb {
+    background: #405FF2;
+    border-radius: 4px;
+}
+
+.drop-menu .dropdown::-webkit-scrollbar-thumb:hover,
+.drop-menu ul.dropdown::-webkit-scrollbar-thumb:hover {
+    background: #2d47d1;
+}
+
+/* Keyboard navigation highlight */
+.drop-menu .dropdown li.keyboard-focus,
+.drop-menu ul.dropdown li.keyboard-focus {
+    background: #405FF2;
+    color: white;
+}
+
+/* Ensure dropdown items are visible */
+.drop-menu .dropdown li,
+.drop-menu ul.dropdown li {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Search input container (sticky at top) */
+.dropdown-search {
+    list-style: none;
+}
+
+/* No results message styling */
+.no-results-message {
+    list-style: none;
+    pointer-events: none;
+}
+

@@ -47,7 +47,7 @@
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Brand</label>
-                                    <div class="drop-menu" id="brand-dropdown">
+                                    <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                         <div class="select">
                                             <span
                                                 class="selected">{{ old('brand_id', $advertisement->brand->name ?? 'Selection') }}</span>
@@ -67,7 +67,7 @@
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Model</label>
-                                    <div class="drop-menu" id="model-dropdown">
+                                    <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                         <div class="select">
                                             <span
                                                 class="selected">{{ old('vehicle_model_id', $advertisement->vehicleModel->name ?? 'Selection') }}</span>
@@ -967,6 +967,11 @@
                             $modelDropdown.append('<li data-id="' + index + '">' + model + '</li>');
                         });
                     }
+                    
+                    // Reinitialize searchable dropdown for model after AJAX load
+                    if (typeof initializeSearchableDropdowns === 'function') {
+                        initializeSearchableDropdowns();
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching models:', error);
@@ -1021,6 +1026,11 @@
                             $brandDropdown.append('<li data-id="' + brand.id + '">' + brand.name +
                                 '</li>');
                         });
+                    }
+                    
+                    // Reinitialize searchable dropdown for brand after AJAX load
+                    if (typeof initializeSearchableDropdowns === 'function') {
+                        initializeSearchableDropdowns();
                     }
 
                     // ------------------------

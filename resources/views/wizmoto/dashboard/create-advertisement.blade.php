@@ -40,7 +40,7 @@
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Brand</label>
-                                    <div class="drop-menu" id="brand-dropdown">
+                                    <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                         <div class="select">
                                             <span>Select Brand</span>
                                             <i class="fa fa-angle-down"></i>
@@ -58,7 +58,7 @@
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
                                     <label>Model</label>
-                                    <div class="drop-menu" id="model-dropdown">
+                                    <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                         <div class="select">
                                             <span>Select</span>
                                             <i class="fa fa-angle-down"></i>
@@ -843,7 +843,6 @@
 @endpush
 @push('scripts')
     <script>
-
         $('#brand-dropdown ul.dropdown').on('click', 'li', function () {
             let brandId = $(this).data('id');
             loadModels(brandId);
@@ -874,6 +873,11 @@
 
                             $modelDropdown.append('<li data-id="' + index + '">' + model + '</li>');
                         });
+                    }
+                    
+                    // Reinitialize searchable dropdown for model after AJAX load
+                    if (typeof initializeSearchableDropdowns === 'function') {
+                        initializeSearchableDropdowns();
                     }
                 },
                 error: function (xhr, status, error) {
@@ -928,6 +932,11 @@
                         $.each(data.brands, function (index, brand) {
                             $brandDropdown.append('<li data-id="' + brand.id + '">' + brand.name + '</li>');
                         });
+                    }
+                    
+                    // Reinitialize searchable dropdown for brand after AJAX load
+                    if (typeof initializeSearchableDropdowns === 'function') {
+                        initializeSearchableDropdowns();
                     }
 
                     // ------------------------
