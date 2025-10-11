@@ -104,7 +104,7 @@
     </div>
     <!-- End Header Search -->
 
-    <div id="nav-mobile"></div>
+    @include('wizmoto.partials.mobile-menu')
 </header>
 <!-- End header-section -->
 
