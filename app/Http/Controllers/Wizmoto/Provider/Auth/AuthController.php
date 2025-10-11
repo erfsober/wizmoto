@@ -24,19 +24,26 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-        if (Auth::guard('provider')
-            ->attempt($credentials, $request->filled('remember'))
-        ) {
-            $request->session()
-                ->regenerate();
+        
+        if (Auth::guard('provider')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
 
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('home'))
+                ->with('toast_success', 'Welcome back! You have successfully logged in.');
+        }
+
+        // Check if user exists with this email
+        $userExists = Provider::where('email', $request->email)->exists();
+        
+        if (!$userExists) {
+            return back()
+                ->with('toast_error', 'No account found with this email address.')
+                ->with('suggest_register', true)
+                ->onlyInput('email');
         }
 
         return back()
-            ->withErrors([
-                'login_error' => 'Invalid credentials',
-            ])
+            ->with('toast_error', 'Incorrect password. Please check your password and try again.')
             ->onlyInput('email');
     }
 
@@ -48,17 +55,18 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'privacy_policy' => 'accepted',
         ]);
-        $provider = Provider::query()
-            ->create([
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+        
+        $provider = Provider::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        
         // $provider->sendEmailVerificationNotification();
-        Auth::guard('provider')
-            ->login($provider);
+        Auth::guard('provider')->login($provider);
 
-        return redirect()->route('home');
+        return redirect()->route('home')
+            ->with('toast_success', 'Registration successful! Welcome to Wizmoto.');
     }
 
     public function logout(Request $request)
@@ -83,10 +91,12 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
-        $status = Password::broker('providers')
-            ->sendResetLink($request->only('email'));
+        
+        $status = Password::broker('providers')->sendResetLink($request->only('email'));
 
-        return $status === Password::RESET_LINK_SENT ? back()->with('status', __($status)) : back()->withErrors(['email' => __($status)]);
+        return $status === Password::RESET_LINK_SENT 
+            ? back()->with('toast_success', 'Password reset link has been sent to your email!')
+            : back()->with('toast_error', 'We could not find an account with that email address.');
     }
 
     public function showResetForm($token)
@@ -101,17 +111,17 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
-        $status = Password::broker('providers')
-            ->reset($request->only('email', 'password', 'password_confirmation', 'token'), function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => bcrypt($request->password),
-                ])
-                    ->save();
-            });
+        
+        $status = Password::broker('providers')->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'), 
+            function ($user) use ($request) {
+                $user->forceFill(['password' => bcrypt($request->password)])->save();
+            }
+        );
 
-        return $status === Password::PASSWORD_RESET ? redirect()
-            ->route('provider.auth')
-            ->with('status', __($status)) : back()->withErrors(['email' => __($status)]);
+        return $status === Password::PASSWORD_RESET 
+            ? redirect()->route('provider.auth')->with('toast_success', 'Your password has been reset successfully!')
+            : back()->with('toast_error', 'Failed to reset password. Please try again or request a new reset link.');
     }
 
     public function redirectToGoogle()

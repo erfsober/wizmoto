@@ -155,16 +155,36 @@
                             <div class="form-box">
                                 <form id="login-form" method="POST" action="{{ route('provider.login') }}" class="active">
                                     @csrf
-                                    @if($errors->has('login_error'))
-                                        <div class="error">{{ $errors->first('login_error') }}</div>
+                                    
+                                    @if(session('toast_error') || $errors->any())
+                                        <div class="alert-box error-alert">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#dc3545"/>
+                                            </svg>
+                                            <div class="alert-text">
+                                                <strong>Login failed.</strong>
+                                                <p>
+                                                    {{ session('toast_error') ?? $errors->first() }}
+                                                    @if(session('suggest_register'))
+                                                        <span class="register-suggestion">
+                                                            Don't have an account? 
+                                                            <a href="#" id="switch-to-register" class="register-link">Register here</a>
+                                                        </span>
+                                                    @else
+                                                        If the problem persists, please contact our support team.
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </div>
                                     @endif
+                                    
                                     <div class="form_boxes">
                                         <label>Email</label>
-                                        <input type="email" name="email" placeholder="">
+                                        <input type="email" name="email" value="{{ old('email') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
                                         <label>Password</label>
-                                        <input type="password" name="password" placeholder="">
+                                        <input type="password" name="password" placeholder="" required>
                                     </div>
                                     <div class="btn-box">
                                         <label class="contain">Remember
@@ -191,24 +211,30 @@
                             <div class="form-box two">
                                 <form id="register-form" method="POST" action="{{ route('provider.register') }}">
                                     @csrf
-                                    @if($errors->any() && !$errors->has('login_error'))
-                                        <div class="error">
-                                            @foreach ($errors->all() as $error)
-                                                <div>{{ $error }}</div>
-                                            @endforeach
+                                    
+                                    @if($errors->any() && !session('toast_error'))
+                                        <div class="alert-box error-alert">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#dc3545"/>
+                                            </svg>
+                                            <div class="alert-text">
+                                                <strong>Registration failed.</strong>
+                                                <p>{{ $errors->first() }} Please check your information and try again.</p>
+                                            </div>
                                         </div>
                                     @endif
+                                    
                                     <div class="form_boxes">
                                         <label>Username</label>
-                                        <input type="text" name="username" placeholder="">
+                                        <input type="text" name="username" value="{{ old('username') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
                                         <label>Email</label>
-                                        <input type="email" name="email" placeholder="">
+                                        <input type="email" name="email" value="{{ old('email') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
                                         <label>Password</label>
-                                        <input type="password" name="password" placeholder="">
+                                        <input type="password" name="password" placeholder="" required>
                                     </div>
                                     <div class="form-submit">
                                         <button type="submit" class="theme-btn">Register <img src="images/arrow.svg" alt="">
@@ -240,3 +266,173 @@
     @include('wizmoto.partials.footer')
 
 @endsection
+
+@push('scripts')
+    <script>
+        // Auto-switch to correct tab when there are errors
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there are errors and which form they're for
+            @if(session('toast_error') || ($errors->any() && old('email') && !old('username')))
+                // Login errors - show login tab
+                const loginTab = document.getElementById('nav-home-tab');
+                const loginPane = document.getElementById('nav-home');
+                const registerTab = document.getElementById('nav-profile-tab');
+                const registerPane = document.getElementById('nav-profile');
+                
+                if (loginTab && loginPane) {
+                    // Activate login tab
+                    loginTab.classList.add('active');
+                    loginPane.classList.add('show', 'active');
+                    // Deactivate register tab
+                    registerTab.classList.remove('active');
+                    registerPane.classList.remove('show', 'active');
+                }
+            @elseif($errors->any() && old('username'))
+                // Register errors - show register tab (already default, but ensure it)
+                const registerTab = document.getElementById('nav-profile-tab');
+                const registerPane = document.getElementById('nav-profile');
+                const loginTab = document.getElementById('nav-home-tab');
+                const loginPane = document.getElementById('nav-home');
+                
+                if (registerTab && registerPane) {
+                    // Activate register tab
+                    registerTab.classList.add('active');
+                    registerPane.classList.add('show', 'active');
+                    // Deactivate login tab
+                    loginTab.classList.remove('active');
+                    loginPane.classList.remove('show', 'active');
+                }
+            @endif
+
+            // Handle "Register here" link click
+            const switchToRegisterLink = document.getElementById('switch-to-register');
+            if (switchToRegisterLink) {
+                switchToRegisterLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get the email from login form and transfer to register form
+                    const loginEmail = document.querySelector('#login-form input[name="email"]').value;
+                    const registerEmail = document.querySelector('#register-form input[name="email"]');
+                    if (registerEmail && loginEmail) {
+                        registerEmail.value = loginEmail;
+                    }
+                    
+                    // Switch to register tab
+                    const registerTab = document.getElementById('nav-profile-tab');
+                    if (registerTab) {
+                        registerTab.click();
+                        
+                        // Focus on username field
+                        setTimeout(function() {
+                            const usernameInput = document.querySelector('#register-form input[name="username"]');
+                            if (usernameInput) {
+                                usernameInput.focus();
+                            }
+                        }, 100);
+                    }
+                });
+            }
+        });
+
+        // Success toast notifications only (like Autoscout24 style)
+        @if(session('toast_success'))
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: '{{ session('toast_success') }}',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'colored-toast'
+                }
+            });
+        @endif
+
+        @if(session('status'))
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: '{{ session('status') }}',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'colored-toast'
+                }
+            });
+        @endif
+    </script>
+    <style>
+        /* Autoscout24-style inline error alerts */
+        .alert-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            background-color: #fff5f5;
+            border: 1px solid #feb2b2;
+        }
+
+        .alert-box.error-alert svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .alert-text {
+            flex: 1;
+        }
+
+        .alert-text strong {
+            display: block;
+            color: #c53030;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .alert-text p {
+            color: #742a2a;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .register-suggestion {
+            display: block;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .register-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .register-link:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        /* Success toast styling */
+        .colored-toast.swal2-icon-success {
+            background-color: #28a745 !important;
+        }
+
+        .colored-toast .swal2-title {
+            color: white;
+            font-size: 15px;
+        }
+
+        .colored-toast .swal2-icon {
+            border-color: white;
+            color: white;
+        }
+    </style>
+@endpush
