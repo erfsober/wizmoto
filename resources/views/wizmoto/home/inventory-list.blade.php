@@ -176,6 +176,7 @@
                                             </div>
                                             <input type="hidden" name="advertisement_type" class="advertisement_type_input">
                                             <ul class="dropdown" style="display: none;">
+                                                <li data-id="">Any Category</li>
                                                 @foreach ($advertisementTypes as $type)
                                                     <li data-id="{{ $type->id }}">{{ $type->title }}</li>
                                                 @endforeach
@@ -186,13 +187,14 @@
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
                                                         <label>Brand</label>
-                                                        <div class="drop-menu" id="brand-dropdown">
+                                                        <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                             <div class="select">
-                                                                <span>Select Brand</span>
+                                                                <span>Any Brand</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                             <input type="hidden" name="brand_id[]" class="brand_id_input">
                                             <ul class="dropdown" style="display: none;">
+                                                                <li data-id="" class="clear-option">Any Brand</li>
                                                                 @foreach ($brands as $brand)
                                                                     <li data-id="{{ $brand->id }}">{{ $brand->name }}
                                                                     </li>
@@ -204,15 +206,15 @@
                                                 <div class="col-lg-12">
                                     <div class="form_boxes">
                                                         <label>Model</label>
-                                                        <div class="drop-menu" id="model-dropdown">
+                                                        <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                             <div class="select">
-                                                                <span>Select Model</span>
+                                                                <span>Any Model</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                             <input type="hidden" name="vehicle_model_id[]"
                                                                 class="vehicle_model_id_input">
                                                             <ul class="dropdown" style="display: none;" id="model-select">
-    
+                                                                <li data-id="" class="clear-option">Any Model</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -246,13 +248,14 @@
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
                                                     <label>Body Work</label>
-                                                    <div class="drop-menu" id="body-dropdown">
+                                                    <div class="drop-menu searchable-dropdown" id="body-dropdown">
                                             <div class="select">
-                                                            <span>Select Body Work</span>
+                                                            <span>Any Body Work</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="vehicle_body_id">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="" class="clear-option">Any Body Work</li>
                                                             @foreach ($vehicleBodies as $vehicleBody)
                                                                 <li data-id="{{ $vehicleBody->id }}">{{ $vehicleBody->name }}
                                                                 </li>
@@ -266,13 +269,14 @@
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
                                                     <label>Fuel Type</label>
-                                                    <div class="drop-menu" id="fuel-dropdown">
+                                                    <div class="drop-menu searchable-dropdown" id="fuel-dropdown">
                                             <div class="select">
-                                                            <span>Select</span>
+                                                            <span>Any Fuel Type</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="fuel_type_id">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="" class="clear-option">Any Fuel Type</li>
                                                             @foreach ($fuelTypes as $fuelType)
                                                                 <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
                                                             @endforeach
@@ -291,6 +295,7 @@
                                             </div>
                                                         <input type="hidden" name="registration_year_from">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any Year</li>
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
@@ -311,6 +316,7 @@
                                             </div>
                                                         <input type="hidden" name="registration_year_to">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any Year</li>
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
@@ -351,6 +357,7 @@
                                             </div>
                                                         <input type="hidden" name="power_cv_from">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any</li>
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
                                                                 <li data-id="{{ $cv }}">{{ $cv }} CV</li>
                                                             @endfor
@@ -368,6 +375,7 @@
                                             </div>
                                                         <input type="hidden" name="power_cv_to">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any</li>
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
                                                                 <li data-id="{{ $cv }}">{{ $cv }} CV</li>
                                                             @endfor
@@ -386,6 +394,7 @@
                                             </div>
                                                         <input type="hidden" name="power_kw_from">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any</li>
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
@@ -403,6 +412,7 @@
                                                     </div>
                                                         <input type="hidden" name="power_kw_to">
                                                         <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any</li>
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
@@ -456,6 +466,7 @@
                                             </div>
                                                         <input type="hidden" name="cylinders">
                                             <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any</li>
                                                             <li data-id="1">1 Cylinder</li>
                                                             <li data-id="2">2 Cylinders</li>
                                                             <li data-id="3">3 Cylinders</li>
@@ -536,6 +547,7 @@
                                         </div>
                                                         <input type="hidden" name="city">
                                         <ul class="dropdown" style="display: none;">
+                                                            <li data-id="">Any City</li>
                                                             <li data-id="1">New York</li>
                                                             <li data-id="2">Los Angeles</li>
                                                             <li data-id="3">Chicago</li>
@@ -637,6 +649,7 @@
                                                     </div>
                                                     <input type="hidden" name="drive_type" class="drive_type_input">
                                                     <ul class="dropdown" style="display: none;">
+                                                        <li data-value="">Any Drive Type</li>
                                                         <li data-value="chain">Chain</li>
                                                         <li data-value="belt">Belt</li>
                                                         <li data-value="shaft">Shaft</li>
@@ -944,6 +957,7 @@
                                             </div>
                                                     <input type="hidden" name="online_from_period">
                                                     <ul class="dropdown" style="display: none;">
+                                                        <li data-id="">Any Time</li>
                                                         <li data-id="1">1 day</li>
                                                         <li data-id="2">2 days</li>
                                                         <li data-id="3">3 days</li>
@@ -1039,20 +1053,31 @@
             $(document).on('click', '.add-vehicle-btn', function() {
                 groupCounter++;
                 const originalGroup = $('.vehicle-search-group').first();
-                const newGroup = originalGroup.clone();
+                const newGroup = originalGroup.clone(false); // Clone WITHOUT events to avoid conflicts
 
                 // Update group data attribute
                 newGroup.attr('data-group', groupCounter);
 
                 // Update IDs to be unique
+                newGroup.find('#advertisement-type-dropdown').attr('id', `advertisement-type-dropdown-${groupCounter}`);
                 newGroup.find('#brand-dropdown').attr('id', `brand-dropdown-${groupCounter}`);
                 newGroup.find('#model-dropdown').attr('id', `model-dropdown-${groupCounter}`);
+                
+                // Remove any existing dropdown-search elements from cloned group
+                newGroup.find('.dropdown-search').remove();
+                newGroup.find('.no-results-message').remove();
 
                 // Clear form values
                 newGroup.find('input[type="hidden"]').val('');
                 newGroup.find('input[type="text"]').val('');
-                newGroup.find('.select span').text('Select Brand');
-                newGroup.find('.model-dropdown .select span').text('Select Model');
+                
+                // Reset all dropdown texts
+                newGroup.find('#advertisement-type-dropdown-' + groupCounter + ' .select span').text('Select Category');
+                newGroup.find('#brand-dropdown-' + groupCounter + ' .select span').text('Any Brand');
+                newGroup.find('#model-dropdown-' + groupCounter + ' .select span').text('Any Model');
+                
+                // Clear model dropdown options
+                newGroup.find('#model-dropdown-' + groupCounter + ' .dropdown').html('<li data-id="" class="clear-option">Any Model</li>');
 
                 // Remove the cloned hidden button from first group
                 newGroup.find('.remove-vehicle-group').remove();
@@ -1064,14 +1089,16 @@
             </button>
         `);
 
-                // Keep the same styling as the original group
-                // No need to change background color
-
                 // Insert before the "Add another vehicle" button
                 $('.add-vehicle-group').parent().before(newGroup);
 
                 // Initialize dropdown functionality for new group
                 initializeDropdowns(newGroup);
+                
+                // Reinitialize searchable dropdown for the cloned group
+                if (typeof initializeSearchableDropdowns === 'function') {
+                    initializeSearchableDropdowns();
+                }
             });
 
             // Remove vehicle group
@@ -1083,22 +1110,48 @@
 
             // Initialize dropdown functionality
             function initializeDropdowns(container) {
-                // Brand dropdown click handler
-                container.find('[id^="brand-dropdown"]').on('click', function(e) {
+                // Advertisement Type dropdown click handler for cloned groups
+                container.find('[id^="advertisement-type-dropdown"]').on('click', function(e) {
                     e.stopPropagation();
                     const $dropdown = $(this).find('.dropdown');
-
-                    // Close other dropdowns
                     $('.dropdown').not($dropdown).hide();
-
                     $dropdown.toggle();
                 });
-
-                // Brand selection handler
-                container.find('[id^="brand-dropdown"] .dropdown').on('click', 'li', function(e) {
+                
+                // Advertisement Type selection handler for cloned groups
+                container.find('[id^="advertisement-type-dropdown"] .dropdown').on('click', 'li', function(e) {
                     e.stopPropagation();
+                    const advertisementTypeId = $(this).data('id');
+                    const advertisementTypeName = $(this).text();
+                    const $advertisementTypeDropdown = $(this).closest('[id^="advertisement-type-dropdown"]');
+                    const $container = $(this).closest('.vehicle-search-group');
+
+                    $advertisementTypeDropdown.find('.select span').text(advertisementTypeName);
+                    $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId);
+                    $(this).closest('.dropdown').hide();
+                    
+                    // Clear ONLY this group's brand and model (not affecting other groups)
+                    $container.find('[id^="brand-dropdown"] .select span').text('Any Brand');
+                    $container.find('[id^="brand-dropdown"] input[type="hidden"]').val('');
+                    $container.find('[id^="model-dropdown"] .select span').text('Any Model');
+                    $container.find('[id^="model-dropdown"] input[type="hidden"]').val('');
+                    
+                    // Note: For now, advertisement type doesn't trigger brand reload in cloned groups
+                    // Each group works independently
+                });
+                
+                // Only add selection handlers (searchable dropdown handles click/toggle)
+                // Brand selection handler
+                container.find('[id^="brand-dropdown"] .dropdown').on('click', 'li:not(.dropdown-search):not(.no-results-message)', function(e) {
+                    e.stopPropagation();
+                    
+                    // Skip if this is the search input area
+                    if ($(this).hasClass('dropdown-search') || $(this).find('.dropdown-search-input').length > 0) {
+                        return;
+                    }
+                    
                     const brandId = $(this).data('id');
-                    const brandName = $(this).text();
+                    const brandName = $(this).text().trim();
                     const $brandDropdown = $(this).closest('[id^="brand-dropdown"]');
 
                     $brandDropdown.find('.select span').text(brandName);
@@ -1124,22 +1177,17 @@
                     updateVehicleCards();
                 });
 
-                // Model dropdown click handler
-                container.find('[id^="model-dropdown"]').on('click', function(e) {
-                    e.stopPropagation();
-                    const $dropdown = $(this).find('.dropdown');
-
-                    // Close other dropdowns
-                    $('.dropdown').not($dropdown).hide();
-
-                    $dropdown.toggle();
-                });
-
                 // Model selection handler
-                container.find('[id^="model-dropdown"] .dropdown').on('click', 'li', function(e) {
+                container.find('[id^="model-dropdown"] .dropdown').on('click', 'li:not(.dropdown-search):not(.no-results-message)', function(e) {
                     e.stopPropagation();
+                    
+                    // Skip if this is the search input area
+                    if ($(this).hasClass('dropdown-search') || $(this).find('.dropdown-search-input').length > 0) {
+                        return;
+                    }
+                    
                     const modelId = $(this).data('id');
-                    const modelName = $(this).text();
+                    const modelName = $(this).text().trim();
                     const $modelDropdown = $(this).closest('[id^="model-dropdown"]');
 
                     $modelDropdown.find('.select span').text(modelName);
@@ -1197,6 +1245,11 @@
                             console.log('Brand dropdown populated with', response.brands.length, 'brands');
                         } else {
                             $brandDropdown.append('<li>No brands available for this category</li>');
+                        }
+                        
+                        // Reinitialize searchable dropdown for brand dropdown
+                        if (typeof initializeSearchableDropdowns === 'function') {
+                            initializeSearchableDropdowns();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -1276,12 +1329,21 @@
                 const brands = @json($brands);
                 
                 $brandDropdown.empty();
+                
+                // Add "Any Brand" option first
+                $brandDropdown.append(`<li data-id="" class="clear-option">Any Brand</li>`);
+                
                 brands.forEach(function(brand) {
                     $brandDropdown.append(`
                         <li data-id="${brand.id}">${brand.name}</li>
                     `);
                 });
                 console.log('All brands loaded:', brands.length);
+                
+                // Reinitialize searchable dropdown for brand dropdown
+                if (typeof initializeSearchableDropdowns === 'function') {
+                    initializeSearchableDropdowns();
+                }
             }
 
             // Load models for selected brand
@@ -1309,6 +1371,9 @@
                     dataType: 'json',
                     success: function(models) {
                         $modelDropdown.empty();
+                        
+                        // Add "Any Model" option first
+                        $modelDropdown.append('<li data-id="" class="clear-option">Any Model</li>');
 
                         if (Object.keys(models).length === 0) {
                             $modelDropdown.append('<li>No models available</li>');
@@ -1319,7 +1384,12 @@
                                     modelName + '</li>');
                             });
                         }
-                        $modelSelect.text('Select Model');
+                        $modelSelect.text('Any Model');
+                        
+                        // Reinitialize searchable dropdown for model dropdown
+                        if (typeof initializeSearchableDropdowns === 'function') {
+                            initializeSearchableDropdowns();
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching models:', error);
@@ -1336,6 +1406,11 @@
                 }
             });
 
+            // Initialize searchable dropdown functionality FIRST (before custom handlers)
+            if (typeof initializeSearchableDropdowns === 'function') {
+                initializeSearchableDropdowns();
+            }
+            
             // Initialize first group
             initializeDropdowns($('.vehicle-search-group').first());
 

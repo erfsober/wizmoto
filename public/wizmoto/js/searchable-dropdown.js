@@ -188,10 +188,10 @@ function updateKeyboardFocus($items, index, $dropdownList) {
     }
 }
 
-// Auto-initialize on document ready (except on home page which has custom init)
+// Auto-initialize on document ready (except on pages with custom init)
 $(document).ready(function() {
-    // Don't auto-init if home page has its own initialization
-    if (!$('.boxcar-banner-section-v1').length) {
+    // Don't auto-init if home page or inventory list has its own initialization
+    if (!$('.boxcar-banner-section-v1').length && !$('.inventory-sidebar').length) {
         initializeSearchableDropdowns();
     }
 });
