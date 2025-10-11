@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SellerTypeEnum;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,6 +19,10 @@ class Provider extends Authenticatable implements MustVerifyEmail, HasMedia
     use InteractsWithMedia;
 
     protected $appends = ['full_name'];
+    
+    protected $casts = [
+        'seller_type' => SellerTypeEnum::class,
+    ];
 
     public function registerMediaCollections(): void
     {

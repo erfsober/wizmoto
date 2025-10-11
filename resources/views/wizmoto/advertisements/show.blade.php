@@ -335,10 +335,10 @@
                                 <h6 class="title">{{ $advertisement->provider->full_name ?? 'Unknown Dealer' }}</h6>
 
                                 {{-- Seller Type Badge --}}
-                                @if($advertisement->seller_type)
+                                @if($advertisement->provider && $advertisement->provider->seller_type)
                                     <div class="seller-type-badge">
-                                        <span class="badge badge-{{ $advertisement->seller_type == \App\Enums\SellerTypeEnum::DEALER->value ? 'primary' : 'secondary' }}">
-                                            {{ ucfirst($advertisement->seller_type->value) }}
+                                        <span class="badge badge-{{ $advertisement->provider->seller_type == \App\Enums\SellerTypeEnum::DEALER ? 'primary' : 'secondary' }}">
+                                            {{ $advertisement->provider->seller_type->getLabel() }}
                                         </span>
                                     </div>
                                 @endif

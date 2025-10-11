@@ -199,7 +199,6 @@ class ImportAutoscout24WithRealImages extends Command
                 'trade_in_possible' => $adData['trade_in_possible'] ?? false,
                 'available_immediately' => $adData['available_immediately'] ?? true,
                 'price_negotiable' => $adData['price_negotiable'] ?? false,
-                'seller_type' => $adData['seller_type'] ?? 'private',
                 'emissions_class' => $adData['emissions_class'] ?? null,
                 'co2_emissions' => $adData['co2_emissions'] ?? null,
                 'combined_fuel_consumption' => $adData['combined_fuel_consumption'] ?? null,
@@ -643,6 +642,7 @@ class ImportAutoscout24WithRealImages extends Command
                 'village' => $adData['dealer_village'] ?? 'Centro',
                 'zip_code' => $adData['dealer_zip_code'] ?? '10100',
                 'city' => $adData['dealer_city'] ?? 'Torino',
+                'seller_type' => $adData['seller_type'] ?? 'dealer',
                 'show_info_in_advertisement' => $adData['dealer_show_info'] ?? true,
                 'password' => bcrypt('autoscout24dealer'),
                 'email_verified_at' => now(),
@@ -665,6 +665,9 @@ class ImportAutoscout24WithRealImages extends Command
             }
             if (isset($adData['dealer_zip_code']) && $adData['dealer_zip_code']) {
                 $updateData['zip_code'] = $adData['dealer_zip_code'];
+            }
+            if (isset($adData['seller_type']) && $adData['seller_type']) {
+                $updateData['seller_type'] = $adData['seller_type'];
             }
             
             if (!empty($updateData)) {

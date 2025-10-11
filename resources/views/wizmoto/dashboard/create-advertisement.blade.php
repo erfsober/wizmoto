@@ -493,26 +493,6 @@
                             </div>
 
                             <hr class="my-5"/>
-                            {{-- Seller Type --}}
-                            <h6>Seller Type</h6>
-                            <div class="form-column col-lg-6">
-                                <div class="form_boxes">
-                                    <label>Seller Type</label>
-                                    <div class="drop-menu" id="seller-type-dropdown">
-                                        <div class="select">
-                                            <span>Select Seller Type</span>
-                                            <i class="fa fa-angle-down"></i>
-                                        </div>
-                                        <input type="hidden" name="seller_type" id="seller_type_input">
-                                        <ul class="dropdown" style="display: none;">
-                                            <li data-id="private">Private</li>
-                                            <li data-id="dealer">Dealer</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr class="my-5"/>
                             {{-- Vehicle Condition --}}
                             <h6>Vehicle Condition</h6>
                             <div class="form-column col-lg-6">
@@ -892,13 +872,6 @@
             loadAdvertisementData(advertisementTypeId);
         });
 
-        // Handle seller type dropdown
-        $('#seller-type-dropdown ul.dropdown').on('click', 'li', function() {
-            let sellerType = $(this).data('id');
-            $('#seller-type-dropdown .select span').text($(this).text());
-            $('#seller_type_input').val(sellerType);
-            $('#seller-type-dropdown ul.dropdown').hide();
-        });
 
         // Handle drive type dropdown
         $('#drive-type-dropdown ul.dropdown').on('click', 'li', function() {

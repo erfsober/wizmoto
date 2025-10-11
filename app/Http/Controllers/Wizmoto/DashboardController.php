@@ -182,6 +182,7 @@ class DashboardController extends Controller
         $user->village = $request->input('village');
         $user->zip_code = $request->input('zip_code');
         $user->city = $request->input('city');
+        $user->seller_type = $request->input('seller_type', 'private');
         $user->show_info_in_advertisement = $request->has('show_info_in_advertisement');
         $user->save();
         if ($request->hasFile('image')) {

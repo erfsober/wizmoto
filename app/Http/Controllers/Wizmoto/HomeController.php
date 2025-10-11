@@ -126,7 +126,9 @@ class HomeController extends Controller
             // VEHICLE BASIC DATA
             ->when($request->filled('vehicle_category'), fn($q) => $q->whereIn('vehicle_category', (array)$request->vehicle_category))
             ->when($request->filled('vehicle_body_id'), fn($q) => $q->whereIn('vehicle_body_id', (array)$request->vehicle_body_id))
-            ->when($request->filled('seller_type'), fn($q) => $q->whereIn('seller_type', (array)$request->seller_type))
+            ->when($request->filled('seller_type'), fn($q) => $q->whereHas('provider', function($query) use ($request) {
+                $query->whereIn('seller_type', (array)$request->seller_type);
+            }))
             
             // BRAND/MODEL (support multiple vehicle groups)
             ->when($request->filled('brand_id'), function ($q) use ($request) {

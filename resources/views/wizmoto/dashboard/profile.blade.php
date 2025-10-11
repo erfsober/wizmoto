@@ -105,6 +105,23 @@
                             <input name="whatsapp" type="number" placeholder="" value="{{$provider->whatsapp}}">
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="form_boxes">
+                            <label>Seller Type</label>
+                            <div class="drop-menu" id="seller-type-dropdown">
+                                <div class="select">
+                                    <span class="selected">{{ $provider->seller_type ? $provider->seller_type->getLabel() : 'Select Seller Type' }}</span>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                                <input type="hidden" name="seller_type" id="seller_type_input" value="{{ old('seller_type', $provider->seller_type?->value ?? 'private') }}">
+                                <ul class="dropdown" style="display: none;">
+                                    @foreach(\App\Enums\SellerTypeEnum::getOptions() as $value => $label)
+                                        <li data-id="{{ $value }}">{{ $label }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-lg-12">
                         <div class="form_boxes">
                             <label>Street and house number</label>
@@ -283,6 +300,14 @@
                     ui.placeholder.width(ui.item.width());
                 }
             }).disableSelection();
+            
+            // Handle seller type dropdown
+            $('#seller-type-dropdown ul.dropdown').on('click', 'li', function() {
+                let sellerType = $(this).data('id');
+                $('#seller-type-dropdown .select span').text($(this).text());
+                $('#seller_type_input').val(sellerType);
+                $('#seller-type-dropdown ul.dropdown').hide();
+            });
 
             // Form submit via AJAX
             $("#profileForm").submit(function (e) {

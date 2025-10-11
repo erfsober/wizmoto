@@ -580,14 +580,15 @@
                                                 <label>Seller Type</label>
                                                 <div class="drop-menu" id="seller-type-dropdown">
                                                     <div class="select">
-                                                        <span>Select Seller Type</span>
+                                                        <span>Any Seller Type</span>
                                                         <i class="fa fa-angle-down"></i>
                                                     </div>
                                                     <input type="hidden" name="seller_type" class="seller_type_input">
                                                     <ul class="dropdown" style="display: none;">
-                                                        <li data-value="private">Private</li>
-                                                        <li data-value="dealer">Dealer</li>
-                                                        <li data-value="garage">Garage</li>
+                                                        <li data-value="">Any Seller Type</li>
+                                                        @foreach(\App\Enums\SellerTypeEnum::getOptions() as $value => $label)
+                                                            <li data-value="{{ $value }}">{{ $label }}</li>
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
