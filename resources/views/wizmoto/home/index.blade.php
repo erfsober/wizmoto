@@ -128,7 +128,7 @@
                                 <form action="{{route("inventory.list")}}" method="GET">
                                     @csrf
                                     <div class="form_boxes line-r">
-                                        <div class="drop-menu">
+                                        <div class="drop-menu searchable-dropdown">
                                             <div class="select">
                                                 <span>Any Brands</span>
                                                 <i class="fa fa-angle-down"></i>
@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                     <div class="form_boxes line-r">
-                                        <div class="drop-menu">
+                                        <div class="drop-menu searchable-dropdown">
                                             <div class="select">
                                                 <span>Any Models</span>
                                                 <i class="fa fa-angle-down"></i>
@@ -691,6 +691,37 @@
             background-color: #f5f5f5;
             color: #666;
         }
+        
+        /* Enhanced dropdown search styles */
+        .boxcar-banner-section-v1 .dropdown {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        /* Custom scrollbar for dropdown */
+        .boxcar-banner-section-v1 .dropdown::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .boxcar-banner-section-v1 .dropdown::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .boxcar-banner-section-v1 .dropdown::-webkit-scrollbar-thumb {
+            background: #405FF2;
+            border-radius: 4px;
+        }
+        
+        .boxcar-banner-section-v1 .dropdown::-webkit-scrollbar-thumb:hover {
+            background: #2d47d1;
+        }
+        
+        /* Keyboard navigation highlight only */
+        .boxcar-banner-section-v1 .dropdown li.keyboard-focus {
+            background: #405FF2;
+            color: white;
+        }
 
     </style>
 @endpush
@@ -707,12 +738,158 @@ $(document).ready(function() {
             return;
         }
         
-        // Brand dropdown
+        // Initialize all dropdowns (with and without search)
         $('.boxcar-banner-section-v1 .form_boxes .drop-menu').each(function() {
             const $dropdown = $(this);
             const $select = $dropdown.find('.select');
             const $dropdownList = $dropdown.find('.dropdown');
             const $hiddenInput = $dropdown.find('input[type="hidden"]');
+            
+            // Check if this dropdown should have search functionality
+            const hasSearchEnabled = $dropdown.hasClass('searchable-dropdown');
+            
+            // Add search input to dropdown if it doesn't exist AND search is enabled
+            if (hasSearchEnabled && !$dropdownList.find('.dropdown-search').length) {
+                $dropdownList.prepend(`
+                    <li class="dropdown-search" style="position: sticky; top: 0; background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%); padding: 12px; border-bottom: 2px solid #e9ecef; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <i class="fa fa-search" style="position: absolute; left: 12px; color: #6c757d; font-size: 14px; pointer-events: none;"></i>
+                            <input type="text" placeholder="Type to search..." class="dropdown-search-input" style="width: 100%; padding: 10px 12px 10px 38px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 14px; outline: none; transition: all 0.3s ease; background: white;" onclick="event.stopPropagation();">
+                            <i class="fa fa-times-circle dropdown-clear-search" style="position: absolute; right: 12px; color: #6c757d; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s ease;" onclick="event.stopPropagation();"></i>
+                        </div>
+                        <div class="search-results-count" style="margin-top: 8px; font-size: 12px; color: #6c757d; display: none;">
+                            <span class="results-text"></span>
+                        </div>
+                    </li>
+                `);
+                
+                // Add enhanced search functionality
+                const $searchInput = $dropdownList.find('.dropdown-search-input');
+                const $clearBtn = $dropdownList.find('.dropdown-clear-search');
+                const $resultsCount = $dropdownList.find('.search-results-count');
+                
+                // Input focus/blur effects
+                $searchInput.on('focus', function() {
+                    $(this).css({
+                        'border-color': '#405FF2',
+                        'box-shadow': '0 0 0 3px rgba(64, 95, 242, 0.1)'
+                    });
+                }).on('blur', function() {
+                    $(this).css({
+                        'border-color': '#dee2e6',
+                        'box-shadow': 'none'
+                    });
+                });
+                
+                // Search functionality with results count and no results message
+                $searchInput.on('keyup', function(e) {
+                    e.stopPropagation();
+                    const searchTerm = $(this).val().toLowerCase();
+                    let visibleCount = 0;
+                    
+                    // Show/hide clear button
+                    if (searchTerm.length > 0) {
+                        $clearBtn.fadeIn(200);
+                    } else {
+                        $clearBtn.fadeOut(200);
+                    }
+                    
+                    // Remove existing no-results message
+                    $dropdownList.find('.no-results-message').remove();
+                    
+                    // Filter items
+                    $dropdownList.find('li:not(.dropdown-search):not(.clear-option)').each(function() {
+                        const text = $(this).text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $(this).fadeIn(150);
+                            visibleCount++;
+                        } else {
+                            $(this).fadeOut(150);
+                        }
+                    });
+                    
+                    // Show results count or no results message
+                    if (searchTerm.length > 0) {
+                        const totalCount = $dropdownList.find('li:not(.dropdown-search):not(.clear-option)').length;
+                        
+                        if (visibleCount === 0) {
+                            // Show no results message
+                            $dropdownList.append(`
+                                <li class="no-results-message" style="padding: 20px; text-align: center; color: #6c757d; background: #f8f9fa; border-top: 1px solid #e9ecef;">
+                                    <i class="fa fa-search" style="font-size: 24px; color: #adb5bd; margin-bottom: 8px;"></i>
+                                    <p style="margin: 8px 0 4px 0; font-weight: 500; color: #495057;">No results found</p>
+                                    <p style="margin: 0; font-size: 12px;">Try different keywords</p>
+                                </li>
+                            `);
+                            $resultsCount.fadeOut(200);
+                        } else {
+                            $resultsCount.find('.results-text').html(`<i class="fa fa-check-circle" style="color: #28a745; margin-right: 4px;"></i> Found ${visibleCount} of ${totalCount} items`);
+                            $resultsCount.fadeIn(200);
+                        }
+                    } else {
+                        $resultsCount.fadeOut(200);
+                    }
+                });
+                
+                // Clear search functionality
+                $clearBtn.on('click', function(e) {
+                    e.stopPropagation();
+                    $searchInput.val('').trigger('keyup').focus();
+                });
+                
+                // Hover effect for clear button
+                $clearBtn.on('mouseenter', function() {
+                    $(this).css('color', '#dc3545');
+                }).on('mouseleave', function() {
+                    $(this).css('color', '#6c757d');
+                });
+                
+                // Keyboard navigation (Arrow keys and Enter)
+                let currentFocusIndex = -1;
+                $searchInput.on('keydown', function(e) {
+                    const $visibleItems = $dropdownList.find('li:not(.dropdown-search):not(.no-results-message):visible');
+                    
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        currentFocusIndex = Math.min(currentFocusIndex + 1, $visibleItems.length - 1);
+                        updateKeyboardFocus($visibleItems, currentFocusIndex);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
+                        updateKeyboardFocus($visibleItems, currentFocusIndex);
+                    } else if (e.key === 'Enter' && currentFocusIndex >= 0) {
+                        e.preventDefault();
+                        $visibleItems.eq(currentFocusIndex).trigger('click');
+                    } else if (e.key === 'Escape') {
+                        $dropdownList.slideUp(200);
+                    }
+                });
+                
+                // Reset keyboard focus when typing
+                $searchInput.on('input', function() {
+                    currentFocusIndex = -1;
+                    $dropdownList.find('li').removeClass('keyboard-focus');
+                });
+                
+                function updateKeyboardFocus($items, index) {
+                    $items.removeClass('keyboard-focus');
+                    if (index >= 0 && index < $items.length) {
+                        const $item = $items.eq(index);
+                        $item.addClass('keyboard-focus');
+                        
+                        // Scroll item into view
+                        const itemTop = $item.position().top;
+                        const dropdownScrollTop = $dropdownList.scrollTop();
+                        const dropdownHeight = $dropdownList.height();
+                        
+                        if (itemTop < 0) {
+                            $dropdownList.scrollTop(dropdownScrollTop + itemTop - 10);
+                        } else if (itemTop > dropdownHeight - 40) {
+                            $dropdownList.scrollTop(dropdownScrollTop + itemTop - dropdownHeight + 50);
+                        }
+                    }
+                }
+            }
             
             // Remove any existing event handlers to prevent conflicts
             $select.off('click.homepage');
@@ -727,9 +904,29 @@ $(document).ready(function() {
                 
                 // Toggle current dropdown
                 if ($dropdownList.is(':visible')) {
-                    $dropdownList.hide();
+                    $dropdownList.slideUp(200);
                 } else {
-                    $dropdownList.show();
+                    if (hasSearchEnabled) {
+                        // Clear search and show all items when opening (for searchable dropdowns)
+                        const $searchInput = $dropdownList.find('.dropdown-search-input');
+                        const $clearBtn = $dropdownList.find('.dropdown-clear-search');
+                        const $resultsCount = $dropdownList.find('.search-results-count');
+                        
+                        $searchInput.val('');
+                        $clearBtn.hide();
+                        $resultsCount.hide();
+                        $dropdownList.find('li:not(.dropdown-search)').show();
+                        $dropdownList.find('.no-results-message').remove();
+                        
+                        // Smooth slide down animation
+                        $dropdownList.slideDown(250, function() {
+                            // Focus search input after animation
+                            $searchInput.focus();
+                        });
+                    } else {
+                        // Simple show for non-searchable dropdowns
+                        $dropdownList.slideDown(200);
+                    }
                 }
             });
             
@@ -806,7 +1003,7 @@ $(document).ready(function() {
                 
                 // Update model dropdown
                 const $modelList = $modelDropdown.find('.dropdown');
-                $modelList.find('li:not(.clear-option)').remove();
+                $modelList.find('li:not(.clear-option):not(.dropdown-search)').remove();
                 
                 if (response.models && response.models.length > 0) {
                     response.models.forEach(model => {
@@ -842,8 +1039,8 @@ $(document).ready(function() {
         const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
         const $modelList = $modelDropdown.find('.dropdown');
         
-        // Clear existing options except the first "Any Models" option
-        $modelList.find('li:not(.clear-option)').remove();
+        // Clear existing options except the first "Any Models" option and search input
+        $modelList.find('li:not(.clear-option):not(.dropdown-search)').remove();
         
         // Add all models
         allModels.forEach(model => {
