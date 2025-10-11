@@ -226,8 +226,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                                <button type="button" class="remove-vehicle-group"
-                                                    title="Remove this vehicle">
+                                                <button type="button" class="remove-vehicle-group first-group-remove"
+                                                    title="Remove this vehicle" style="display: none;">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                 </div>
@@ -1054,7 +1054,10 @@
                 newGroup.find('.select span').text('Select Brand');
                 newGroup.find('.model-dropdown .select span').text('Select Model');
 
-                // Add remove button for all groups
+                // Remove the cloned hidden button from first group
+                newGroup.find('.remove-vehicle-group').remove();
+                
+                // Add visible remove button for cloned groups
                 newGroup.append(`
             <button type="button" class="remove-vehicle-group" title="Remove this vehicle">
                 <i class="fa fa-times"></i>
