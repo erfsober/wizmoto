@@ -299,7 +299,7 @@
                                     </div>
                                     <div class="form-submit">
                                         <button type="submit" class="theme-btn">
-                                            <i class="flaticon-search"></i>Search 9451 Rides
+                                            <i class="flaticon-search"></i><span id="search-count-text">Search <span id="search-count">{{ $totalAdvertisements }}</span> Rides</span>
                                         </button>
                                     </div>
                                 </form>
@@ -850,7 +850,7 @@ $(document).ready(function() {
             $dropdownList.on('click.homepage', 'li', function(e) {
                 e.stopPropagation();
                 const selectedText = $(this).text().trim();
-                const selectedValue = $(this).data('id') || selectedText;
+                const selectedValue = $(this).data('id') || '';
                 
                 // Convert selectedValue to string to avoid trim() errors
                 const selectedValueStr = String(selectedValue);
@@ -858,33 +858,37 @@ $(document).ready(function() {
                 // Update display
                 $select.find('span').text(selectedText);
                 
-                // Update hidden input
-                $hiddenInput.val(selectedValue);
+                // Update hidden input - use empty string for "Any" options
+                if (selectedValueStr === '' || selectedValueStr === 'undefined') {
+                    $hiddenInput.val('');
+                } else {
+                    $hiddenInput.val(selectedValue);
+                }
                 
                 // Hide dropdown
                 $dropdownList.hide();
                 
-                // Handle brand selection - load models for selected brand
+                // Handle brand selection - load models via AJAX
                 if ($hiddenInput.attr('name') === 'brand_id') {
                     console.log('Brand selection detected:', selectedText, 'ID:', selectedValue);
-                    if (selectedValueStr && selectedValueStr.trim() !== '') {
+                    if (selectedValueStr && selectedValueStr.trim() !== '' && selectedValueStr !== 'undefined') {
                         console.log('Loading models for brand ID:', selectedValue);
                         loadModelsForBrand(selectedValue);
                     } else {
                         console.log('Resetting to show all models');
-                        // Reset to show all models when "Any Brands" is selected
+                        // Reset to show all when "Any Brands" is selected
                         resetModelDropdown();
                     }
                     clearModelSelection();
                 }
                 
-                // Only redirect if a specific option was selected (not clear option)
-                if (selectedValueStr && selectedValueStr.trim() !== '') {
-                    console.log('Selection made, redirecting to inventory list...');
-                    redirectToInventoryList();
-                } else {
-                    console.log('Selection cleared');
-                }
+                // Update advertisement count when any filter changes (use setTimeout to ensure value is updated)
+                setTimeout(function() {
+                    updateAdvertisementCount();
+                }, 100);
+                
+                // Don't auto-redirect on selection - let user click Search button
+                console.log('Selection made, waiting for Search button...');
             });
         });
         
@@ -896,38 +900,41 @@ $(document).ready(function() {
         });
     }
     
-    // Function to load models for selected brand
+    // Function to load models for selected brand via AJAX
     function loadModelsForBrand(brandId) {
-        console.log('Loading models for brand ID:', brandId, 'Type:', typeof brandId);
+        console.log('Loading models for brand ID:', brandId);
         
-        // Get all models data from the page
-        const allModels = @json($vehicleModels);
-        console.log('All models data:', allModels);
+        // Show loading state
+        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
         
-        // Convert brandId to number for comparison
-        const brandIdNum = parseInt(brandId);
+        $modelDropdown.find('.select span').text('Loading...');
         
-        const brandModels = allModels.filter(model => {
-            console.log('Checking model:', model.name, 'brand_id:', model.brand_id, 'brand relationship:', model.brand);
-            // Check both brand_id field and brand relationship
-            return model.brand_id == brandIdNum || (model.brand && model.brand.id == brandIdNum);
+        // Make AJAX request
+        $.ajax({
+            url: '{{ route("home.get-models-by-brand") }}',
+            method: 'GET',
+            data: { brand_id: brandId },
+            success: function(response) {
+                console.log('Received models:', response);
+                
+                // Update model dropdown
+                const $modelList = $modelDropdown.find('.dropdown');
+                $modelList.find('li:not(.clear-option)').remove();
+                
+                if (response.models && response.models.length > 0) {
+                    response.models.forEach(model => {
+                        $modelList.append(`<li data-id="${model.id}">${model.name}</li>`);
+                    });
+                }
+                
+                // Always show "Any Models" when brand is selected (even if no models)
+                $modelDropdown.find('.select span').text('Any Models');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading models:', error);
+                $modelDropdown.find('.select span').text('Any Models');
+            }
         });
-        
-        console.log('Filtered brand models:', brandModels);
-        
-        // Update model dropdown
-        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu').find('.dropdown');
-        
-        // Clear existing options except the first "Any Models" option
-        $modelDropdown.find('li:not(.clear-option)').remove();
-        
-        // Add models for selected brand
-        brandModels.forEach(model => {
-            $modelDropdown.append(`<li data-id="${model.id}">${model.name}</li>`);
-        });
-        
-        console.log('Loaded', brandModels.length, 'models for brand');
-        console.log('Available models:', brandModels);
     }
     
     // Function to clear model selection
@@ -945,17 +952,72 @@ $(document).ready(function() {
         const allModels = @json($vehicleModels);
         
         // Update model dropdown
-        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu').find('.dropdown');
+        const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
+        const $modelList = $modelDropdown.find('.dropdown');
         
         // Clear existing options except the first "Any Models" option
-        $modelDropdown.find('li:not(.clear-option)').remove();
+        $modelList.find('li:not(.clear-option)').remove();
         
         // Add all models
         allModels.forEach(model => {
-            $modelDropdown.append(`<li data-id="${model.id}">${model.name}</li>`);
+            $modelList.append(`<li data-id="${model.id}">${model.name}</li>`);
         });
         
+        // Reset the display text
+        $modelDropdown.find('.select span').text('Any Models');
+        
         console.log('Reset model dropdown with', allModels.length, 'models');
+    }
+    
+    // Function to update advertisement count based on current filters
+    function updateAdvertisementCount() {
+        const brandId = $('.boxcar-banner-section-v1 input[name="brand_id"]').val();
+        const modelId = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').val();
+        const fuelTypeId = $('.boxcar-banner-section-v1 input[name="fuel_type_id"]').val();
+        
+        // Debug: Log the values being sent
+        console.log('Updating count with filters:', {
+            brand_id: brandId,
+            vehicle_model_id: modelId,
+            fuel_type_id: fuelTypeId
+        });
+        
+        // Show loading state
+        $('#search-count').text('...');
+        
+        // Prepare data - only send non-empty values (also check if it's a valid number/ID)
+        const data = {};
+        
+        // Clean and validate brandId
+        if (brandId && brandId !== '' && brandId !== 'undefined' && !isNaN(brandId)) {
+            data.brand_id = brandId;
+        }
+        
+        // Clean and validate modelId
+        if (modelId && modelId !== '' && modelId !== 'undefined' && !isNaN(modelId)) {
+            data.vehicle_model_id = modelId;
+        }
+        
+        // Clean and validate fuelTypeId (check if it's a number, not text like "Any Fuel Type")
+        if (fuelTypeId && fuelTypeId !== '' && fuelTypeId !== 'undefined' && !isNaN(fuelTypeId)) {
+            data.fuel_type_id = fuelTypeId;
+        }
+        
+        console.log('Sending filtered data:', data);
+        
+        $.ajax({
+            url: '{{ route("home.get-advertisement-count") }}',
+            method: 'GET',
+            data: data,
+            success: function(response) {
+                $('#search-count').text(response.count);
+                console.log('Updated advertisement count:', response.count);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating advertisement count:', error);
+                $('#search-count').text('?');
+            }
+        });
     }
     
     function redirectToInventoryList() {

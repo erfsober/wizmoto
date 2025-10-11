@@ -13,6 +13,8 @@ use App\Http\Controllers\Wizmoto\FaqController;
 Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
 Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');
 Route::get('/load-more-equipment' , [ HomeController::class , 'loadMoreEquipment' , ])->name('equipment.load-more');
+Route::get('/get-models-by-brand' , [ HomeController::class , 'getModelsByBrand' , ])->name('home.get-models-by-brand');
+Route::get('/get-advertisement-count' , [ HomeController::class , 'getAdvertisementCount' , ])->name('home.get-advertisement-count');
 
 Route::get('/blogs' , [ BlogController::class , 'index' , ])->name('blogs.index');
 Route::get('/blogs/{slug}' , [ BlogController::class , 'show' , ])->name('blogs.show');

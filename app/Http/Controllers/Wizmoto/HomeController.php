@@ -30,7 +30,11 @@ class HomeController extends Controller
         $brands = Brand::all();
         $vehicleModels = VehicleModel::with('Brand')->select('id', 'name', 'brand_id')->get();
         $advertisementTypes = AdvertisementType::all();
-        $fuelTypes = FuelType::all();
+        // Get distinct fuel types by name to avoid duplicates
+        $fuelTypes = FuelType::all()
+            ->unique('name')
+            ->sortBy('name')
+            ->values();
         $vehicleBodies = VehicleBody::all();
         $vehicleColors = VehicleColor::query()
             ->get();
@@ -42,7 +46,10 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        return view('wizmoto.home.index', compact('newAdvertisements','latestPosts', 'brands', 'vehicleModels', 'advertisementTypes', 'fuelTypes', 'vehicleBodies', 'vehicleColors', 'equipments'));
+        // Get total advertisement count
+        $totalAdvertisements = Advertisement::count();
+
+        return view('wizmoto.home.index', compact('newAdvertisements','latestPosts', 'brands', 'vehicleModels', 'advertisementTypes', 'fuelTypes', 'vehicleBodies', 'vehicleColors', 'equipments', 'totalAdvertisements'));
     }
 
     public function inventoryList(Request $request)
@@ -523,6 +530,45 @@ class HomeController extends Controller
             'html' => $html,
             'hasMore' => $equipments->count() === $limit,
             'nextOffset' => $offset + $limit
+        ]);
+    }
+
+    /**
+     * Get models by brand via AJAX
+     */
+    public function getModelsByBrand(Request $request)
+    {
+        $brandId = $request->get('brand_id');
+        
+        if (!$brandId) {
+            return response()->json([
+                'models' => []
+            ]);
+        }
+
+        // Get models for the selected brand
+        $models = VehicleModel::where('brand_id', $brandId)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        return response()->json([
+            'models' => $models
+        ]);
+    }
+
+    /**
+     * Get advertisement count based on filters via AJAX
+     */
+    public function getAdvertisementCount(Request $request)
+    {
+        $count = Advertisement::query()
+            ->when($request->filled('brand_id') && $request->brand_id != '', fn($q) => $q->where('brand_id', $request->brand_id))
+            ->when($request->filled('vehicle_model_id') && $request->vehicle_model_id != '', fn($q) => $q->where('vehicle_model_id', $request->vehicle_model_id))
+            ->when($request->filled('fuel_type_id') && $request->fuel_type_id != '', fn($q) => $q->where('fuel_type_id', $request->fuel_type_id))
+            ->count();
+
+        return response()->json([
+            'count' => $count
         ]);
     }
 }
