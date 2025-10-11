@@ -1004,9 +1004,44 @@
                                                 
                                             </div>
                     </div><!--widget end-->
+
+                    <!-- Mobile Search/Show Results Button -->
+                    <div class="mobile-show-results-btn d-lg-none" style="padding: 16px 20px; border-top: 1px solid #e0e0e0; background: white;">
+                        <button type="button" class="btn btn-secondary w-100 mb-2" id="mobile-close-sidebar-btn" style="padding: 10px; font-size: 14px; font-weight: 600; border-radius: 8px; background: #f0f0f0; color: #333; border: none;">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary w-100" id="mobile-show-results-btn" style="padding: 14px; font-size: 16px; font-weight: 600; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span id="mobile-results-text">Show <span id="mobile-results-count">{{ $advertisements->total() }}</span> Results</span>
+                        </button>
+                    </div>
                                         </div>
                 <div class="col-xl-9 col-md-12 col-sm-12">
                     <div class="right-box">
+                        <!-- Mobile Selected Filters Bar (Autoscout24 Style) -->
+                        <div class="mobile-selected-filters-bar d-lg-none" style="margin-bottom: 16px;">
+                            <div class="mobile-filters-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <button type="button" class="mobile-filter-toggle-btn" id="mobile-filter-toggle-top" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #405FF2; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.75 4.50903C13.9446 4.50903 12.4263 5.80309 12.0762 7.50903H2.25C1.83579 7.50903 1.5 7.84482 1.5 8.25903C1.5 8.67324 1.83579 9.00903 2.25 9.00903H12.0762C12.4263 10.715 13.9446 12.009 15.75 12.009C17.5554 12.009 19.0737 10.715 19.4238 9.00903H21.75C22.1642 9.00903 22.5 8.67324 22.5 8.25903C22.5 7.84482 22.1642 7.50903 21.75 7.50903H19.4238C19.0737 5.80309 17.5554 4.50903 15.75 4.50903ZM15.75 6.00903C17.0015 6.00903 18 7.00753 18 8.25903C18 9.51054 17.0015 10.509 15.75 10.509C14.4985 10.509 13.5 9.51054 13.5 8.25903C13.5 7.00753 14.4985 6.00903 15.75 6.00903Z" fill="white"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12.009C6.44461 12.009 4.92634 13.3031 4.57617 15.009H2.25C1.83579 15.009 1.5 15.3448 1.5 15.759C1.5 16.1732 1.83579 16.509 2.25 16.509H4.57617C4.92634 18.215 6.44461 19.509 8.25 19.509C10.0554 19.509 11.5737 18.215 11.9238 16.509H21.75C22.1642 16.509 22.5 16.1732 22.5 15.759C22.5 15.3448 22.1642 15.009 21.75 15.009H11.9238C11.5737 13.3031 10.0554 12.009 8.25 12.009ZM8.25 13.509C9.5015 13.509 10.5 14.5075 10.5 15.759C10.5 17.0105 9.5015 18.009 8.25 18.009C6.9985 18.009 6 17.0105 6 15.759C6 14.5075 6.9985 13.509 8.25 13.509Z" fill="white"/>
+                                    </svg>
+                                    <span>Filters</span>
+                                    <span class="mobile-filter-badge" id="mobile-filter-badge-top" style="background: white; color: #405FF2; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; display: none;">0</span>
+                                </button>
+                                <div class="mobile-results-count-text" style="flex: 1; font-size: 14px; color: #666;">
+                                    <span id="mobile-total-results">{{ $advertisements->total() }}</span> results
+                                </div>
+                            </div>
+                            
+                            <!-- Selected Filters Tags - HIDDEN as per user request -->
+                            <div class="mobile-selected-filters-tags" id="mobile-selected-filters-tags" style="display: none;">
+                                <!-- Dynamic filter tags will be added here -->
+                            </div>
+                        </div>
+
                         <div class="text-box">
                             <div class="text" id="pagination-info">
                                 @if($advertisements->count() > 0)
@@ -1033,6 +1068,10 @@
         </div>
     </section>
     <!-- End shop section two -->
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
     @include('wizmoto.partials.footer')
 
 @endsection
@@ -1048,6 +1087,406 @@
             console.log('Quick filter elements found:', $('.quick-filter').length);
             
             let groupCounter = 0;
+            let sidebarAnimating = false;
+
+            // ========================================
+            // MOBILE AUTOSCOUT24-STYLE FUNCTIONALITY
+            // ========================================
+            
+            // Mobile filter toggle - bottom sheet behavior (only top button)
+            $(document).on('click', '#mobile-filter-toggle-top', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('Filter button clicked');
+                
+                // Prevent multiple rapid clicks during animation
+                if (sidebarAnimating) {
+                    console.log('Animation in progress, ignoring click');
+                    return;
+                }
+                
+                const $sidebar = $('.wrap-sidebar-dk');
+                const isActive = $sidebar.hasClass('active');
+                
+                console.log('Sidebar active:', isActive);
+                console.log('Sidebar element:', $sidebar.length);
+                
+                sidebarAnimating = true;
+                
+                if (isActive) {
+                    // Close sidebar
+                    console.log('Closing sidebar');
+                    $sidebar.removeClass('active');
+                    $('#sidebar-backdrop').removeClass('active');
+                    $('body').removeClass('sidebar-open').css('overflow', '');
+                } else {
+                    // Open sidebar
+                    console.log('Opening sidebar');
+                    $sidebar.addClass('active');
+                    $('#sidebar-backdrop').addClass('active');
+                    $('body').addClass('sidebar-open').css('overflow', 'hidden');
+                }
+                
+                // Allow next click after animation completes (300ms)
+                setTimeout(function() {
+                    sidebarAnimating = false;
+                }, 350);
+            });
+
+            // Close sidebar when clicking backdrop or close button
+            function closeSidebar() {
+                if (sidebarAnimating) return;
+                
+                sidebarAnimating = true;
+                $('.wrap-sidebar-dk').removeClass('active');
+                $('#sidebar-backdrop').removeClass('active');
+                $('body').removeClass('sidebar-open').css('overflow', '');
+                
+                setTimeout(function() {
+                    sidebarAnimating = false;
+                }, 350);
+            }
+
+            $('#sidebar-backdrop').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Backdrop clicked');
+                closeSidebar();
+            });
+
+            $(document).on('click', '#mobile-close-sidebar-btn', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Close button clicked');
+                closeSidebar();
+            });
+
+            // Mobile filter sections - accordion behavior
+            $('.filter-section-header').on('click', function() {
+                const $section = $(this).closest('.filter-section');
+                $section.toggleClass('collapsed');
+            });
+
+            // Update mobile filter count badge and selected filter tags
+            function updateMobileFilterCount() {
+                let count = 0;
+                const $tagsContainer = $('#mobile-selected-filters-tags');
+                $tagsContainer.empty();
+                
+                // Track selected filters
+                const selectedFilters = [];
+                
+                // Check brand selections
+                $('.brand_id_input').each(function() {
+                    const val = $(this).val();
+                    if (val) {
+                        const text = $(this).closest('.vehicle-search-group').find('[id^="brand-dropdown"] .select span').text();
+                        if (text && text !== 'Any Brand' && text !== 'Select Brand') {
+                            selectedFilters.push({type: 'brand', value: val, text: text, input: $(this)});
+                            count++;
+                        }
+                    }
+                });
+                
+                // Check model selections
+                $('.vehicle_model_id_input').each(function() {
+                    const val = $(this).val();
+                    if (val) {
+                        const text = $(this).closest('.vehicle-search-group').find('[id^="model-dropdown"] .select span').text();
+                        if (text && text !== 'Any Model' && text !== 'Select Model') {
+                            selectedFilters.push({type: 'model', value: val, text: text, input: $(this)});
+                            count++;
+                        }
+                    }
+                });
+                
+                // Check other filters
+                const filterMap = {
+                    'vehicle_body_id': 'Body',
+                    'fuel_type_id': 'Fuel',
+                    'seller_type': 'Seller',
+                    'drive_type': 'Drive'
+                };
+                
+                Object.keys(filterMap).forEach(function(name) {
+                    const $input = $('input[name="' + name + '"]');
+                    if ($input.val()) {
+                        const text = $input.closest('.drop-menu').find('.select span').text();
+                        if (text && !text.includes('Any') && !text.includes('Select')) {
+                            selectedFilters.push({type: name, value: $input.val(), text: text, input: $input});
+                            count++;
+                        }
+                    }
+                });
+
+                // Update badge
+                const $badge = $('#mobile-filter-badge-top');
+                if (count > 0) {
+                    $badge.text(count).show();
+                } else {
+                    $badge.hide();
+                }
+                
+                // Create filter tags
+                selectedFilters.forEach(function(filter) {
+                    const $tag = $('<div>', {
+                        class: 'mobile-filter-tag',
+                        style: 'display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f0f0f0; border-radius: 20px; font-size: 13px; color: #333;'
+                    });
+                    
+                    $tag.append($('<span>').text(filter.text));
+                    
+                    const $removeBtn = $('<button>', {
+                        type: 'button',
+                        style: 'background: none; border: none; color: #666; padding: 0; cursor: pointer; display: flex; align-items: center; font-size: 16px;',
+                        html: '&times;'
+                    });
+                    
+                    $removeBtn.on('click', function() {
+                        // Clear the filter
+                        filter.input.val('');
+                        filter.input.closest('.drop-menu').find('.select span').text('Any ' + filter.type);
+                        
+                        // Update UI
+                        updateMobileFilterCount();
+                        if ($(window).width() <= 991) {
+                            updateMobileResultsCount();
+                        }
+                        
+                        // Reload page to show results
+                        window.location.reload();
+                    });
+                    
+                    $tag.append($removeBtn);
+                    $tagsContainer.append($tag);
+                });
+            }
+
+            // Update filter count on any change
+            $('.inventory-sidebar').on('change', 'input, select', function() {
+                updateMobileFilterCount();
+            });
+
+            // Initialize filter sections as collapsed on mobile
+            if ($(window).width() <= 991) {
+                $('.filter-section').addClass('collapsed');
+                // Keep first section open
+                $('.filter-section').first().removeClass('collapsed');
+            }
+
+            // Handle window resize
+            $(window).on('resize', function() {
+                if ($(window).width() > 991) {
+                    $('.wrap-sidebar-dk').removeClass('active');
+                    $('#sidebar-backdrop').removeClass('active');
+                    $('body').removeClass('sidebar-open').css('overflow', '');
+                    $('.filter-section').removeClass('collapsed');
+                } else {
+                    // Re-collapse on mobile
+                    if (!$('.filter-section').first().hasClass('collapsed')) {
+                        $('.filter-section').not(':first').addClass('collapsed');
+                    }
+                }
+            });
+
+            // Mobile sort button (placeholder - can be enhanced)
+            $('#mobile-sort-toggle').on('click', function() {
+                // You can add a sort modal/dropdown here
+                alert('Sort functionality - to be implemented');
+            });
+
+            // Auto-close sidebar after applying filters (optional)
+            $('.inventory-sidebar form').on('submit', function() {
+                if ($(window).width() <= 991) {
+                    setTimeout(function() {
+                        $('.wrap-sidebar-dk').removeClass('active');
+                        $('#sidebar-backdrop').removeClass('active');
+                        $('body').removeClass('sidebar-open').css('overflow', '');
+                    }, 300);
+                }
+            });
+
+            // Initialize mobile filter count
+            updateMobileFilterCount();
+
+            // Mobile Show Results button - update count based on filters
+            function updateMobileResultsCount() {
+                const serverTotal = {{ $advertisements->total() }};
+                
+                console.log('updateMobileResultsCount called');
+                
+                // Collect filters like updateVehicleCards does
+                const filters = collectFilterValues();
+                console.log('Filters for count:', filters);
+                
+                // Check if any filters are applied
+                const hasFilters = Object.keys(filters).some(key => {
+                    const value = filters[key];
+                    return value !== '' && value !== null && value !== undefined;
+                });
+                
+                if (!hasFilters) {
+                    // No filters, use server total
+                    console.log('No filters, using server total:', serverTotal);
+                    $('#mobile-total-results').text(serverTotal);
+                    $('#mobile-results-count').text(serverTotal);
+                    $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                    $('#mobile-show-results-btn').prop('disabled', serverTotal === 0);
+                    return;
+                }
+                
+                // Has filters, get count via AJAX
+                $.ajax({
+                    url: '{{ route("home.get-advertisement-count") }}',
+                    method: 'GET',
+                    data: filters,
+                    success: function(response) {
+                        console.log('Count AJAX response:', response);
+                        const count = response.count !== undefined ? response.count : serverTotal;
+                        
+                        $('#mobile-total-results').text(count);
+                        $('#mobile-results-count').text(count);
+                        
+                        if (count === 0) {
+                            $('#mobile-results-text').html('No Results Found');
+                            $('#mobile-show-results-btn').prop('disabled', true);
+                        } else {
+                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${count}</span> Result${count !== 1 ? 's' : ''}`);
+                            $('#mobile-show-results-btn').prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to get count:', error);
+                        // Fallback to server total
+                        $('#mobile-total-results').text(serverTotal);
+                        $('#mobile-results-count').text(serverTotal);
+                        $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                        $('#mobile-show-results-btn').prop('disabled', serverTotal === 0);
+                    }
+                });
+            }
+
+            // Update count when filters change
+            $('.inventory-sidebar').on('change', 'input, select', function() {
+                if ($(window).width() <= 991) {
+                    // Check if there are any active filters
+                    const hasFilters = $('.inventory-sidebar input[type="hidden"]').filter(function() {
+                        return $(this).val() !== '' && $(this).val() !== null;
+                    }).length > 0;
+                    
+                    if (hasFilters) {
+                        updateMobileResultsCount();
+                    } else {
+                        // No filters, use server total directly
+                        const serverTotal = {{ $advertisements->total() }};
+                        $('#mobile-total-results').text(serverTotal);
+                        $('#mobile-results-count').text(serverTotal);
+                        $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                        $('#mobile-show-results-btn').prop('disabled', false);
+                    }
+                }
+            });
+
+            // Also update on dropdown clicks (for custom dropdowns)
+            $(document).on('click', '.inventory-sidebar .dropdown li', function() {
+                if ($(window).width() <= 991) {
+                    setTimeout(function() {
+                        updateMobileFilterCount();
+                        
+                        // Check if there are any active filters
+                        const hasFilters = $('.inventory-sidebar input[type="hidden"]').filter(function() {
+                            return $(this).val() !== '' && $(this).val() !== null;
+                        }).length > 0;
+                        
+                        if (hasFilters) {
+                            updateMobileResultsCount();
+                        } else {
+                            // No filters, use server total directly
+                            const serverTotal = {{ $advertisements->total() }};
+                            $('#mobile-total-results').text(serverTotal);
+                            $('#mobile-results-count').text(serverTotal);
+                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                            $('#mobile-show-results-btn').prop('disabled', false);
+                        }
+                    }, 300);
+                }
+            });
+
+            // Mobile Show Results button click - apply filters and close sidebar
+            $('#mobile-show-results-btn').on('click', function() {
+                if (sidebarAnimating) return;
+                
+                sidebarAnimating = true;
+                
+                console.log('Show Results clicked - applying filters');
+                
+                // Apply filters using the existing updateVehicleCards function
+                updateVehicleCards();
+                
+                // Close the sidebar
+                $('.wrap-sidebar-dk').removeClass('active');
+                $('#sidebar-backdrop').removeClass('active');
+                $('body').removeClass('sidebar-open').css('overflow', '');
+                
+                setTimeout(function() {
+                    sidebarAnimating = false;
+                }, 350);
+                
+                // Scroll to top of results
+                setTimeout(function() {
+                    if ($('.mobile-selected-filters-bar').length) {
+                        $('html, body').animate({
+                            scrollTop: $('.mobile-selected-filters-bar').offset().top - 80
+                        }, 300);
+                    }
+                }, 400);
+            });
+
+            // Initialize mobile results count - ALWAYS set server total first
+            const initialTotal = {{ $advertisements->total() }};
+            console.log('Server total:', initialTotal);
+            
+            // Set values immediately for all screen sizes
+            $('#mobile-total-results').text(initialTotal);
+            $('#mobile-results-count').text(initialTotal);
+            
+            if (initialTotal > 0) {
+                $('#mobile-results-text').html(`Show <span id="mobile-results-count">${initialTotal}</span> Result${initialTotal !== 1 ? 's' : ''}`);
+                $('#mobile-show-results-btn').prop('disabled', false);
+            } else {
+                $('#mobile-results-text').html('No Results Found');
+                $('#mobile-show-results-btn').prop('disabled', true);
+            }
+            
+            if ($(window).width() <= 991) {
+                console.log('Mobile view - Initializing counts');
+                updateMobileFilterCount();
+                
+                // Only call AJAX if there are active filters with actual values
+                const hasFilters = $('.inventory-sidebar input[type="hidden"]').filter(function() {
+                    const val = $(this).val();
+                    return val !== '' && val !== null && val !== undefined;
+                }).length > 0;
+                
+                console.log('Has active filters:', hasFilters);
+                
+                if (hasFilters) {
+                    console.log('Calling AJAX to update count');
+                    setTimeout(function() {
+                        updateMobileResultsCount();
+                    }, 500);
+                }
+            }
+
+            // Debug: Check if elements exist
+            console.log('Filter button exists:', $('#mobile-filter-toggle-top').length);
+            console.log('Sidebar exists:', $('.wrap-sidebar-dk').length);
+            console.log('Backdrop exists:', $('#sidebar-backdrop').length);
+
+            // ========================================
+            // END MOBILE FUNCTIONALITY
+            // ========================================
 
             // Add new vehicle group
             $(document).on('click', '.add-vehicle-btn', function() {
@@ -1153,6 +1592,7 @@
                     const brandId = $(this).data('id');
                     const brandName = $(this).text().trim();
                     const $brandDropdown = $(this).closest('[id^="brand-dropdown"]');
+                    const $modelDropdown = container.find('[id^="model-dropdown"]');
 
                     $brandDropdown.find('.select span').text(brandName);
                     $brandDropdown.find('input[type="hidden"]').val(brandId);
@@ -1162,8 +1602,16 @@
                     console.log('- Hidden input value:', $brandDropdown.find('input[type="hidden"]').val());
                     $(this).closest('.dropdown').hide();
 
-                    // Load models for selected brand
-                    loadModels(container, brandId);
+                    // If "Any Brand" selected, clear models
+                    if (!brandId || brandId === '') {
+                        console.log('Clearing models - Any Brand selected');
+                        $modelDropdown.find('.select span').text('Any Model');
+                        $modelDropdown.find('input[type="hidden"]').val('');
+                        $modelDropdown.find('.dropdown').html('<li data-id="" class="clear-option">Any Model</li>');
+                    } else {
+                        // Load models for selected brand
+                        loadModels(container, brandId);
+                    }
                     
                     // Update selected filters bar
                     console.log('Brand selected in existing handler:', brandName);
@@ -1171,6 +1619,25 @@
                     updateSelectedFiltersBar();
                     console.log('Also calling with timeout...');
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Update mobile filter count and results immediately
+                    if ($(window).width() <= 991) {
+                        updateMobileFilterCount();
+                        
+                        // If no brand selected (Any Brand), use server total directly
+                        if (!brandId || brandId === '') {
+                            const serverTotal = {{ $advertisements->total() }};
+                            $('#mobile-total-results').text(serverTotal);
+                            $('#mobile-results-count').text(serverTotal);
+                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                            $('#mobile-show-results-btn').prop('disabled', false);
+                        } else {
+                            // Has brand, delay results count to ensure form is updated
+                            setTimeout(function() {
+                                updateMobileResultsCount();
+                            }, 100);
+                        }
+                    }
                     
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for brand...');
@@ -1197,6 +1664,12 @@
                     // Update selected filters bar
                     console.log('Model selected in existing handler:', modelName);
                     setTimeout(updateSelectedFiltersBar, 200);
+                    
+                    // Update mobile filter count
+                    if ($(window).width() <= 991) {
+                        updateMobileFilterCount();
+                        updateMobileResultsCount();
+                    }
                     
                     // Trigger vehicle cards update
                     console.log('Triggering updateVehicleCards for model...');
@@ -3888,6 +4361,214 @@
             
             .selected-filters-list {
                 width: 100%;
+            }
+        }
+
+        /* ========================================
+           AUTOSCOUT24-STYLE MOBILE LAYOUT
+           (Layout Only - No Style Changes)
+           ======================================== */
+        @media (max-width: 991px) {
+            /* Sidebar becomes bottom sheet */
+            .wrap-sidebar-dk {
+                position: fixed !important;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                background: white;
+                box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+                border-radius: 16px 16px 0 0;
+                max-height: 80vh;
+                overflow: hidden;
+                transform: translateY(100%);
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform;
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .wrap-sidebar-dk.active {
+                transform: translateY(0) !important;
+                overflow-y: auto;
+            }
+
+            /* Force sidebar to be visible on mobile */
+            .side-bar.wrap-sidebar-dk {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            /* Sidebar handle - hidden on mobile */
+            .sidebar-handle {
+                display: none !important;
+            }
+
+            /* Inventory sidebar scrolling */
+            .inventory-sidebar {
+                display: flex !important;
+                flex-direction: column !important;
+                height: 100% !important;
+                max-height: 80vh !important;
+                overflow: visible !important;
+            }
+
+            /* Filter content area - scrollable */
+            .inventory-sidebar .inventroy-widget {
+                flex: 1 !important;
+                overflow-y: auto !important;
+                padding: 20px !important;
+            }
+
+            /* Mobile show results button - sticky at bottom */
+            .mobile-show-results-btn {
+                flex-shrink: 0 !important;
+                position: sticky !important;
+                bottom: 0 !important;
+                z-index: 11 !important;
+                box-shadow: 0 -2px 8px rgba(0,0,0,0.1) !important;
+                display: block !important;
+                margin-top: auto !important;
+            }
+
+            #mobile-show-results-btn {
+                background: #405FF2 !important;
+                border: none !important;
+                transition: all 0.2s ease;
+            }
+
+            #mobile-show-results-btn:hover:not(:disabled) {
+                background: #3651d9 !important;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(64, 95, 242, 0.3);
+            }
+
+            #mobile-show-results-btn:disabled {
+                background: #6c757d !important;
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+
+            #mobile-results-count {
+                font-weight: 700;
+            }
+
+            /* Filter sections - accordion */
+            .filter-section {
+                border-bottom: 1px solid #e0e0e0;
+                margin-bottom: 0;
+            }
+
+            .filter-section-header {
+                padding: 16px 0;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .filter-section-header::after {
+                content: '▼';
+                font-size: 12px;
+                color: #666;
+                transition: transform 0.3s;
+            }
+
+            .filter-section.collapsed .filter-section-header::after {
+                transform: rotate(-90deg);
+            }
+
+            .filter-section-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .filter-section:not(.collapsed) .filter-section-content {
+                max-height: 2000px;
+                padding-bottom: 16px;
+            }
+
+            /* Right content area */
+            .col-xl-9 {
+                width: 100%;
+            }
+
+            /* Results list - single column */
+            .service-block-thirteen {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            /* Mobile selected filters bar at top */
+            .mobile-selected-filters-bar {
+                background: white;
+                padding: 12px;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .mobile-filter-toggle-btn:hover {
+                background: #3651d9 !important;
+            }
+
+            .mobile-filter-tag {
+                animation: slideInTag 0.2s ease;
+            }
+
+            @keyframes slideInTag {
+                from {
+                    opacity: 0;
+                    transform: scale(0.8);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            /* Backdrop for sidebar */
+            .sidebar-backdrop {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                background: rgba(0,0,0,0.5) !important;
+                z-index: 999 !important;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+                pointer-events: none;
+            }
+
+            .sidebar-backdrop.active {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+            }
+
+            /* Prevent body scroll when sidebar open */
+            body.sidebar-open {
+                overflow: hidden;
+                position: fixed;
+                width: 100%;
+            }
+
+            /* Hide mobile elements on desktop */
+            .sidebar-backdrop {
+                display: none;
+            }
+        }
+
+        /* Show mobile elements only on mobile */
+        @media (max-width: 991px) {
+            .sidebar-backdrop {
+                display: block !important;
             }
         }
     </style>
