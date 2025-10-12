@@ -1202,6 +1202,42 @@
                         }
                     }
                 });
+                
+                // Check checkbox filters - count each individually
+                // Equipment
+                $('input[name="equipments[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Colors
+                $('input[name="color_ids[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Transmission
+                $('input[name="motor_change[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Vehicle Categories
+                $('input[name="vehicle_category[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Emissions Classes
+                $('input[name="emissions_class[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Conditions
+                $('input[name="advertisement_type_id[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Seller Types
+                $('input[name="seller_type[]"]:checked').each(function() {
+                    count++;
+                });
 
                 // Update badge
                 const $badge = $('#mobile-filter-badge-top');
@@ -3136,88 +3172,83 @@
                         };
                     }
                     
-                    // Transmission
-                    const selectedTransmissions = [];
+                    // Transmission - individual items
                     $('input[name="motor_change[]"]:checked').each(function() {
-                        selectedTransmissions.push($(this).val());
-                    });
-                    if (selectedTransmissions.length > 0) {
-                        filters.transmission = {
+                        const transmissionValue = $(this).val();
+                        const transmissionName = $(this).closest('label').text().trim();
+                        filters[`transmission_${transmissionValue}`] = {
                             name: 'Transmission',
-                            values: selectedTransmissions,
-                            type: 'multi-select'
+                            value: transmissionName,
+                            type: 'single',
+                            inputName: 'motor_change[]',
+                            inputValue: transmissionValue
                         };
-                    }
+                    });
                     
-                    // Vehicle condition
-                    const selectedConditions = [];
+                    // Vehicle condition - individual items
                     $('input[name="advertisement_type_id[]"]:checked').each(function() {
+                        const conditionValue = $(this).val();
                         const conditionName = $(this).closest('label').text().trim();
-                        selectedConditions.push(conditionName);
-                    });
-                    if (selectedConditions.length > 0) {
-                        filters.condition = {
+                        filters[`condition_${conditionValue}`] = {
                             name: 'Condition',
-                            values: selectedConditions,
-                            type: 'multi-select'
+                            value: conditionName,
+                            type: 'single',
+                            inputName: 'advertisement_type_id[]',
+                            inputValue: conditionValue
                         };
-                    }
+                    });
                     
-                    // Equipment
-                    const selectedEquipment = [];
+                    // Equipment - individual items
                     $('input[name="equipments[]"]:checked').each(function() {
+                        const equipmentValue = $(this).val();
                         const equipmentName = $(this).closest('label').text().trim();
-                        selectedEquipment.push(equipmentName);
-                    });
-                    if (selectedEquipment.length > 0) {
-                        filters.equipment = {
+                        filters[`equipment_${equipmentValue}`] = {
                             name: 'Equipment',
-                            values: selectedEquipment,
-                            type: 'multi-select'
+                            value: equipmentName,
+                            type: 'single',
+                            inputName: 'equipments[]',
+                            inputValue: equipmentValue
                         };
-                    }
+                    });
                     
-                    // Color
-                    const selectedColors = [];
+                    // Color - individual items
                     $('input[name="color_ids[]"]:checked').each(function() {
+                        const colorValue = $(this).val();
                         const colorName = $(this).closest('label').text().trim();
-                        selectedColors.push(colorName);
-                    });
-                    if (selectedColors.length > 0) {
-                        filters.color = {
+                        filters[`color_${colorValue}`] = {
                             name: 'Color',
-                            values: selectedColors,
-                            type: 'multi-select'
+                            value: colorName,
+                            type: 'single',
+                            inputName: 'color_ids[]',
+                            inputValue: colorValue
                         };
-                    }
+                    });
                     
-                    // Vehicle Category
-                    const selectedCategories = [];
+                    // Vehicle Category - individual items
                     $('input[name="vehicle_category[]"]:checked').each(function() {
+                        const categoryValue = $(this).val();
                         const categoryName = $(this).closest('label').text().trim();
-                        selectedCategories.push(categoryName);
-                    });
-                    if (selectedCategories.length > 0) {
-                        filters.category = {
+                        filters[`category_${categoryValue}`] = {
                             name: 'Category',
-                            values: selectedCategories,
-                            type: 'multi-select'
+                            value: categoryName,
+                            type: 'single',
+                            inputName: 'vehicle_category[]',
+                            inputValue: categoryValue
                         };
-                    }
-                    
-                    // Emissions Class
-                    const selectedEmissions = [];
-                    $('input[name="emissions_class[]"]:checked').each(function() {
-                        const emissionName = $(this).closest('label').text().trim();
-                        selectedEmissions.push(emissionName);
                     });
-                    if (selectedEmissions.length > 0) {
-                        filters.emissions = {
+                    
+                    // Emissions Class - individual items
+                    $('input[name="emissions_class[]"]:checked').each(function() {
+                        const emissionValue = $(this).val();
+                        const emissionName = $(this).closest('label').text().trim();
+                        filters[`emissions_${emissionValue}`] = {
                             name: 'Emissions',
-                            values: selectedEmissions,
-                            type: 'multi-select'
+                            value: emissionName,
+                            type: 'single',
+                            inputName: 'emissions_class[]',
+                            inputValue: emissionValue
                         };
-                    }
+                    });
                     
                     // Version Model
                     const versionModel = $('input[name="version_model[]"]').val();
@@ -3411,18 +3442,18 @@
                         };
                     }
                     
-                    // Seller Type
-                    const sellerTypes = [];
+                    // Seller Type - individual items
                     $('input[name="seller_type[]"]:checked').each(function() {
-                        sellerTypes.push($(this).next('span').next('label').text());
-                    });
-                    if (sellerTypes.length > 0) {
-                        filters.sellerType = {
+                        const sellerTypeValue = $(this).val();
+                        const sellerTypeName = $(this).closest('label').text().trim() || $(this).next('label').text().trim();
+                        filters[`seller_type_${sellerTypeValue}`] = {
                             name: 'Seller Type',
-                            value: sellerTypes,
-                            type: 'multi-select'
+                            value: sellerTypeName,
+                            type: 'single',
+                            inputName: 'seller_type[]',
+                            inputValue: sellerTypeValue
                         };
-                    }
+                    });
                     
                     // Vehicle Condition
                     const serviceHistory = $('input[name="service_history_available"]:checked').length > 0;
@@ -3614,6 +3645,55 @@
                         const url = new URL(window.location);
                         url.searchParams.delete('advertisement_type');
                         window.location.href = url.toString();
+                        return;
+                    }
+                    
+                    // Handle individual transmission removal (transmission_123 format)
+                    if (filterKey.startsWith('transmission_')) {
+                        const transmissionValue = filterKey.replace('transmission_', '');
+                        $(`input[name="motor_change[]"][value="${transmissionValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual condition removal (condition_123 format)
+                    if (filterKey.startsWith('condition_')) {
+                        const conditionValue = filterKey.replace('condition_', '');
+                        $(`input[name="advertisement_type_id[]"][value="${conditionValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual equipment removal (equipment_123 format)
+                    if (filterKey.startsWith('equipment_')) {
+                        const equipmentValue = filterKey.replace('equipment_', '');
+                        $(`input[name="equipments[]"][value="${equipmentValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual color removal (color_123 format)
+                    if (filterKey.startsWith('color_')) {
+                        const colorValue = filterKey.replace('color_', '');
+                        $(`input[name="color_ids[]"][value="${colorValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual category removal (category_123 format)
+                    if (filterKey.startsWith('category_')) {
+                        const categoryValue = filterKey.replace('category_', '');
+                        $(`input[name="vehicle_category[]"][value="${categoryValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual emissions removal (emissions_123 format)
+                    if (filterKey.startsWith('emissions_')) {
+                        const emissionsValue = filterKey.replace('emissions_', '');
+                        $(`input[name="emissions_class[]"][value="${emissionsValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual seller type removal (seller_type_123 format)
+                    if (filterKey.startsWith('seller_type_')) {
+                        const sellerTypeValue = filterKey.replace('seller_type_', '');
+                        $(`input[name="seller_type[]"][value="${sellerTypeValue}"]`).prop('checked', false).trigger('change');
                         return;
                     }
                     
