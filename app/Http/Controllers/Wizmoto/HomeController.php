@@ -279,9 +279,6 @@ class HomeController extends Controller
                 }
             })
             
-            // SELLER TYPE
-            ->when($request->filled('seller_type'), fn($q) => $q->where('seller_type', $request->seller_type))
-            
             // VEHICLE CONDITION
             ->when($request->filled('service_history_available'), fn($q) => $q->where('service_history_available', true))
             ->when($request->filled('warranty_available'), fn($q) => $q->where('warranty_available', true))
@@ -565,9 +562,153 @@ class HomeController extends Controller
     public function getAdvertisementCount(Request $request)
     {
         $count = Advertisement::query()
-            ->when($request->filled('brand_id') && $request->brand_id != '', fn($q) => $q->where('brand_id', $request->brand_id))
-            ->when($request->filled('vehicle_model_id') && $request->vehicle_model_id != '', fn($q) => $q->where('vehicle_model_id', $request->vehicle_model_id))
-            ->when($request->filled('fuel_type_id') && $request->fuel_type_id != '', fn($q) => $q->where('fuel_type_id', $request->fuel_type_id))
+            // LOCATION FILTERS
+            ->when($request->filled('city'), fn($q) => $q->where('city', $request->city))
+            ->when($request->filled('zip_code'), fn($q) => $q->where('zip_code', $request->zip_code))
+            
+            // SEARCH RADIUS FILTER
+            ->when($request->filled('search_radius') && ($request->filled('city') || $request->filled('zip_code')), function ($q) use ($request) {
+                $validation = $this->validateSearchRadius($request);
+                
+                if ($validation['valid']) {
+                    $searchLocation = $this->getSearchLocationCoordinates($request);
+                    
+                    if ($searchLocation) {
+                        $latitude = $searchLocation['latitude'];
+                        $longitude = $searchLocation['longitude'];
+                        $radius = $validation['search_radius'];
+                        
+                        $q->whereNotNull('latitude')
+                          ->whereNotNull('longitude')
+                          ->whereRaw("
+                            (6371 * acos(
+                                cos(radians(?)) 
+                                * cos(radians(latitude)) 
+                                * cos(radians(longitude) - radians(?)) 
+                                + sin(radians(?)) 
+                                * sin(radians(latitude))
+                            )) <= ?
+                        ", [$latitude, $longitude, $latitude, $radius]);
+                    }
+                }
+            })
+            
+            // VEHICLE BASIC DATA
+            ->when($request->filled('vehicle_category'), fn($q) => $q->whereIn('vehicle_category', (array)$request->vehicle_category))
+            ->when($request->filled('vehicle_body_id'), fn($q) => $q->whereIn('vehicle_body_id', (array)$request->vehicle_body_id))
+            ->when($request->filled('seller_type'), fn($q) => $q->whereHas('provider', function($query) use ($request) {
+                $query->whereIn('seller_type', (array)$request->seller_type);
+            }))
+            
+            // BRAND/MODEL (support multiple vehicle groups)
+            ->when($request->filled('brand_id'), function ($q) use ($request) {
+                $brandIds = is_array($request->brand_id) ? $request->brand_id : [$request->brand_id];
+                $q->whereIn('brand_id', array_filter($brandIds));
+            })
+            ->when($request->filled('vehicle_model_id'), function ($q) use ($request) {
+                $modelIds = is_array($request->vehicle_model_id) ? $request->vehicle_model_id : [$request->vehicle_model_id];
+                $q->whereIn('vehicle_model_id', array_filter($modelIds));
+            })
+            
+            // VERSION FILTER
+            ->when($request->filled('versions'), function ($q) use ($request) {
+                $versions = is_array($request->versions) ? $request->versions : [$request->versions];
+                $q->where(function($query) use ($versions) {
+                    foreach ($versions as $version) {
+                        $query->orWhere('version_model', 'like', "%{$version}%");
+                    }
+                });
+            })
+            
+            // YEAR RANGE
+            ->when($request->filled('registration_year_from'), fn($q) => $q->where(DB::raw('CAST(registration_year AS UNSIGNED)'), '>=', (int)$request->registration_year_from))
+            ->when($request->filled('registration_year_to'), fn($q) => $q->where(DB::raw('CAST(registration_year AS UNSIGNED)'), '<=', (int)$request->registration_year_to))
+            
+            // MILEAGE RANGE
+            ->when($request->filled('mileage_from'), fn($q) => $q->where('mileage', '>=', (int)$request->mileage_from))
+            ->when($request->filled('mileage_to'), fn($q) => $q->where('mileage', '<=', (int)$request->mileage_to))
+            
+            // POWER RANGES
+            ->when($request->filled('power_cv_from'), fn($q) => $q->where('motor_power_cv', '>=', (int)$request->power_cv_from))
+            ->when($request->filled('power_cv_to'), fn($q) => $q->where('motor_power_cv', '<=', (int)$request->power_cv_to))
+            ->when($request->filled('power_kw_from'), fn($q) => $q->where('motor_power_kw', '>=', (int)$request->power_kw_from))
+            ->when($request->filled('power_kw_to'), fn($q) => $q->where('motor_power_kw', '<=', (int)$request->power_kw_to))
+            
+            // ENGINE SPECIFICATIONS
+            ->when($request->filled('motor_displacement_from'), fn($q) => $q->where('motor_displacement', '>=', (int)$request->motor_displacement_from))
+            ->when($request->filled('motor_displacement_to'), fn($q) => $q->where('motor_displacement', '<=', (int)$request->motor_displacement_to))
+            ->when($request->filled('cylinders'), fn($q) => $q->where('motor_cylinders', $request->cylinders))
+            
+            // DRIVE TYPE
+            ->when($request->filled('drive_type'), fn($q) => $q->whereIn('drive_type', (array)$request->drive_type))
+            
+            // TECHNICAL SPECIFICATIONS
+            ->when($request->filled('tank_capacity_from'), fn($q) => $q->where('tank_capacity_liters', '>=', (float)$request->tank_capacity_from))
+            ->when($request->filled('tank_capacity_to'), fn($q) => $q->where('tank_capacity_liters', '<=', (float)$request->tank_capacity_to))
+            ->when($request->filled('seat_height_from'), fn($q) => $q->where('seat_height_mm', '>=', (int)$request->seat_height_from))
+            ->when($request->filled('seat_height_to'), fn($q) => $q->where('seat_height_mm', '<=', (int)$request->seat_height_to))
+            ->when($request->filled('top_speed_from'), fn($q) => $q->where('top_speed_kmh', '>=', (int)$request->top_speed_from))
+            ->when($request->filled('top_speed_to'), fn($q) => $q->where('top_speed_kmh', '<=', (int)$request->top_speed_to))
+            ->when($request->filled('torque_from'), fn($q) => $q->where('torque_nm', '>=', (int)$request->torque_from))
+            ->when($request->filled('torque_to'), fn($q) => $q->where('torque_nm', '<=', (int)$request->torque_to))
+            
+            // TRANSMISSION
+            ->when($request->filled('motor_change'), fn($q) => $q->whereIn('motor_change', (array)$request->motor_change))
+            
+            // PRICE RANGE
+            ->when($request->filled('price_from'), fn($q) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))'), '>=', (float)$request->price_from))
+            ->when($request->filled('price_to'), fn($q) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))'), '<=', (float)$request->price_to))
+            
+            // FUEL TYPE
+            ->when($request->filled('fuel_type_id'), fn($q) => $q->whereIn('fuel_type_id', (array)$request->fuel_type_id))
+            
+            // COLORS
+            ->when($request->filled('color_ids'), fn($q) => $q->whereIn('color_id', (array)$request->color_ids))
+            ->when($request->filled('is_metallic_paint'), fn($q) => $q->where('is_metallic_paint', true))
+            
+            // EQUIPMENT
+            ->when($request->filled('equipments'), function ($q) use ($request) {
+                $q->whereHas('equipments', function ($qq) use ($request) {
+                    $qq->whereIn('equipment_id', (array)$request->equipments);
+                });
+            })
+            
+            // VEHICLE CONDITIONS
+            ->when($request->filled('previous_owners_filter'), function ($q) use ($request) {
+                $filter = $request->previous_owners_filter;
+                if ($filter === 'any') {
+                    return $q;
+                } elseif ($filter === '3') {
+                    $q->where('previous_owners', '>=', 3);
+                } else {
+                    $q->where('previous_owners', '<=', (int)$filter);
+                }
+            })
+            ->when($request->filled('damaged_vehicle'), fn($q) => $q->where('damaged_vehicle', true))
+            ->when($request->filled('coupon_documentation'), fn($q) => $q->where('coupon_documentation', true))
+            
+            // SALES FEATURES
+            ->when($request->filled('first_owner'), fn($q) => $q->where('first_owner', true))
+            ->when($request->filled('service_history_available'), fn($q) => $q->where('service_history_available', true))
+            ->when($request->filled('warranty_available'), fn($q) => $q->where('warranty_available', true))
+            ->when($request->filled('financing_available'), fn($q) => $q->where('financing_available', true))
+            ->when($request->filled('trade_in_possible'), fn($q) => $q->where('trade_in_possible', true))
+            ->when($request->filled('available_immediately'), fn($q) => $q->where('available_immediately', true))
+            
+            // ONLINE PERIOD
+            ->when($request->filled('online_from_period'), function ($q) use ($request) {
+                $period = (int)$request->online_from_period;
+                $date = now()->subDays($period);
+                $q->where('created_at', '>=', $date);
+            })
+            
+            // ENVIRONMENT
+            ->when($request->filled('emissions_class'), fn($q) => $q->whereIn('emissions_class', (array)$request->emissions_class))
+            ->when($request->filled('co2_emissions_from'), fn($q) => $q->where('co2_emissions', '>=', (int)$request->co2_emissions_from))
+            ->when($request->filled('co2_emissions_to'), fn($q) => $q->where('co2_emissions', '<=', (int)$request->co2_emissions_to))
+            ->when($request->filled('fuel_consumption_from'), fn($q) => $q->where('combined_fuel_consumption', '>=', (float)$request->fuel_consumption_from))
+            ->when($request->filled('fuel_consumption_to'), fn($q) => $q->where('combined_fuel_consumption', '<=', (float)$request->fuel_consumption_to))
+            
             ->count();
 
         return response()->json([
