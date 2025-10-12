@@ -2,84 +2,107 @@
 
 namespace Database\Seeders;
 
-use App\Models\AdvertisementType;
 use App\Models\FuelType;
 use Illuminate\Database\Seeder;
 
+/**
+ * Fuel Type Seeder
+ * 
+ * Creates universal fuel/power types that apply to ALL vehicle categories
+ * No more duplicates - each fuel type exists only once!
+ * 
+ * To add a new fuel type:
+ * 1. Add it to the getFuelTypesData() method
+ * 2. Run: php artisan db:seed --class=FuelTypeSeeder
+ * 
+ * Examples:
+ * - 'Petrol' works for motorcycles, scooters, bikes with motors
+ * - 'Electric' works for e-bikes, electric scooters, electric motorcycles
+ * - 'Manual' only for bicycles
+ */
 class FuelTypeSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        // MOTORCYCLES - Fuel types for motorcycles
-        $motorcycle = AdvertisementType::where('title', 'Motorcycle')->first();
-        $motorcycleFuels = [
-            ['code' => 'P',  'name' => 'Petrol/Gasoline'],
-            ['code' => 'E',  'name' => 'Electric'],
-            ['code' => 'H',  'name' => 'Hybrid (Petrol/Electric)'],
-            ['code' => 'D',  'name' => 'Diesel'],
-            ['code' => 'L',  'name' => 'LPG'],
-            ['code' => 'CNG', 'name' => 'CNG (Compressed Natural Gas)'],
-            ['code' => 'ETH', 'name' => 'Ethanol/E85'],
-            ['code' => 'O',  'name' => 'Other'],
-        ];
-        foreach ($motorcycleFuels as $fuel) {
-            FuelType::updateOrCreate([
-                'code' => $fuel['code'],
-                'name' => $fuel['name'],
-                'advertisement_type_id' => $motorcycle->id,
+        // Clear existing fuel types
+        FuelType::truncate();
+        
+        $fuelTypes = $this->getFuelTypesData();
+
+        foreach ($fuelTypes as $fuelType) {
+            // Skip empty or invalid entries
+            if (empty(trim($fuelType['code'] ?? '')) || empty(trim($fuelType['name'] ?? ''))) {
+                continue;
+            }
+
+            FuelType::create([
+                'code' => trim($fuelType['code']),
+                'name' => trim($fuelType['name']),
             ]);
         }
 
-        // MOTOR SCOOTERS - Fuel types for larger scooters
-        $motorScooter = AdvertisementType::where('title', 'Motor Scooter')->first();
-        $motorScooterFuels = [
-            ['code' => 'P',  'name' => 'Petrol/Gasoline'],
-            ['code' => 'E',  'name' => 'Electric'],
-            ['code' => 'H',  'name' => 'Hybrid (Petrol/Electric)'],
-            ['code' => 'L',  'name' => 'LPG'],
-            ['code' => 'CNG', 'name' => 'CNG (Compressed Natural Gas)'],
-            ['code' => 'O',  'name' => 'Other'],
-        ];
-        foreach ($motorScooterFuels as $fuel) {
-            FuelType::updateOrCreate([
-                'code' => $fuel['code'],
-                'name' => $fuel['name'],
-                'advertisement_type_id' => $motorScooter->id,
-            ]);
-        }
+        $count = count($fuelTypes);
+        $this->command->info("✓ Seeded {$count} unique fuel types");
+    }
 
-        // SCOOTERS - Fuel types for small scooters
-        $scooter = AdvertisementType::where('title', 'Scooter')->first();
-        $scooterFuels = [
-            ['code' => '2T', 'name' => '2-Stroke Petrol'],
-            ['code' => '4T', 'name' => '4-Stroke Petrol'],
-            ['code' => 'E',  'name' => 'Electric'],
-            ['code' => 'H',  'name' => 'Hybrid (Petrol/Electric)'],
-            ['code' => 'L',  'name' => 'LPG'],
-            ['code' => 'O',  'name' => 'Other'],
+    /**
+     * Get all fuel/power types
+     * 
+     * Format: ['code' => 'SHORT_CODE', 'name' => 'Display Name']
+     * 
+     * @return array<array{code: string, name: string}>
+     */
+    private function getFuelTypesData(): array
+    {
+        return [
+            // ============================================
+            // COMMON FUEL TYPES (Motorcycles & Scooters)
+            // ============================================
+            
+            ['code' => 'P',     'name' => 'Petrol'],
+            ['code' => 'D',     'name' => 'Diesel'],
+            ['code' => 'E',     'name' => 'Electric'],
+            ['code' => 'HYB',   'name' => 'Hybrid (Petrol/Electric)'],
+            
+            // ============================================
+            // ALTERNATIVE FUELS
+            // ============================================
+            
+            ['code' => 'LPG',   'name' => 'LPG (Liquefied Petroleum Gas)'],
+            ['code' => 'CNG',   'name' => 'CNG (Compressed Natural Gas)'],
+            ['code' => 'ETH',   'name' => 'Ethanol/E85'],
+            ['code' => 'H2',    'name' => 'Hydrogen'],
+            
+            // ============================================
+            // SCOOTER SPECIFIC
+            // ============================================
+            
+            ['code' => '2T',    'name' => '2-Stroke Petrol'],
+            ['code' => '4T',    'name' => '4-Stroke Petrol'],
+            
+            // ============================================
+            // BICYCLE SPECIFIC (Pedal Power)
+            // ============================================
+            
+            ['code' => 'M',     'name' => 'Manual (Pedal Power)'],
+            ['code' => 'PE',    'name' => 'Pedelec (Pedal Assist)'],
+            ['code' => 'SB',    'name' => 'Speed E-Bike (S-Pedelec)'],
+            ['code' => 'EH',    'name' => 'Electric Hybrid'],
+            
+            // ============================================
+            // OTHER
+            // ============================================
+            
+            ['code' => 'OTH',   'name' => 'Other'],
+            
+            // ============================================
+            // ADD NEW FUEL TYPES BELOW
+            // Format: ['code' => 'CODE', 'name' => 'Display Name'],
+            // ============================================
+            
         ];
-        foreach ($scooterFuels as $fuel) {
-            FuelType::updateOrCreate([
-                'code' => $fuel['code'],
-                'name' => $fuel['name'],
-                'advertisement_type_id' => $scooter->id,
-            ]);
-        }
-
-        // BIKES - Power types for bicycles
-        $bike = AdvertisementType::where('title', 'Bike')->first();
-        $bikeFuels = [
-            ['code' => 'M',  'name' => 'Manual/Pedal'],
-            ['code' => 'E',  'name' => 'Electric (E-bike)'],
-            ['code' => 'EH', 'name' => 'Electric Hybrid'],
-            ['code' => 'O',  'name' => 'Other'],
-        ];
-        foreach ($bikeFuels as $fuel) {
-            FuelType::updateOrCreate([
-                'code' => $fuel['code'],
-                'name' => $fuel['name'],
-                'advertisement_type_id' => $bike->id,
-            ]);
-        }
     }
 }

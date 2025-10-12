@@ -56,11 +56,13 @@ class HomeController extends Controller
     public function inventoryList(Request $request)
     {
         // Get brands based on advertisement type filter
-        $brandsQuery = Brand::select('id', 'name', 'advertisement_type_id');
+        $brandsQuery = Brand::query();
         
         // If filtering by advertisement type, show only relevant brands
         if ($request->filled('advertisement_type')) {
-            $brandsQuery->where('advertisement_type_id', $request->advertisement_type);
+            $brandsQuery->whereHas('advertisementTypes', function($q) use ($request) {
+                $q->where('advertisement_types.id', $request->advertisement_type);
+            });
         }
         
         $brands = $brandsQuery->orderBy('name')->get();
@@ -315,16 +317,8 @@ class HomeController extends Controller
 
         // If it's an AJAX request for fuel types only, return just the fuel types
         if ($request->ajax() && $request->has('get_fuel_types_only')) {
-            $fuelTypes = collect();
-            
-            if ($request->filled('advertisement_type')) {
-                $fuelTypes = FuelType::where('advertisement_type_id', $request->advertisement_type)
-                    ->orderBy('name')
-                    ->get();
-            } else {
-                // If no advertisement type specified, return all fuel types
-                $fuelTypes = FuelType::orderBy('name')->get();
-            }
+            // Fuel types are now universal - return all of them
+            $fuelTypes = FuelType::orderBy('name')->get();
             
             return response()->json([
                 'fuel_types' => $fuelTypes->toArray()

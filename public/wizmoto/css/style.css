@@ -5907,6 +5907,8 @@ Section Title
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  white-space: nowrap;
+ 
 }
 
 .boxcar-banner-section-v1 .banner-content .form-tab-content .model-links li a:hover {
@@ -6620,6 +6622,7 @@ Section Title
   line-height: 44px;
   padding: 0 30px;
   border-radius: 30px;
+  white-space: nowrap;
 }
 
 .boxcar-banner-section-five .banner-content .form-tab-content .model-links li a img {

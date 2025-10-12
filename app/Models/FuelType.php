@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FuelType extends Model
 {
-    public function advertisementType()
+    public function advertisements()
     {
-        return $this->belongsTo(AdvertisementType::class);
+        return $this->hasMany(Advertisement::class);
     }
 }

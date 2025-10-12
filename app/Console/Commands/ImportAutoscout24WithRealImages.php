@@ -151,8 +151,8 @@ class ImportAutoscout24WithRealImages extends Command
             // Get or create advertisement type
             $advertisementType = $this->getOrCreateAdvertisementType();
             
-            // Get or create brand
-            $brand = $this->getOrCreateBrand($adData['brand'] ?? 'Unknown');
+            // Get or create brand (now with advertisement type association)
+            $brand = $this->getOrCreateBrand($adData['brand'] ?? 'Unknown', $advertisementType->id);
             
             // Get or create vehicle model
             $vehicleModel = $this->getOrCreateVehicleModel($adData['model'] ?? 'Unknown', $brand->id);
@@ -696,8 +696,9 @@ class ImportAutoscout24WithRealImages extends Command
     
     /**
      * Get or create brand
+     * Brands are now unique - one brand can belong to multiple advertisement types
      */
-    private function getOrCreateBrand($brandName)
+    private function getOrCreateBrand($brandName, $advertisementTypeId = null)
     {
         $brand = Brand::where('name', $brandName)->first();
         
@@ -705,6 +706,19 @@ class ImportAutoscout24WithRealImages extends Command
             $brand = Brand::create([
                 'name' => $brandName,
             ]);
+            
+            $this->line("  Created new brand: {$brandName}");
+        }
+        
+        // Associate brand with advertisement type if provided
+        if ($advertisementTypeId) {
+            // Check if relationship doesn't exist yet
+            $exists = $brand->advertisementTypes()->where('advertisement_types.id', $advertisementTypeId)->exists();
+            
+            if (!$exists) {
+                $brand->advertisementTypes()->attach($advertisementTypeId);
+                $this->line("  Associated brand '{$brandName}' with advertisement type");
+            }
         }
         
         return $brand;
@@ -812,17 +826,73 @@ class ImportAutoscout24WithRealImages extends Command
     
     /**
      * Get or create fuel type
+     * Fuel types are now universal - not tied to advertisement types
      */
     private function getOrCreateFuelType($fuelTypeName)
     {
-        $fuelType = FuelType::where('name', $fuelTypeName)->first();
+        // Normalize fuel type name
+        $normalizedName = $this->normalizeFuelTypeName($fuelTypeName);
+        
+        $fuelType = FuelType::where('name', $normalizedName)->first();
         
         if (!$fuelType) {
             $fuelType = FuelType::create([
-                'name' => $fuelTypeName,
+                'name' => $normalizedName,
+                'code' => $this->getFuelTypeCode($normalizedName),
             ]);
+            
+            $this->line("  Created new fuel type: {$normalizedName}");
         }
         
         return $fuelType;
+    }
+    
+    /**
+     * Normalize fuel type name to match seeder format
+     */
+    private function normalizeFuelTypeName($name)
+    {
+        $name = strtolower(trim($name));
+        
+        $mapping = [
+            'gasoline' => 'Petrol',
+            'petrol' => 'Petrol',
+            'benzin' => 'Petrol',
+            'benzina' => 'Petrol',
+            'diesel' => 'Diesel',
+            'gasolio' => 'Diesel',
+            'electric' => 'Electric',
+            'elettrico' => 'Electric',
+            'hybrid' => 'Hybrid (Petrol/Electric)',
+            'ibrido' => 'Hybrid (Petrol/Electric)',
+            'lpg' => 'LPG (Liquefied Petroleum Gas)',
+            'cng' => 'CNG (Compressed Natural Gas)',
+            'metano' => 'CNG (Compressed Natural Gas)',
+            'ethanol' => 'Ethanol/E85',
+            'hydrogen' => 'Hydrogen',
+            'idrogeno' => 'Hydrogen',
+        ];
+        
+        return $mapping[$name] ?? 'Other';
+    }
+    
+    /**
+     * Get fuel type code
+     */
+    private function getFuelTypeCode($name)
+    {
+        $codeMapping = [
+            'Petrol' => 'P',
+            'Diesel' => 'D',
+            'Electric' => 'E',
+            'Hybrid (Petrol/Electric)' => 'HYB',
+            'LPG (Liquefied Petroleum Gas)' => 'LPG',
+            'CNG (Compressed Natural Gas)' => 'CNG',
+            'Ethanol/E85' => 'ETH',
+            'Hydrogen' => 'H2',
+            'Other' => 'OTH',
+        ];
+        
+        return $codeMapping[$name] ?? 'OTH';
     }
 }

@@ -12,11 +12,30 @@ class Brand extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<string>
+     */
+    protected $fillable = [
+        'name',
+    ];
 
+    /**
+     * A brand can belong to multiple advertisement types (many-to-many)
+     */
+    public function advertisementTypes()
+    {
+        return $this->belongsToMany(AdvertisementType::class, 'advertisement_type_brand');
+    }
 
+    /**
+     * Legacy method for backward compatibility
+     * Returns the first advertisement type
+     */
     public function advertisementType()
     {
-        return $this->belongsTo(AdvertisementType::class);
+        return $this->advertisementTypes()->first();
     }
 
     public function advertisements()

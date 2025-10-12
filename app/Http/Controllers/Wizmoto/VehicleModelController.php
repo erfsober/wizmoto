@@ -20,17 +20,20 @@ class VehicleModelController extends Controller {
         return response()->json($vehicleModels);
     }
     public function getData ( $advertisementTypeId) {
-        $brands = Brand::where('advertisement_type_id' , $advertisementTypeId)
-                       ->get();
+        // Get brands that belong to this advertisement type (many-to-many)
+        $brands = Brand::whereHas('advertisementTypes', function($q) use ($advertisementTypeId) {
+            $q->where('advertisement_types.id', $advertisementTypeId);
+        })->get();
+        
         $vehicleBodies = VehicleBody::where('advertisement_type_id' , $advertisementTypeId)
                                     ->get();
 
         $equipments = Equipment::query()
                                ->where('advertisement_type_id' , $advertisementTypeId)
                                ->get();
-        $fuelTypes = FuelType::query()
-                             ->where('advertisement_type_id' , $advertisementTypeId)
-                             ->get();
+        
+        // Fuel types are now universal - not tied to advertisement types
+        $fuelTypes = FuelType::all();
 
         return response()->json([
                                     'brands' => $brands,
