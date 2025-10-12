@@ -4423,6 +4423,33 @@
                 padding: 20px !important;
             }
 
+            /* Fix dropdown positioning - don't push content */
+            .inventory-sidebar .select {
+                position: relative !important;
+            }
+
+            .inventory-sidebar .select .dropdown {
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 100 !important;
+                margin-top: 4px !important;
+                max-height: 250px !important;
+                overflow-y: auto !important;
+            }
+
+            /* Prevent scroll on dropdown open */
+            .inventory-sidebar .select.active {
+                overflow: visible !important;
+            }
+
+            /* Ensure dropdown overlays content */
+            .inventory-sidebar .inventroy-widget {
+                position: relative !important;
+                z-index: 1 !important;
+            }
+
             /* Mobile show results button - sticky at bottom */
             .mobile-show-results-btn {
                 flex-shrink: 0 !important;
