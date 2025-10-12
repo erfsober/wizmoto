@@ -396,6 +396,7 @@
                                             </defs>
                                         </svg>
                                     </a>
+                                    @if($advertisement->provider->whatsapp)
                                     <a href="https://wa.me/{{ $advertisement->provider->whatsapp }}" class="side-btn two"
                                         target="_blank">
                                         Chat Via Whatsapp
@@ -404,7 +405,7 @@
                                             <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
                                         </svg>
                                     </a>
-
+                                    @endif
                                     <a href="{{ route('provider.show', $advertisement->provider_id) }}"
                                         class="side-btn-three">View all stock at this dealer
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"

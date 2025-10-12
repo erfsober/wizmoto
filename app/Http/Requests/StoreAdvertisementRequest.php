@@ -9,6 +9,41 @@ class StoreAdvertisementRequest extends FormRequest {
         return true;
     }
 
+    /**
+     * Prepare the data for validation.
+     * Convert checkbox values to proper booleans.
+     */
+    protected function prepareForValidation()
+    {
+        $booleanFields = [
+            'service_history_available',
+            'warranty_available',
+            'financing_available',
+            'trade_in_possible',
+            'available_immediately',
+            'price_negotiable',
+            'tax_deductible',
+            'coupon_documentation',
+            'damaged_vehicle',
+            'is_metallic_paint',
+            'show_phone',
+            'first_owner',
+        ];
+
+        $data = [];
+        foreach ($booleanFields as $field) {
+            if ($this->has($field)) {
+                // Convert to boolean: 'on', '1', 1, true → true; anything else → false
+                $data[$field] = filter_var($this->input($field), FILTER_VALIDATE_BOOLEAN);
+            } else {
+                // If field is not present (unchecked checkbox), set to false
+                $data[$field] = false;
+            }
+        }
+
+        $this->merge($data);
+    }
+
     public function rules (): array {
         return [
             // Basic required fields first (in form order)
@@ -46,6 +81,15 @@ class StoreAdvertisementRequest extends FormRequest {
             'financing_available' => 'nullable|boolean' ,
             'trade_in_possible' => 'nullable|boolean' ,
             'available_immediately' => 'nullable|boolean' ,
+            'price_negotiable' => 'nullable|boolean' ,
+            'tax_deductible' => 'nullable|boolean' ,
+            
+            // Vehicle Condition Booleans
+            
+           
+            'is_metallic_paint' => 'nullable|boolean' ,
+            'show_phone' => 'nullable|boolean' ,
+            
             
             // Optional fields with proper limits
             'version_model' => 'nullable|string|max:255' ,
