@@ -318,7 +318,7 @@ class HomeController extends Controller
         // If it's an AJAX request for fuel types only, return just the fuel types
         if ($request->ajax() && $request->has('get_fuel_types_only')) {
             // Fuel types are now universal - return all of them
-            $fuelTypes = FuelType::orderBy('name')->get();
+                $fuelTypes = FuelType::orderBy('name')->get();
             
             return response()->json([
                 'fuel_types' => $fuelTypes->toArray()

@@ -31,11 +31,14 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
-                                <h4 class="widget-title">Quick Links</h4>
+                                <h4 class="widget-title">Popular Models</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
-                                        <li><a href="#">Help center</a></li>
-                                        <li><a href="#">How it works</a></li>
+                                        @foreach ($popularModels as $model)
+                                            <li><a href="{{ route('inventory.list') }}?vehicle_model_id={{ $model->id }}">
+                                                {{ $model->brand ? $model->brand->name . ' ' : '' }}{{ $model->name }}
+                                            </a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -46,7 +49,7 @@
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($popularBrands as $brand)
-                                            <li><a href="{{ route('inventory.list', ['brand' => $brand->id]) }}">
+                                            <li><a href="{{ route('inventory.list') }}?brand_id={{ $brand->id }}">
                                                     {{ $brand->name }}
                                                 </a></li>
                                         @endforeach
@@ -60,8 +63,7 @@
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($vehicleTypes as $type)
-                                            <li><a
-                                                    href="{{ route('inventory.list', ['type' => $type->id]) }}">{{ $type->title }}</a>
+                                            <li><a href="{{ route('inventory.list') }}?advertisement_type={{ $type->id }}">{{ $type->title }}</a>
                                             </li>
                                         @endforeach
                                     </ul>

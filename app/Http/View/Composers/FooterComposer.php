@@ -5,6 +5,7 @@ namespace App\Http\View\Composers;
 
 use App\Models\AdvertisementType;
 use App\Models\Brand;
+use App\Models\VehicleModel;
 
 use Illuminate\View\View;
 
@@ -19,6 +20,11 @@ class FooterComposer
             'popularBrands' => Brand::query()
                                     ->orderBy('created_at', 'desc')
                                     ->take(4)->get(),
+            'popularModels' => VehicleModel::query()
+                                    ->with('brand')
+                                    ->withCount('advertisements')
+                                    ->orderBy('advertisements_count', 'desc')
+                                    ->take(3)->get(),
             
             // Contact information
             'contactInfo' => [

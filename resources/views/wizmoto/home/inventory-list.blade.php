@@ -3935,23 +3935,35 @@
             function prefillFiltersFromURL() {
                 const urlParams = new URLSearchParams(window.location.search);
                 
-                // Pre-fill brand filter
-                const brandId = urlParams.get('brand_id');
-                if (brandId) {
+                // Pre-fill brand filter (handle both single value and array)
+                const brandIds = urlParams.getAll('brand_id[]').length > 0 
+                    ? urlParams.getAll('brand_id[]') 
+                    : (urlParams.get('brand_id') ? [urlParams.get('brand_id')] : []);
+                
+                if (brandIds.length > 0) {
+                    const brandId = brandIds[0];
                     const brandName = getBrandNameById(brandId);
                     if (brandName) {
+                        // Update display text
                         $('#brand-dropdown .select span').text(brandName);
-                        $('#brand-dropdown input[type="hidden"]').val(brandId).trigger('change');
+                        // Update hidden input value
+                        $('#brand-dropdown .brand_id_input').val(brandId);
                     }
                 }
                 
-                // Pre-fill model filter
-                const modelId = urlParams.get('vehicle_model_id');
-                if (modelId) {
+                // Pre-fill model filter (handle both single value and array)
+                const modelIds = urlParams.getAll('vehicle_model_id[]').length > 0 
+                    ? urlParams.getAll('vehicle_model_id[]') 
+                    : (urlParams.get('vehicle_model_id') ? [urlParams.get('vehicle_model_id')] : []);
+                
+                if (modelIds.length > 0) {
+                    const modelId = modelIds[0];
                     const modelName = getModelNameById(modelId);
                     if (modelName) {
+                        // Update display text
                         $('#model-dropdown .select span').text(modelName);
-                        $('#model-dropdown input[type="hidden"]').val(modelId).trigger('change');
+                        // Update hidden input value
+                        $('#model-dropdown input[name="vehicle_model_id[]"]').val(modelId);
                     }
                 }
                 
@@ -3961,7 +3973,7 @@
                     const fuelTypeName = getFuelTypeNameById(fuelTypeId);
                     if (fuelTypeName) {
                         $('#fuel-dropdown .select span').text(fuelTypeName);
-                        $('#fuel-dropdown input[type="hidden"]').val(fuelTypeId).trigger('change');
+                        $('input[name="fuel_type_id"]').val(fuelTypeId);
                     }
                 }
                 
@@ -3972,13 +3984,13 @@
                     if (advertisementTypeName) {
                         // Add to selected filters bar
                         addAdvertisementTypeToFilters(advertisementTypeId, advertisementTypeName);
-                    } else {
                     }
-                } else {
                 }
                 
                 // Update selected filters bar after pre-filling
-                setTimeout(updateSelectedFiltersBar, 500);
+                setTimeout(function() {
+                    updateSelectedFiltersBar();
+                }, 100);
             }
             
             // Helper functions to get names by ID
