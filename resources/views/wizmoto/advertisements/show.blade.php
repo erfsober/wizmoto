@@ -396,8 +396,8 @@
                                             </defs>
                                         </svg>
                                     </a>
-                                    @if($advertisement->provider->whatsapp)
-                                    <a href="https://wa.me/{{ $advertisement->provider->whatsapp }}" class="side-btn two"
+                                    @if($advertisement->provider->whatsapp_link)
+                                    <a href="{{ $advertisement->provider->whatsapp_link }}" class="side-btn two"
                                         target="_blank">
                                         Chat Via Whatsapp
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
