@@ -1,5 +1,5 @@
 <div id="nav-mobile">
-    <ul class="dropdown">
+    <ul>
         <!-- Home Link -->
         <li>
             <a href="{{ route('home') }}">
@@ -11,6 +11,11 @@
         <li>
             <a href="{{ route('inventory.list') }}">
                 <i class="fa fa-motorcycle"></i> Browse Bikes
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('dashboard.create-advertisement') }}">
+                <i class="fa fa-motorcycle"></i> Add Listing
             </a>
         </li>
         
@@ -50,6 +55,16 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('dashboard.my-advertisements') }}">
+                    <i class="fa fa-list"></i> My Listings
+            </a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard.messages') }}">
+                    <i class="fa fa-envelope"></i> Messages
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('provider.logout') }}"
                    onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
                     <i class="fa fa-sign-out"></i> Logout
@@ -62,4 +77,3 @@
         @endif
     </ul>
 </div>
-

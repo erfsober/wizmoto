@@ -19,10 +19,13 @@ if($('#nav-mobile').length){
       var $navbar = $('#navbar');
       var $mobileNav = $('#nav-mobile');
 
-      $navbar
-        .clone()
-        .removeClass('navbar')
-        .appendTo($mobileNav);
+      // Only clone navbar if nav-mobile doesn't have a UL already
+      if ($mobileNav.find('ul').length === 0) {
+        $navbar
+          .clone()
+          .removeClass('navbar')
+          .appendTo($mobileNav);
+      }
 
         var API = $mobileNav.mmenu({
           "counters": false,
