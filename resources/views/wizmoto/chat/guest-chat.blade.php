@@ -290,24 +290,25 @@
 
                                                 <div class="card-footer" id="chat-footer" style="display: none;">
                                                     <div class="form-group mb-0">
-                                                        <div class="message-input-container">
-                                                            <textarea class="form-control type_msg" id="message-input" 
-                                                                placeholder="Type a message..." rows="2"></textarea>
-                                                            <button type="button" class="theme-btn btn-style-one submit-btn" id="send-message-btn">
-                                                                <span class="text-dk">Send Message</span>
-                                                                <span class="text-mb">Send</span>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                                                    <g clip-path="url(#clip0_601_692)">
-                                                                        <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
-                                                                    </g>
-                                                                    <defs>
-                                                                        <clipPath id="clip0_601_692">
-                                                                            <rect width="14" height="14" fill="white"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
+                                                        <textarea class="form-control type_msg" id="message-input" placeholder="Type a message..." rows="2"></textarea>
+                                                        <button type="button" class="theme-btn btn-style-one submit-btn"
+                                                            id="send-message-btn">
+                                                            <span class="text-dk">Send Message</span>
+                                                            <span class="text-mb">Send</span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                                viewBox="0 0 14 14" fill="none">
+                                                                <g clip-path="url(#clip0_601_692)">
+                                                                    <path
+                                                                        d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
+                                                                        fill="white"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_601_692">
+                                                                        <rect width="14" height="14" fill="white"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,27 +415,6 @@
         padding: 0;
     }
     
-    /* Message input container */
-    .message-input-container {
-        display: flex;
-        gap: 10px;
-        align-items: flex-end;
-    }
-    
-    .message-input-container textarea {
-        flex: 1;
-        resize: none;
-        min-height: 40px;
-        max-height: 120px;
-    }
-    
-    .message-input-container button {
-        flex-shrink: 0;
-        height: 40px;
-        padding: 8px 16px;
-        white-space: nowrap;
-    }
-    
     /* Hide desktop text, show mobile text */
     .text-dk {
         display: none;
@@ -491,79 +471,31 @@
     .text-mb {
         display: none;
     }
-    
-    .message-input-container {
-        display: block;
-    }
-    
-    .message-input-container textarea {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    .message-input-container button {
-        width: 100%;
-    }
 }
 
-/* Overlay for mobile contacts */
+/* No dark overlay - ensure contact text is visible */
 @media (max-width: 991.98px) {
-    .contacts-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 1040;
-        display: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+    .contacts_column .user_info span,
+    .contacts_column .user_info p,
+    .contacts_column .contact-item,
+    .contacts_column .contacts {
+        color: #333 !important;
+        background: transparent !important;
     }
     
-    .contacts-overlay.show {
-        display: block;
-    }
-    
-    /* Ensure page colors don't change when overlay is active */
-    body.contacts-open {
-        background-color: #f8f9fa !important;
+    .contacts_column .card,
+    .contacts_column .card-header,
+    .contacts_column .card-body {
+        background: white !important;
         color: #333 !important;
     }
     
-    /* Prevent any color changes to main content */
-    .blog-section,
-    .boxcar-container,
-    .chat-widget,
-    .widget-content,
-    .chat-container,
-    .row,
-    .col-12,
-    .col-xl-8,
-    .col-lg-7 {
-        background-color: inherit !important;
-        color: inherit !important;
+    .contacts_column .contact-item:hover {
+        background: #f8f9fa !important;
     }
     
-    /* Ensure no yellow tinting or color changes */
-    * {
-        filter: none !important;
-        -webkit-filter: none !important;
-    }
-    
-    /* Keep original page background */
-    body {
-        background-color: #f8f9fa !important;
-        color: #333 !important;
-    }
-    
-    /* Ensure chat area maintains proper colors */
-    #chat-area {
-        background-color: #f8f9fa !important;
-    }
-    
-    .message-card {
-        background-color: white !important;
+    .contacts_column .contact-item.active {
+        background: #e9ecef !important;
     }
 }
 
@@ -575,6 +507,11 @@
         right: 15px;
         z-index: 10;
     }
+}
+
+/* Make time in contact list smaller */
+.contact-item .info {
+    font-size: 11px;
 }
 </style>
 @endpush
@@ -648,6 +585,12 @@ $(document).ready(function() {
         currentProviderId = currentConversation.provider_id;
         currentProvider = currentConversation.provider;
 
+        // For guest chat, show the chat header and footer immediately
+        // since there's always one active conversation
+        $('#chat-header').show();
+        $('#chat-footer').show();
+        $('#no-chat-selected').hide();
+
         // Bind event handlers
         bindEvents();
 
@@ -681,11 +624,6 @@ $(document).ready(function() {
             closeMobileContacts();
         });
 
-        // Close mobile contacts when clicking outside
-        $(document).on('click', '.contacts-overlay', function() {
-            closeMobileContacts();
-        });
-
         // Auto-resize textarea
         $('#message-input').on('input', function() {
             this.style.height = 'auto';
@@ -712,39 +650,13 @@ $(document).ready(function() {
     }
 
     function openMobileContacts() {
-        // Add body class to prevent color changes
-        $('body').addClass('contacts-open');
-        
-        // Add overlay
-        $('body').append('<div class="contacts-overlay show"></div>');
-        
         // Show contacts
         $('#chat_contacts').addClass('show');
-        
-        // Update button text and icon
-        $('#mobile-toggle-contacts').html(`
-            <i class="fa fa-times me-2"></i>
-            <span class="btn-text">Hide Contacts</span>
-            <i class="fa fa-chevron-left ms-auto"></i>
-        `);
     }
 
     function closeMobileContacts() {
-        // Remove body class
-        $('body').removeClass('contacts-open');
-        
-        // Remove overlay
-        $('.contacts-overlay').remove();
-        
         // Hide contacts
         $('#chat_contacts').removeClass('show');
-        
-        // Update button text and icon
-        $('#mobile-toggle-contacts').html(`
-            <i class="fa fa-comments me-2"></i>
-            <span class="btn-text">Show Contacts</span>
-            <i class="fa fa-chevron-right ms-auto"></i>
-        `);
     }
 
     function loadConversation() {

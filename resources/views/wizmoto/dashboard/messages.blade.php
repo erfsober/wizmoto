@@ -29,10 +29,26 @@
             </div>
             <div class="chat-widget">
                 <div class="widget-content">
-                    <div class="row">
-                        <div class="contacts_column col-xl-4 col-lg-5 col-md-12 col-sm-12 chat" id="chat_contacts">
+                    <div class="row chat-container">
+                        <!-- Mobile Toggle Button -->
+                        <div class="col-12 d-lg-none mb-3">
+                            <button class="mobile-contacts-btn" id="mobile-toggle-contacts">
+                                <i class="fa fa-comments me-2"></i>
+                                <span class="btn-text">Show Contacts</span>
+                                <i class="fa fa-chevron-right ms-auto"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Contacts Sidebar -->
+                        <div class="contacts_column col-xl-4 col-lg-5 col-12 chat" id="chat_contacts">
                             <div class="card contacts_card">
                                 <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">Messages</h5>
+                                        <button class="btn btn-sm btn-outline-light d-lg-none" id="close-contacts-btn">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
                                     <div class="search-box-one">
                                         <form method="post" action="#" id="search-form">
                                             <div class="form-group">
@@ -92,7 +108,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat">
+                        
+                        <!-- Chat Area -->
+                        <div class="col-xl-8 col-lg-7 col-12 chat" id="chat-area">
                             <div class="card message-card">
                                 <div class="card-header msg_head" id="chat-header" style="display: none;">
                                     <div class="d-flex bd-highlight">
@@ -112,7 +130,7 @@
                                     <div class="btn-box">
                                         <button class="dlt-chat" id="delete-conversation" style="display: none;">Delete
                                             Conversation</button>
-                                        <button class="toggle-contact"><span class="fa fa-bars"></span></button>
+                                        <button class="toggle-contact d-lg-none"><span class="fa fa-bars"></span></button>
                                     </div>
                                 </div>
 
@@ -155,9 +173,167 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+<style>
+/* Mobile Chat Styles */
+@media (max-width: 991.98px) {
+    /* Mobile contacts button - Modern design */
+    .mobile-contacts-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 16px 20px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    
+    .mobile-contacts-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .mobile-contacts-btn:hover::before {
+        left: 100%;
+    }
+    
+    .mobile-contacts-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    }
+    
+    .mobile-contacts-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+    }
+    
+    .mobile-contacts-btn i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+    
+    .mobile-contacts-btn:hover i:last-child {
+        transform: translateX(3px);
+    }
+    
+    .mobile-contacts-btn .btn-text {
+        flex: 1;
+        text-align: left;
+        margin-left: 8px;
+    }
+    
+    /* Hide contacts by default on mobile */
+    .contacts_column {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background: white !important;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+    }
+    
+    .contacts_column.show {
+        left: 0;
+    }
+    
+    /* Ensure contact text is visible on mobile */
+    .contacts_column .user_info span,
+    .contacts_column .user_info p,
+    .contacts_column .contact-item,
+    .contacts_column .contacts {
+        color: #333 !important;
+        background: transparent !important;
+    }
+    
+    .contacts_column .card,
+    .contacts_column .card-header,
+    .contacts_column .card-body {
+        background: white !important;
+        color: #333 !important;
+    }
+    
+    .contacts_column .contact-item:hover {
+        background: #f8f9fa !important;
+    }
+    
+    .contacts_column .contact-item.active {
+        background: #e9ecef !important;
+    }
+    
+    /* Chat area takes full width on mobile */
+    #chat-area {
+        padding: 0;
+    }
+    
+    /* Adjust close button */
+    #close-contacts-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #333;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    #close-contacts-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Make time in contact list smaller */
+.contact-item .info {
+    font-size: 11px;
+}
+</style>
+@endpush
+
 @push('scripts')
 <script>
 $(document).ready(function() {
+    // Mobile Toggle Functionality
+    (function() {
+        // Toggle contacts on mobile
+        $('#mobile-toggle-contacts, .toggle-contact').on('click', function() {
+            $('.contacts_column').addClass('show');
+        });
+        
+        // Close contacts
+        $('#close-contacts-btn').on('click', function() {
+            $('.contacts_column').removeClass('show');
+        });
+        
+        // Close contacts when conversation is selected on mobile
+        $(document).on('click', '.conversation-link', function() {
+            if ($(window).width() < 992) {
+                setTimeout(function() {
+                    $('.contacts_column').removeClass('show');
+                }, 300);
+            }
+        });
+    })();
+    
     // Get data from global configuration
     const config = window.CHAT_CONFIG;
     if (!config || !config.provider) {
@@ -418,17 +594,8 @@ $(document).ready(function() {
                     // Remove sending indicator
                     $('.msg_cotainer.sending').parent().remove();
                     
-                    // Add message to chat immediately for better UX
-                    const sentMessage = {
-                        id: response.data.id,
-                        message: message,
-                        sender_type: 'provider',
-                        created_at: new Date().toISOString(),
-                        guest_id: currentGuest?.id,
-                        provider_id: currentProviderId,
-                        conversation_id: response.data.conversation_id
-                    };
-                    addMessageToChat(sentMessage);
+                    // Message will be added via Echo broadcast - no need to add it here
+                    // This prevents duplicate messages
                 } else {
                     swal.fire({
                         toast: true,
