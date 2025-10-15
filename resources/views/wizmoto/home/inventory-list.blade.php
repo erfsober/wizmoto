@@ -1074,7 +1074,6 @@
             
             // Handle advertisement_type parameter
             const advertisementTypeId = urlParams.get('advertisement_type');
-            console.log('🔍 URL Parameter - advertisement_type:', advertisementTypeId);
             
             if (advertisementTypeId) {
                 // Wait for the page to be fully loaded
@@ -1082,13 +1081,8 @@
                     const $advertisementTypeDropdown = $('#advertisement-type-dropdown');
                     const $option = $advertisementTypeDropdown.find(`li[data-id="${advertisementTypeId}"]`);
                     
-                    console.log('🔍 Found dropdown options:', $advertisementTypeDropdown.find('li').length);
-                    console.log('🔍 Looking for option with data-id:', advertisementTypeId);
-                    console.log('🔍 Found matching option:', $option.length > 0);
-                    
                     if ($option.length) {
                         const advertisementTypeName = $option.text();
-                        console.log('✅ Selecting advertisement type:', advertisementTypeName);
                         
                         $advertisementTypeDropdown.find('.select span').text(advertisementTypeName);
                         $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId).trigger('change');
@@ -1099,11 +1093,13 @@
                         
                         // Update the active filters bar
                         setTimeout(() => {
-                            console.log('🔄 Updating active filters bar...');
                             updateSelectedFiltersBar();
                         }, 200);
-                    } else {
-                        console.log('❌ No matching option found for advertisement_type:', advertisementTypeId);
+                        
+                        // Trigger server-side filtering for the pre-selected category
+                        setTimeout(() => {
+                            updateVehicleCards();
+                        }, 500);
                     }
                 }, 1000);
             }
@@ -1771,13 +1767,12 @@
 
             // Load brands for selected advertisement type (single)
             function loadBrandsForAdvertisementType(advertisementTypeId) {
-                
                 const $brandDropdown = $('#brand-dropdown .dropdown');
                 const $brandSelect = $('#brand-dropdown .select span');
                 const $brandInput = $('#brand-dropdown input[type="hidden"]');
 
                 // Reset brand selection
-                $brandSelect.text('Select Brand');
+                $brandSelect.text('Loading brands...');
                 $brandInput.val('').trigger('change');
                 $brandDropdown.empty();
 
@@ -1796,7 +1791,6 @@
                         get_brands_only: true // Flag to indicate we only want brands
                     },
                     success: function(response) {
-                        
                         if (response.brands && response.brands.length > 0) {
                             // Populate brand dropdown with filtered brands
                             response.brands.forEach(function(brand) {
@@ -1804,8 +1798,10 @@
                                     <li data-id="${brand.id}">${brand.name}</li>
                                 `);
                             });
+                            $brandSelect.text('Select Brand');
                         } else {
                             $brandDropdown.append('<li>No brands available for this category</li>');
+                            $brandSelect.text('No brands available');
                         }
                         
                         // Reinitialize searchable dropdown for brand dropdown
@@ -1814,7 +1810,7 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error loading brands:', error);
+                        $brandSelect.text('Error loading brands');
                         $brandDropdown.append('<li>Error loading brands</li>');
                     }
                 });
@@ -1994,7 +1990,6 @@
                     const advertisementTypeName = $(this).text();
                     const $advertisementTypeDropdown = $(this).closest('#advertisement-type-dropdown');
 
-
                     $advertisementTypeDropdown.find('.select span').text(advertisementTypeName);
                     $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId).trigger('change');
                     $(this).closest('.dropdown').hide();
@@ -2014,7 +2009,10 @@
                     // Update selected filters bar
                     setTimeout(updateSelectedFiltersBar, 200);
                     
-                    // NOTE: Advertisement type is NOT used for filtering vehicles - only for loading brands
+                    // Trigger server-side filtering when advertisement type changes
+                    setTimeout(() => {
+                        updateVehicleCards();
+                    }, 300);
                 });
                 // Body Work dropdown
                 $('#body-dropdown').on('click', function(e) {
@@ -2507,8 +2505,11 @@
             function collectFilterValues() {
                     const filters = {};
                     
-                    
-                    // Advertisement Type is NOT used for filtering - only for loading brands
+                    // Advertisement Type filter
+                    const advertisementTypeId = $('input[name="advertisement_type"]').val();
+                    if (advertisementTypeId && advertisementTypeId.trim() !== '') {
+                        filters.advertisement_type = advertisementTypeId;
+                    }
                     
                     // Brand filters
                     const brandIds = [];

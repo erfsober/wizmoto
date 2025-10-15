@@ -93,6 +93,9 @@ class HomeController extends Controller
                 });
             })
             
+            // ADVERTISEMENT TYPE FILTER
+            ->when($request->filled('advertisement_type'), fn($q) => $q->where('advertisement_type_id', $request->advertisement_type))
+            
             // LOCATION FILTERS
             ->when($request->filled('city'), fn($q) => $q->where('city', $request->city))
             ->when($request->filled('zip_code'), fn($q) => $q->where('zip_code', $request->zip_code))
@@ -556,6 +559,9 @@ class HomeController extends Controller
     public function getAdvertisementCount(Request $request)
     {
         $count = Advertisement::query()
+            // ADVERTISEMENT TYPE FILTER
+            ->when($request->filled('advertisement_type'), fn($q) => $q->where('advertisement_type_id', $request->advertisement_type))
+            
             // LOCATION FILTERS
             ->when($request->filled('city'), fn($q) => $q->where('city', $request->city))
             ->when($request->filled('zip_code'), fn($q) => $q->where('zip_code', $request->zip_code))
