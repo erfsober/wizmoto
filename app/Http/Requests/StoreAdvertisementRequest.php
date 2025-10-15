@@ -111,6 +111,10 @@ class StoreAdvertisementRequest extends FormRequest {
             'international_prefix' => 'nullable|string|max:5' ,
             'prefix' => 'nullable|string|max:5' ,
             'telephone' => 'nullable|string|max:20' ,
+            
+            // Image validation - at least one image required
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:5120', // 5MB max per image
         ];
     }
 }

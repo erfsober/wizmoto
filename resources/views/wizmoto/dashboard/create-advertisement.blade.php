@@ -430,7 +430,7 @@
                                 </div>
                             </div>
                             {{--Photo--}}
-                            <h6>Photo</h6>
+                            <h6>Photo <span class="text-danger">*</span></h6>
                             <div class="gallery-sec style1" id="media">
                                 <div id="gallery-overlay" class="gallery-overlay" style="display:none;">
                                     <span class="lnr-icon-spinner spinner" style="font-size: 52px"></span>
@@ -451,7 +451,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text">You can upload a maximum of 5 images. Please only upload images in JPEG or PNG format</div>
+                                        <div class="text">You must upload at least 1 image (maximum 5). Please only upload images in JPEG or PNG format</div>
+                                        <div class="text-danger mt-2" id="image-required-warning" style="display: none;">
+                                            <i class="fa fa-exclamation-triangle"></i> At least one image is required to create an advertisement.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -973,6 +976,9 @@
     <script>
         $(document).ready(function () {
             const selectedFiles = [];
+            
+            // Show warning initially since no images are uploaded
+            $("#image-required-warning").show();
 
             // Upload button
             $("#uploadTrigger").click(function (e) {
@@ -1023,6 +1029,9 @@
                 `);
 
                         $("#preview-container").find(".uplode-box").before(div);
+                        
+                        // Hide warning when images are uploaded
+                        $("#image-required-warning").hide();
                     };
                     $("#media").removeClass("loading");
                     $("#media .gallery-overlay").hide();                    reader.readAsDataURL(file);
@@ -1042,6 +1051,12 @@
                 if (selectedFiles.length < 5) {
                     $(".uplode-box").show(); // show upload box again
                 }
+                
+                // Show warning if no images left
+                if (selectedFiles.length === 0) {
+                    $("#image-required-warning").show();
+                }
+                
                 // Re-sync indexes on remaining previews
                 $("#preview-container .image-box").each(function (i) {
                     $(this).attr("data-index", i);
@@ -1063,6 +1078,18 @@
 
             $("#advertisementForm").submit(function (e) {
                 e.preventDefault();
+                
+                // Validate that at least one image is uploaded
+                if (selectedFiles.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Image Required',
+                        text: 'Please upload at least one image to create an advertisement.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                
                 const btn = $(this).find("button[type='submit']");
                 btn.prop('disabled', true);
                 btn.contents().filter(function () {
