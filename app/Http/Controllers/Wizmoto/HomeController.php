@@ -313,8 +313,20 @@ class HomeController extends Controller
 
         // If it's an AJAX request for brands only, return just the brands
         if ($request->ajax() && $request->has('get_brands_only')) {
+            // Create a fresh brands query for AJAX requests
+            $ajaxBrandsQuery = Brand::query();
+            
+            // If filtering by advertisement type, show only relevant brands
+            if ($request->filled('advertisement_type')) {
+                $ajaxBrandsQuery->whereHas('advertisementTypes', function($q) use ($request) {
+                    $q->where('advertisement_types.id', $request->advertisement_type);
+                });
+            }
+            
+            $ajaxBrands = $ajaxBrandsQuery->orderBy('name')->get();
+            
             return response()->json([
-                'brands' => $brands->toArray()
+                'brands' => $ajaxBrands->toArray()
             ]);
         }
 

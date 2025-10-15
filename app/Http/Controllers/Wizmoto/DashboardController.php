@@ -283,7 +283,9 @@ class DashboardController extends Controller
         $advertisementTypes = AdvertisementType::all();
         $vehicleColors = VehicleColor::all();
         $brands = Brand::query()
-            ->where('advertisement_type_id', $advertisement->advertisement_type_id)
+            ->whereHas('advertisementTypes', function($q) use ($advertisement) {
+                $q->where('advertisement_types.id', $advertisement->advertisement_type_id);
+            })
             ->get();
         $equipments = Equipment::query()
             ->get();

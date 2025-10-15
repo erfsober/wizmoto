@@ -240,15 +240,36 @@
                         <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                             <div class="inner-box">
                                 <div class="image-box">
-                                    <div class="slider-thumb">
-                                        @foreach ($newAdvertisement->getMedia('covers')->take(3) as $image)
-                                            <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $newAdvertisement->id }}">
-                                                <img
-                                                    src="{{ $image->getUrl('card') }}"
-                                                    loading="lazy"
-                                                    alt="{{ $newAdvertisement->title ?? 'Advertisement Image' }}">
-                                            </a>
-                                        @endforeach
+                                    <div class="image-gallery" data-count="{{ $newAdvertisement->getMedia('covers')->count() }}">
+                                        @php
+                                            $images = $newAdvertisement->getMedia('covers');
+                                            $firstImage = $images->first();
+                                            $remainingImages = $images->skip(1)->take(2);
+                                        @endphp
+                                        
+                                        @if($firstImage)
+                                            <div class="main-image">
+                                                <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-{{ $newAdvertisement->id }}">
+                                                    <img
+                                                        src="{{ $firstImage->getUrl('card') }}"
+                                                        loading="lazy"
+                                                        alt="{{ $newAdvertisement->title ?? 'Advertisement Image' }}">
+                                                </a>
+                                            </div>
+                                        @endif
+                                        
+                                        @if($remainingImages->count() > 0)
+                                            <div class="thumbnail-images">
+                                                @foreach($remainingImages as $image)
+                                                    <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $newAdvertisement->id }}" class="thumb-link">
+                                                        <img
+                                                            src="{{ $image->getUrl('card') }}"
+                                                            loading="lazy"
+                                                            alt="{{ $newAdvertisement->title ?? 'Advertisement Image' }}">
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="content-box">
@@ -720,6 +741,100 @@
             color: white;
         }
 
+        /* Image Gallery Styles - Better UX */
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .thumbnail-images {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .thumb-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .thumb-link:hover {
+            border-color: #405FF2;
+            transform: scale(1.1);
+        }
+
+        .thumb-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Image count indicator */
+        .image-gallery::after {
+            content: attr(data-count);
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 3;
+        }
+
+        /* Hover effect for image gallery */
+        .thumbnail-images {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-gallery:hover .thumbnail-images,
+        .thumbnail-images.show {
+            opacity: 1;
+        }
+
+        /* Mobile responsiveness for thumbnails */
+        @media (max-width: 768px) {
+            .thumbnail-images {
+                opacity: 1; /* Always show on mobile */
+            }
+            
+            .thumb-link {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
     </style>
 @endpush
 
@@ -728,6 +843,9 @@
 $(document).ready(function() {
     // Initialize dropdown functionality for home page search
     initializeHomePageDropdowns();
+    
+    // Initialize image gallery interactions
+    initializeImageGalleries();
     
     function initializeHomePageDropdowns() {
         // Only initialize on home page - check if we're on the home page
@@ -1096,6 +1214,42 @@ $(document).ready(function() {
                 console.error('Error updating advertisement count:', error);
                 $('#search-count').text('?');
             }
+        });
+    }
+    
+    // Initialize image gallery interactions
+    function initializeImageGalleries() {
+        // Only initialize on home page
+        if (!$('.boxcar-banner-section-v1').length) {
+            return;
+        }
+        
+        // Add click handlers for thumbnail images
+        $('.thumb-link').on('click', function(e) {
+            e.preventDefault();
+            
+            const $gallery = $(this).closest('.image-gallery');
+            const $mainImage = $gallery.find('.main-image img');
+            const $thumbImage = $(this).find('img');
+            
+            // Swap the main image with the clicked thumbnail
+            const mainSrc = $mainImage.attr('src');
+            const thumbSrc = $thumbImage.attr('src');
+            
+            $mainImage.attr('src', thumbSrc);
+            $thumbImage.attr('src', mainSrc);
+            
+            // Update the main image link
+            const $mainLink = $gallery.find('.main-image a');
+            const thumbHref = $(this).attr('href');
+            $mainLink.attr('href', thumbHref);
+        });
+        
+        // Add hover effects
+        $('.image-gallery').on('mouseenter', function() {
+            $(this).find('.thumbnail-images').addClass('show');
+        }).on('mouseleave', function() {
+            $(this).find('.thumbnail-images').removeClass('show');
         });
     }
     
