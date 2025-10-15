@@ -45,7 +45,7 @@
                                             </li>
                                             <li>
                                                 <a href="{{route('dashboard.create-advertisement')}}">
-                                                   Add Listings
+                                                   Sell
                                                 </a>
                                             </li>
                                             <li>
@@ -133,7 +133,7 @@
                     </li>
                     <li>
                         <a href="{{route('dashboard.create-advertisement')}}">
-                            <img src="{{asset("wizmoto/images/icons/dash3.svg")}}" alt="">Add Listings
+                            <img src="{{asset("wizmoto/images/icons/dash3.svg")}}" alt="">Sell
                         </a>
                     </li>
                     <li>

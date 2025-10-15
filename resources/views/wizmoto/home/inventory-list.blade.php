@@ -74,7 +74,7 @@
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim">Add Listing</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -1068,12 +1068,97 @@
 @endsection
 @push('scripts')
     <script>
+        // Function to handle URL parameters and pre-select filters
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Handle advertisement_type parameter
+            const advertisementTypeId = urlParams.get('advertisement_type');
+            console.log('🔍 URL Parameter - advertisement_type:', advertisementTypeId);
+            
+            if (advertisementTypeId) {
+                // Wait for the page to be fully loaded
+                setTimeout(() => {
+                    const $advertisementTypeDropdown = $('#advertisement-type-dropdown');
+                    const $option = $advertisementTypeDropdown.find(`li[data-id="${advertisementTypeId}"]`);
+                    
+                    console.log('🔍 Found dropdown options:', $advertisementTypeDropdown.find('li').length);
+                    console.log('🔍 Looking for option with data-id:', advertisementTypeId);
+                    console.log('🔍 Found matching option:', $option.length > 0);
+                    
+                    if ($option.length) {
+                        const advertisementTypeName = $option.text();
+                        console.log('✅ Selecting advertisement type:', advertisementTypeName);
+                        
+                        $advertisementTypeDropdown.find('.select span').text(advertisementTypeName);
+                        $advertisementTypeDropdown.find('input[type="hidden"]').val(advertisementTypeId).trigger('change');
+                        
+                        // Load brands and fuel types for this advertisement type
+                        loadBrandsForAdvertisementType(advertisementTypeId);
+                        loadFuelTypesForAdvertisementType(advertisementTypeId);
+                        
+                        // Update the active filters bar
+                        setTimeout(() => {
+                            console.log('🔄 Updating active filters bar...');
+                            updateSelectedFiltersBar();
+                        }, 200);
+                    } else {
+                        console.log('❌ No matching option found for advertisement_type:', advertisementTypeId);
+                    }
+                }, 1000);
+            }
+            
+            // Handle brand_id parameter
+            const brandId = urlParams.get('brand_id');
+            if (brandId) {
+                // Wait a bit for brands to load, then select the brand
+                setTimeout(() => {
+                    const $brandDropdown = $('#brand-dropdown');
+                    const $option = $brandDropdown.find(`li[data-id="${brandId}"]`);
+                    
+                    if ($option.length) {
+                        const brandName = $option.text();
+                        $brandDropdown.find('.select span').text(brandName);
+                        $brandDropdown.find('input[type="hidden"]').val(brandId).trigger('change');
+                        
+                        // Update the active filters bar
+                        setTimeout(() => {
+                            updateSelectedFiltersBar();
+                        }, 200);
+                    }
+                }, 1500);
+            }
+            
+            // Handle vehicle_model_id parameter
+            const modelId = urlParams.get('vehicle_model_id');
+            if (modelId) {
+                // Wait a bit for models to load, then select the model
+                setTimeout(() => {
+                    const $modelDropdown = $('#model-dropdown');
+                    const $option = $modelDropdown.find(`li[data-id="${modelId}"]`);
+                    
+                    if ($option.length) {
+                        const modelName = $option.text();
+                        $modelDropdown.find('.select span').text(modelName);
+                        $modelDropdown.find('input[type="hidden"]').val(modelId).trigger('change');
+                        
+                        // Update the active filters bar
+                        setTimeout(() => {
+                            updateSelectedFiltersBar();
+                        }, 200);
+                    }
+                }, 2000);
+            }
+        }
+
         $(document).ready(function() {
             // Only initialize on inventory list page
             if (!$('.inventory-sidebar').length) {
                 return;
             }
             
+            // Handle URL parameters to pre-select filters
+            handleURLParameters();
             
             let groupCounter = 0;
             let sidebarAnimating = false;
@@ -3034,6 +3119,20 @@
             function collectSelectedFilters() {
                     const filters = {};
                     
+                    // Advertisement Type filter
+                    const advertisementTypeId = $('input[name="advertisement_type"]').val();
+                    if (advertisementTypeId && advertisementTypeId.trim() !== '') {
+                        const advertisementTypeName = $('#advertisement-type-dropdown .select span').text().trim();
+                        if (advertisementTypeName && !advertisementTypeName.includes('Select') && !advertisementTypeName.includes('Any')) {
+                            filters[`advertisement_type_${advertisementTypeId}`] = {
+                                name: 'Category',
+                                value: advertisementTypeName,
+                                type: 'single',
+                                advertisementTypeId: advertisementTypeId
+                            };
+                        }
+                    }
+                    
                     // Brand filters - create individual filter for each brand
                     
                     $('input[name="brand_id[]"]').each(function() {
@@ -3107,7 +3206,7 @@
                     
                     // Body type
                     const bodyType = $('#body-dropdown .select span').text();
-                    if (bodyType && !bodyType.includes('Select')) {
+                    if (bodyType && !bodyType.includes('Select') && !bodyType.includes('Any')) {
                         filters.body = {
                             name: 'Body Type',
                             value: bodyType,
@@ -3117,7 +3216,7 @@
                     
                     // City
                     const city = $('#city-dropdown .select span').text();
-                    if (city && !city.includes('Select')) {
+                    if (city && !city.includes('Select') && !city.includes('Any')) {
                         filters.city = {
                             name: 'City',
                             value: city,
@@ -3639,10 +3738,21 @@
                     
                     // Handle advertisement type removal (advertisement_type_123 format)
                     if (filterKey.startsWith('advertisement_type_')) {
-                        // Remove the advertisement_type parameter from URL
-                        const url = new URL(window.location);
-                        url.searchParams.delete('advertisement_type');
-                        window.location.href = url.toString();
+                        // Clear the advertisement type dropdown
+                        $('#advertisement-type-dropdown .select span').text('Select Category');
+                        $('#advertisement-type-dropdown input[type="hidden"]').val('').trigger('change');
+                        
+                        // Clear brand, model, and fuel type selections when category changes
+                        $('#brand-dropdown .select span').text('Any Brand');
+                        $('#brand-dropdown input[type="hidden"]').val('').trigger('change');
+                        $('#model-dropdown .select span').text('Any Model');
+                        $('#model-dropdown input[type="hidden"]').val('').trigger('change');
+                        $('#fuel-dropdown .select span').text('Select Fuel Type');
+                        $('#fuel-dropdown input[type="hidden"]').val('').trigger('change');
+                        
+                        // Reload all brands and fuel types
+                        loadAllBrands();
+                        loadAllFuelTypes();
                         return;
                     }
                     
@@ -3711,11 +3821,11 @@
                             $('input[name="price_to"]').val('').trigger('change');
                             break;
                         case 'body':
-                            $('#body-dropdown .select span').text('Select Body Work');
+                            $('#body-dropdown .select span').text('Any Body Work');
                             $('#body-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'city':
-                            $('#city-dropdown .select span').text('Select City');
+                            $('#city-dropdown .select span').text('Any City');
                             $('#city-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'fuel':

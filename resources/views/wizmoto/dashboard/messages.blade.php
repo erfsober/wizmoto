@@ -5,6 +5,7 @@
     // Global chat configuration for provider dashboard
     window.CHAT_CONFIG = {
         type: 'provider',
+        
         provider: @json($provider ?? null),
         conversations: @json($conversations ?? null),
         urls: {

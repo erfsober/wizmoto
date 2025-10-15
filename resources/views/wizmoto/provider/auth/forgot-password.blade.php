@@ -98,7 +98,7 @@
                                             <ul class="dropdown deep subnav-menu">
                                                 <li><a href="dashboard.html" title="">Dashboard</a></li>
                                                 <li><a href="my-listings.html" title="">My Listings</a></li>
-                                                <li><a href="add-listings.html" title="">Add Listings</a></li>
+                                                <li><a href="add-listings.html" title="">Sell</a></li>
                                                 <li><a href="favorite.html" title="">Favorites</a></li>
                                                 <li><a href="saved.html" title="">Saved Search</a></li>
                                                 <li><a href="messages.html" title="">Messages</a></li>
@@ -146,7 +146,7 @@
                             </div>
                             Sign in</a>
                         <div class="btn">
-                            <a href="add-listing-page.html" class="header-btn-two btn-anim">Add Listing</a>
+                            <a href="add-listing-page.html" class="header-btn-two btn-anim">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">

@@ -75,7 +75,7 @@
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two">Add Listing</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -145,15 +145,12 @@
                                     <div class="form_boxes line-r">
                                         <div class="drop-menu searchable-dropdown">
                                             <div class="select">
-                                                <span>Any Models</span>
+                                                <span>Select Brand First</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="vehicle_model_id">
                                             <ul class="dropdown" style="display: none;">
-                                                <li data-id="" class="clear-option">Any Models</li>
-                                                @foreach($vehicleModels as $model)
-                                                    <li data-id="{{ $model->id }}">{{ $model->name }}</li>
-                                                @endforeach
+                                                <li data-id="" class="clear-option">Select Brand First</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1024,33 +1021,31 @@ $(document).ready(function() {
     // Function to clear model selection
     function clearModelSelection() {
         const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
-        $modelDropdown.find('.select span').text('Any Models');
+        $modelDropdown.find('.select span').text('Select Brand First');
         $modelDropdown.find('input[type="hidden"]').val('');
     }
     
-    // Function to reset model dropdown to show all models
+    // Function to reset model dropdown to show "Select Brand First"
     function resetModelDropdown() {
-        console.log('Resetting model dropdown to show all models');
-        
-        // Get all models data from the page
-        const allModels = @json($vehicleModels);
+        console.log('Resetting model dropdown to show "Select Brand First"');
         
         // Update model dropdown
         const $modelDropdown = $('.boxcar-banner-section-v1 input[name="vehicle_model_id"]').closest('.drop-menu');
         const $modelList = $modelDropdown.find('.dropdown');
         
-        // Clear existing options except the first "Any Models" option and search input
-        $modelList.find('li:not(.clear-option):not(.dropdown-search)').remove();
+        // Clear all existing options
+        $modelList.empty();
         
-        // Add all models
-        allModels.forEach(model => {
-            $modelList.append(`<li data-id="${model.id}">${model.name}</li>`);
-        });
+        // Add only the "Select Brand First" option
+        $modelList.append('<li data-id="" class="clear-option">Select Brand First</li>');
         
         // Reset the display text
-        $modelDropdown.find('.select span').text('Any Models');
+        $modelDropdown.find('.select span').text('Select Brand First');
         
-        console.log('Reset model dropdown with', allModels.length, 'models');
+        // Clear the hidden input
+        $modelDropdown.find('input[type="hidden"]').val('');
+        
+        console.log('Reset model dropdown to show "Select Brand First"');
     }
     
     // Function to update advertisement count based on current filters

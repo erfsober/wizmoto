@@ -13,11 +13,11 @@
                 <i class="fa fa-motorcycle"></i> Browse Bikes
             </a>
         </li>
-        <li>
-            <a href="{{ route('dashboard.create-advertisement') }}">
-                <i class="fa fa-motorcycle"></i> Add Listing
-            </a>
-        </li>
+               <li>
+                   <a href="{{ route('dashboard.create-advertisement') }}">
+                       <i class="fa fa-motorcycle"></i> Sell
+                   </a>
+               </li>
         
         <!-- Blog Link -->
         <li>
