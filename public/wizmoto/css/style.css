@@ -5544,11 +5544,11 @@ Sticky Header
   /* Large devices */
 }
 
-@media (max-width: 1199px) {
+/* @media (max-width: 1199px) { */
   .mobile-navigation {
     display: inline-block;
   }
-}
+/* } */
 
 .mobile-navigation a {
   display: -webkit-box;

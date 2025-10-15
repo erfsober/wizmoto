@@ -1,4 +1,4 @@
-<div id="nav-mobile">
+<div id="nav-mobile" class="responsive-sidebar">
     <ul>
         <!-- Home Link -->
         <li>
