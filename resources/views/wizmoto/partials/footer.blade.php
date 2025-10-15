@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
-                                <h4 class="widget-title">Our Brands</h4>
+                                <h4 class="widget-title">Popular Brands</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($popularBrands as $brand)

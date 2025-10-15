@@ -24,7 +24,7 @@ class FooterComposer
                                     ->with('brand')
                                     ->withCount('advertisements')
                                     ->orderBy('advertisements_count', 'desc')
-                                    ->take(3)->get(),
+                                    ->take(4)->get(),
             
             // Contact information
             'contactInfo' => [
