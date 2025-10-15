@@ -17,3 +17,6 @@
 
 <!-- Pusher for real-time chat -->
 @vite(['resources/js/app.js'])
+
+<!-- Support Bot JavaScript -->
+<script src="{{ asset('wizmoto/js/support-bot.js') }}"></script>

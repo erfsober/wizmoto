@@ -1,5 +1,8 @@
 @extends('wizmoto.dashboard.master')
 
+@section('body-class', 'body dashboard-page dashboard-chat-page')
+
+
 @push('chat-config')
 <script>
     // Global chat configuration for provider dashboard

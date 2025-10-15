@@ -1,5 +1,5 @@
 @extends('master')
-@section('body-class', 'body')
+@section('body-class', 'body dashboard-page')
 @section('main-div', 'v2')
 @section('content')
     <header class="boxcar-header header-style-ten">

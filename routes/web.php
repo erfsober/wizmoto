@@ -6,6 +6,7 @@ use App\Http\Controllers\Wizmoto\ChatController;
 use App\Http\Controllers\Wizmoto\DashboardController;
 use App\Http\Controllers\Wizmoto\HomeController;
 use App\Http\Controllers\Wizmoto\ReviewController;
+use App\Http\Controllers\SupportChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
@@ -23,6 +24,21 @@ Route::post('/reviews/store' , [ ReviewController::class , 'store' , ])->name('r
 
 Route::get('/about-us' , [ AboutController::class , 'index' , ])->name('about.index');
 Route::get('/faq' , [ FaqController::class , 'index' , ])->name('faq.index');
+
+// Support chat routes
+Route::get('/support-chat', [SupportChatController::class, 'index'])->name('support.chat');
+Route::get('/support-chat/init', [SupportChatController::class, 'initChat'])->name('support.chat.init');
+Route::post('/support-chat/send', [SupportChatController::class, 'sendMessage'])->name('support.chat.send');
+Route::get('/support-chat/messages', [SupportChatController::class, 'getMessages'])->name('support.chat.messages');
+
+// Settings API routes
+Route::get('/api/settings/whatsapp-number', function() {
+    $whatsappNumber = \App\Models\Setting::get('whatsapp_number', '00393517455691');
+    return response()->json([
+        'success' => true,
+        'value' => $whatsappNumber
+    ]);
+});
 // Guest chat routes - UUID based
 Route::prefix('chat')->group(function () {
     Route::post('/initiate', [ChatController::class, 'initiateChat'])->name('chat.initiate');
