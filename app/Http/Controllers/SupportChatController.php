@@ -147,22 +147,55 @@ class SupportChatController extends Controller
                 'message' => $request->message,
             ]);
 
-            // Return response immediately
-            $response = response()->json([
+            // Broadcast the message to the conversation
+            broadcast(new MessageSent($message));
+
+            return response()->json([
                 'success' => true,
                 'message' => $message,
             ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to send message',
+            ], 500);
+        }
+    }
 
-            // Broadcast the message in background (don't wait for it)
-            dispatch(function() use ($message) {
-                try {
-                    event(new MessageSent($message));
-                } catch (\Exception $e) {
-                    \Log::error('Failed to broadcast message: ' . $e->getMessage());
-                }
-            })->afterResponse();
+    public function sendProviderMessage(Request $request)
+    {
+        try {
+            $request->validate([
+                'message' => 'required|string|max:1000',
+                'conversation_id' => 'required|exists:conversations,id',
+            ]);
 
-            return $response;
+            // Get the conversation
+            $conversation = Conversation::find($request->conversation_id);
+            if (!$conversation) {
+                return response()->json(['error' => 'Conversation not found'], 404);
+            }
+
+            // Get the supporter provider
+            $supporter = Provider::where('username', 'wizmoto-support')->first();
+            if (!$supporter) {
+                return response()->json(['error' => 'Support provider not found'], 404);
+            }
+
+            $message = Message::create([
+                'conversation_id' => $request->conversation_id,
+                'sender_type' => 'provider',
+                'sender_id' => $supporter->id,
+                'message' => $request->message,
+            ]);
+
+            // Broadcast the message to the conversation
+            broadcast(new MessageSent($message));
+
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
