@@ -360,15 +360,20 @@ $(document).ready(function() {
         initializeSupportEcho: function() {
             console.log('🔄 Initializing Echo for support bot');
             
-            // Check if Echo is available
-            if (typeof window.Echo === 'undefined') {
-                console.log('⏳ Waiting for Echo to be available...');
-                setTimeout(() => this.initializeSupportEcho(), 100);
+            // Check if initEcho function is available
+            if (typeof window.initEcho === 'undefined') {
+                console.log('⏳ Waiting for initEcho to be available...');
+                setTimeout(() => this.initializeSupportEcho(), 1000);
                 return;
             }
 
-            console.log('✅ Echo is available, starting listeners');
-            this.startPusherListeners();
+            // Initialize Echo using the proper function
+            if (window.initEcho()) {
+                console.log('✅ Echo initialized successfully, starting listeners');
+                this.startPusherListeners();
+            } else {
+                console.error('❌ Failed to initialize Echo');
+            }
         },
         
         startPusherListeners: function() {
