@@ -24,7 +24,7 @@ class SupporterSeeder extends Seeder
                 'email' => 'support@wizmoto.com',
                 'password' => Hash::make('support123'),
                 'phone' => '393517455691',
-                'whatsapp' => '00393517455691',
+                'whatsapp' => '393517455691',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
