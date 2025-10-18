@@ -583,14 +583,25 @@ $(document).ready(function() {
         $('#chat-messages').append(sendingIndicator);
         scrollToBottom();
 
+        // Determine if this is a support conversation
+        const isSupportConversation = currentConversation && currentConversation.provider && currentConversation.provider.username === 'wizmoto-support';
+        
+        // Use different endpoint for support conversations
+        const sendUrl = isSupportConversation ? '/support-chat/provider-send' : '/dashboard/send-provider-message';
+        const sendData = isSupportConversation ? {
+            conversation_id: currentConversation.id,
+            message: message,
+            _token: '{{ csrf_token() }}'
+        } : {
+            access_token: currentConversationAccessToken,
+            message: message,
+            _token: '{{ csrf_token() }}'
+        };
+
         $.ajax({
-            url: '/dashboard/send-provider-message',
+            url: sendUrl,
             method: 'POST',
-            data: {
-                access_token: currentConversationAccessToken,
-                message: message,
-                _token: '{{ csrf_token() }}'
-            },
+            data: sendData,
             success: function(response) {
                 if (response.success) {
                     $('#message-input').val('');
