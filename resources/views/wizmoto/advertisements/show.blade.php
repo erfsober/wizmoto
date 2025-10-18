@@ -915,6 +915,42 @@
                 $icon.attr('class', 'fa fa-copy');
             }, 2000);
         }
+
+        // Initialize image gallery interactions for "We Think You Also Like" cards
+        function initializeImageGalleries() {
+            // Add click handlers for thumbnail images
+            $('.thumb-link').on('click', function(e) {
+                e.preventDefault();
+                
+                const $gallery = $(this).closest('.image-gallery');
+                const $mainImage = $gallery.find('.main-image img');
+                const $thumbImage = $(this).find('img');
+                
+                // Swap the main image with the clicked thumbnail
+                const mainSrc = $mainImage.attr('src');
+                const thumbSrc = $thumbImage.attr('src');
+                
+                $mainImage.attr('src', thumbSrc);
+                $thumbImage.attr('src', mainSrc);
+                
+                // Update the main image link
+                const $mainLink = $gallery.find('.main-image a');
+                const thumbHref = $(this).attr('href');
+                $mainLink.attr('href', thumbHref);
+            });
+            
+            // Add hover effects
+            $('.image-gallery').on('mouseenter', function() {
+                $(this).find('.thumbnail-images').addClass('show');
+            }).on('mouseleave', function() {
+                $(this).find('.thumbnail-images').removeClass('show');
+            });
+        }
+
+        // Initialize image galleries when document is ready
+        $(document).ready(function() {
+            initializeImageGalleries();
+        });
     </script>
 @endpush
 
@@ -1036,6 +1072,62 @@
         flex: 1;
         max-width: 120px;
     }
+}
+
+/* Image Gallery Styles for "We Think You Also Like" Cards */
+.image-gallery {
+    position: relative;
+    overflow: hidden;
+}
+
+.thumbnail-images {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.thumbnail-images.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.thumb-link {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.thumb-link:hover {
+    border-color: #405FF2;
+    transform: scale(1.05);
+}
+
+.thumb-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-image {
+    position: relative;
+    z-index: 1;
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
 }
 </style>
 @endpush
