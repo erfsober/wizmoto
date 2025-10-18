@@ -183,6 +183,17 @@ class ChatController extends Controller
         $provider = $conversation->provider;
         $provider->avatar = $provider->getFirstMediaUrl('image');
 
+        // Debug: Log provider data from API
+        \Log::info('getChatMessages provider data', [
+            'conversation_id' => $conversation->id,
+            'provider_id' => $provider->id,
+            'username' => $provider->username,
+            'first_name' => $provider->first_name,
+            'last_name' => $provider->last_name,
+            'full_name' => $provider->full_name,
+            'email' => $provider->email
+        ]);
+
         return response()->json([
             'success' => true,
             'messages' => $messages,
