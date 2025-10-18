@@ -192,13 +192,13 @@
                                         <ul class="list">
                                             <li>
                                                 <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body Type
                                                 </span>
                                                 {{ $advertisement->vehicleBody?->name ?? 'N/A' }}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Color
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
                                                 </span>
                                                 {{ $advertisement->vehicleColor?->name ?? 'N/A' }}
                                                 @if ($advertisement->is_metallic_paint)
@@ -208,8 +208,7 @@
 
                                             <li>
                                                 <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel
-                                                    Type
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
                                                 </span>
                                                 {{ $advertisement->fuelType?->name ?? 'N/A' }}
                                             </li>
@@ -223,8 +222,7 @@
                                             </li>
                                             <li>
                                                 <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Engine
-                                                    Size
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Displacement
                                                 </span>
                                                 {{ $advertisement->motor_displacement ? $advertisement->motor_displacement . ' cc' : 'N/A' }}
                                             </li>
@@ -247,19 +245,18 @@
                                                 <span>
                                                     <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">Mileage
                                                 </span>
-                                                {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
+                                                {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' km' : 'N/A' }}
                                             </li>
                                             <li>
                                                 <span>
                                                     <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">
-                                                    Registration Year
+                                                    First Registration
                                                 </span>
                                                 {{ $advertisement->registration_year ?? 'N/A' }}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}"> Last
-                                                    Service Year
+                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Last Service
                                                 </span>
                                                 {{ $advertisement->last_service_year ?? 'N/A' }}
                                             </li>
