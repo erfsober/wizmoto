@@ -358,30 +358,17 @@ $(document).ready(function() {
         },
         
         initializeSupportEcho: function() {
-            console.log('🔄 Initializing Echo for support bot (same as guest chat)');
+            console.log('🔄 Initializing Echo for support bot');
             
-            // Check if initEcho function is available
-            if (typeof window.initEcho !== 'function') {
-                console.log('⏳ Waiting for initEcho function to be available...');
+            // Check if Echo is available
+            if (typeof window.Echo === 'undefined') {
+                console.log('⏳ Waiting for Echo to be available...');
                 setTimeout(() => this.initializeSupportEcho(), 100);
                 return;
             }
 
-            // Initialize Echo for public channel (same as guest chat)
-            if (!window.initEcho({})) {
-                console.error('❌ Failed to initialize Echo for support bot');
-                return;
-            }
-
-            // Listen for Echo events
-            window.addEventListener('echoConnected', () => {
-                console.log('✅ Echo connected successfully for support bot');
-                this.startPusherListeners();
-            });
-
-            window.addEventListener('echoError', (e) => {
-                console.error('❌ Echo error for support bot:', e.detail);
-            });
+            console.log('✅ Echo is available, starting listeners');
+            this.startPusherListeners();
         },
         
         startPusherListeners: function() {
