@@ -144,6 +144,14 @@ $(document).ready(function() {
                         supportBot.conversationUuid = response.conversation_uuid;
                         supportBot.loadChatMessages();
                         
+                        // Set up minimal CHAT_CONFIG for initEcho to work
+                        if (!window.CHAT_CONFIG) {
+                            window.CHAT_CONFIG = {
+                                type: 'support',
+                                conversationUuid: response.conversation_uuid
+                            };
+                        }
+                        
                         // Initialize real-time messaging after conversation is created
                         supportBot.initializeRealtime();
                     }
@@ -198,7 +206,15 @@ $(document).ready(function() {
             const originalMessage = message;
             messageInput.val('');
             
-            // Message will be added via Echo broadcast - no optimistic UI
+            // Add message immediately for better UX (optimistic UI)
+            const tempId = 'temp_' + Date.now();
+            const tempMessage = {
+                id: tempId,
+                message: originalMessage,
+                sender_type: 'guest',
+                created_at: new Date().toISOString()
+            };
+            this.addMessageToChat(tempMessage, 'guest');
             
             $.ajax({
                 url: '/support-chat/send',
@@ -212,6 +228,12 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         console.log('✅ Message sent successfully:', response.message);
+                        
+                        // Replace temporary message with real message
+                        const tempMessage = $(`[data-message-id="${tempId}"]`);
+                        if (tempMessage.length) {
+                            tempMessage.attr('data-message-id', response.message.id);
+                        }
                     }
                 },
                 error: function(xhr, status, error) {
@@ -257,12 +279,25 @@ $(document).ready(function() {
         },
         
         addMessageToChat: function(message, senderType) {
+            console.log('🔍 Adding message to chat:', message, 'senderType:', senderType);
+            
+            // Properly alternate message sides
+            const isGuest = senderType === 'guest';
+            const wrapperClass = isGuest ? 'message-right' : 'message-left';
+            
+            // Get sender name
+            const senderName = isGuest ? 'You' : 'Support';
+            const timeFormatted = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
             const messageHtml = `
-                <div class="chat-message ${senderType}" data-message-id="${message.id}">
-                    <div class="chat-message-content">
-                        <div class="chat-message-text">${message.message}</div>
-                        <div class="chat-message-time">
-                            ${new Date(message.created_at).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}
+                <div class="message-wrapper ${wrapperClass}" data-message-id="${message.id}">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="sender-name">${senderName}</span>
+                            <span class="message-time">${timeFormatted}</span>
+                        </div>
+                        <div class="message-bubble">
+                            ${message.message}
                         </div>
                     </div>
                 </div>
@@ -271,6 +306,8 @@ $(document).ready(function() {
             $('#chat-messages .no-messages').remove();
             $('#chat-messages').append(messageHtml);
             this.scrollChatToBottom();
+            
+            console.log('🔍 Message added to chat, total messages:', $('#chat-messages .message-wrapper').length);
         },
         
         loadChatMessages: function() {
@@ -306,63 +343,69 @@ $(document).ready(function() {
                 return;
             }
             
-            // Use Pusher/Echo for all environments (same as guest and provider chat)
+            // Use the same Echo initialization pattern as guest chat
             this.initializeSupportEcho();
-            
-            // Wait for Echo to be ready
-            setTimeout(function() {
-                if (typeof window.Echo !== 'undefined') {
-                    console.log('✅ Listening for messages on conversation.' + conversationUuid);
-                    
-                    // Listen for new messages on this conversation using UUID
-                    window.Echo.channel('conversation.' + conversationUuid)
-                        .listen('.MessageSent', function(e) {
-                            console.log('📩 New message received via Pusher:', e);
-                            
-                            // Add all messages (both guest and supporter)
-                            const message = {
-                                id: e.id,
-                                message: e.message,
-                                sender_type: e.sender_type,
-                                created_at: e.created_at
-                            };
-                            supportBot.addMessageToChat(message, e.sender_type);
-                        })
-                        .error(function(error) {
-                            console.error('❌ Pusher channel error:', error);
-                        });
-                    
-                    console.log('🔔 Pusher listener attached successfully');
-                } else {
-                    console.error('❌ Echo still not available after initialization');
-                }
-            }, 500);
         },
         
         initializeSupportEcho: function() {
-            console.log('🔄 Checking Echo availability for support bot');
+            console.log('🔄 Initializing Echo for support bot (same as guest chat)');
             
-            // Wait for Echo to be available (max 5 seconds)
-            let attempts = 0;
-            const maxAttempts = 50; // 5 seconds max
-            
-            const checkEcho = () => {
-                attempts++;
-                if (typeof window.Echo !== 'undefined') {
-                    console.log('✅ Echo is available for support bot');
-                    return;
-                }
-                
-                if (attempts >= maxAttempts) {
-                    console.log('⏰ Echo timeout - using polling fallback');
-                    return;
-                }
-                
-                console.log('⏳ Waiting for Echo to be available... (' + attempts + '/' + maxAttempts + ')');
-                setTimeout(checkEcho, 100);
-            };
-            
-            checkEcho();
+            // Check if initEcho function is available
+            if (typeof window.initEcho !== 'function') {
+                console.log('⏳ Waiting for initEcho function to be available...');
+                setTimeout(() => this.initializeSupportEcho(), 100);
+                return;
+            }
+
+            // Initialize Echo for public channel (same as guest chat)
+            if (!window.initEcho({})) {
+                console.error('❌ Failed to initialize Echo for support bot');
+                return;
+            }
+
+            // Listen for Echo events
+            window.addEventListener('echoConnected', () => {
+                console.log('✅ Echo connected successfully for support bot');
+                this.startPusherListeners();
+            });
+
+            window.addEventListener('echoError', (e) => {
+                console.error('❌ Echo error for support bot:', e.detail);
+            });
+        },
+        
+        startPusherListeners: function() {
+            const conversationUuid = this.conversationUuid;
+            if (!conversationUuid) {
+                console.error('❌ No conversation UUID available for support bot');
+                return;
+            }
+
+            console.log('🍪 Using UUID for support bot Pusher:', conversationUuid);
+
+            window.Echo.channel(`conversation.${conversationUuid}`)
+                .listen('.MessageSent', (e) => {
+                    console.log('📨 New message received via support bot Pusher:', e);
+
+                    // Check if message already exists (avoid duplicates)
+                    const existingMessage = $(`[data-message-id="${e.id}"]`);
+                    if (existingMessage.length > 0) {
+                        console.log('📨 Message already exists, skipping duplicate');
+                        return;
+                    }
+
+                    // Add all messages (both guest and supporter)
+                    const message = {
+                        id: e.id,
+                        message: e.message,
+                        sender_type: e.sender_type,
+                        created_at: e.created_at
+                    };
+                    this.addMessageToChat(message, e.sender_type);
+                })
+                .error((error) => {
+                    console.error('❌ Failed to subscribe to support bot conversation channel:', error);
+                });
         },
         
         
@@ -370,7 +413,7 @@ $(document).ready(function() {
             const conversationUuid = this.conversationUuid;
             if (conversationUuid && typeof window.Echo !== 'undefined') {
                 console.log('🔌 Disconnecting from conversation.' + conversationUuid);
-                window.Echo.leaveChannel('conversation.' + conversationUuid);
+                window.Echo.leaveChannel(`conversation.${conversationUuid}`);
             }
         },
         
