@@ -445,13 +445,37 @@
                             <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image-box">
-                                        @if($relatedAd->getMedia('covers')->count() > 0)
-                                            <figure class="image">
-                                                <a href="{{ $relatedAd->getMedia('covers')->first()->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}">
-                                                    <img src="{{ $relatedAd->getMedia('covers')->first()->getUrl('card') }}" loading="lazy" alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
-                                                </a>
-                                            </figure>
-                                        @endif
+                                        <div class="image-gallery" data-count="{{ $relatedAd->getMedia('covers')->count() }}">
+                                            @php
+                                                $images = $relatedAd->getMedia('covers');
+                                                $firstImage = $images->first();
+                                                $remainingImages = $images->skip(1)->take(2);
+                                            @endphp
+                                            
+                                            @if($firstImage)
+                                                <div class="main-image">
+                                                    <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}">
+                                                        <img
+                                                            src="{{ $firstImage->getUrl('card') }}"
+                                                            loading="lazy"
+                                                            alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            
+                                            @if($remainingImages->count() > 0)
+                                                <div class="thumbnail-images">
+                                                    @foreach($remainingImages as $image)
+                                                        <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}" class="thumb-link">
+                                                            <img
+                                                                src="{{ $image->getUrl('card') }}"
+                                                                loading="lazy"
+                                                                alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="content-box">
                                         <h6 class="title">
