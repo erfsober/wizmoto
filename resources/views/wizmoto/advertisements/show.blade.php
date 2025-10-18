@@ -621,6 +621,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+    
             const $stars = $('.rating-list .list-box .list li');
 
             $stars.on('mouseenter', function() {
@@ -734,6 +735,47 @@
                 $('#initiate-contact-form')[0].reset();
                 $('#send-contact-btn').prop('disabled', false).html(
                     '<i class="fa fa-paper-plane"></i> Send Message');
+            });
+
+            // Fix modal blocking issues
+            $('#contactModal').on('show.bs.modal', function() {
+                // Remove any blocking elements that might prevent clicks
+                $('.mm-wrapper__blocker').remove();
+                $('.mobile-menu-overlay').remove();
+                $('.page-overlay').remove();
+                $('.overlay').remove();
+                
+                // Force enable pointer events on everything
+                $('body *').css('pointer-events', 'auto');
+                $('body').css('pointer-events', 'auto');
+            });
+
+            $('#contactModal').on('shown.bs.modal', function() {
+                // Force remove any blocking elements
+                $('.mm-wrapper__blocker, .mobile-menu-overlay, .page-overlay, .overlay').remove();
+                
+                // Force enable all elements
+                $('body *').css({
+                    'pointer-events': 'auto',
+                    'z-index': 'auto'
+                });
+                
+                // Ensure modal is on top
+                $(this).css({
+                    'z-index': '99999999',
+                    'pointer-events': 'auto'
+                });
+                
+                // Ensure modal content is clickable
+                $(this).find('*').css({
+                    'pointer-events': 'auto',
+                    'z-index': 'auto'
+                });
+                
+                // Force focus on first input
+                setTimeout(function() {
+                    $('#contactModal input:first').focus();
+                }, 100);
             });
 
             // Pre-fill email if previously used

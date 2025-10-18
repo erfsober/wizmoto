@@ -5818,10 +5818,9 @@ body.dashboard-page #chat-widget {
   width: 320px;
   height: 420px;
   max-height: 420px;
-  z-index: 99999;
+  z-index: 9999;
   display: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  isolation: isolate;
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -31720,6 +31719,124 @@ li.nav-sub.mm-listitem .mm-listitem__btn {
     .seller-type-badge .badge {
         padding: 4px 10px;
         font-size: 11px;
+    }
+}
+
+/* Simple fix for Bootstrap modal conflicts - just ensure proper z-index */
+.modal-backdrop {
+    z-index: 9999999 !important;
+}
+
+.modal {
+    z-index: 10000000 !important;
+}
+
+.modal-dialog {
+    z-index: 10000001 !important;
+}
+
+.modal-content {
+    z-index: 10000002 !important;
+}
+
+/* Ensure support bot doesn't interfere with Bootstrap modals */
+body.modal-open .support-chat-widget {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+body.modal-open #support-bot {
+    pointer-events: none !important;
+}
+
+/* Prevent support bot from blocking modal clicks */
+body.modal-open .support-chat-widget * {
+    pointer-events: none !important;
+}
+
+/* Ensure modal is fully interactive and not blocked */
+.modal *,
+.modal input,
+.modal textarea,
+.modal button,
+.modal select,
+.modal .form-control,
+.modal .btn,
+.modal .btn-close {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.modal input[type="text"],
+.modal input[type="email"],
+.modal textarea {
+    cursor: text !important;
+}
+
+/* Ensure modal backdrop doesn't block clicks */
+.modal-backdrop {
+    pointer-events: auto !important;
+}
+
+/* Fix mobile menu blocker interfering with modals */
+body.modal-open .mm-wrapper__blocker {
+    display: none !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* Ensure page is clickable when modal is open */
+body.modal-open {
+    pointer-events: auto !important;
+}
+
+body.modal-open * {
+    pointer-events: auto !important;
+}
+
+/* Override any blocking elements when modal is open */
+body.modal-open .mm-wrapper__blocker,
+body.modal-open .mobile-menu-overlay,
+body.modal-open .page-overlay {
+    display: none !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+}
+
+/* Mobile-specific modal improvements */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 10px !important;
+        max-width: calc(100% - 20px) !important;
+    }
+    
+    .modal-content {
+        border-radius: 10px !important;
+    }
+    
+    .modal-header {
+        padding: 15px !important;
+    }
+    
+    .modal-body {
+        padding: 15px !important;
+    }
+    
+    .modal-footer {
+        padding: 15px !important;
+    }
+    
+    /* Ensure modal is fully visible on mobile */
+    .modal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Make sure inputs are properly sized on mobile */
+    .modal input,
+    .modal textarea {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 12px !important;
     }
 }
 

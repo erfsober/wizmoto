@@ -45,8 +45,12 @@ $(document).ready(function() {
                 supportBot.handleAction(action);
             });
             
-            // Close panel when clicking outside
+            // Close panel when clicking outside (but not when modal is open)
             $(document).on('click', function(e) {
+                // Don't interfere if Bootstrap modal is open
+                if ($('body').hasClass('modal-open')) {
+                    return;
+                }
                 if (!$(e.target).closest('#support-bot').length) {
                     $('#support-bot-panel').removeClass('active');
                 }
@@ -73,7 +77,7 @@ $(document).ready(function() {
                 return;
             }
             
-            const message = encodeURIComponent('Hello! I need help with my inquiry.');
+            const message = encodeURIComponent('Hello! I need help about WizMoto.');
             const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${message}`;
             window.open(whatsappUrl, '_blank');
         },
@@ -106,6 +110,12 @@ $(document).ready(function() {
         },
         
         openChatModal: function() {
+            // Don't open if Bootstrap modal is already open
+            if ($('body').hasClass('modal-open')) {
+                console.log('Bootstrap modal is open, skipping support chat');
+                return;
+            }
+            
             // Show the support chat widget
             $('.support-chat-widget').addClass('show');
             
