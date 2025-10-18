@@ -58,6 +58,16 @@
             email: window.CHAT_CONFIG.provider.email
         });
     }
+    
+    // Debug server-side provider data
+    console.log('🖥️ Server-side provider data:', {
+        id: {{ $provider->id ?? 'null' }},
+        username: '{{ $provider->username ?? 'null' }}',
+        first_name: '{{ $provider->first_name ?? 'null' }}',
+        last_name: '{{ $provider->last_name ?? 'null' }}',
+        full_name: '{{ $provider->full_name ?? 'null' }}',
+        email: '{{ $provider->email ?? 'null' }}'
+    });
 </script>
 @endpush
 

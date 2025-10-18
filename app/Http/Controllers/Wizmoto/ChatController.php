@@ -220,6 +220,9 @@ class ChatController extends Controller
 
         // Debug: Log provider data
         \Log::info('Guest chat provider data', [
+            'access_token' => $accessToken,
+            'conversation_id' => $conversation->id,
+            'conversation_uuid' => $conversation->uuid,
             'provider_id' => $provider->id,
             'username' => $provider->username,
             'first_name' => $provider->first_name,
