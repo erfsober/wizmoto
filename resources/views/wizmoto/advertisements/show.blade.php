@@ -79,8 +79,7 @@
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two btn-anim">Add
-                                Listing</a>
+                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two btn-anim">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -443,18 +442,39 @@
                     <div class="row car-slider-three" data-preview="4">
                         @foreach($relatedAdvertisements as $index => $relatedAd)
                             <!-- car-block-three -->
-                            <div class="car-block-three col-lg-3 col-md-6 col-sm-12">
+                            <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image-box">
-                                        <div class="slider-thumb">
-                                            @foreach ($relatedAd->getMedia('covers')->take(3) as $image)
-                                                <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}">
-                                                    <img
-                                                        src="{{ $image->getUrl('card') }}"
-                                                        loading="lazy"
-                                                        alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
-                                                </a>
-                                            @endforeach
+                                        <div class="image-gallery" data-count="{{ $relatedAd->getMedia('covers')->count() }}">
+                                            @php
+                                                $images = $relatedAd->getMedia('covers');
+                                                $firstImage = $images->first();
+                                                $remainingImages = $images->skip(1)->take(2);
+                                            @endphp
+                                            
+                                            @if($firstImage)
+                                                <div class="main-image">
+                                                    <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}">
+                                                        <img
+                                                            src="{{ $firstImage->getUrl('card') }}"
+                                                            loading="lazy"
+                                                            alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            
+                                            @if($remainingImages->count() > 0)
+                                                <div class="thumbnail-images">
+                                                    @foreach($remainingImages as $image)
+                                                        <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}" class="thumb-link">
+                                                            <img
+                                                                src="{{ $image->getUrl('card') }}"
+                                                                loading="lazy"
+                                                                alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="content-box">
