@@ -938,13 +938,6 @@
                 const thumbHref = $(this).attr('href');
                 $mainLink.attr('href', thumbHref);
             });
-            
-            // Add hover effects
-            $('.image-gallery').on('mouseenter', function() {
-                $(this).find('.thumbnail-images').addClass('show');
-            }).on('mouseleave', function() {
-                $(this).find('.thumbnail-images').removeClass('show');
-            });
         }
 
         // Initialize image galleries when document is ready
@@ -1082,35 +1075,29 @@
 
 .thumbnail-images {
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 8px;
+    right: 8px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 4px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
     z-index: 2;
-}
-
-.thumbnail-images.show {
-    opacity: 1;
-    visibility: visible;
 }
 
 .thumb-link {
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 4px;
     overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .thumb-link:hover {
     border-color: #405FF2;
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(64, 95, 242, 0.3);
 }
 
 .thumb-link img {
