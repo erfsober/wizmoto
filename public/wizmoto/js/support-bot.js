@@ -404,14 +404,16 @@ $(document).ready(function() {
                         return;
                     }
 
-                    // Add all messages (both guest and supporter)
-                    const message = {
-                        id: e.id,
-                        message: e.message,
-                        sender_type: e.sender_type,
-                        created_at: e.created_at
-                    };
-                    this.addMessageToChat(message, e.sender_type);
+                    // Only add provider messages via Pusher (guest messages are added optimistically)
+                    if (e.sender_type === 'provider') {
+                        const message = {
+                            id: e.id,
+                            message: e.message,
+                            sender_type: e.sender_type,
+                            created_at: e.created_at
+                        };
+                        this.addMessageToChat(message, e.sender_type);
+                    }
                 })
                 .error((error) => {
                     console.error('❌ Failed to subscribe to support bot conversation channel:', error);
