@@ -170,16 +170,21 @@ class SupportChatController extends Controller
                 'conversation_id' => 'required|exists:conversations,id',
             ]);
 
-            // Get the conversation
+            // Get the supporter provider
+            $supporter = Provider::where('username', 'wizmoto-support')->first();
+            if (!$supporter) {
+                return response()->json(['error' => 'Support provider not found'], 404);
+            }
+
+            // Get the conversation from the request
             $conversation = Conversation::find($request->conversation_id);
             if (!$conversation) {
                 return response()->json(['error' => 'Conversation not found'], 404);
             }
 
-            // Get the supporter provider
-            $supporter = Provider::where('username', 'wizmoto-support')->first();
-            if (!$supporter) {
-                return response()->json(['error' => 'Support provider not found'], 404);
+            // Verify this is a support conversation
+            if ($conversation->provider_id !== $supporter->id) {
+                return response()->json(['error' => 'Not a support conversation'], 400);
             }
 
             $message = Message::create([
@@ -191,6 +196,15 @@ class SupportChatController extends Controller
 
             // Broadcast the message to the conversation
             broadcast(new MessageSent($message));
+
+            // Log for debugging
+            \Log::info('Provider message sent to support chat', [
+                'message_id' => $message->id,
+                'conversation_id' => $conversation->id,
+                'conversation_uuid' => $conversation->uuid,
+                'sender_type' => $message->sender_type,
+                'message' => $message->message
+            ]);
 
             return response()->json([
                 'success' => true,

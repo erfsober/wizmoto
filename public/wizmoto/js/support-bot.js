@@ -383,6 +383,9 @@ $(document).ready(function() {
             window.Echo.channel(`conversation.${conversationUuid}`)
                 .listen('.MessageSent', (e) => {
                     console.log('📨 New message received via support bot Pusher:', e);
+                    console.log('📨 Listening on channel:', `conversation.${conversationUuid}`);
+                    console.log('📨 Message sender type:', e.sender_type);
+                    console.log('📨 Message conversation UUID:', e.conversation_uuid);
 
                     // Check if message already exists (avoid duplicates)
                     const existingMessage = $(`[data-message-id="${e.id}"]`);
@@ -393,6 +396,7 @@ $(document).ready(function() {
 
                     // Only add provider messages via Pusher (guest messages are added optimistically)
                     if (e.sender_type === 'provider') {
+                        console.log('📨 Adding provider message to support chat');
                         const message = {
                             id: e.id,
                             message: e.message,
@@ -400,6 +404,8 @@ $(document).ready(function() {
                             created_at: e.created_at
                         };
                         this.addMessageToChat(message, e.sender_type);
+                    } else {
+                        console.log('📨 Ignoring non-provider message in support bot');
                     }
                 })
                 .error((error) => {
