@@ -439,7 +439,7 @@
                 </div>
         
                 @if($relatedAdvertisements->count() > 0)
-                    <div class="row car-slider-three" data-preview="4">
+                    <div class="row car-slider-three slider-layout-1" data-preview="4.8">
                         @foreach($relatedAdvertisements as $index => $relatedAd)
                             <!-- car-block-three -->
                             <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
