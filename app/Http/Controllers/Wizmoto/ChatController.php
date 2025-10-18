@@ -207,6 +207,16 @@ class ChatController extends Controller
         $provider->avatar = $provider->getFirstMediaUrl('image');
         $guest = $conversation->guest;
 
+        // Debug: Log provider data
+        \Log::info('Guest chat provider data', [
+            'provider_id' => $provider->id,
+            'username' => $provider->username,
+            'first_name' => $provider->first_name,
+            'last_name' => $provider->last_name,
+            'full_name' => $provider->full_name,
+            'email' => $provider->email
+        ]);
+
         return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
             'conversationUuid' => $conversation->uuid
         ]);

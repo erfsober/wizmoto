@@ -46,6 +46,18 @@
         conversationUuid: window.CHAT_CONFIG.conversationUuid,
         cookieUuid: window.getConversationUuid()
     });
+    
+    // Debug provider data
+    if (window.CHAT_CONFIG.provider) {
+        console.log('👤 Provider data:', {
+            id: window.CHAT_CONFIG.provider.id,
+            username: window.CHAT_CONFIG.provider.username,
+            first_name: window.CHAT_CONFIG.provider.first_name,
+            last_name: window.CHAT_CONFIG.provider.last_name,
+            full_name: window.CHAT_CONFIG.provider.full_name,
+            email: window.CHAT_CONFIG.provider.email
+        });
+    }
 </script>
 @endpush
 
