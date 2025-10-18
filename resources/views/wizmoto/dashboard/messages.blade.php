@@ -350,6 +350,7 @@ $(document).ready(function() {
     let currentProviderId = config.provider.id;
     let allConversations = config.conversations;
     let currentConversationUuid = null;
+    let currentConversation = null;
     let currentGuest = null;
     let refreshInterval;
 
@@ -444,6 +445,9 @@ $(document).ready(function() {
             showChatError('Conversation not found');
             return;
         }
+        
+        // Set current conversation for support chat detection
+        currentConversation = conversation;
         
         $.ajax({
             url: `/dashboard/conversations/${conversationUuid}`,
