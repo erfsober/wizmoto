@@ -33,7 +33,7 @@ Route::get('/support-chat/messages', [SupportChatController::class, 'getMessages
 
 // Settings API routes
 Route::get('/api/settings/whatsapp-number', function() {
-    $whatsappNumber = \App\Models\Setting::get('whatsapp_number', '00393517455691');
+    $whatsappNumber = \App\Models\Setting::get('whatsapp_number');
     return response()->json([
         'success' => true,
         'value' => $whatsappNumber
