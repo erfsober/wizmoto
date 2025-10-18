@@ -96,6 +96,9 @@ class DashboardController extends Controller
             $data['trade_in_possible'] = $request->has('trade_in_possible');
             $data['available_immediately'] = $request->has('available_immediately');
             
+            // Remove images field from data as it's handled by media library
+            unset($data['images']);
+            
             $advertisement = Advertisement::create($data);
             
             if ($request->hasFile('images')) {
@@ -305,6 +308,10 @@ class DashboardController extends Controller
         $data['financing_available'] = $request->has('financing_available');
         $data['trade_in_possible'] = $request->has('trade_in_possible');
         $data['available_immediately'] = $request->has('available_immediately');
+        
+        // Remove images field from data as it's handled by media library
+        unset($data['images']);
+        
         // Update advertisement
         $advertisement->update($data);
         // Handle new media uploads and map filename->media id

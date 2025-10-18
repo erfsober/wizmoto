@@ -1157,6 +1157,9 @@
                     return;
                 }
 
+                let processedFiles = 0;
+                const totalFiles = this.files.length;
+
                 Array.from(this.files).forEach(file => {
                     selectedFiles.push(file);
                     const reader = new FileReader();
@@ -1180,17 +1183,24 @@
 
                         $("#preview-container .uplode-box").before(div);
                         updateImagesOrder();
+                        
+                        // Increment processed files counter
+                        processedFiles++;
+                        
+                        // Check if all files have been processed
+                        if (processedFiles === totalFiles) {
+                            const finalCount = $("#preview-container .image-box").length;
+                            console.log("After ADDING, image count is:", finalCount);
+                            
+                            // After adding the new images, check the new total count.
+                            if ($("#preview-container .image-box").length >= 4) {
+                                $(".uplode-box").hide();
+                            }
+                        }
                     };
 
                     reader.readAsDataURL(file);
                 });
-
-                const finalCount = $("#preview-container .image-box").length;
-                console.log("After ADDING, image count is:", finalCount); // ADD THI
-                // After adding the new images, check the new total count.
-                if ($("#preview-container .image-box").length >=4) {
-                    $(".uplode-box").hide();
-                }
 
                 // Clear the file input to allow re-selecting the same file if needed
                 $(this).val("");
