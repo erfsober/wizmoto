@@ -29,8 +29,12 @@ Route::get('/faq' , [ FaqController::class , 'index' , ])->name('faq.index');
 Route::get('/support-chat', [SupportChatController::class, 'index'])->name('support.chat');
 Route::get('/support-chat/init', [SupportChatController::class, 'initChat'])->name('support.chat.init');
 Route::post('/support-chat/send', [SupportChatController::class, 'sendMessage'])->name('support.chat.send');
-Route::post('/support-chat/provider-send', [SupportChatController::class, 'sendProviderMessage'])->name('support.chat.provider.send');
-Route::get('/support-chat/messages', [SupportChatController::class, 'getMessages'])->name('support.chat.messages');
+
+// Protected support chat routes (require authentication like guest-provider system)
+Route::middleware(['auth:provider'])->group(function () {
+    Route::post('/support-chat/provider-send', [SupportChatController::class, 'sendProviderMessage'])->name('support.chat.provider.send');
+    Route::get('/support-chat/messages', [SupportChatController::class, 'getMessages'])->name('support.chat.messages');
+});
 
 // Settings API routes
 Route::get('/api/settings/whatsapp-number', function() {

@@ -593,7 +593,7 @@ $(document).ready(function() {
         // Use different endpoint for support conversations
         const sendUrl = isSupportConversation ? '/support-chat/provider-send' : '/dashboard/send-provider-message';
         const sendData = isSupportConversation ? {
-            conversation_id: currentConversation.id,
+            conversation_uuid: currentConversation.uuid,
             message: message,
             _token: '{{ csrf_token() }}'
         } : {

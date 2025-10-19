@@ -10,6 +10,8 @@ use App\Models\Message;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use App\Events\MessageSent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 class SupportChatController extends Controller
 {
     public function index()
@@ -132,7 +134,7 @@ class SupportChatController extends Controller
         try {
             $request->validate([
                 'message' => 'required|string|max:1000',
-                'conversation_id' => 'required|exists:conversations,id',
+                'conversation_uuid' => 'required|string',
             ]);
 
             $guestId = session('guest_id');
@@ -140,10 +142,17 @@ class SupportChatController extends Controller
                 return response()->json(['error' => 'Guest session not found'], 400);
             }
 
+            // Find conversation by UUID (like guest-provider system)
+            $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
+            if (!$conversation) {
+                return response()->json(['error' => 'Conversation not found'], 404);
+            }
+
             $message = Message::create([
-                'conversation_id' => $request->conversation_id,
+                'conversation_id' => $conversation->id,
+                'guest_id' => $conversation->guest_id,
+                'provider_id' => $conversation->provider_id,
                 'sender_type' => 'guest',
-                'sender_id' => $guestId,
                 'message' => $request->message,
             ]);
 
@@ -165,9 +174,15 @@ class SupportChatController extends Controller
     public function sendProviderMessage(Request $request)
     {
         try {
+            // Require authentication like guest-provider system
+            $provider = Auth::guard('provider')->user();
+            if (!$provider) {
+                return response()->json(['error' => 'Not authenticated'], 401);
+            }
+
             $request->validate([
                 'message' => 'required|string|max:1000',
-                'conversation_id' => 'required|exists:conversations,id',
+                'conversation_uuid' => 'required|string',
             ]);
 
             // Get the supporter provider
@@ -176,21 +191,27 @@ class SupportChatController extends Controller
                 return response()->json(['error' => 'Support provider not found'], 404);
             }
 
-            // Get the conversation from the request
-            $conversation = Conversation::find($request->conversation_id);
+            // Find conversation by UUID (like guest-provider system)
+            $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
             if (!$conversation) {
                 return response()->json(['error' => 'Conversation not found'], 404);
             }
 
-            // Verify this is a support conversation
+            // Verify this is a support conversation AND provider is authorized
             if ($conversation->provider_id !== $supporter->id) {
                 return response()->json(['error' => 'Not a support conversation'], 400);
             }
 
+            // Additional security: Only support provider can send messages
+            if ($provider->username !== 'wizmoto-support') {
+                return response()->json(['error' => 'Unauthorized to send support messages'], 403);
+            }
+
             $message = Message::create([
-                'conversation_id' => $request->conversation_id,
+                'conversation_id' => $conversation->id,
+                'guest_id' => $conversation->guest_id,
+                'provider_id' => $supporter->id,
                 'sender_type' => 'provider',
-                'sender_id' => $supporter->id,
                 'message' => $request->message,
             ]);
 
@@ -198,7 +219,7 @@ class SupportChatController extends Controller
             broadcast(new MessageSent($message));
 
             // Log for debugging
-            \Log::info('Provider message sent to support chat', [
+            Log::info('Provider message sent to support chat', [
                 'message_id' => $message->id,
                 'conversation_id' => $conversation->id,
                 'conversation_uuid' => $conversation->uuid,
@@ -220,10 +241,19 @@ class SupportChatController extends Controller
 
     public function getMessages(Request $request)
     {
-        $conversationId = $request->conversation_id;
-        $lastMessageId = $request->last_message_id ?? 0;
+        $request->validate([
+            'conversation_uuid' => 'required|string',
+            'last_message_id' => 'nullable|integer',
+        ]);
 
-        $query = Message::where('conversation_id', $conversationId);
+        // Find conversation by UUID (like guest-provider system)
+        $conversation = Conversation::where('uuid', $request->conversation_uuid)->first();
+        if (!$conversation) {
+            return response()->json(['error' => 'Conversation not found'], 404);
+        }
+
+        $lastMessageId = $request->last_message_id ?? 0;
+        $query = Message::where('conversation_id', $conversation->id);
         
         // If last_message_id is provided, only get messages after that ID
         if ($lastMessageId > 0) {

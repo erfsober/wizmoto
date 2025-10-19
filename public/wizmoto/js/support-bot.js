@@ -201,11 +201,11 @@ $(document).ready(function() {
         sendChatMessage: function() {
             const messageInput = $('#chat-message-input');
             const message = messageInput.val().trim();
-            const conversationId = $('#chat-conversation-id').val();
+            const conversationUuid = this.conversationUuid;
             const sendButton = $('#chat-send-button');
             
             // Validate
-            if (!message || !conversationId) return;
+            if (!message || !conversationUuid) return;
             
             // Check if already sending
             if (sendButton.prop('disabled')) return;
@@ -232,7 +232,7 @@ $(document).ready(function() {
                 data: {
                     _token: $('input[name="_token"]').val(),
                     message: originalMessage,
-                    conversation_id: conversationId
+                    conversation_uuid: conversationUuid
                 },
                 timeout: 10000, // 10 second timeout
                 success: function(response) {
@@ -321,14 +321,14 @@ $(document).ready(function() {
         },
         
         loadChatMessages: function() {
-            const conversationId = $('#chat-conversation-id').val();
-            if (!conversationId) return;
+            const conversationUuid = this.conversationUuid;
+            if (!conversationUuid) return;
             
             $.ajax({
                 url: '/support-chat/messages',
                 method: 'GET',
                 data: {
-                    conversation_id: conversationId
+                    conversation_uuid: conversationUuid
                 },
                 success: function(response) {
                     if (response.success && response.messages.length > 0) {
