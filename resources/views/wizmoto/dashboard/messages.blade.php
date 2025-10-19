@@ -261,6 +261,11 @@
         left: 0;
     }
     
+    /* Hide contacts when mmenu is open */
+    body.mm-wrapper_opened .contacts_column {
+        display: none !important;
+    }
+    
     /* Ensure contact text is visible on mobile */
     .contacts_column .user_info span,
     .contacts_column .user_info p,
@@ -318,10 +323,22 @@
 $(document).ready(function() {
     // Mobile Toggle Functionality
     (function() {
-        // Toggle contacts on mobile
-        $('#mobile-toggle-contacts, .toggle-contact').on('click', function() {
+        // Toggle contacts on mobile - ONLY for contacts button
+        $('#mobile-toggle-contacts').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             $('.contacts_column').addClass('show');
         });
+        
+        // Toggle contacts from chat header hamburger
+        $('.toggle-contact').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('.contacts_column').addClass('show');
+        });
+        
+        // Don't interfere with mobile navigation at all
+        // Let mmenu.js handle it completely
         
         // Close contacts
         $('#close-contacts-btn').on('click', function() {

@@ -189,26 +189,26 @@
                             {{-- Vehicle Information Section --}}
                             <div class="overview-section mb-4">
                                 <h5 class="section-title">Vehicle Information</h5>
-                                <div class="row">
-                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                                        <div class="inner-column">
-                                            <ul class="list">
+                            <div class="row">
+                                <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                    <div class="inner-column">
+                                        <ul class="list">
                                                 @if($advertisement->brand?->name || $advertisement->vehicleModel?->name)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Make & Model
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->brand?->name ?? '' }} {{ $advertisement->vehicleModel?->name ?? '' }}
                                                     @if($advertisement->version_model)
                                                         <small>({{ $advertisement->version_model }})</small>
                                                     @endif
-                                                </li>
+                                            </li>
                                                 @endif
                                                 @if($advertisement->vehicleBody?->name)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body Type
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->vehicleBody->name }}
                                                 </li>
                                                 @endif
@@ -218,7 +218,7 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
                                                     </span>
                                                     {{ $advertisement->vehicleColor->name }}@if ($advertisement->is_metallic_paint) <small>(Metallic)</small>@endif
-                                                </li>
+                                            </li>
                                                 @endif
                                                 @if($advertisement->registration_month || $advertisement->registration_year)
                                                 <li>
@@ -289,12 +289,12 @@
                                         <div class="inner-column">
                                             <ul class="list">
                                                 @if($advertisement->fuelType?->name)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->fuelType->name }}
-                                                </li>
+                                            </li>
                                                 @endif
                                                 @if($advertisement->motor_change)
                                                 <li>
@@ -381,20 +381,20 @@
                                         <div class="inner-column">
                                             <ul class="list">
                                                 @if($advertisement->top_speed_kmh)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Top Speed
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->top_speed_kmh }} km/h
-                                                </li>
+                                            </li>
                                                 @endif
                                                 @if($advertisement->torque_nm)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Torque
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->torque_nm }} Nm
-                                                </li>
+                                            </li>
                                                 @endif
                                                 @if($advertisement->seat_height_mm)
                                                 <li>
@@ -404,9 +404,9 @@
                                                     {{ $advertisement->seat_height_mm }} mm
                                                 </li>
                                                 @endif
-                                            </ul>
-                                        </div>
+                                        </ul>
                                     </div>
+                                </div>
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
                                             <ul class="list">
@@ -446,44 +446,44 @@
                             <div class="overview-section mb-4">
                                 <h5 class="section-title">Pricing & Sales</h5>
                                 <div class="row">
-                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                                        <div class="inner-column">
-                                            <ul class="list">
+                                <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                    <div class="inner-column">
+                                        <ul class="list">
                                                 @if($advertisement->final_price)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price
-                                                    </span>
+                                                </span>
                                                     €{{ number_format($advertisement->final_price, 0, ',', '.') }}
                                                     @if($advertisement->tax_deductible)
                                                         <small>(VAT deductible)</small>
                                                     @endif
-                                                </li>
+                                            </li>
                                                 @endif
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price Negotiable
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->price_negotiable ? 'Yes' : 'No' }}
-                                                </li>
+                                            </li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
                                             <ul class="list">
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Financing Available
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->financing_available ? 'Yes' : 'No' }}
-                                                </li>
-                                                <li>
-                                                    <span>
+                                            </li>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Trade-in Possible
-                                                    </span>
+                                                </span>
                                                     {{ $advertisement->trade_in_possible ? 'Yes' : 'No' }}
-                                                </li>
+                                            </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -500,10 +500,10 @@
                                         <div class="inner-column">
                                             <ul class="list">
                                                 @if($advertisement->last_service_month || $advertisement->last_service_year)
-                                                <li>
-                                                    <span>
+                                            <li>
+                                                <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Last Service
-                                                    </span>
+                                                </span>
                                                     @if($advertisement->last_service_month && $advertisement->last_service_year)
                                                         {{ $advertisement->last_service_month }}/{{ $advertisement->last_service_year }}
                                                     @elseif($advertisement->last_service_year)
@@ -516,10 +516,10 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Service History Available
                                                     </span>
                                                     {{ $advertisement->service_history_available ? 'Yes' : 'No' }}
-                                                </li>
-                                            </ul>
-                                        </div>
+                                            </li>
+                                        </ul>
                                     </div>
+                                </div>
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
                                             <ul class="list">
@@ -536,7 +536,7 @@
                                                     {{ $advertisement->available_immediately ? 'Yes' : 'No' }}
                                                 </li>
                                             </ul>
-                                        </div>
+                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -736,12 +736,12 @@
                                                 <div class="thumbnail-images">
                                                     @foreach($remainingImages as $image)
                                                         <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $relatedAd->id }}" class="thumb-link">
-                                                            <img
-                                                                src="{{ $image->getUrl('card') }}"
-                                                                loading="lazy"
-                                                                alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
-                                                        </a>
-                                                    @endforeach
+                                                    <img
+                                                        src="{{ $image->getUrl('card') }}"
+                                                        loading="lazy"
+                                                        alt="{{ $relatedAd->title ?? 'Advertisement Image' }}">
+                                                </a>
+                                            @endforeach
                                                 </div>
                                             @endif
                                         </div>
