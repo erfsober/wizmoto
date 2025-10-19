@@ -18,11 +18,15 @@ class FooterComposer
             // Categories for footer navigation
             'vehicleTypes' => AdvertisementType::all(),
             'popularBrands' => Brand::query()
+                                    ->where('name', '!=', 'Other')
+                                    ->where('name', '!=', 'other')
                                     ->orderBy('created_at', 'desc')
                                     ->take(4)->get(),
             'popularModels' => VehicleModel::query()
                                     ->with('brand')
                                     ->withCount('advertisements')
+                                    ->where('name', '!=', 'Other')
+                                    ->where('name', '!=', 'other')
                                     ->orderBy('advertisements_count', 'desc')
                                     ->take(4)->get(),
             
