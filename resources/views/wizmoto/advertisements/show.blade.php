@@ -185,92 +185,365 @@
                         <!-- overview-sec -->
                         <div class="overview-sec">
                             <h4 class="title">Motor Overview</h4>
-                            <div class="row">
-                                {{-- Left Column --}}
-                                <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                                    <div class="inner-column">
-                                        <ul class="list">
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body Type
-                                                </span>
-                                                {{ $advertisement->vehicleBody?->name ?? 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
-                                                </span>
-                                                {{ $advertisement->vehicleColor?->name ?? 'N/A' }}
-                                                @if ($advertisement->is_metallic_paint)
-                                                    <small>(Metallic)</small>
+                            
+                            {{-- Vehicle Information Section --}}
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Vehicle Information</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->brand?->name || $advertisement->vehicleModel?->name)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Make & Model
+                                                    </span>
+                                                    {{ $advertisement->brand?->name ?? '' }} {{ $advertisement->vehicleModel?->name ?? '' }}
+                                                    @if($advertisement->version_model)
+                                                        <small>({{ $advertisement->version_model }})</small>
+                                                    @endif
+                                                </li>
                                                 @endif
-                                            </li>
-
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
-                                                </span>
-                                                {{ $advertisement->fuelType?->name ?? 'N/A' }}
-                                            </li>
-
-                                            <li>
-                                                <span>
-                                                    <img
-                                                        src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Transmission
-                                                </span>
-                                                {{ $advertisement->motor_change ?? 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Displacement
-                                                </span>
-                                                {{ $advertisement->motor_displacement ? $advertisement->motor_displacement . ' cc' : 'N/A' }}
-                                            </li>
-                                        </ul>
+                                                @if($advertisement->vehicleBody?->name)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body Type
+                                                    </span>
+                                                    {{ $advertisement->vehicleBody->name }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->vehicleColor?->name)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
+                                                    </span>
+                                                    {{ $advertisement->vehicleColor->name }}
+                                                    @if ($advertisement->is_metallic_paint)
+                                                        <small>(Metallic)</small>
+                                                    @endif
+                                                </li>
+                                                @endif
+                                                @if($advertisement->registration_month || $advertisement->registration_year)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">First Registration
+                                                    </span>
+                                                    @if($advertisement->registration_month && $advertisement->registration_year)
+                                                        {{ $advertisement->registration_month }}/{{ $advertisement->registration_year }}
+                                                    @elseif($advertisement->registration_year)
+                                                        {{ $advertisement->registration_year }}
+                                                    @endif
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-
-                                {{-- Right Column --}}
-                                <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                                    <div class="inner-column">
-                                        <ul class="list">
-                                            <li>
-                                                <span>
-                                                    <img
-                                                        src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">Condition
-                                                </span>
-                                                {{ $advertisement->vehicle_category ?? 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">Mileage
-                                                </span>
-                                                {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' km' : 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">
-                                                    First Registration
-                                                </span>
-                                                {{ $advertisement->registration_year ?? 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Last Service
-                                                </span>
-                                                {{ $advertisement->last_service_year ?? 'N/A' }}
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <img
-                                                        src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">Cylinders
-                                                </span>
-                                                {{ $advertisement->motor_cylinders ?? 'N/A' }}
-                                            </li>
-                                        </ul>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->vehicle_category)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">Condition
+                                                    </span>
+                                                    {{ $advertisement->vehicle_category }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->mileage)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">Mileage
+                                                    </span>
+                                                    {{ number_format($advertisement->mileage) }} km
+                                                </li>
+                                                @endif
+                                                @if($advertisement->previous_owners)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Previous Owners
+                                                    </span>
+                                                    {{ $advertisement->previous_owners }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->next_review_month || $advertisement->next_review_year)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Next Inspection
+                                                    </span>
+                                                    @if($advertisement->next_review_month && $advertisement->next_review_year)
+                                                        {{ $advertisement->next_review_month }}/{{ $advertisement->next_review_year }}
+                                                    @elseif($advertisement->next_review_year)
+                                                        {{ $advertisement->next_review_year }}
+                                                    @endif
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- Engine Specifications Section --}}
+                            @if($advertisement->fuelType?->name || $advertisement->motor_change || $advertisement->motor_displacement || $advertisement->motor_cylinders || $advertisement->motor_power_kw || $advertisement->motor_power_cv || $advertisement->motor_marches || $advertisement->drive_type || $advertisement->motor_empty_weight)
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Engine Specifications</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->fuelType?->name)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
+                                                    </span>
+                                                    {{ $advertisement->fuelType->name }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->motor_change)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Transmission
+                                                    </span>
+                                                    {{ $advertisement->motor_change }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->motor_displacement)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Displacement
+                                                    </span>
+                                                    {{ $advertisement->motor_displacement }} cc
+                                                </li>
+                                                @endif
+                                                @if($advertisement->motor_cylinders)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">Cylinders
+                                                    </span>
+                                                    {{ $advertisement->motor_cylinders }}
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->motor_power_kw || $advertisement->motor_power_cv)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Power Output
+                                                    </span>
+                                                    @if($advertisement->motor_power_kw)
+                                                        {{ $advertisement->motor_power_kw }} kW
+                                                        @if($advertisement->motor_power_cv)
+                                                            ({{ $advertisement->motor_power_cv }} HP)
+                                                        @endif
+                                                    @elseif($advertisement->motor_power_cv)
+                                                        {{ $advertisement->motor_power_cv }} HP
+                                                    @endif
+                                                </li>
+                                                @endif
+                                                @if($advertisement->motor_marches)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Number of Gears
+                                                    </span>
+                                                    {{ $advertisement->motor_marches }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->drive_type)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Drive Type
+                                                    </span>
+                                                    {{ $advertisement->drive_type }}
+                                                </li>
+                                                @endif
+                                                @if($advertisement->motor_empty_weight)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Empty Weight
+                                                    </span>
+                                                    {{ $advertisement->motor_empty_weight }} kg
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            {{-- Performance & Efficiency Section --}}
+                            @if($advertisement->top_speed_kmh || $advertisement->torque_nm || $advertisement->seat_height_mm || $advertisement->combined_fuel_consumption || $advertisement->co2_emissions || $advertisement->tank_capacity_liters)
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Performance & Efficiency</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->top_speed_kmh)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Top Speed
+                                                    </span>
+                                                    {{ $advertisement->top_speed_kmh }} km/h
+                                                </li>
+                                                @endif
+                                                @if($advertisement->torque_nm)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Torque
+                                                    </span>
+                                                    {{ $advertisement->torque_nm }} Nm
+                                                </li>
+                                                @endif
+                                                @if($advertisement->seat_height_mm)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Seat Height
+                                                    </span>
+                                                    {{ $advertisement->seat_height_mm }} mm
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->combined_fuel_consumption)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Consumption
+                                                    </span>
+                                                    {{ $advertisement->combined_fuel_consumption }} l/100km
+                                                </li>
+                                                @endif
+                                                @if($advertisement->co2_emissions)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">CO₂ Emissions
+                                                    </span>
+                                                    {{ $advertisement->co2_emissions }} g/km
+                                                </li>
+                                                @endif
+                                                @if($advertisement->tank_capacity_liters)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Tank Capacity
+                                                    </span>
+                                                    {{ $advertisement->tank_capacity_liters }} L
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            {{-- Pricing & Sales Section --}}
+                            @if($advertisement->final_price || $advertisement->price_negotiable || $advertisement->financing_available || $advertisement->trade_in_possible)
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Pricing & Sales</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->final_price)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price
+                                                    </span>
+                                                    €{{ number_format($advertisement->final_price, 0, ',', '.') }}
+                                                    @if($advertisement->tax_deductible)
+                                                        <small>(VAT deductible)</small>
+                                                    @endif
+                                                </li>
+                                                @endif
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price Negotiable
+                                                    </span>
+                                                    {{ $advertisement->price_negotiable ? 'Yes' : 'No' }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Financing Available
+                                                    </span>
+                                                    {{ $advertisement->financing_available ? 'Yes' : 'No' }}
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Trade-in Possible
+                                                    </span>
+                                                    {{ $advertisement->trade_in_possible ? 'Yes' : 'No' }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            {{-- Condition & History Section --}}
+                            @if($advertisement->last_service_month || $advertisement->last_service_year || $advertisement->service_history_available || $advertisement->warranty_available || $advertisement->available_immediately)
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Condition & History</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @if($advertisement->last_service_month || $advertisement->last_service_year)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Last Service
+                                                    </span>
+                                                    @if($advertisement->last_service_month && $advertisement->last_service_year)
+                                                        {{ $advertisement->last_service_month }}/{{ $advertisement->last_service_year }}
+                                                    @elseif($advertisement->last_service_year)
+                                                        {{ $advertisement->last_service_year }}
+                                                    @endif
+                                                </li>
+                                                @endif
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Service History Available
+                                                    </span>
+                                                    {{ $advertisement->service_history_available ? 'Yes' : 'No' }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Warranty Available
+                                                    </span>
+                                                    {{ $advertisement->warranty_available ? 'Yes' : 'No' }}
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Available Immediately
+                                                    </span>
+                                                    {{ $advertisement->available_immediately ? 'Yes' : 'No' }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
 
                         </div>
                         <!-- description-sec -->
