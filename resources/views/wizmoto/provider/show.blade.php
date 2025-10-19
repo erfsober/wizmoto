@@ -426,7 +426,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="btn-box">
-                                                    <span>${{ $advertisement->final_price }}</span>
+                                                    <span>€{{ $advertisement->final_price }}</span>
 
                                                     <a href="{{ route('advertisements.show', $advertisement->id) }}"
                                                         class="details">View Details

@@ -31857,9 +31857,10 @@ body.modal-open .page-overlay {
 .overview-section .list li {
     padding: 0.75rem 0;
     border-bottom: 1px solid #f0f0f0;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    justify-content: space-between;
+    gap: 1rem;
 }
 
 .overview-section .list li:last-child {
@@ -31888,27 +31889,162 @@ body.modal-open .page-overlay {
     margin-left: 0.25rem;
 }
 
-/* Responsive adjustments for overview sections */
+/* Mobile Responsive - Large Fonts & Good Alignment */
 @media (max-width: 768px) {
     .overview-section {
+        margin-bottom: 2rem;
+        padding: 0;
+        background: transparent;
+    }
+    
+    .overview-section .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--theme-color-dark);
+        margin-bottom: 1.5rem;
+        padding: 0.75rem 0;
+        border-bottom: 2px solid var(--theme-color1);
+        text-align: left;
+    }
+    
+    .overview-section .row {
+        margin: 0;
+    }
+    
+    .overview-section .content-column {
+        padding: 0;
         margin-bottom: 1rem;
+    }
+    
+    .overview-section .list {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .overview-section .list li {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 1.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        transition: background-color 0.2s ease;
+        min-height: 70px;
+    }
+    
+    .overview-section .list li:last-child {
+        border-bottom: none;
+    }
+    
+    .overview-section .list li:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .overview-section .list li span {
+        min-width: 160px;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #555;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    
+    .overview-section .list li span img {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.75rem;
+        opacity: 0.8;
+    }
+    
+    .overview-section .list li:not(:has(small)) {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--theme-color-dark);
+        text-align: left;
+        flex: 1;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.4;
+    }
+    
+    .overview-section .list li small {
+        font-size: 0.9rem;
+        color: #888;
+        margin-left: 0.5rem;
+        display: inline;
+    }
+}
+
+/* Small mobile devices - Fixed Alignment */
+@media (max-width: 600px) {
+    .overview-section {
+        margin-bottom: 1.5rem;
     }
     
     .overview-section .section-title {
         font-size: 1.2rem;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
     }
     
     .overview-section .list li {
+        padding: 1rem 1rem;
+        min-height: 60px;
         flex-direction: column;
         align-items: flex-start;
-        padding: 0.5rem 0;
+        justify-content: center;
     }
     
     .overview-section .list li span {
+        font-size: 0.9rem;
         min-width: auto;
-        margin-bottom: 0.25rem;
-        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+    
+    .overview-section .list li span img {
+        width: 16px;
+        height: 16px;
+        margin-right: 0.5rem;
+    }
+    
+    .overview-section .list li:not(:has(small)) {
+        font-size: 1rem;
+        text-align: left;
+        width: 100%;
+        margin-top: 0.25rem;
+    }
+    
+    .overview-section .list li small {
+        margin-left: 0;
+        margin-top: 0.25rem;
+        display: block;
+    }
+}
+
+/* Very small mobile devices - Force vertical layout */
+@media (max-width: 500px) {
+    .overview-section .list li {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+        text-align: left !important;
+    }
+    
+    .overview-section .list li span {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+        min-width: auto !important;
+    }
+    
+    .overview-section .list li:not(:has(small)) {
+        text-align: left !important;
+        width: 100% !important;
+        margin-top: 0.25rem !important;
     }
 }
 

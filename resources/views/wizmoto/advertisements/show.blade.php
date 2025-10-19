@@ -132,7 +132,7 @@
                 <h2>{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</h2>
                 <div class="text">{{ $advertisement->version_model }}</div>
                 <div class="content-box">
-                    <h3 class="title">${{ $advertisement->final_price }}</h3>
+                    <h3 class="title">€{{ $advertisement->final_price }}</h3>
                 </div>
             </div>
             <div class="gallery-sec">
@@ -217,10 +217,7 @@
                                                     <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
                                                     </span>
-                                                    {{ $advertisement->vehicleColor->name }}
-                                                    @if ($advertisement->is_metallic_paint)
-                                                        <small>(Metallic)</small>
-                                                    @endif
+                                                    {{ $advertisement->vehicleColor->name }}@if ($advertisement->is_metallic_paint) <small>(Metallic)</small>@endif
                                                 </li>
                                                 @endif
                                                 @if($advertisement->registration_month || $advertisement->registration_year)
@@ -547,10 +544,12 @@
 
                         </div>
                         <!-- description-sec -->
+                        @if($advertisement->description && trim($advertisement->description) !== '')
                         <div class="description-sec">
                             <h4 class="title">Description</h4>
                             <div class="text two">{{ $advertisement->description }}</div>
                         </div>
+                        @endif
 
                         <div class="location-box">
                             <h4 class="title">Location</h4>
@@ -764,7 +763,7 @@
                                             </li>
                                         </ul>
                                         <div class="btn-box">
-                                            <span>${{$relatedAd->final_price}}</span>
+                                            <span>€{{$relatedAd->final_price}}</span>
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}" class="details">View Details
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                     <g clip-path="url(#clip0_601_4346)">

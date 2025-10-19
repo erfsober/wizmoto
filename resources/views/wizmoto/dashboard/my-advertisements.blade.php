@@ -60,7 +60,7 @@
                                             </h3>
                                             <p>{{$advertisement->version_model}}</p>
                                             <div class="price">
-                                                <span>${{$advertisement->final_price}}</span>
+                                                <span>€{{$advertisement->final_price}}</span>
                                             </div>
                                         </div>
                                     </div>
