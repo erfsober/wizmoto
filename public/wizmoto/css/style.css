@@ -5569,11 +5569,8 @@ Sticky Header
   transition: all 0.3s ease;
 }
 
-/* Simple approach - only hide support bot elements on dashboard pages */
-body.dashboard-page #support-bot,
-body.dashboard-page #chat-widget {
-  display: none !important;
-}
+/* Support chat should be available on dashboard pages */
+/* Removed: body.dashboard-page #support-bot, body.dashboard-page #chat-widget */
 
 .support-bot-toggle {
   width: 60px;

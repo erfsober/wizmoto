@@ -9,7 +9,7 @@
 </div>
 
 <!-- Support Bot Widget -->
-<div id="support-bot" class="support-bot @if(request()->is('dashboard*')) dashboard-hidden @endif">
+<div id="support-bot" class="support-bot">
     <div class="support-bot-toggle" id="support-bot-toggle">
         <i class="fas fa-comments"></i>
         <span class="support-bot-badge" id="support-bot-badge">1</span>
@@ -38,7 +38,7 @@
 </div>
 
 <!-- Floating Chat Widget -->
-<div id="chat-widget" class="support-chat-widget @if(request()->is('dashboard*')) dashboard-hidden @endif">
+<div id="chat-widget" class="support-chat-widget">
     <div class="support-chat-widget-content">
         <div class="support-chat-widget-header">
             <div class="chat-header-info">
