@@ -89,6 +89,9 @@
     </div>
 </div>
 
+<!-- AI Assistant Widget -->
+@include('wizmoto.widgets.ai-assistant')
+
 @stack('before-scripts')
 @include('wizmoto.partials.scripts')
 @stack('scripts')

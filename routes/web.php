@@ -7,6 +7,7 @@ use App\Http\Controllers\Wizmoto\DashboardController;
 use App\Http\Controllers\Wizmoto\HomeController;
 use App\Http\Controllers\Wizmoto\ReviewController;
 use App\Http\Controllers\SupportChatController;
+use App\Http\Controllers\AI\AIAssistantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
@@ -17,6 +18,9 @@ Route::get('/load-more-equipment' , [ HomeController::class , 'loadMoreEquipment
 Route::get('/get-models-by-brand' , [ HomeController::class , 'getModelsByBrand' , ])->name('home.get-models-by-brand');
 Route::get('/get-advertisement-count' , [ HomeController::class , 'getAdvertisementCount' , ])->name('home.get-advertisement-count');
 Route::get('/live-search' , [ HomeController::class , 'liveSearch' , ])->name('home.live-search');
+
+// AI Assistant Routes
+Route::post('/api/ai/assistant', [AIAssistantController::class, 'chat'])->name('ai.assistant.chat');
 
 Route::get('/blogs' , [ BlogController::class , 'index' , ])->name('blogs.index');
 Route::get('/blogs/{slug}' , [ BlogController::class , 'show' , ])->name('blogs.show');
