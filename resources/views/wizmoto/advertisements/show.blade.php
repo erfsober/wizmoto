@@ -133,6 +133,9 @@
                 <div class="text">{{ $advertisement->version_model }}</div>
                 <div class="content-box">
                     <h3 class="title">€{{ $advertisement->final_price }}</h3>
+                    <div class="">
+                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
+                    </div>
                 </div>
             </div>
             <div class="gallery-sec">

@@ -289,7 +289,7 @@
                                         </li>
                                     </ul>
                                     <div class="btn-box">
-                                        <span>€{{$newAdvertisement->final_price}}</span>
+                                        <span>€{{$newAdvertisement->final_price}} @include('wizmoto.partials.price-evaluation-badge', ['value' => $newAdvertisement->price_evaluation])</span>
                                         <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">View Details
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_4346)">

@@ -60,7 +60,7 @@
                                             </h3>
                                             <p>{{$advertisement->version_model}}</p>
                                             <div class="price">
-                                                <span>€{{$advertisement->final_price}}</span>
+                                                <span>€{{$advertisement->final_price}} @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])</span>
                                             </div>
                                         </div>
                                     </div>
@@ -69,7 +69,7 @@
                                     <span>{{$advertisement->brand->name}}</span>
                                 </td>
                                 <td>
-                                    <span>{{$advertisement->price_evaluation}}</span>
+                                    <span>@include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])</span>
                                 </td>
                                 <td>
                                     <span>{{$advertisement->register_year}}</span>

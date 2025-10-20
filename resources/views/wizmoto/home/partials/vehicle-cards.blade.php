@@ -17,6 +17,7 @@
                 <div class="content-box">
                     <h4 class="title">
                         <a href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</a>
+                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
                     </h4>
                     <div class="text">{{ $advertisement->version_model }}</div>
                     <div class="inspection-sec">

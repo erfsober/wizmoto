@@ -202,6 +202,14 @@ class HomeController extends Controller
             // Legacy support
             ->when($request->filled('min_price'), fn($q) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))'), '>=', (float)$request->min_price))
             ->when($request->filled('max_price'), fn($q) => $q->where(DB::raw('CAST(final_price AS DECIMAL(12,2))'), '<=', (float)$request->max_price))
+
+            // PRICE EVALUATION (AutoScout-style mapping)
+            ->when($request->filled('price_eval'), function ($q) use ($request) {
+                $values = (array)$request->price_eval;
+                // Map UI labels back to stored values
+                // UI sends internal values directly: Super Price, Great Price, Good Price, ND
+                $q->whereIn('price_evaluation', $values);
+            })
             
             // FUEL TYPE
             ->when($request->filled('fuel_type_id'), fn($q) => $q->whereIn('fuel_type_id', (array)$request->fuel_type_id))
@@ -673,6 +681,12 @@ class HomeController extends Controller
             
             // FUEL TYPE
             ->when($request->filled('fuel_type_id'), fn($q) => $q->whereIn('fuel_type_id', (array)$request->fuel_type_id))
+
+            // PRICE EVALUATION (count endpoint)
+            ->when($request->filled('price_eval'), function ($q) use ($request) {
+                $values = (array)$request->price_eval;
+                $q->whereIn('price_evaluation', $values);
+            })
             
             // COLORS
             ->when($request->filled('color_ids'), fn($q) => $q->whereIn('color_id', (array)$request->color_ids))
