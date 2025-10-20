@@ -56,12 +56,6 @@
                     </svg>
                 </button>
             </div>
-            <div class="ai-assistant-suggestions">
-                <button class="ai-suggestion" data-question="What vehicles are available?">What vehicles are available?</button>
-                <button class="ai-suggestion" data-question="How do I contact a seller?">How do I contact a seller?</button>
-                <button class="ai-suggestion" data-question="What is price evaluation?">What is price evaluation?</button>
-                <button class="ai-suggestion" data-question="How to sell my vehicle?">How to sell my vehicle?</button>
-            </div>
         </div>
     </div>
 </div>
@@ -70,9 +64,9 @@
 /* AI Assistant Widget Styles */
 .ai-assistant-widget {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
+    bottom: 90px;
+    right: 20px;
+    z-index: 9998;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -127,7 +121,7 @@
 .ai-assistant-chat {
     position: absolute;
     bottom: 80px;
-    left: 0;
+    right: 0;
     width: 350px;
     height: 500px;
     background: white;
@@ -320,27 +314,6 @@
     transform: scale(1.05);
 }
 
-.ai-assistant-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.ai-suggestion {
-    padding: 6px 12px;
-    background: white;
-    border: 1px solid #e9ecef;
-    border-radius: 16px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.ai-suggestion:hover {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
-}
 
 .ai-typing {
     display: flex;
@@ -377,15 +350,14 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .ai-assistant-widget {
-        bottom: 15px;
-        left: 15px;
+        bottom: 75px;
+        right: 15px;
     }
     
     .ai-assistant-chat {
         width: calc(100vw - 30px);
         height: calc(100vh - 100px);
-        bottom: 85px;
-        left: 0;
+        bottom: 145px;
         right: 0;
         margin: 0 auto;
     }
@@ -398,6 +370,52 @@
 </style>
 
 <script>
+    // Function to extract page-specific data for AI context
+    function getPageSpecificData() {
+        const pageData = {
+            vehicle_info: {},
+            filters: {},
+            user_location: {},
+            search_results: {}
+        };
+
+        // Extract vehicle information if on advertisement page
+        if (window.location.pathname.includes('/advertisements/')) {
+            const vehicleInfo = {
+                title: document.querySelector('h1')?.textContent || '',
+                price: document.querySelector('.price')?.textContent || '',
+                year: document.querySelector('[data-year]')?.getAttribute('data-year') || '',
+                brand: document.querySelector('[data-brand]')?.getAttribute('data-brand') || '',
+                model: document.querySelector('[data-model]')?.getAttribute('data-model') || '',
+                mileage: document.querySelector('[data-mileage]')?.getAttribute('data-mileage') || '',
+                fuel_type: document.querySelector('[data-fuel]')?.getAttribute('data-fuel') || '',
+                location: document.querySelector('[data-location]')?.getAttribute('data-location') || ''
+            };
+            pageData.vehicle_info = vehicleInfo;
+        }
+
+        // Extract filter information if on inventory page
+        if (window.location.pathname.includes('/inventory')) {
+            const filters = {};
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(input => {
+                const name = input.name;
+                const value = input.value;
+                if (!filters[name]) filters[name] = [];
+                filters[name].push(value);
+            });
+            pageData.filters = filters;
+        }
+
+        // Extract search results count
+        const resultsCount = document.querySelector('.results-count')?.textContent || 
+                           document.querySelector('[data-results-count]')?.getAttribute('data-results-count') || '';
+        if (resultsCount) {
+            pageData.search_results.count = resultsCount;
+        }
+
+        return pageData;
+    }
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('AI Assistant Widget loaded!');
     
@@ -407,7 +425,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('ai-assistant-input');
     const send = document.getElementById('ai-assistant-send');
     const messages = document.getElementById('ai-assistant-messages');
-    const suggestions = document.querySelectorAll('.ai-suggestion');
 
     console.log('AI Assistant elements found:', {
         toggle: !!toggle,
@@ -415,8 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
         close: !!close,
         input: !!input,
         send: !!send,
-        messages: !!messages,
-        suggestions: suggestions.length
+        messages: !!messages
     });
 
     let isOpen = false;
@@ -462,14 +478,23 @@ document.addEventListener('DOMContentLoaded', function() {
             send.disabled = false;
         }, 10000);
 
-        // Send to AI
-        fetch('/api/ai/assistant', {
+        // Send to Enhanced AI
+        fetch('/api/ai/enhanced/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ 
+                message: message,
+                context: {
+                    page: window.location.pathname,
+                    page_title: document.title,
+                    current_url: window.location.href,
+                    user_preferences: {},
+                    page_data: getPageSpecificData()
+                }
+            })
         })
         .then(response => {
             console.log('Response status:', response.status);
@@ -510,14 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Suggestion clicks
-    suggestions.forEach(suggestion => {
-        suggestion.addEventListener('click', function() {
-            const question = this.getAttribute('data-question');
-            input.value = question;
-            sendMessage();
-        });
-    });
+
 
     // Add message to chat
     function addMessage(text, type) {

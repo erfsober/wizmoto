@@ -8,6 +8,7 @@ use App\Http\Controllers\Wizmoto\HomeController;
 use App\Http\Controllers\Wizmoto\ReviewController;
 use App\Http\Controllers\SupportChatController;
 use App\Http\Controllers\AI\AIAssistantController;
+use App\Http\Controllers\AI\EnhancedAIAssistantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
@@ -21,6 +22,11 @@ Route::get('/live-search' , [ HomeController::class , 'liveSearch' , ])->name('h
 
 // AI Assistant Routes
 Route::post('/api/ai/assistant', [AIAssistantController::class, 'chat'])->name('ai.assistant.chat');
+
+// Enhanced AI Assistant Routes
+Route::post('/api/ai/enhanced/chat', [EnhancedAIAssistantController::class, 'chat'])->name('ai.enhanced.chat');
+Route::post('/api/ai/recommendations', [EnhancedAIAssistantController::class, 'getRecommendations'])->name('ai.recommendations');
+Route::post('/api/ai/price-analysis', [EnhancedAIAssistantController::class, 'getPriceAnalysis'])->name('ai.price-analysis');
 
 Route::get('/blogs' , [ BlogController::class , 'index' , ])->name('blogs.index');
 Route::get('/blogs/{slug}' , [ BlogController::class , 'show' , ])->name('blogs.show');
