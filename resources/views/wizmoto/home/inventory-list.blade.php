@@ -599,6 +599,51 @@
                                     </div>
                                 </div>
 
+                                <!-- Price Evaluation (AutoScout-style) -->
+                                <div class="filter-section">
+                                    <div class="filter-section-header">
+                                        <h6 class="title">Price evaluation</h6>
+                                    </div>
+                                    <div class="filter-section-content">
+                                        <div class="checkbox-container">
+                                            <div class="contain">
+                                                <input type="checkbox" name="price_eval[]" value="Super Price" id="price_eval_super" data-label="Top offer" aria-label="Top offer">
+                                                <span class="checkmark"></span>
+                                                <label for="price_eval_super" title="Top offer">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#0E5C2F;background:#D5F2E3;">Top offer</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <div class="contain">
+                                                <input type="checkbox" name="price_eval[]" value="Great Price" id="price_eval_great" data-label="Good price" aria-label="Good price">
+                                                <span class="checkmark"></span>
+                                                <label for="price_eval_great" title="Good price">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#1F7A3E;background:#E3F7EB;">Good price</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <div class="contain">
+                                                <input type="checkbox" name="price_eval[]" value="Good Price" id="price_eval_good" data-label="Fair price" aria-label="Fair price">
+                                                <span class="checkmark"></span>
+                                                <label for="price_eval_good" title="Fair price">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#8A6D00;background:#FFF3CD;">Fair price</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <div class="contain">
+                                                <input type="checkbox" name="price_eval[]" value="ND" id="price_eval_nd" data-label="No rating" aria-label="No rating">
+                                                <span class="checkmark"></span>
+                                                <label for="price_eval_nd" title="No rating">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#6C757D;background:#E9ECEF;">No rating</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Vehicle Condition Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
@@ -1052,7 +1097,7 @@
                                 <p>Loading vehicles...</p>
                                 </div>
                             
-                            @include('wizmoto.home.partials.vehicle-cards')
+                            @include('wizmoto.home.partials.vehicle-cards', ['advertisements' => $advertisements])
                     </div>
                 </div>
             </div>
@@ -1315,6 +1360,11 @@
                 
                 // Seller Types
                 $('input[name="seller_type[]"]:checked').each(function() {
+                    count++;
+                });
+                
+                // Price Evaluation
+                $('input[name="price_eval[]"]:checked').each(function() {
                     count++;
                 });
 
@@ -2715,6 +2765,15 @@
                         filters.seller_type = $('input[name="seller_type"]').val();
                     }
 
+                    // Price Evaluation
+                    const priceEval = [];
+                    $('input[name="price_eval[]"]:checked').each(function() {
+                        priceEval.push($(this).val());
+                    });
+                    if (priceEval.length > 0) {
+                        filters.price_eval = priceEval;
+                    }
+
                     // Vehicle Condition
                     if ($('input[name="service_history_available"]:checked').length > 0) {
                         filters.service_history_available = true;
@@ -3553,6 +3612,35 @@
                         };
                     });
                     
+                    // Price Evaluation - individual items
+                    $('input[name="price_eval[]"]:checked').each(function() {
+                        const priceEvalValue = $(this).val();
+                        let priceEvalLabel = '';
+                        switch(priceEvalValue) {
+                            case 'Super Price':
+                                priceEvalLabel = 'Top offer';
+                                break;
+                            case 'Great Price':
+                                priceEvalLabel = 'Good price';
+                                break;
+                            case 'Good Price':
+                                priceEvalLabel = 'Fair price';
+                                break;
+                            case 'ND':
+                                priceEvalLabel = 'No rating';
+                                break;
+                            default:
+                                priceEvalLabel = priceEvalValue;
+                        }
+                        filters[`price_eval_${priceEvalValue}`] = {
+                            name: 'Price evaluation',
+                            value: priceEvalLabel,
+                            type: 'single',
+                            inputName: 'price_eval[]',
+                            inputValue: priceEvalValue
+                        };
+                    });
+                    
                     // Vehicle Condition
                     const serviceHistory = $('input[name="service_history_available"]:checked').length > 0;
                     const warranty = $('input[name="warranty_available"]:checked').length > 0;
@@ -3803,6 +3891,13 @@
                     if (filterKey.startsWith('seller_type_')) {
                         const sellerTypeValue = filterKey.replace('seller_type_', '');
                         $(`input[name="seller_type[]"][value="${sellerTypeValue}"]`).prop('checked', false).trigger('change');
+                        return;
+                    }
+                    
+                    // Handle individual price evaluation removal (price_eval_VALUE format)
+                    if (filterKey.startsWith('price_eval_')) {
+                        const priceEvalValue = filterKey.replace('price_eval_', '');
+                        $(`input[name="price_eval[]"][value="${priceEvalValue}"]`).prop('checked', false).trigger('change');
                         return;
                     }
                     
