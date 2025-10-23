@@ -75,7 +75,7 @@
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two">Sell</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two sell-btn-prominent">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">

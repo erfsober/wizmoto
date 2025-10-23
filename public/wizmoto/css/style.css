@@ -1999,6 +1999,12 @@ Main Header
   background-color: var(--theme-color1);
 }
 
+/* Prominent Sell Button - Reusable Class */
+.sell-btn-prominent {
+  font-weight: 900;
+}
+
+
 .header-style-v1 .header-inner {
   padding: 28px 0 0;
 }

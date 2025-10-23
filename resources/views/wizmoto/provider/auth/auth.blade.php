@@ -50,7 +50,7 @@
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim">Sell</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">Sell</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
