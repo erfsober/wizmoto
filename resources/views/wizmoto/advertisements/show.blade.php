@@ -545,6 +545,45 @@
                             </div>
                             @endif
 
+                            {{-- Equipment Section --}}
+                            @if($advertisement->equipments && $advertisement->equipments->count() > 0)
+                            <div class="overview-section mb-4">
+                                <h5 class="section-title">Equipment</h5>
+                                <div class="row">
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @foreach($advertisement->equipments as $index => $equipment)
+                                                    @if($index % 2 == 0)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->name }}
+                                                    </span>
+                                                </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                                        <div class="inner-column">
+                                            <ul class="list">
+                                                @foreach($advertisement->equipments as $index => $equipment)
+                                                    @if($index % 2 == 1)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->name }}
+                                                    </span>
+                                                </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                         </div>
                         <!-- description-sec -->
                         @if($advertisement->description && trim($advertisement->description) !== '')

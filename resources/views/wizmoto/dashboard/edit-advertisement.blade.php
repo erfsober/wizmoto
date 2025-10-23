@@ -25,7 +25,7 @@
                             <div class="form-column col-lg-12">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Sell</label>
+                                    <label>Sell <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="advertisement-type-dropdown">
                                         <div class="select">
                                             <span
@@ -46,7 +46,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Brand</label>
+                                    <label>Brand <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                         <div class="select">
                                             <span
@@ -66,7 +66,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Model</label>
+                                    <label>Model <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                         <div class="select">
                                             <span
@@ -96,7 +96,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>BodyWork</label>
+                                    <label>BodyWork <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
                                             <span
@@ -142,7 +142,7 @@
                             <h6>State</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Vehicle Category</label>
+                                    <label>Vehicle Category <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle-category-dropdown">
                                         <div class="select">
                                             <span
@@ -160,7 +160,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Mileage(Km)</label>
+                                    <label>Mileage(Km) <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="mileage" placeholder=""
                                             value="{{ old('mileage', $advertisement->mileage ?? '') }}">
@@ -170,7 +170,7 @@
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Month</label>
+                                        <label>Registration Month <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-month-dropdown">
                                             <div class="select">
                                                 <span
@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Year</label>
+                                        <label>Registration Year <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
                                                 <span
@@ -358,7 +358,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Kw</label>
+                                    <label>Power Kw <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_kw" type="number" maxlength="4" placeholder=""
                                             value="{{ old('motor_power_kw', $advertisement->motor_power_kw) }}">
@@ -368,7 +368,7 @@
 
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Cv</label>
+                                    <label>Power Cv <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_cv" type="number" maxlength="4" placeholder=""
                                             value="{{ old('motor_power_cv', $advertisement->motor_power_cv) }}">
@@ -427,7 +427,7 @@
                             <h6>Environment</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Fuel type</label>
+                                    <label>Fuel type <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="fuel-type-dropdown">
                                         <div class="select">
                                             <span
@@ -551,7 +551,7 @@
                             <h6>Final Price</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Final Price</label>
+                                    <label>Final Price <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="final_price"
                                             value="{{ old('final_price', $advertisement->final_price) }}">
@@ -683,7 +683,7 @@
                             <h6>Contact</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>ZIP Code</label>
+                                    <label>ZIP Code <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="zip_code"
                                             value="{{ old('zip_code', $advertisement->zip_code) }}">
@@ -692,7 +692,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>City</label>
+                                    <label>City <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="city"
                                             value="{{ old('city', $advertisement->city) }}">
@@ -1011,6 +1011,8 @@
             var currentBrandName = $('#brand-dropdown .select span').text();
             var currentFuelTypeId = $('input[name="fuel_type_id"]').val();
             var currentFuelTypeName = $('#fuel-type-dropdown .select span').text();
+            var currentBodyId = $('input[name="vehicle_body_id"]').val();
+            var currentBodyName = $('#vehicle_body-dropdown .select span').text();
 
             $.ajax({
                 url: url,
@@ -1064,6 +1066,15 @@
                             $bodyDropdown.append('<li data-id="' + body.id + '">' + body.name +
                                 '</li>');
                         });
+                        
+                        // Restore selected vehicle body if it exists in the loaded data
+                        if (currentBodyId && data.vehicleBodies.find(b => b.id == currentBodyId)) {
+                            $('input[name="vehicle_body_id"]').val(currentBodyId);
+                            $('#vehicle_body-dropdown .select span').text(currentBodyName);
+                        } else {
+                            $('#vehicle_body-dropdown .select span').text('Select BodyWork');
+                            $('input[name="vehicle_body_id"]').val('');
+                        }
                     }
 
                     // ------------------------

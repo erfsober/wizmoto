@@ -45,6 +45,9 @@ class StoreAdvertisementRequest extends FormRequest {
     }
 
     public function rules (): array {
+        // Check if this is an edit operation (has advertisement_id)
+        $isEdit = $this->has('advertisement_id');
+        
         return [
             // Basic required fields first (in form order)
             'provider_id' => 'required|exists:providers,id' ,
@@ -112,9 +115,9 @@ class StoreAdvertisementRequest extends FormRequest {
             'prefix' => 'nullable|string|max:5' ,
             'telephone' => 'nullable|string|max:20' ,
             
-            // Image validation - at least one image required
-            'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:5120', // 5MB max per image
+            // Image validation - required for new ads, optional for edits
+            'images' => $isEdit ? 'nullable|array' : 'required|array|min:1',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // 5MB max per image
         ];
     }
 }

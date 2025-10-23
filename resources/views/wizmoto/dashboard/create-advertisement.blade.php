@@ -21,7 +21,7 @@
                             <div class="form-column col-lg-12">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Sell</label>
+                                    <label>Sell <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="advertisement-type-dropdown">
                                         <div class="select">
                                             <span>Select What you want to sell</span>
@@ -39,7 +39,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Brand</label>
+                                    <label>Brand <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                         <div class="select">
                                             <span>Select Brand</span>
@@ -57,7 +57,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Model</label>
+                                    <label>Model <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                         <div class="select">
                                             <span>Select</span>
@@ -84,7 +84,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>BodyWork</label>
+                                    <label>BodyWork <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
                                             <span>Select BodyWork</span>
@@ -128,7 +128,7 @@
                             <h6>State</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Vehicle Category</label>
+                                    <label>Vehicle Category <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle-category-dropdown">
                                         <div class="select">
                                             <span>Select Vehicle Category</span>
@@ -144,7 +144,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Mileage(Km)</label>
+                                    <label>Mileage(Km) <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="mileage" placeholder="">
                                     </div>
@@ -153,7 +153,7 @@
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Month</label>
+                                        <label>Registration Month <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-month-dropdown">
                                             <div class="select">
                                                 <span>Selection</span>
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Year</label>
+                                        <label>Registration Year <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
                                                 <span>Selection</span>
@@ -312,7 +312,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Kw</label>
+                                    <label>Power Kw <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_kw" type="number"  placeholder="">
                                     </div>
@@ -321,7 +321,7 @@
 
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Cv</label>
+                                    <label>Power Cv <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_cv" type="number"  placeholder="">
                                     </div>
@@ -373,7 +373,7 @@
                             <h6>Environment</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Fuel type</label>
+                                    <label>Fuel type <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="fuel-type-dropdown">
                                         <div class="select">
                                             <span>Select Fuel type</span>
@@ -472,7 +472,7 @@
                             <h6>Final Price</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Final Price</label>
+                                    <label>Final Price <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="final_price">
                                     </div>
@@ -601,7 +601,7 @@
                             <h6>Contact</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>ZIP Code</label>
+                                    <label>ZIP Code <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="zip_code">
                                     </div>
@@ -609,7 +609,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>City</label>
+                                    <label>City <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="city">
                                     </div>
