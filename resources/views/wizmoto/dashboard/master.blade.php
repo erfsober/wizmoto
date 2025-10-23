@@ -9,8 +9,8 @@
                 <div class="c-box">
                     <div class="logo-inner">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="images/logo.svg" alt="" title="Boxcar">
+                            <a href="{{ route("home") }}">
+                                <img src="{{asset("wizmoto/images/logo.png")}}" alt="" title="Wizmoto">
                             </a>
                         </div>
                         <div class="btn-box">
