@@ -4332,6 +4332,103 @@
             padding: 50px 20px;
         }
         
+        /* Clean Vehicle Cards Layout */
+        #vehicle-cards-container .service-block-thirteen {
+            margin-bottom: 25px;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .title {
+            text-align: left;
+            line-height: 1.3;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .text {
+            text-align: left;
+            line-height: 1.4;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .inspection-sec {
+            justify-content: flex-start;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent {
+            justify-content: flex-start;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two {
+            text-align: right;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .title {
+            text-align: right;
+        }
+        
+        /* Fix View Details Button */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+        
+        /* Fix Price Justification */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        /* Fair Price Badge Over Image */
+        #vehicle-cards-container .service-block-thirteen .inner-box .image-box {
+            position: relative;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+        }
+        
+        /* Restore Original Price and Button Position */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .title {
+            text-align: left;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two {
+            text-align: right;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .title {
+            text-align: right;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+        
+        /* Mobile Responsive Fixes */
+        @media (max-width: 991px) {
+            #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
+                top: 8px;
+                left: 8px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
+                min-width: 100px;
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+        
         .spinner-border {
             display: inline-block;
             width: 2rem;

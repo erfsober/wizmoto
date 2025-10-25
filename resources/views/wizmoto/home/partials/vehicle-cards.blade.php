@@ -5,6 +5,9 @@
     <div class="service-block-thirteen">
         <div class="inner-box">
             <div class="image-box">
+                <div class="fair-price-overlay">
+                    @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
+                </div>
                 <figure class="image">
                     <a href="{{ $image?->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
                         <img src="{{ $image?->getUrl('vehicle-card') }}" 
@@ -17,7 +20,6 @@
                 <div class="content-box">
                     <h4 class="title">
                         <a href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</a>
-                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
                     </h4>
                     <div class="text">{{ $advertisement->version_model }}</div>
                     <div class="inspection-sec">
@@ -109,7 +111,7 @@
                         </div>
                     </div>
                     <ul class="ul-cotent">
-                        @forelse($advertisement->equipments->take(3) as $equipment)
+                        @forelse($advertisement->equipments->take(2) as $equipment)
                             <li><a href="#">{{ Str::limit($equipment->name, 20) }}</a></li>
                            
                         @empty
@@ -118,7 +120,7 @@
                  
                     </ul>
                 </div>
-                <div class="content-box-two"  style="display: flex;flex-direction: column;justify-content: center;">
+                <div class="content-box-two" style="display: flex;flex-direction: column;justify-content: center;align-items: baseline;">
                     <h4 class="title">€{{ $advertisement->final_price }}</h4>
                     <a href="{{ route('advertisements.show', $advertisement->id) }}" class="button">View Details<svg xmlns="http://www.w3.org/2000/svg"
                             width="14" height="14" viewBox="0 0 14 14" fill="none">
