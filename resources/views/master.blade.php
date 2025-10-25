@@ -57,8 +57,17 @@
         
         <div class="support-chat-widget-body">
             <div class="chat-messages" id="chat-messages">
-                <div class="no-messages">
-                    <p>Start a conversation with our support team!</p>
+                <!-- AI Support Guidance Message -->
+                <div class="message-wrapper message-left">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="sender-name">Support</span>
+                            <span class="message-time">Now</span>
+                        </div>
+                        <div class="message-bubble">
+                            Hi! For faster assistance, please try our AI assistant first. If you can't find the answer there, I'm here to help you personally.
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -95,4 +104,5 @@
 @stack('before-scripts')
 @include('wizmoto.partials.scripts')
 @stack('scripts')
+
 </body>
