@@ -4413,19 +4413,92 @@
             min-width: 120px;
         }
         
-        /* Mobile Responsive Fixes */
+        /* Improve Equipment List Styling */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent {
+            margin-top: 15px;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent li a {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            color: #495057;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent li a:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-1px);
+        }
+        
+        /* Improve Price Styling */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* Keep Original Button Styling */
+        #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+        
+        /* Simple Mobile Responsive Fixes */
         @media (max-width: 991px) {
             #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
                 top: 8px;
                 left: 8px;
             }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box {
+                padding: 30px 20px 10px;
+            }
         }
         
         @media (max-width: 767px) {
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box {
+                padding: 25px 15px 10px;
+            }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .title {
+                font-size: 22px;
+            }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .inspection-sec {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent li a {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .title {
+                font-size: 24px;
+            }
+            
             #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
                 min-width: 100px;
                 font-size: 14px;
                 padding: 10px 20px;
+            }
+            
+            #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
+                top: 10px;
+                left: 10px;
             }
         }
         
