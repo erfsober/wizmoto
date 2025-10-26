@@ -706,11 +706,11 @@
                                     <div class="drop-menu" id="international-prefix-dropdown">
                                         <div class="select">
                                             <span
-                                                class="selected">{{ old('international_prefix', $advertisement->international_prefix ?? 'Selection') }}</span>
+                                                class="selected">{{ old('international_prefix', $advertisement->international_prefix ?? '+39') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="international_prefix" id="international_prefix_input"
-                                            value="{{ old('international_prefix', $advertisement->international_prefix) }}">
+                                            value="{{ old('international_prefix', $advertisement->international_prefix ?? '+39') }}">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach ($internationalPrefixes as $internationalPrefix)
                                                 <li data-id="{{ $internationalPrefix }}">{{ $internationalPrefix }}</li>
@@ -733,7 +733,8 @@
                                     <label>Telephone</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="telephone"
-                                            value="{{ old('telephone', $advertisement->telephone) }}">
+                                            value="{{ old('telephone', $advertisement->telephone) }}"
+                                            pattern="[0-9]{8}" maxlength="8" placeholder="" >
                                     </div>
                                 </div>
                             </div>

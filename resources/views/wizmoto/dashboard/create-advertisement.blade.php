@@ -633,19 +633,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-column col-lg-4">
-                                <div class="form_boxes v2">
-                                    <label>Prefix</label>
-                                    <div class="drop-menu active">
-                                        <input type="text" name="prefix">
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes v2">
                                     <label>Telephone</label>
                                     <div class="drop-menu active">
-                                        <input type="text" name="telephone">
+                                        <input type="text" name="telephone" pattern="[0-9]{8}" maxlength="8" placeholder="" >
                                     </div>
                                 </div>
                             </div>

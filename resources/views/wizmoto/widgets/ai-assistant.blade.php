@@ -599,13 +599,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Wait a bit for all elements to be ready
     setTimeout(() => {
-        const toggle = document.getElementById('ai-assistant-toggle');
-        const chat = document.getElementById('ai-assistant-chat');
-        const close = document.getElementById('ai-assistant-close');
-        const input = document.getElementById('ai-assistant-input');
-        const send = document.getElementById('ai-assistant-send');
-        const messages = document.getElementById('ai-assistant-messages');
-        
+    const toggle = document.getElementById('ai-assistant-toggle');
+    const chat = document.getElementById('ai-assistant-chat');
+    const close = document.getElementById('ai-assistant-close');
+    const input = document.getElementById('ai-assistant-input');
+    const send = document.getElementById('ai-assistant-send');
+    const messages = document.getElementById('ai-assistant-messages');
+
         // AI Support Alert elements
         const aiAlert = document.getElementById('ai-support-alert');
         const aiAlertClose = document.getElementById('ai-support-alert-close');
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const aiAlertClose = document.getElementById('ai-support-alert-close');
 
 
-        let isOpen = false;
+    let isOpen = false;
     
     // AI Support Alert functionality
     function showAISupportAlert() {
@@ -841,14 +841,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hide AI alert and mark as interacted
             hideAISupportAlert();
             localStorage.setItem('ai-assistant-interacted', 'true');
-            
-            // Toggle chat
-            isOpen = !isOpen;
-            chat.classList.toggle('active', isOpen);
-            if (isOpen) {
-                input.focus();
-            }
-        });
+
+    // Toggle chat
+        isOpen = !isOpen;
+        chat.classList.toggle('active', isOpen);
+        if (isOpen) {
+            input.focus();
+        }
+    });
     }
 
     // Close chat

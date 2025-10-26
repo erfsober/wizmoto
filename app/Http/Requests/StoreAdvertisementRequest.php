@@ -112,12 +112,22 @@ class StoreAdvertisementRequest extends FormRequest {
             'emissions_class' => 'nullable|string|max:50' ,
             'description' => 'nullable|string' ,
             'international_prefix' => 'nullable|string|max:5' ,
-            'prefix' => 'nullable|string|max:5' ,
-            'telephone' => 'nullable|string|max:20' ,
+            'telephone' => 'nullable|string|regex:/^[0-9]{8}$/',
             
             // Image validation - required for new ads, optional for edits
             'images' => $isEdit ? 'nullable|array' : 'required|array|min:1',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // 5MB max per image
+        ];
+    }
+
+    /**
+     * Get custom validation messages
+     */
+    public function messages(): array
+    {
+        return [
+          
+            'telephone.regex' => 'The telephone number must be exactly 8 digits.',
         ];
     }
 }
