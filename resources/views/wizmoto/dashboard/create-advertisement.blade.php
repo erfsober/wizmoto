@@ -621,13 +621,13 @@
                                     <label>International prefix</label>
                                     <div class="drop-menu" id="international-prefix-dropdown">
                                         <div class="select">
-                                            <span>Select International prefix</span>
+                                            <span>+39</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="international_prefix" id="international_prefix_input">
+                                        <input type="hidden" name="international_prefix" id="international_prefix_input" value="+39">
                                         <ul class="dropdown" style="display: none;">
                                             @foreach($internationalPrefixes as $internationalPrefix)
-                                                <li data-id="{{ $internationalPrefix }}">{{$internationalPrefix}}</li>
+                                                <li data-id="{{ $internationalPrefix }}" class="{{ $internationalPrefix == '+39' ? 'selected' : '' }}">{{$internationalPrefix}}</li>
                                             @endforeach
                                         </ul>
                                     </div>
