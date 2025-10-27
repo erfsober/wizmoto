@@ -174,6 +174,7 @@ class ImportAutoscout24Data extends Command
                 'co2_emissions' => $adData['co2_emissions'] ?? null,
                 'combined_fuel_consumption' => $adData['combined_fuel_consumption'] ?? null,
                 'source_url' => $adData['source_url'] ?? null,
+                'is_verified' => true, // Scraper ads are automatically verified
             ];
             
             // Create advertisement

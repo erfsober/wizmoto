@@ -209,6 +209,7 @@ class ImportAutoscout24WithRealImages extends Command
                 'last_service_year' => $adData['last_service_year'] ?? null,
                 'last_service_month' => $adData['last_service_month'] ?? null,
                 'source_url' => $adData['source_url'] ?? null,
+                'is_verified' => true, // Scraper ads are automatically verified
             ];
             
             // Create advertisement
