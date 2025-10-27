@@ -118,7 +118,7 @@ class DashboardController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Advertisement created successfully.',
+                'message' => 'Advertisement created successfully! Your ad will be visible on the site after admin verification.',
                 'data' => $advertisement,
             ], 201);
             

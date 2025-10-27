@@ -113,6 +113,9 @@ class AdvertisementForm
                     ->tel()
                     ->default(null),
                 Toggle::make('show_phone'),
+                Toggle::make('is_verified')
+                    ->label('Verified by Admin')
+                    ->helperText('Verify that this advertisement is valid and should be visible on the site'),
                 
                 SpatieMediaLibraryFileUpload::make('media')
                     ->collection('covers')

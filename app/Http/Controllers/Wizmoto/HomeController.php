@@ -24,6 +24,7 @@ class HomeController extends Controller
     {
         $newAdvertisements = Advertisement::query()
             ->with(['brand', 'vehicleModel', 'equipments'])
+            ->where('is_verified', true) // Only show verified advertisements
             ->latest()
             ->limit(12)
             ->get();
@@ -83,6 +84,7 @@ class HomeController extends Controller
                 'fuelType',
                 'equipments',
             ])
+            ->where('is_verified', true) // Only show verified advertisements
             ->when($request->filled('search'), function ($q) use ($request) {
                 $q->where(function ($query) use ($request) {
                     $query->where('description', 'like', "%{$request->search}%")
@@ -465,6 +467,7 @@ class HomeController extends Controller
                 'fuelType',
                 'equipments',
             ])
+            ->where('is_verified', true) // Only show verified advertisements
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->selectRaw("
@@ -503,6 +506,7 @@ class HomeController extends Controller
                 'fuelType',
                 'equipments',
             ])
+            ->where('is_verified', true) // Only show verified advertisements
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->selectRaw("
@@ -579,6 +583,7 @@ class HomeController extends Controller
     public function getAdvertisementCount(Request $request)
     {
         $count = Advertisement::query()
+            ->where('is_verified', true) // Only show verified advertisements
             // ADVERTISEMENT TYPE FILTER
             ->when($request->filled('advertisement_type'), fn($q) => $q->where('advertisement_type_id', $request->advertisement_type))
             
@@ -757,6 +762,7 @@ class HomeController extends Controller
 
         $advertisements = Advertisement::query()
             ->with(['brand', 'vehicleModel', 'media'])
+            ->where('is_verified', true) // Only show verified advertisements
             ->where(function ($q) use ($searchTerm) {
                 $q->where('description', 'like', "%{$searchTerm}%")
                     ->orWhere('city', 'like', "%{$searchTerm}%")

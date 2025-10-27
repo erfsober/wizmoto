@@ -107,6 +107,10 @@ class AdvertisementsTable
                     ->searchable(),
                 IconColumn::make('show_phone')
                     ->boolean(),
+                IconColumn::make('is_verified')
+                    ->boolean()
+                    ->label('Verified')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
