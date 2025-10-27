@@ -19,6 +19,7 @@ Route::get('/load-more-equipment' , [ HomeController::class , 'loadMoreEquipment
 Route::get('/get-models-by-brand' , [ HomeController::class , 'getModelsByBrand' , ])->name('home.get-models-by-brand');
 Route::get('/get-advertisement-count' , [ HomeController::class , 'getAdvertisementCount' , ])->name('home.get-advertisement-count');
 Route::get('/live-search' , [ HomeController::class , 'liveSearch' , ])->name('home.live-search');
+Route::get('/get-cities', [DashboardController::class, 'getCities'])->name('get-cities');
 
 // AI Assistant Routes
 Route::post('/api/ai/assistant', [AIAssistantController::class, 'chat'])->name('ai.assistant.chat');

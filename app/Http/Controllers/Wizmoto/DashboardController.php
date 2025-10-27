@@ -8,6 +8,8 @@ use App\Events\MessageSent;
 use App\Models\Advertisement;
 use App\Models\AdvertisementType;
 use App\Models\Brand;
+use App\Models\Country;
+use App\Models\City;
 use App\Models\Equipment;
 use App\Models\Message;
 use App\Models\VehicleColor;
@@ -78,8 +80,9 @@ class DashboardController extends Controller
             ->get();
         $vehicleColors = VehicleColor::query()
             ->get();
+        $countries = Country::query()->orderBy('name')->get();
 
-        return view('wizmoto.dashboard.create-advertisement', compact('internationalPrefixes', 'provider', 'advertisementTypes', 'vehicleColors'));
+        return view('wizmoto.dashboard.create-advertisement', compact('internationalPrefixes', 'provider', 'advertisementTypes', 'vehicleColors', 'countries'));
     }
 
     public function storeAdvertisement(StoreAdvertisementRequest $request)
@@ -292,7 +295,9 @@ class DashboardController extends Controller
             ->get();
         $equipments = Equipment::query()
             ->get();
-        return view('wizmoto.dashboard.edit-advertisement', compact('advertisement', 'internationalPrefixes', 'brands', 'provider', 'advertisementTypes', 'vehicleColors', 'equipments'));
+        $countries = Country::query()->orderBy('name')->get();
+        
+        return view('wizmoto.dashboard.edit-advertisement', compact('advertisement', 'internationalPrefixes', 'brands', 'provider', 'advertisementTypes', 'vehicleColors', 'equipments', 'countries'));
     }
 
     public function updateAdvertisement(StoreAdvertisementRequest $request)
@@ -431,5 +436,12 @@ class DashboardController extends Controller
         // ChatEmailService::sendProviderReplyToGuest($message);
 
         return ['status' => 'Message Sent!'];
+    }
+
+    public function getCities(Request $request)
+    {
+        $countryId = $request->get('country_id');
+        $cities = City::where('country_id', $countryId)->get();
+        return response()->json(['cities' => $cities]);
     }
 }

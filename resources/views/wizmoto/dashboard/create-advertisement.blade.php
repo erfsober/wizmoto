@@ -609,9 +609,33 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
+                                    <label>Country <span style="color: #ef4444;">*</span></label>
+                                    <div class="drop-menu searchable-dropdown" id="country-dropdown">
+                                        <div class="select">
+                                            <span>Select Country</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="country_id" id="country_id_input" value="">
+                                        <ul class="dropdown" style="display: none;">
+                                            @foreach($countries as $country)
+                                                <li data-id="{{ $country->id }}">{{ $country->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-column col-lg-6">
+                                <div class="form_boxes v2">
                                     <label>City <span style="color: #ef4444;">*</span></label>
-                                    <div class="drop-menu active">
-                                        <input type="text" name="city">
+                                    <div class="drop-menu searchable-dropdown" id="city-dropdown">
+                                        <div class="select">
+                                            <span>Select City</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </div>
+                                        <input type="hidden" name="city_id" id="city_id_input" value="">
+                                        <ul class="dropdown" id="cities-list" style="display: none;">
+                                            <li class="placeholder">Please select a country first</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -815,6 +839,7 @@
             font-size: 14px !important;
             font-weight: 500 !important;
         }
+
     </style>
 @endpush
 @push('scripts')
@@ -1194,6 +1219,110 @@
             }
         }
 
+    </script>
+
+    <script>
+        // Handle country dropdown
+        $('#country-dropdown .select').on('click', function(e) {
+            e.stopPropagation();
+        });
+
+        $('#country-dropdown ul.dropdown').on('click', 'li', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            let id = $(this).data('id');
+            let name = $(this).text().trim();
+            
+            if (id) {
+                $('#country_id_input').val(id);
+                $('#country-dropdown .select span').text(name);
+                $('#country-dropdown .dropdown').hide();
+                
+                // Load cities
+                loadCities(id);
+            }
+        });
+
+        // Handle city dropdown
+        $('#city-dropdown .select').on('click', function(e) {
+            e.stopPropagation();
+            
+            // Check if we have cities loaded and need to add search box
+            let $cityDropdown = $('#cities-list');
+            if ($cityDropdown.find('.dropdown-search').length === 0 && $cityDropdown.find('li[data-id]').length > 0) {
+                // Add search box if not exists and we have cities
+                $cityDropdown.prepend(`
+                    <li class="dropdown-search" style="position: sticky; top: 0; background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%); padding: 12px; border-bottom: 2px solid #e9ecef; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <i class="fa fa-search" style="position: absolute; left: 12px; color: #6c757d; font-size: 14px; pointer-events: none;"></i>
+                            <input type="text" placeholder="Type to search..." class="dropdown-search-input" style="width: 100%; padding: 10px 12px 10px 38px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 14px; outline: none; transition: all 0.3s ease; background: white;" onclick="event.stopPropagation();">
+                        </div>
+                    </li>
+                `);
+                
+                // Add search functionality
+                $cityDropdown.find('.dropdown-search-input').on('keyup', function(e) {
+                    e.stopPropagation();
+                    let search = $(this).val().toLowerCase();
+                    $cityDropdown.find('li[data-id]').each(function() {
+                        let text = $(this).text().toLowerCase();
+                        $(this).toggle(text.indexOf(search) > -1);
+                    });
+                });
+            }
+        });
+
+        $('#city-dropdown ul.dropdown').on('click', 'li', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            let id = $(this).data('id');
+            let name = $(this).text().trim();
+            
+            if (id) {
+                $('#city_id_input').val(id);
+                $('#city-dropdown .select span').text(name);
+                $('#city-dropdown .dropdown').hide();
+            }
+        });
+
+
+        function loadCities(countryId) {
+            if (!countryId) {
+                $('#cities-list').html('<li class="placeholder">Please select a country first</li>');
+                $('#city-dropdown .select span').text('Select City');
+                $('#city_id_input').val('');
+                return;
+            }
+
+            $('#cities-list').html('<li>Loading cities...</li>');
+            $('#city-dropdown .select span').text('Loading...');
+            $('#city_id_input').val('');
+
+            $.ajax({
+                url: '{{ route("get-cities") }}',
+                method: 'GET',
+                data: { country_id: countryId },
+                success: function (response) {
+                    let citiesHtml = '';
+                    if (response.cities && response.cities.length > 0) {
+                        response.cities.forEach(function (city) {
+                            citiesHtml += '<li data-id="' + city.id + '">' + city.name + '</li>';
+                        });
+                        $('#city-dropdown .select span').text('Select City');
+                    } else {
+                        citiesHtml = '<li>No cities found</li>';
+                        $('#city-dropdown .select span').text('No cities available');
+                    }
+                    $('#cities-list').html(citiesHtml);
+                },
+                error: function () {
+                    $('#cities-list').html('<li>Error loading cities</li>');
+                    $('#city-dropdown .select span').text('Select City');
+                }
+            });
+        }
     </script>
 
 @endpush
