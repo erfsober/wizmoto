@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Wizmoto\AboutController;
 use App\Http\Controllers\Wizmoto\FaqController;
 
+// Language switching route
+Route::get('/locale/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'it'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('locale.switch');
+
 Route::get('/' , [ HomeController::class , 'index' , ])->name('home');
 Route::get('/inventory-list' , [ HomeController::class , 'inventoryList' , ])->name('inventory.list');
 Route::get('/load-more-equipment' , [ HomeController::class , 'loadMoreEquipment' , ])->name('equipment.load-more');

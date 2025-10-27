@@ -23,7 +23,7 @@
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown current">
                                     <a class="box-account" href="{{route('home')}}">
-                                        Home
+                                        {{ __('messages.home') }}
                                     </a>
                                 </li>
                                 @if(Auth::guard('provider')->check())
@@ -34,12 +34,12 @@
                                         </span>
                                         <ul class="dropdown">
                                             <li>
-                                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
+                                                <a href="{{ route('dashboard.profile') }}">{{ __('messages.dashboard') }}</a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('provider.logout') }}"
                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
+                                                    {{ __('messages.logout') }}
                                                 </a>
                                             </li>
                                         </ul>
@@ -70,12 +70,13 @@
                                             </clipPath>
                                         </defs>
                                     </svg>
-                                </span>
-                                Sign in
+                                    </span>
+                                {{ __('messages.sign_in') }}
                             </a>
                         @endif
+                        @include('wizmoto.partials.language-switcher')
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two sell-btn-prominent">Sell</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two sell-btn-prominent">{{ __('messages.sell') }}</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -99,7 +100,7 @@
             <div class="search-inner">
                 <form method="post" action="index.html">
                     <div class="form-group">
-                        <input type="search" name="search-field" value="" placeholder="Search ..." required="">
+                            <input type="search" name="search-field" value="" placeholder="{{ __('messages.search_placeholder') }}" required="">
                         <button type="submit">
                             <i class="fa fa-search"></i>
                         </button>
@@ -118,7 +119,7 @@
     <section class="boxcar-banner-section-v1">
         <div class="container">
             <div class="banner-content">
-                <h2 class="wow fadeInUp" data-wow-delay="100ms">Find Your Perfect Ride</h2>
+                <h2 class="wow fadeInUp" data-wow-delay="100ms">{{ __('messages.find_perfect_ride') }}</h2>
                 <div class="form-tabs">
                     <ul class="form-tabs-list wow fadeInUp" data-wow-delay="200ms">
                     </ul>
@@ -130,12 +131,12 @@
                                     <div class="form_boxes line-r">
                                         <div class="drop-menu searchable-dropdown">
                                             <div class="select">
-                                                <span>Any Brands</span>
+                                                <span>{{ __('messages.any_brands') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="brand_id">
                                             <ul class="dropdown" style="display: none;">
-                                                <li data-id="" class="clear-option">Any Brands</li>
+                                                <li data-id="" class="clear-option">{{ __('messages.any_brands') }}</li>
                                                 @foreach($brands as $brand)
                                                     <li data-id="{{ $brand->id }}">{{ $brand->name }}</li>
                                                 @endforeach
@@ -145,24 +146,24 @@
                                     <div class="form_boxes line-r">
                                         <div class="drop-menu searchable-dropdown">
                                             <div class="select">
-                                                <span>Select Brand First</span>
+                                                <span>{{ __('messages.select_brand_first') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="vehicle_model_id">
                                             <ul class="dropdown" style="display: none;">
-                                                <li data-id="" class="clear-option">Select Brand First</li>
+                                                <li data-id="" class="clear-option">{{ __('messages.select_brand_first') }}</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="form_boxes line-r">
                                         <div class="drop-menu">
                                             <div class="select">
-                                                <span>Any Fuel Type</span>
+                                                <span>{{ __('messages.any_fuel_type') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="fuel_type_id">
                                             <ul class="dropdown" style="display: none;">
-                                                <li data-id="" class="clear-option">Any Fuel Type</li>
+                                                <li data-id="" class="clear-option">{{ __('messages.any_fuel_type') }}</li>
                                                 @foreach($fuelTypes as $fuelType)
                                                     <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
                                                 @endforeach
@@ -178,18 +179,18 @@
     font-size: 15px;
     height: 100%;
     margin-left: 30px;">
-                                            <img src="{{asset("wizmoto/images/icons/filter.svg")}}" alt=""/> More Filters
+                                            <img src="{{asset("wizmoto/images/icons/filter.svg")}}" alt=""/> {{ __('messages.more_filters') }}
                                         </a>
                                     </div>
                                     <div class="form-submit">
                                         <button type="submit" class="theme-btn">
-                                            <i class="flaticon-search"></i><span id="search-count-text">Search <span id="search-count">{{ $totalAdvertisements }}</span> Rides</span>
+                                            <i class="flaticon-search"></i><span id="search-count-text">{{ __('messages.search_rides') }} <span id="search-count">{{ $totalAdvertisements }}</span> {{ __('messages.rides') }}</span>
                                         </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <span class="wow fadeInUp" data-wow-delay="400ms">Or Browse Featured Types</span>
+                        <span class="wow fadeInUp" data-wow-delay="400ms">{{ __('messages.or_browse_featured') }}</span>
                         <ul class="model-links">
                             @foreach(AdvertisementType::all() as $at)
                                 <li>
@@ -212,8 +213,8 @@
     <section class="cars-section-three">
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
-                <h2>Explore All Vehicles</h2>
-                <a href="{{route("inventory.list")}}" class="btn-title">View All
+                <h2>{{ __('messages.explore_all_vehicles') }}</h2>
+                <a href="{{route("inventory.list")}}" class="btn-title">{{ __('messages.view_all') }}
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                         <g clip-path="url(#clip0_601_243)">
                             <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path>
@@ -228,7 +229,7 @@
             </div>
             <nav class="wow fadeInUp" data-wow-delay="100ms">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">New Advertisement</button>
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('messages.new_advertisement') }}</button>
                 </div>
             </nav>
         </div>
@@ -290,7 +291,7 @@
                                     </ul>
                                     <div class="btn-box">
                                         <span>€{{$newAdvertisement->final_price}} @include('wizmoto.partials.price-evaluation-badge', ['value' => $newAdvertisement->price_evaluation])</span>
-                                        <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">View Details
+                                        <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">{{ __('messages.view_details') }}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_4346)">
                                                     <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#405FF2"></path>
@@ -321,7 +322,7 @@
     <section class="why-choose-us-section">
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
-                <h2 class="title">Why Choose Us?</h2>
+                <h2 class="title">{{ __('messages.why_choose_us') }}</h2>
             </div>
             <div class="row">
                 <!-- choose-us-block -->
@@ -344,8 +345,8 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Special Financing Offers</h6>
-                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                            <h6 class="title">{{ __('messages.special_financing') }}</h6>
+                            <div class="text">{{ __('messages.special_financing_text') }}</div>
                         </div>
                     </div>
                 </div>
@@ -365,8 +366,8 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Trusted Motorcycle Dealership</h6>
-                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                            <h6 class="title">{{ __('messages.trusted_dealership') }}</h6>
+                            <div class="text">{{ __('messages.trusted_dealership_text') }}</div>
                         </div>
                     </div>
                 </div>
@@ -391,8 +392,8 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Transparent Pricing</h6>
-                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                            <h6 class="title">{{ __('messages.transparent_pricing') }}</h6>
+                            <div class="text">{{ __('messages.transparent_pricing_text') }}</div>
                         </div>
                     </div>
                 </div>
@@ -407,8 +408,8 @@
                             </svg>
                         </div>
                         <div class="content-box">
-                            <h6 class="title">Expert Motorcycle Service</h6>
-                            <div class="text">Our stress-free finance department that can find financial solutions to save you money.</div>
+                            <h6 class="title">{{ __('messages.expert_service') }}</h6>
+                            <div class="text">{{ __('messages.expert_service_text') }}</div>
                         </div>
                     </div>
                 </div>
@@ -424,9 +425,8 @@
                 <!-- blog-blockt-two -->
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box wow fadeInUp">
-                        <h3 class="title">Are You Looking
-                            <br>For a Motorcycle ?</h3>
-                        <a href="{{ route('inventory.list') }}" class="read-more">Get Started
+                        <h3 class="title">{{ __('messages.looking_for_motorcycle') }}</h3>
+                        <a href="{{ route('inventory.list') }}" class="read-more">{{ __('messages.get_started') }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                 <g clip-path="url(#clip0_601_692)">
                                     <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
@@ -453,9 +453,8 @@
                 <!-- blog-blockt-two -->
                 <div class="blog-blockt-two col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box two wow fadeInUp" data-wow-delay="100ms">
-                        <h3 class="title">Do You Want to
-                            <br>Sell a Motorcycle ?</h3>
-                        <a href="{{ route('dashboard.create-advertisement') }}" class="read-more">Get Started
+                        <h3 class="title">{{ __('messages.want_to_sell') }}</h3>
+                        <a href="{{ route('dashboard.create-advertisement') }}" class="read-more">{{ __('messages.get_started') }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                 <g clip-path="url(#clip0_601_692)">
                                     <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="white"></path>
@@ -485,7 +484,7 @@
     <section class="blog-section">
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
-                <h2>Latest Blog Posts</h2>
+                <h2>{{ __('messages.latest_blog_posts') }}</h2>
             </div>
             <div class="row">
                 @forelse($latestPosts as $index => $post)
@@ -537,8 +536,8 @@
     <section class="boxcar-testimonial-section home1">
         <div class="boxcar-container">
             <div class="boxcar-title wow fadeInUp">
-                <h2>What our customers say</h2>
-                <div class="text">Rated 4.7 / 5 based on 28,370 reviews Showing our 4 & 5 star reviews</div>
+                <h2>{{ __('messages.what_customers_say') }}</h2>
+                <div class="text">{{ __('messages.rated_based') }}</div>
             </div>
             <div class="testimonial-slider-two">
                 <div class="testimonial-slide-two">

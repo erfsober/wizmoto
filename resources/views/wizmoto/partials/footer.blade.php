@@ -19,19 +19,19 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp">
-                                <h4 class="widget-title">Useful Links</h4>
+                                <h4 class="widget-title">{{ __('messages.useful_links') }}</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
-                                        <li><a href="{{ route('about.index') }}">About Us</a></li>
-                                        <li><a href="{{ route('blogs.index') }}">Blog</a></li>
-                                        <li><a href="{{ route('faq.index') }}">FAQs</a></li>
+                                        <li><a href="{{ route('about.index') }}">{{ __('messages.about_us') }}</a></li>
+                                        <li><a href="{{ route('blogs.index') }}">{{ __('messages.blog') }}</a></li>
+                                        <li><a href="{{ route('faq.index') }}">{{ __('messages.faqs') }}</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="100ms">
-                                <h4 class="widget-title">Popular Models</h4>
+                                <h4 class="widget-title">{{ __('messages.popular_models') }}</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($popularModels as $model)
@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="200ms">
-                                <h4 class="widget-title">Popular Brands</h4>
+                                <h4 class="widget-title">{{ __('messages.popular_brands') }}</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($popularBrands as $brand)
@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget wow fadeInUp" data-wow-delay="300ms">
-                                <h4 class="widget-title">Vehicles Type</h4>
+                                <h4 class="widget-title">{{ __('messages.vehicles_type') }}</h4>
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($vehicleTypes as $type)
@@ -79,7 +79,7 @@
                         <div class="widget-content">
 
                             <div class="social-icons">
-                                <h6 class="title">Connect With Us</h6>
+                                <h6 class="title">{{ __('messages.connect_with_us') }}</h6>
                                 <ul>
                                     <li><a href="{{ $socialMedia['facebook'] }}"><i class="fab fa-facebook"></i></a>
                                     </li>
@@ -99,12 +99,12 @@
     <div class="footer-bottom">
         <div class="boxcar-container">
             <div class="inner-container">
-                <div class="copyright-text wow fadeInUp">© <a href="#">2025 Wizmoto.com. All rights reserved.</a>
+                <div class="copyright-text wow fadeInUp"><a href="#">{{ __('messages.copyright') }}</a>
                 </div>
 
                 <ul class="footer-nav wow fadeInUp" data-wow-delay="200ms">
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Privacy Notice</a></li>
+                    <li><a href="#">{{ __('messages.terms_conditions') }}</a></li>
+                    <li><a href="#">{{ __('messages.privacy_notice') }}</a></li>
                 </ul>
             </div>
         </div>
