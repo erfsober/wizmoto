@@ -15,3 +15,7 @@ Schedule::command('import:autoscout24-images --limit=50')->dailyAt('3:00');
 
 // Geocode advertisements every 5 minutes
 Schedule::command('advertisements:geocode --scheduled --limit=20')->everyFiveMinutes();
+
+// Cleanup old conversations and messages - run at 4 AM daily
+Schedule::command('cleanup:provider-conversations')->dailyAt('4:00');
+Schedule::command('cleanup:support-messages')->dailyAt('4:00');
