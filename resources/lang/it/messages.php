@@ -375,5 +375,16 @@ return [
     'support_typing' => 'Il supporto sta scrivendo...',
     'type_message_here' => 'Scrivi il tuo messaggio qui...',
     'city' => 'Città',
+    'previous_post' => 'Post Precedente',
+    'next_post' => 'Post Successivo',
+    'customer_reviews' => 'Recensioni dei Clienti',
+    'leave_reply' => 'Lascia una Risposta',
+    'email_privacy_notice' => 'Il tuo indirizzo email non sarà pubblicato. I campi obbligatori sono contrassegnati *',
+    'rate_post' => 'Valuta questo post',
+    'name' => 'Nome',
+    'email' => 'Email',
+    'comment' => 'Commento',
+    'post_comment' => 'Pubblica Commento',
+    'message' => 'Messaggio',
 ];
 

@@ -375,5 +375,16 @@ return [
     'support_typing' => 'Support is typing...',
     'type_message_here' => 'Type your message here...',
     'city' => 'City',
+    'previous_post' => 'Previous Post',
+    'next_post' => 'Next Post',
+    'customer_reviews' => 'Customer Reviews',
+    'leave_reply' => 'Leave a Reply',
+    'email_privacy_notice' => 'Your email address will not be published. Required fields are marked *',
+    'rate_post' => 'Rate this post',
+    'name' => 'Name',
+    'email' => 'Email',
+    'comment' => 'Comment',
+    'post_comment' => 'Post Comment',
+    'message' => 'Message',
 ];
 

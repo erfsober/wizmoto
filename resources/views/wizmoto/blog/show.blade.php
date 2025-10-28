@@ -8,9 +8,9 @@
             <div class="boxcar-title wow fadeInUp">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="{{route("home")}}">Home</a>
+                        <a href="{{route("home")}}">{{ __('messages.home') }}</a>
                     </li>
-                    <li><span>Blog</span></li>
+                    <li><span>{{ __('messages.blog') }}</span></li>
                 </ul>
                 <h2>{{$blogPost->localized_title}}</h2>
                 {{--            <ul class="post-info">--}}
@@ -40,11 +40,11 @@
                             @if($previous)
                                 <div class="content-box">
                                     <h6 class="title">
-                                        <i class="fa-solid fa-angle-left"></i> Previous Post
+                                        <i class="fa-solid fa-angle-left"></i> {{ __('messages.previous_post') }}
                                     </h6>
                                     <div class="text">
                                         <a href="{{ route('blogs.show', $previous->slug) }}">
-                                            {{ $previous->title }}
+                                            {{ $previous->localized_title }}
                                         </a>
                                     </div>
                                 </div>
@@ -53,19 +53,19 @@
                             @if($next)
                                 <div class="content-box v2">
                                     <h6 class="title">
-                                        Next Post
+                                        {{ __('messages.next_post') }}
                                         <i class="fa-solid fa-angle-right"></i>
                                     </h6>
                                     <div class="text">
                                         <a href="{{ route('blogs.show', $next->slug) }}">
-                                            {{ $next->title }}
+                                            {{ $next->localized_title }}
                                         </a>
                                     </div>
                                 </div>
                             @endif
                         </div>
                         <div class="reviews">
-                            <h4 class="title">Customer Reviews</h4>
+                            <h4 class="title">{{ __('messages.customer_reviews') }}</h4>
                             @foreach($blogPost->reviews as $review)
                                 <div class="content-box">
                                     <div class="auther-name">
@@ -90,12 +90,12 @@
                         </div>
                         <form class="row" action="{{route("reviews.store")}}" method="POST">
                             <div class="Reply-sec">
-                                <h6 class="title">Leave a Reply</h6>
-                                <div class="text">Your email address will not be published. Required fields are marked *</div>
+                                <h6 class="title">{{ __('messages.leave_reply') }}</h6>
+                                <div class="text">{{ __('messages.email_privacy_notice') }}</div>
                                 <div class="right-box">
                                     <div class="rating-list">
                                         <div class="list-box">
-                                            <span>Rate this post</span>
+                                            <span>{{ __('messages.rate_post') }}</span>
                                             <ul class="list">
                                                 <li>
                                                     <i class="fa fa-star"></i>
@@ -123,25 +123,25 @@
                             <input type="hidden" name="id" value="{{ $blogPost->id }}">
                             <div class="col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Name</label>
+                                    <label>{{ __('messages.name') }}</label>
                                     <input type="text" name="name" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Email</label>
+                                    <label>{{ __('messages.email') }}</label>
                                     <input type="email" name="email" placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form_boxes v2">
-                                    <label>Comment</label>
+                                    <label>{{ __('messages.comment') }}</label>
                                     <textarea name="comment" placeholder="" required=""></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-submit">
-                                    <button type="submit" class="theme-btn">Post Comment
+                                    <button type="submit" class="theme-btn">{{ __('messages.post_comment') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_711_3214)">
                                                 <path d="M13.6106 0H5.05509C4.84013 0 4.66619 0.173943 4.66619 0.388901C4.66619 0.603859 4.84013 0.777802 5.05509 0.777802H12.6719L0.113453 13.3362C-0.0384687 13.4881 -0.0384687 13.7342 0.113453 13.8861C0.189396 13.962 0.288927 14 0.388422 14C0.487917 14 0.587411 13.962 0.663391 13.8861L13.2218 1.3277V8.94447C13.2218 9.15943 13.3957 9.33337 13.6107 9.33337C13.8256 9.33337 13.9996 9.15943 13.9996 8.94447V0.388901C13.9995 0.173943 13.8256 0 13.6106 0Z" fill="white"></path>
@@ -164,7 +164,7 @@
         <div class="blog-section">
             <div class="boxcar-container">
                 <div class="boxcar-title wow fadeInUp">
-                    <h2>Latest Blog Posts</h2>
+                    <h2>{{ __('messages.latest_blog_posts') }}</h2>
                 </div>
                 <div class="row">
                     <!-- blog-block -->
