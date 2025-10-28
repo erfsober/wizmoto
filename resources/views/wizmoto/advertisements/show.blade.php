@@ -635,7 +635,7 @@
                     <div class="row car-slider-three slider-layout-1" data-preview="4.8">
                         @foreach($relatedAdvertisements as $relatedAd)
                             <div class="col-lg-3 col-md-6 col-sm-12">
-                                <x-wizmoto.components.advertisement-card :advertisement="$relatedAd" />
+                                @include('wizmoto.components.advertisement-card', ['advertisement' => $relatedAd])
                             </div>
                         @endforeach
                     </div>

@@ -1,5 +1,5 @@
 @foreach ($advertisements as $advertisement)
-    <x-wizmoto.components.advertisement-card :advertisement="$advertisement" />
+    @include('wizmoto.components.advertisement-card', ['advertisement' => $advertisement])
 @endforeach
 
 @if ($advertisements->hasPages())
