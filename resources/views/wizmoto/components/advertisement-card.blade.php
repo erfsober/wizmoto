@@ -1,5 +1,4 @@
 {{-- Advertisement Card Component --}}
-@props(['advertisement'])
 
 @php
     $image = $advertisement->getMedia('covers')->first();
