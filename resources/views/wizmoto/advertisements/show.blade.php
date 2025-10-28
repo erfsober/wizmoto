@@ -21,7 +21,7 @@
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown current">
                                     <a class="box-account" href="{{ route('home') }}">
-                                        Home
+                                        {{ __('messages.home') }}
                                     </a>
                                 </li>
                                 @if (Auth::guard('provider')->check())
@@ -32,12 +32,12 @@
                                         </span>
                                         <ul class="dropdown">
                                             <li>
-                                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
+                                                <a href="{{ route('dashboard.profile') }}">{{ __('messages.dashboard') }}</a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('provider.logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
+                                                    {{ __('messages.logout') }}
                                                 </a>
                                             </li>
                                         </ul>
@@ -75,11 +75,11 @@
                                         </defs>
                                     </svg>
                                 </div>
-                                Sign in
+                                {{ __('messages.sign_in') }}
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two btn-anim sell-btn-prominent">Sell</a>
+                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two btn-anim sell-btn-prominent">{{ __('messages.sell') }}</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -103,14 +103,14 @@
                 <span class="fa fa-times"></span></button>
 
             <div class="search-inner">
-                <form method="post" action="index.html">
-                    <div class="form-group">
-                        <input type="search" name="search-field" value="" placeholder="Search..." required="">
-                        <button type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </form>
+            <form method="post" action="index.html">
+                <div class="form-group">
+                    <input type="search" name="search-field" value="" placeholder="{{ __('messages.search_placeholder') }}" required="">
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
             </div>
         </div>
         <!-- End Header Search -->
@@ -125,9 +125,9 @@
             <div class="boxcar-title-three">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="{{ route('home') }}">Home</a>
+                        <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
                     </li>
-                    <li><span>Motors for Sale</span></li>
+                    <li><span>{{ __('messages.motors_for_sale') }}</span></li>
                 </ul>
                 <h2>{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</h2>
                 <div class="text">{{ $advertisement->version_model }}</div>
@@ -187,11 +187,11 @@
                     <div class="inner-column">
                         <!-- overview-sec -->
                         <div class="overview-sec">
-                            <h4 class="title">Motor Overview</h4>
+                            <h4 class="title">{{ __('messages.motor_overview') }}</h4>
                             
                             {{-- Vehicle Information Section --}}
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Vehicle Information</h5>
+                                <h5 class="section-title">{{ __('messages.vehicle_information') }}</h5>
                             <div class="row">
                                 <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                     <div class="inner-column">
@@ -199,7 +199,7 @@
                                                 @if($advertisement->brand?->name || $advertisement->vehicleModel?->name)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Make & Model
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ __('messages.make_model') }}
                                                 </span>
                                                     {{ $advertisement->brand?->name ?? '' }} {{ $advertisement->vehicleModel?->name ?? '' }}
                                                     @if($advertisement->version_model)
@@ -210,23 +210,23 @@
                                                 @if($advertisement->vehicleBody?->name)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">Body Type
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ __('messages.body_type') }}
                                                 </span>
-                                                    {{ $advertisement->vehicleBody->name }}
+                                                    {{ $advertisement->vehicleBody->localized_name }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->vehicleColor?->name)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">Exterior Color
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">{{ __('messages.exterior_color_field') }}
                                                     </span>
-                                                    {{ $advertisement->vehicleColor->name }}@if ($advertisement->is_metallic_paint) <small>(Metallic)</small>@endif
+                                                    {{ $advertisement->vehicleColor->localized_name }}@if ($advertisement->is_metallic_paint) <small>{{ __('messages.metallic') }}</small>@endif
                                             </li>
                                                 @endif
                                                 @if($advertisement->registration_month || $advertisement->registration_year)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">First Registration
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.first_registration') }}
                                                     </span>
                                                     @if($advertisement->registration_month && $advertisement->registration_year)
                                                         {{ $advertisement->registration_month }}/{{ $advertisement->registration_year }}
@@ -244,7 +244,7 @@
                                                 @if($advertisement->vehicle_category)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">Condition
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">{{ __('messages.condition') }}
                                                     </span>
                                                     {{ $advertisement->vehicle_category }}
                                                 </li>
@@ -252,15 +252,14 @@
                                                 @if($advertisement->mileage)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">Mileage
-                                                    </span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">{{ __('messages.mileage') }}</span>
                                                     {{ number_format($advertisement->mileage) }} km
                                                 </li>
                                                 @endif
                                                 @if($advertisement->previous_owners)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Previous Owners
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.previous_owners_label') }}
                                                     </span>
                                                     {{ $advertisement->previous_owners }}
                                                 </li>
@@ -268,7 +267,7 @@
                                                 @if($advertisement->next_review_month || $advertisement->next_review_year)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Next Inspection
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.next_inspection') }}
                                                     </span>
                                                     @if($advertisement->next_review_month && $advertisement->next_review_year)
                                                         {{ $advertisement->next_review_month }}/{{ $advertisement->next_review_year }}
@@ -286,7 +285,7 @@
                             {{-- Engine Specifications Section --}}
                             @if($advertisement->fuelType?->name || $advertisement->motor_change || $advertisement->motor_displacement || $advertisement->motor_cylinders || $advertisement->motor_power_kw || $advertisement->motor_power_cv || $advertisement->motor_marches || $advertisement->drive_type || $advertisement->motor_empty_weight)
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Engine Specifications</h5>
+                                <h5 class="section-title">{{ __('messages.engine_specifications') }}</h5>
                                 <div class="row">
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
@@ -294,15 +293,15 @@
                                                 @if($advertisement->fuelType?->name)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Type
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_type') }}
                                                 </span>
-                                                    {{ $advertisement->fuelType->name }}
+                                                    {{ $advertisement->fuelType->localized_name }}
                                             </li>
                                                 @endif
                                                 @if($advertisement->motor_change)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Transmission
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.transmission_label') }}
                                                     </span>
                                                     {{ $advertisement->motor_change }}
                                                 </li>
@@ -310,7 +309,7 @@
                                                 @if($advertisement->motor_displacement)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Displacement
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.displacement_cc') }}
                                                     </span>
                                                     {{ $advertisement->motor_displacement }} cc
                                                 </li>
@@ -318,7 +317,7 @@
                                                 @if($advertisement->motor_cylinders)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">Cylinders
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">{{ __('messages.cylinders') }}
                                                     </span>
                                                     {{ $advertisement->motor_cylinders }}
                                                 </li>
@@ -332,22 +331,22 @@
                                                 @if($advertisement->motor_power_kw || $advertisement->motor_power_cv)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Power Output
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.power_output') }}
                                                     </span>
                                                     @if($advertisement->motor_power_kw)
                                                         {{ $advertisement->motor_power_kw }} kW
                                                         @if($advertisement->motor_power_cv)
-                                                            ({{ $advertisement->motor_power_cv }} HP)
+                                                            ({{ $advertisement->motor_power_cv }} {{ __('messages.hp') }})
                                                         @endif
                                                     @elseif($advertisement->motor_power_cv)
-                                                        {{ $advertisement->motor_power_cv }} HP
+                                                        {{ $advertisement->motor_power_cv }} {{ __('messages.hp') }}
                                                     @endif
                                                 </li>
                                                 @endif
                                                 @if($advertisement->motor_marches)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">Number of Gears
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.number_of_gears') }}
                                                     </span>
                                                     {{ $advertisement->motor_marches }}
                                                 </li>
@@ -355,7 +354,7 @@
                                                 @if($advertisement->drive_type)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Drive Type
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.drive_type') }}
                                                     </span>
                                                     {{ $advertisement->drive_type }}
                                                 </li>
@@ -363,9 +362,9 @@
                                                 @if($advertisement->motor_empty_weight)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Empty Weight
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.empty_weight') }}
                                                     </span>
-                                                    {{ $advertisement->motor_empty_weight }} kg
+                                                    {{ $advertisement->motor_empty_weight }} {{ __('messages.kg') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -378,7 +377,7 @@
                             {{-- Performance & Efficiency Section --}}
                             @if($advertisement->top_speed_kmh || $advertisement->torque_nm || $advertisement->seat_height_mm || $advertisement->combined_fuel_consumption || $advertisement->co2_emissions || $advertisement->tank_capacity_liters)
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Performance & Efficiency</h5>
+                                <h5 class="section-title">{{ __('messages.performance_efficiency') }}</h5>
                                 <div class="row">
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
@@ -386,15 +385,15 @@
                                                 @if($advertisement->top_speed_kmh)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Top Speed
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.top_speed_kmh') }}
                                                 </span>
-                                                    {{ $advertisement->top_speed_kmh }} km/h
+                                                    {{ $advertisement->top_speed_kmh }} {{ __('messages.kmh') }}
                                             </li>
                                                 @endif
                                                 @if($advertisement->torque_nm)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Torque
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.torque_nm') }}
                                                 </span>
                                                     {{ $advertisement->torque_nm }} Nm
                                             </li>
@@ -402,7 +401,7 @@
                                                 @if($advertisement->seat_height_mm)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Seat Height
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.seat_height_mm') }}
                                                     </span>
                                                     {{ $advertisement->seat_height_mm }} mm
                                                 </li>
@@ -416,25 +415,25 @@
                                                 @if($advertisement->combined_fuel_consumption)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Fuel Consumption
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_consumption') }}
                                                     </span>
-                                                    {{ $advertisement->combined_fuel_consumption }} l/100km
+                                                    {{ $advertisement->combined_fuel_consumption }} {{ __('messages.l100km') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->co2_emissions)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">CO₂ Emissions
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.co2_emissions_label') }}
                                                     </span>
-                                                    {{ $advertisement->co2_emissions }} g/km
+                                                    {{ $advertisement->co2_emissions }} {{ __('messages.gkm') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->tank_capacity_liters)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">Tank Capacity
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.tank_capacity_label') }}
                                                     </span>
-                                                    {{ $advertisement->tank_capacity_liters }} L
+                                                    {{ $advertisement->tank_capacity_liters }} {{ __('messages.l') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -447,7 +446,7 @@
                             {{-- Pricing & Sales Section --}}
                             @if($advertisement->final_price || $advertisement->price_negotiable || $advertisement->financing_available || $advertisement->trade_in_possible)
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Pricing & Sales</h5>
+                                <h5 class="section-title">{{ __('messages.pricing_sales') }}</h5>
                                 <div class="row">
                                 <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                     <div class="inner-column">
@@ -455,19 +454,19 @@
                                                 @if($advertisement->final_price)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.price_field') }}
                                                 </span>
                                                     €{{ number_format($advertisement->final_price, 0, ',', '.') }}
                                                     @if($advertisement->tax_deductible)
-                                                        <small>(VAT deductible)</small>
+                                                        <small>({{ __('messages.vat_deductible') }})</small>
                                                     @endif
                                             </li>
                                                 @endif
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Price Negotiable
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.price_negotiable') }}
                                                 </span>
-                                                    {{ $advertisement->price_negotiable ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->price_negotiable ? __('messages.yes') : __('messages.no') }}
                                             </li>
                                             </ul>
                                         </div>
@@ -477,15 +476,15 @@
                                             <ul class="list">
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Financing Available
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.financing_available') }}
                                                 </span>
-                                                    {{ $advertisement->financing_available ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->financing_available ? __('messages.yes') : __('messages.no') }}
                                             </li>
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">Trade-in Possible
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.trade_in_possible') }}
                                                 </span>
-                                                    {{ $advertisement->trade_in_possible ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->trade_in_possible ? __('messages.yes') : __('messages.no') }}
                                             </li>
                                             </ul>
                                         </div>
@@ -497,7 +496,7 @@
                             {{-- Condition & History Section --}}
                             @if($advertisement->last_service_month || $advertisement->last_service_year || $advertisement->service_history_available || $advertisement->warranty_available || $advertisement->available_immediately)
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Condition & History</h5>
+                                <h5 class="section-title">{{ __('messages.condition_history') }}</h5>
                                 <div class="row">
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
@@ -505,7 +504,7 @@
                                                 @if($advertisement->last_service_month || $advertisement->last_service_year)
                                             <li>
                                                 <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Last Service
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.last_service') }}
                                                 </span>
                                                     @if($advertisement->last_service_month && $advertisement->last_service_year)
                                                         {{ $advertisement->last_service_month }}/{{ $advertisement->last_service_year }}
@@ -516,9 +515,9 @@
                                                 @endif
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Service History Available
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.service_history_available') }}
                                                     </span>
-                                                    {{ $advertisement->service_history_available ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->service_history_available ? __('messages.yes') : __('messages.no') }}
                                             </li>
                                         </ul>
                                     </div>
@@ -528,15 +527,15 @@
                                             <ul class="list">
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Warranty Available
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.warranty_available') }}
                                                     </span>
-                                                    {{ $advertisement->warranty_available ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->warranty_available ? __('messages.yes') : __('messages.no') }}
                                                 </li>
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">Available Immediately
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.available_immediately') }}
                                                     </span>
-                                                    {{ $advertisement->available_immediately ? 'Yes' : 'No' }}
+                                                    {{ $advertisement->available_immediately ? __('messages.yes') : __('messages.no') }}
                                                 </li>
                                             </ul>
                             </div>
@@ -548,7 +547,7 @@
                             {{-- Equipment Section --}}
                             @if($advertisement->equipments && $advertisement->equipments->count() > 0)
                             <div class="overview-section mb-4">
-                                <h5 class="section-title">Equipment</h5>
+                                <h5 class="section-title">{{ __('messages.equipment_section') }}</h5>
                                 <div class="row">
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
@@ -557,7 +556,7 @@
                                                     @if($index % 2 == 0)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->name }}
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->localized_name }}
                                                     </span>
                                                 </li>
                                                     @endif
@@ -572,7 +571,7 @@
                                                     @if($index % 2 == 1)
                                                 <li>
                                                     <span>
-                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->name }}
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ $equipment->localized_name }}
                                                     </span>
                                                 </li>
                                                     @endif
@@ -588,19 +587,19 @@
                         <!-- description-sec -->
                         @if($advertisement->description && trim($advertisement->description) !== '')
                         <div class="description-sec">
-                            <h4 class="title">Description</h4>
+                            <h4 class="title">{{ __('messages.description') }}</h4>
                             <div class="text two">{{ $advertisement->description }}</div>
                         </div>
                         @endif
 
                         <div class="location-box">
-                            <h4 class="title">Location</h4>
+                            <h4 class="title">{{ __('messages.location') }}</h4>
                             <div class="text">
                                 {{ $advertisement->city ?? '' }} {{ $advertisement->zip_code ?? '' }}
                             </div>
                             <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}"
                                 target="_blank" class="brand-btn">
-                                Get Directions
+                                {{ __('messages.get_directions') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
                                     viewbox="0 0 15 14" fill="none">
                                     <g clip-path="url(#clip0_881_14440)">
@@ -668,7 +667,7 @@
                                             <div class="image-box">
                                                 <img src="{{ asset('wizmoto/images/resource/phone1-1.svg') }}">
                                             </div>
-                                            Get Directions
+                                            {{ __('messages.get_directions') }}
                                         </a>
                                     </li>
 
@@ -690,7 +689,7 @@
                                 {{-- Buttons --}}
                                 <div class="btn-box">
                                     <a href="#" id="initiate-chat-btn" class="side-btn" data-bs-toggle="modal"
-                                        data-bs-target="#contactModal">Send Message
+                                        data-bs-target="#contactModal">{{ __('messages.send_message') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
                                             viewbox="0 0 15 14" fill="none">
                                             <g clip-path="url(#clip0_881_16253)">
@@ -717,7 +716,7 @@
                                     </a>
                                     @endif
                                     <a href="{{ route('provider.show', $advertisement->provider_id) }}"
-                                        class="side-btn-three">View all stock at this dealer
+                                        class="side-btn-three">{{ __('messages.view_all_stock_dealer') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                             viewBox="0 0 14 14" fill="none">
                                             <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>
@@ -734,9 +733,9 @@
         <div class="cars-section-three">
             <div class="boxcar-container">
                 <div class="boxcar-title wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
-                    <h2>We Think You Also Like</h2>
+                    <h2>{{ __('messages.we_think_also_like') }}</h2>
                     <a href="{{ route('inventory.list', ['type' => $advertisement->advertisement_type_id]) }}" class="btn-title">
-                        View All<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        {{ __('messages.view_all_label') }}<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                             <g clip-path="url(#clip0_601_243)">
                                 <path d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z" fill="#050B20"></path>
                             </g>
@@ -827,9 +826,9 @@
                 @else
                     <!-- No Related Ads Fallback -->
                     <div class="text-center py-5">
-                        <p class="text-muted mb-4">No similar vehicles available at the moment.</p>
+                        <p class="text-muted mb-4">{{ __('messages.no_similar_vehicles') }}.</p>
                         <a href="{{ route('inventory.list') }}" class="theme-btn btn-style-one">
-                            <span>Browse All Vehicles</span>
+                            <span>{{ __('messages.browse_all_vehicles') }}</span>
                             <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
@@ -844,27 +843,26 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contactModalLabel">💬 Contact {{ $advertisement->provider->full_name }}
+                    <h5 class="modal-title" id="contactModalLabel">💬 {{ __('messages.contact') }} {{ $advertisement->provider->full_name }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="contact-form" class="inventroy-widget">
-                        <p class="text-muted mb-4">Send a message to inquire about this dealer. Your email will be kept
-                            private.</p>
+                        <p class="text-muted mb-4">{{ __('messages.send_message_cta') }}</p>
 
                         <form id="initiate-contact-form" method="POST" action="{{ route('chat.initiate') }}">
                             @csrf
                             <input type="hidden" name="advertisement_id" value="{{ $advertisement->id }}">
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Your Name *</label>
+                                    <label>{{ __('messages.your_name') }} *</label>
                                     <input type="text" id="guest-name" placeholder="" required>
                                 </div>
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Your Email *</label>
+                                    <label>{{ __('messages.your_email') }} *</label>
                                     <input type="email" id="guest-email" placeholder="" required>
                                 </div>
                             </div>
@@ -872,7 +870,7 @@
 
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Phone (Optional)</label>
+                                    <label>{{ __('messages.phone_optional') }} ({{ __('messages.optional') }})</label>
                                     <input type="tel" id="guest-phone" placeholder="">
                                 </div>
                             </div>
@@ -880,9 +878,9 @@
 
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes v2">
-                                    <label>Message *</label>
+                                    <label>{{ __('messages.message') }} *</label>
                                     <textarea id="contact-message"
-                                        placeholder="Hi, I'm interested in your motorcycles. Can you provide more information about availability and pricing?"
+                                        placeholder="{{ __('messages.message') }}"
                                         required></textarea>
                                 </div>
                             </div>
@@ -891,8 +889,7 @@
                             <div class="alert alert-info">
                                 <small>
                                     <i class="fa fa-info-circle"></i>
-                                    <strong>Privacy Notice:</strong> Your email will be kept private until you choose to
-                                    share it with the dealer.
+                                    <strong>{{ __('messages.privacy_notice') }}:</strong> {{ __('messages.email_kept_private') }}
                                 </small>
                             </div>
 
@@ -900,7 +897,7 @@
                                 <button type="submit" class="theme-btn" id="send-contact-btn"
                                     data-url="{{ route('chat.initiate') }}">
                                     <span class="d-flex align-items-center gap-2">
-                                        Send Message <i class="fa fa-paper-plane"></i>
+                                        {{ __('messages.send_message') }} <i class="fa fa-paper-plane"></i>
                                     </span>
                                 </button>
                             </div>
@@ -912,10 +909,10 @@
                             <div class="mb-3">
                                 <i class="fa fa-check-circle text-success" style="font-size: 3rem;"></i>
                             </div>
-                            <h4 class="text-success">Message Sent Successfully!</h4>
-                            <p class="mb-3">Your message has been sent to {{ $advertisement->provider->full_name }}.</p>
+                            <h4 class="text-success">{{ __('messages.message_sent_successfully') }}!</h4>
+                            <p class="mb-3">{{ __('messages.message_sent_to') }} {{ $advertisement->provider->full_name }}.</p>
                             <div class="alert alert-success">
-                                <strong>Your conversation link:</strong><br>
+                                <strong>{{ __('messages.conversation_link') }}:</strong><br>
                                 <div class="conversation-link-container mt-2">
                                     <div class="conversation-link-box" id="conversation-link" onclick="selectAndCopyLink()">
                                         <span class="link-text"></span>
@@ -931,10 +928,9 @@
                                 </div>
                             </div>
                             <p class="text-muted">
-                                <i class="fa fa-bookmark"></i> <strong>Bookmark this link</strong> to continue the
-                                conversation later!
+                                <i class="fa fa-bookmark"></i> <strong>{{ __('messages.bookmark_this_link') }}</strong> {{ __('messages.to_continue_conversation') }}!
                             </p>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close') }}</button>
                         </div>
                     </div>
                 </div>

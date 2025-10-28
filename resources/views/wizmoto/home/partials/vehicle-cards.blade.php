@@ -112,7 +112,7 @@
                     </div>
                     <ul class="ul-cotent">
                         @forelse($advertisement->equipments->take(2) as $equipment)
-                            <li><a href="#">{{ Str::limit($equipment->name, 20) }}</a></li>
+                            <li><a href="#">{{ Str::limit($equipment->localized_name, 20) }}</a></li>
                            
                         @empty
                             <li><a href="#">Standard Features</a></li>

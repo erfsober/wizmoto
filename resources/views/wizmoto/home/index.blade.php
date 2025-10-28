@@ -138,7 +138,7 @@
                                             <ul class="dropdown" style="display: none;">
                                                 <li data-id="" class="clear-option">{{ __('messages.any_brands') }}</li>
                                                 @foreach($brands as $brand)
-                                                    <li data-id="{{ $brand->id }}">{{ $brand->name }}</li>
+                                                    <li data-id="{{ $brand->id }}">{{ $brand->localized_name }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -165,7 +165,7 @@
                                             <ul class="dropdown" style="display: none;">
                                                 <li data-id="" class="clear-option">{{ __('messages.any_fuel_type') }}</li>
                                                 @foreach($fuelTypes as $fuelType)
-                                                    <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
+                                                    <li data-id="{{ $fuelType->id }}">{{ $fuelType->localized_name }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -195,7 +195,7 @@
                             @foreach(AdvertisementType::all() as $at)
                                 <li>
                                     <a href="{{ route('inventory.list', ['advertisement_type' => $at->id]) }}" title="">
-                                        {{ $at->title }}
+                                        {{ $at->localized_title }}
                                     </a>
                                 </li>
                             @endforeach
@@ -275,12 +275,12 @@
                                 </div>
                                 <div class="content-box">
                                     <h6 class="title">
-                                        <a href="{{ route('advertisements.show', $newAdvertisement->id) }}">{{$newAdvertisement->brand?->name}}{{' '}}{{$newAdvertisement->vehicleModel?->name}}</a>
+                                        <a href="{{ route('advertisements.show', $newAdvertisement->id) }}">{{$newAdvertisement->brand?->localized_name}}{{' '}}{{$newAdvertisement->vehicleModel?->localized_name}}</a>
                                     </h6>
                                     <div class="text">{{$newAdvertisement->version_model}}</div>
                                     <ul>
                                         <li>
-                                            <i class="flaticon-gasoline-pump"></i>{{ $newAdvertisement->fuelType?->name ?? 'N/A' }}
+                                            <i class="flaticon-gasoline-pump"></i>{{ $newAdvertisement->fuelType?->localized_name ?? 'N/A' }}
                                         </li>
                                         <li>
                                             <i class="flaticon-speedometer"></i>{{ $newAdvertisement->mileage ? number_format($newAdvertisement->mileage) . ' miles' : 'N/A' }}
@@ -497,24 +497,21 @@
                                         @if($post->getFirstMediaUrl('images', 'medium'))
                                         <img
                                         src="{{ $post->getFirstMediaUrl('images', 'medium')}}"
-                                        alt="{{ $post->title }}">
+                                        alt="{{ $post->localized_title }}">
                                         @else
-                                            <img src="{{ asset('wizmoto/images/resource/blog-1.jpg') }}" alt="{{ $post->title }}">
+                                            <img src="{{ asset('wizmoto/images/resource/blog-1.jpg') }}" alt="{{ $post->localized_title }}">
                                         @endif
                                     </a>
                                 </figure>
-                                <span class="date">{{ $post->category->name ?? 'news' }}</span>
                             </div>
                             <div class="content-box">
                                 <ul class="post-info">
-                                    <ul class="post-info">
-                                        <li>{{ $post->author_name ?? 'Admin' }}</li>
-                                        <li>{{ $post->created_at->format('F d, Y') }}</li>
-                                    </ul>
+                                    <li>{{ $post->author_name ?? 'Admin' }}</li>
+                                    <li>{{ $post->created_at->format('F d, Y') }}</li>
                                 </ul>
                                 <h6 class="title">
-                                    <a href="{{ route('blogs.show', $post->slug) }}" title="{{ $post->title }}">
-                                        {{ Str::limit($post->title, 60) }}
+                                    <a href="{{ route('blogs.show', $post->slug) }}" title="{{ $post->localized_title }}">
+                                        {{ Str::limit($post->localized_title, 60) }}
                                     </a>
                                 </h6>
                             </div>

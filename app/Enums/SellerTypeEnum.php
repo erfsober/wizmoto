@@ -10,8 +10,8 @@ enum SellerTypeEnum: string
     public function getLabel(): string
     {
         return match($this) {
-            self::PRIVATE => 'Private Seller',
-            self::DEALER => 'Dealer',
+            self::PRIVATE => __('messages.private_seller'),
+            self::DEALER => __('messages.dealer'),
         };
     }
 

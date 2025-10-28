@@ -125,7 +125,7 @@
                     </li>
                     <li><span>Blog</span></li>
                 </ul>
-                <h2>{{$blogPost->tilte}}</h2>
+                <h2>{{$blogPost->localized_title}}</h2>
                 {{--            <ul class="post-info">--}}
                 {{--                <li><img src="images/resource/ali-tufan.png"></li>--}}
                 {{--                <li><a href="#" title="">Ali Tufan</a></li>--}}
@@ -140,12 +140,12 @@
                     <figure class="outer-image">
                         <img
                             src="{{ $blogPost->getFirstMediaUrl('images', 'large')}}"
-                            alt="{{ $blogPost->title }}">
+                            alt="{{ $blogPost->localized_title }}">
                     </figure>
                     <div class="right-box-two">
-                        <h4 class="title">{{ $blogPost->title }}</h4>
+                        <h4 class="title">{{ $blogPost->localized_title }}</h4>
                         <div class="text">
-                            {{ $blogPost->body }}
+                            {!! $blogPost->localized_body !!}
                         </div>
 
                         <div class="ruls-sec">
@@ -289,7 +289,7 @@
                                         <a href="{{ route('blogs.show', $blog->slug) }}">
                                             <img
                                                 src="{{ $blog->getFirstMediaUrl('images', 'medium')}}"
-                                                alt="{{ $blog->title }}">
+                                                alt="{{ $blog->localized_title }}">
                                         </a>
                                     </figure>
                                 </div>
@@ -299,8 +299,8 @@
                                         <li>{{ $blog->created_at->format('F d, Y') }}</li>
                                     </ul>
                                     <h6 class="title">
-                                        <a href="{{ route('blogs.show', $blog->slug) }}" title="{{ $blog->title }}">
-                                            {{ Str::limit($blog->title, 70) }}
+                                        <a href="{{ route('blogs.show', $blog->slug) }}" title="{{ $blog->localized_title }}">
+                                            {{ Str::limit($blog->localized_title, 70) }}
                                         </a>
                                     </h6>
                                 </div>

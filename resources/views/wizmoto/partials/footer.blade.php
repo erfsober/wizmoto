@@ -36,7 +36,7 @@
                                     <ul class="user-links style-two">
                                         @foreach ($popularModels as $model)
                                             <li><a href="{{ route('inventory.list') }}?vehicle_model_id={{ $model->id }}">
-                                                {{ $model->brand ? $model->brand->name . ' ' : '' }}{{ $model->name }}
+                                                {{ $model->brand ? $model->brand->localized_name . ' ' : '' }}{{ $model->localized_name }}
                                             </a></li>
                                         @endforeach
                                     </ul>
@@ -50,7 +50,7 @@
                                     <ul class="user-links style-two">
                                         @foreach ($popularBrands as $brand)
                                             <li><a href="{{ route('inventory.list') }}?brand_id={{ $brand->id }}">
-                                                    {{ $brand->name }}
+                                                    {{ $brand->localized_name }}
                                                 </a></li>
                                         @endforeach
                                     </ul>
@@ -63,7 +63,7 @@
                                 <div class="widget-content">
                                     <ul class="user-links style-two">
                                         @foreach ($vehicleTypes as $type)
-                                            <li><a href="{{ route('inventory.list') }}?advertisement_type={{ $type->id }}">{{ $type->title }}</a>
+                                            <li><a href="{{ route('inventory.list') }}?advertisement_type={{ $type->id }}">{{ $type->localized_title }}</a>
                                             </li>
                                         @endforeach
                                     </ul>

@@ -1,137 +1,30 @@
 @extends('master')
 @section('content')
-
-    <!-- Main Header-->
-	<header class="boxcar-header header-style-v1 style-two inner-header cus-style-1">
-        <div class="header-inner">
-            <div class="inner-container">
-                <!-- Main box -->
-                <div class="c-box">
-                    <div class="logo-inner">
-                        <div class="logo">
-                            <a href="{{ route("home") }}">
-                                <img src="{{asset("wizmoto/images/logo.png")}}" alt="" title="Boxcar">
-                            </a>
-                        </div>
-                        @include('wizmoto.partials.live-search', ['class' => 'style1'])
-                    </div>
-
-                    <!--Nav Box-->
-                    <div class="nav-out-bar">    
-                        <nav class="nav main-menu">
-                            <ul class="navigation" id="navbar">
-                                <li class="current-dropdown current">
-                                    <a class="box-account" href="{{route('home')}}">
-                                        Home
-                                    </a>
-                                </li>
-                             
-                                @if(Auth::guard('provider')->check())
-                                    <li class="current-dropdown">
-                                        <span>
-                                            {{ Auth::guard('provider')->user()->username }}
-                                            <i class="fa-solid fa-angle-down"></i>
-                                        </span>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('provider.logout') }}"
-                                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
-                                                </a>
-                                            </li>
-                                            </ul>
-                                    </li>
-    
-                                    <form id="logout-form" action="{{ route('provider.logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                @endif
-                            </ul>
-                        </nav>
-                        <!-- Main Menu End-->
-                    </div>
-
-                    <div class="right-box">
-                        @if(!Auth::guard('provider')->check())
-                            <a href="{{ route('provider.auth') }}" title="" class="box-account"> 
-                                <div class="icon">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_147_6490)">
-                                        <path d="M7.99998 9.01221C3.19258 9.01221 0.544983 11.2865 0.544983 15.4161C0.544983 15.7386 0.806389 16.0001 1.12892 16.0001H14.871C15.1935 16.0001 15.455 15.7386 15.455 15.4161C15.455 11.2867 12.8074 9.01221 7.99998 9.01221ZM1.73411 14.8322C1.9638 11.7445 4.06889 10.1801 7.99998 10.1801C11.9311 10.1801 14.0362 11.7445 14.2661 14.8322H1.73411Z" fill="white"/>
-                                        <path d="M7.99999 0C5.79171 0 4.12653 1.69869 4.12653 3.95116C4.12653 6.26959 5.86415 8.15553 7.99999 8.15553C10.1358 8.15553 11.8735 6.26959 11.8735 3.95134C11.8735 1.69869 10.2083 0 7.99999 0ZM7.99999 6.98784C6.50803 6.98784 5.2944 5.62569 5.2944 3.95134C5.2944 2.3385 6.43231 1.16788 7.99999 1.16788C9.54259 1.16788 10.7056 2.36438 10.7056 3.95134C10.7056 5.62569 9.49196 6.98784 7.99999 6.98784Z" fill="white"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_147_6490">
-                                        <rect width="16" height="16" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                    </svg>
-                                </div>
-                                Sign in
-                            </a>
-                        @endif
-                        <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">Sell</a>
-                        </div>
-                        <div class="mobile-navigation">
-                            <a href="#nav-mobile" title="">
-                               <svg width="22" height="11" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="22" height="2" fill="white"/>
-                                    <rect y="9" width="22" height="2" fill="white"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Mobile Menu  -->
-            </div>
-        </div>
-        <!-- Header Search -->
-        <div class="search-popup">
-            <span class="search-back-drop"></span>
-            <button class="close-search"><span class="fa fa-times"></span></button>
-        
-            <div class="search-inner">
-                <form method="post" action="index.html">
-                    <div class="form-group">
-                        <input type="search" name="search-field" value="" placeholder="Search..." required="">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- End Header Search -->
-
-        @include('wizmoto.partials.mobile-menu')
-	</header>
-    <!-- End header-section -->
+@include('wizmoto.partials.inner-header')
 
     <!-- cars-section-three -->
     <section class="cars-section-thirteen layout-radius">
         <div class="boxcar-container">
             <div class="boxcar-title-three wow fadeInUp">
                 <ul class="breadcrumb">
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><span>Filtered List</span></li>
+                    <li><a href="{{ route('home') }}">{{ __('messages.home') }}</a></li>
+                    <li><span>{{ __('messages.filtered_list') }}</span></li>
                 </ul>
-                <h2>What Kind of Motorcycle Should I Get?</h2>
+                <h2>{{ __('messages.what_kind_motorcycle') }}</h2>
                 
                 <!-- Selected Filters Bar -->
                 <div class="selected-filters-bar" id="selected-filters-bar" style="display: none;">
                     <div class="selected-filters-container">
                         <div class="selected-filters-label">
                             <i class="fa fa-filter"></i>
-                            <span>Active Filters:</span>
+                            <span>{{ __('messages.active_filters') }}:</span>
                         </div>
                         <div class="selected-filters-list" id="selected-filters-list">
                             <!-- Selected filters will be dynamically added here -->
                         </div>
                         <div class="selected-filters-actions">
                             <button type="button" class="clear-all-filters-btn">
-                                <i class="fa fa-times"></i> Clear All
+                                <i class="fa fa-times"></i> {{ __('messages.clear_all') }}
                             </button>
                         </div>
                     </div>
@@ -150,7 +43,7 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15.75 4.50903C13.9446 4.50903 12.4263 5.80309 12.0762 7.50903H2.25C1.83579 7.50903 1.5 7.84482 1.5 8.25903C1.5 8.67324 1.83579 9.00903 2.25 9.00903H12.0762C12.4263 10.715 13.9446 12.009 15.75 12.009C17.5554 12.009 19.0737 10.715 19.4238 9.00903H21.75C22.1642 9.00903 22.5 8.67324 22.5 8.25903C22.5 7.84482 22.1642 7.50903 21.75 7.50903H19.4238C19.0737 5.80309 17.5554 4.50903 15.75 4.50903ZM15.75 6.00903C17.0015 6.00903 18 7.00753 18 8.25903C18 9.51054 17.0015 10.509 15.75 10.509C14.4985 10.509 13.5 9.51054 13.5 8.25903C13.5 7.00753 14.4985 6.00903 15.75 6.00903Z" fill="#050B20"/>
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12.009C6.44461 12.009 4.92634 13.3031 4.57617 15.009H2.25C1.83579 15.009 1.5 15.3448 1.5 15.759C1.5 16.1732 1.83579 16.509 2.25 16.509H4.57617C4.92634 18.215 6.44461 19.509 8.25 19.509C10.0554 19.509 11.5737 18.215 11.9238 16.509H21.75C22.1642 16.509 22.5 16.1732 22.5 15.759C22.5 15.3448 22.1642 15.009 21.75 15.009H11.9238C11.5737 13.3031 10.0554 12.009 8.25 12.009ZM8.25 13.509C9.5015 13.509 10.5 14.5075 10.5 15.759C10.5 17.0105 9.5015 18.009 8.25 18.009C6.9985 18.009 6 17.0105 6 15.759C6 14.5075 6.9985 13.509 8.25 13.509Z" fill="#050B20"/>
                         </svg>
-                        Show Filter 
+                        {{ __('messages.show_filter') }} 
                     </div>
                     <div class="inventory-sidebar">
                         <div class="inventroy-widget widget-location">
@@ -158,7 +51,7 @@
                                 <!-- Main Data & Location Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Main Data & Location</h6>
+                                        <h6 class="title">{{ __('messages.main_data_location') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="row">
@@ -166,17 +59,17 @@
                                             <div class="vehicle-search-group" data-group="0">
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                        <label>Vehicle Category</label>
+                                        <label>{{ __('messages.vehicle_category') }}</label>
                                         <div class="drop-menu" id="advertisement-type-dropdown">
                                             <div class="select">
-                                                <span>Select Category</span>
+                                                <span>{{ __('messages.select_category') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                             <input type="hidden" name="advertisement_type" class="advertisement_type_input">
                                             <ul class="dropdown" style="display: none;">
-                                                <li data-id="">Any Category</li>
+                                                <li data-id="">{{ __('messages.any_category') }}</li>
                                                 @foreach ($advertisementTypes as $type)
-                                                    <li data-id="{{ $type->id }}">{{ $type->title }}</li>
+                                                    <li data-id="{{ $type->id }}">{{ $type->localized_title }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -184,17 +77,17 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                        <label>Brand</label>
+                                                        <label>{{ __('messages.brand') }}</label>
                                                         <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                             <div class="select">
-                                                                <span>Any Brand</span>
+                                                                <span>{{ __('messages.any_brands') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                             <input type="hidden" name="brand_id[]" class="brand_id_input">
                                             <ul class="dropdown" style="display: none;">
-                                                                <li data-id="" class="clear-option">Any Brand</li>
+                                                                <li data-id="" class="clear-option">{{ __('messages.any_brands') }}</li>
                                                                 @foreach ($brands as $brand)
-                                                                    <li data-id="{{ $brand->id }}">{{ $brand->name }}
+                                                                    <li data-id="{{ $brand->id }}">{{ $brand->localized_name }}
                                                                     </li>
                                                                 @endforeach
                                             </ul>
@@ -203,31 +96,31 @@
                                 </div>
                                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                        <label>Model</label>
+                                                        <label>{{ __('messages.model') }}</label>
                                                         <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                             <div class="select">
-                                                                <span>Any Model</span>
+                                                                <span>{{ __('messages.any_model') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                             <input type="hidden" name="vehicle_model_id[]"
                                                                 class="vehicle_model_id_input">
                                                             <ul class="dropdown" style="display: none;" id="model-select">
-                                                                <li data-id="" class="clear-option">Any Model</li>
+                                                                <li data-id="" class="clear-option">{{ __('messages.any_model') }}</li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form_boxes v2">
-                                                        <label>Version</label>
+                                                        <label>{{ __('messages.version') }}</label>
                                                         <div class="drop-menu active">
                                                             <input type="text" name="version_model[]"
-                                                                placeholder="Enter version">
+                                                                placeholder="{{ __('messages.enter_version') }}">
                                             </div>
                                         </div>
                                     </div>
                                                 <button type="button" class="remove-vehicle-group first-group-remove"
-                                                    title="Remove this vehicle" style="display: none;">
+                                                    title="{{ __('messages.remove_this_vehicle') }}" style="display: none;">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                 </div>
@@ -237,7 +130,7 @@
                                                 <div class="add-vehicle-group">
                                                     <button type="button" class="add-vehicle-btn">
                                                         <i class="fa fa-plus"></i>
-                                                        Add another vehicle
+                                                        {{ __('messages.add_another_vehicle') }}
                                                     </button>
                                                 </div>
                                             </div>
@@ -245,15 +138,15 @@
                                             <!-- Body Work -->
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                    <label>Body Work</label>
+                                                    <label>{{ __('messages.body_work') }}</label>
                                                     <div class="drop-menu searchable-dropdown" id="body-dropdown">
                                             <div class="select">
-                                                            <span>Any Body Work</span>
+                                                            <span>{{ __('messages.any_body_work') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="vehicle_body_id">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="" class="clear-option">Any Body Work</li>
+                                                            <li data-id="" class="clear-option">{{ __('messages.any_body_work') }}</li>
                                                             @foreach ($vehicleBodies as $vehicleBody)
                                                                 <li data-id="{{ $vehicleBody->id }}">{{ $vehicleBody->name }}
                                                                 </li>
@@ -266,17 +159,17 @@
                                             <!-- Fuel Type -->
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                    <label>Fuel Type</label>
+                                                    <label>{{ __('messages.fuel_type') }}</label>
                                                     <div class="drop-menu searchable-dropdown" id="fuel-dropdown">
                                             <div class="select">
-                                                            <span>Any Fuel Type</span>
+                                                            <span>{{ __('messages.any_fuel_type') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="fuel_type_id">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="" class="clear-option">Any Fuel Type</li>
+                                                            <li data-id="" class="clear-option">{{ __('messages.any_fuel_type') }}</li>
                                                             @foreach ($fuelTypes as $fuelType)
-                                                                <li data-id="{{ $fuelType->id }}">{{ $fuelType->name }}</li>
+                                                                <li data-id="{{ $fuelType->id }}">{{ $fuelType->localized_name }}</li>
                                                             @endforeach
                                             </ul>
                                         </div>
@@ -285,15 +178,15 @@
     
                                             <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Register Year</label>
+                                                    <label>{{ __('messages.register_year') }}</label>
                                                     <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
-                                                            <span>From</span>
+                                                            <span>{{ __('messages.from') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="registration_year_from">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any Year</li>
+                                                            <li data-id="">{{ __('messages.any_year') }}</li>
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
@@ -306,15 +199,15 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Register Year</label>
+                                                    <label>{{ __('messages.register_year') }}</label>
                                                     <div class="drop-menu" id="registration-year-to-dropdown">
                                             <div class="select">
-                                                            <span>To</span>
+                                                            <span>{{ __('messages.to') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="registration_year_to">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any Year</li>
+                                                            <li data-id="">{{ __('messages.any_year') }}</li>
                                                             @php
                                                                 $currentYear = date('Y');
                                                             @endphp
@@ -329,7 +222,7 @@
                                             <!-- Mileage -->
                                             <div class="col-lg-6">
                                                 <div class="form_boxes v2">
-                                                    <label>Mileage From</label>
+                                                    <label>{{ __('messages.mileage_from') }}</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="mileage_from" placeholder="">
                                                     </div>
@@ -337,7 +230,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes v2">
-                                                    <label>Mileage To</label>
+                                                    <label>{{ __('messages.mileage_to') }}</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="mileage_to" placeholder="">
                                                     </div>
@@ -347,17 +240,17 @@
                                             <!-- Power -->
                                 <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Power(CV)</label>
+                                                    <label>{{ __('messages.power_cv') }}</label>
                                                     <div class="drop-menu" id="power-cv-from-dropdown">
                                             <div class="select">
-                                                            <span>From</span>
+                                                            <span>{{ __('messages.from') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="power_cv_from">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any</li>
+                                                            <li data-id="">{{ __('messages.any') }}</li>
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
-                                                                <li data-id="{{ $cv }}">{{ $cv }} CV</li>
+                                                                <li data-id="{{ $cv }}">{{ $cv }} {{ __('messages.cv') }}</li>
                                                             @endfor
                                             </ul>
                                         </div>
@@ -365,17 +258,17 @@
                                 </div>
                                             <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Power(CV)</label>
+                                                    <label>{{ __('messages.power_cv') }}</label>
                                                     <div class="drop-menu" id="power-cv-to-dropdown">
                                             <div class="select">
-                                                            <span>To</span>
+                                                            <span>{{ __('messages.to') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="power_cv_to">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any</li>
+                                                            <li data-id="">{{ __('messages.any') }}</li>
                                                             @for ($cv = 10; $cv <= 500; $cv += 10)
-                                                                <li data-id="{{ $cv }}">{{ $cv }} CV</li>
+                                                                <li data-id="{{ $cv }}">{{ $cv }} {{ __('messages.cv') }}</li>
                                                             @endfor
                                             </ul>
                                         </div>
@@ -383,16 +276,16 @@
                                 </div>
     
                                             <div class="col-lg-6">
-                                    <div class="form_boxes">
-                                                    <label>Power(KW)</label>
+                                                <div class="form_boxes">
+                                                    <label>{{ __('messages.power_kw') }}</label>
                                                     <div class="drop-menu" id="power-kw-from-dropdown">
                                             <div class="select">
-                                                            <span>From</span>
+                                                            <span>{{ __('messages.from') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="power_kw_from">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any</li>
+                                                            <li data-id="">{{ __('messages.any') }}</li>
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
@@ -402,15 +295,15 @@
                                 </div>
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Power(KW)</label>
+                                                    <label>{{ __('messages.power_kw') }}</label>
                                                     <div class="drop-menu" id="power-kw-to-dropdown">
                                                         <div class="select">
-                                                            <span>To</span>
+                                                            <span>{{ __('messages.to') }}</span>
                                                             <i class="fa fa-angle-down"></i>
                                                     </div>
                                                         <input type="hidden" name="power_kw_to">
                                                         <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any</li>
+                                                            <li data-id="">{{ __('messages.any') }}</li>
                                                             @for ($kw = 5; $kw <= 400; $kw += 5)
                                                                 <li data-id="{{ $kw }}">{{ $kw }} KW</li>
                                                             @endfor
@@ -422,7 +315,7 @@
                                             <!-- Transmission (Multi-select) -->
                                 <div class="col-lg-12">
                                                 <div class="form_boxes">
-                                                    <label>Transmission</label>
+                                                    <label>{{ __('messages.transmission') }}</label>
                                                     <div class="multi-select-container">
                                                         <div class="selected-options">
                                                             <!-- Selected options will appear here -->
@@ -431,21 +324,21 @@
                                                             <div class="multi-select-list">
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
-                                                                        value="Manual">
+                                                                        value="manual">
                                                 <span class="checkmark"></span>
-                                                                    Manual
+                                                                    {{ __('messages.manual') }}
                                             </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
-                                                                        value="Automatic">
+                                                                        value="automatic">
                                                 <span class="checkmark"></span>
-                                                                    Automatic
+                                                                    {{ __('messages.automatic') }}
                                             </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="motor_change[]"
-                                                                        value="Semi-automatic">
+                                                                        value="semi-automatic">
                                                 <span class="checkmark"></span>
-                                                                    Semi-automatic
+                                                                    {{ __('messages.semi_automatic') }}
                                             </label>
                                         </div>
                                     </div>
@@ -456,21 +349,21 @@
                                             <!-- Number of Cylinders -->
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                    <label>Number of Cylinders</label>
+                                                    <label>{{ __('messages.number_of_cylinders') }}</label>
                                                     <div class="drop-menu" id="cylinders-dropdown">
                                             <div class="select">
-                                                            <span>Select Cylinders</span>
+                                                            <span>{{ __('messages.select_cylinders') }}</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
                                                         <input type="hidden" name="cylinders">
                                             <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any</li>
-                                                            <li data-id="1">1 Cylinder</li>
-                                                            <li data-id="2">2 Cylinders</li>
-                                                            <li data-id="3">3 Cylinders</li>
-                                                            <li data-id="4">4 Cylinders</li>
-                                                            <li data-id="6">6 Cylinders</li>
-                                                            <li data-id="8">8 Cylinders</li>
+                                                            <li data-id="">{{ __('messages.any') }}</li>
+                                                            <li data-id="1">1 {{ __('messages.cylinder') }}</li>
+                                                            <li data-id="2">2 {{ __('messages.cylinders') }}</li>
+                                                            <li data-id="3">3 {{ __('messages.cylinders') }}</li>
+                                                            <li data-id="4">4 {{ __('messages.cylinders') }}</li>
+                                                            <li data-id="6">6 {{ __('messages.cylinders') }}</li>
+                                                            <li data-id="8">8 {{ __('messages.cylinders') }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -479,14 +372,14 @@
                                             <!-- Engine Displacement Range -->
                                             <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Displacement From (cc)</label>
+                                                    <label>{{ __('messages.displacement_from') }}</label>
                                                     <input type="text" name="motor_displacement_from" placeholder="">
                                             </div>
                                         </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Displacement To (cc)</label>
+                                                    <label>{{ __('messages.displacement_to') }}</label>
                                                     <input type="text" name="motor_displacement_to" placeholder="">
                                     </div>
                                 </div>
@@ -494,14 +387,14 @@
                                             <!-- Price Range -->
                                             <div class="col-lg-6">
                                     <div class="form_boxes">
-                                                    <label>Price From ($)</label>
+                                                    <label>{{ __('messages.price_from') }} ($)</label>
                                                     <input type="text" name="price_from" placeholder="">
                                             </div>
                                         </div>
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Price To ($)</label>
+                                                    <label>{{ __('messages.price_to') }} ($)</label>
                                                     <input type="text" name="price_to" placeholder="">
                                     </div>
                                 </div>
@@ -509,7 +402,7 @@
                                             <!-- Vehicle Conditions -->
                                 <div class="col-lg-12">
                                     <div class="form_boxes">
-                                                    <label>Vehicle Conditions</label>
+                                                    <label>{{ __('messages.vehicle_conditions') }}</label>
                                                     <div class="multi-select-container">
                                                         <div class="selected-options">
                                                             <!-- Selected options will appear here -->
@@ -518,15 +411,15 @@
                                                             <div class="multi-select-list">
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="vehicle_category[]"
-                                                                        value="Used">
+                                                                        value="used">
                                                 <span class="checkmark"></span>
-                                                                    Used
+                                                                    {{ __('messages.used') }}
                                             </label>
                                                                 <label class="multi-select-item">
                                                                     <input type="checkbox" name="vehicle_category[]"
-                                                                        value="Era">
+                                                                        value="era">
                                                 <span class="checkmark"></span>
-                                                                    Era
+                                                                    {{ __('messages.era') }}
                                             </label>
                                         </div>
                                     </div>
@@ -537,15 +430,15 @@
                                             <!-- Village/City -->
                                             <div class="col-lg-12">
                                                 <div class="form_boxes">
-                                                    <label>Village/City</label>
+                                                    <label>{{ __('messages.village_city') }}</label>
                                                     <div class="drop-menu" id="city-dropdown">
                                         <div class="select">
-                                                            <span>Select City</span>
+                                                            <span>{{ __('messages.select_city') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                                         <input type="hidden" name="city">
                                         <ul class="dropdown" style="display: none;">
-                                                            <li data-id="">Any City</li>
+                                                            <li data-id="">{{ __('messages.any_city') }}</li>
                                                             <li data-id="1">New York</li>
                                                             <li data-id="2">Los Angeles</li>
                                                             <li data-id="3">Chicago</li>
@@ -559,7 +452,7 @@
                                             <!-- Postal Code -->
                                             <div class="col-lg-12">
                                                 <div class="form_boxes v2">
-                                                    <label>Postal Code</label>
+                                                    <label>{{ __('messages.zip_code') }}</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="zip_code" placeholder="">
                                 </div>
@@ -569,7 +462,7 @@
                                             <!-- Radius -->
                                             <div class="col-lg-12">
                                                 <div class="form_boxes v2">
-                                                    <label>Search Radius (km)</label>
+                                                    <label>{{ __('messages.search_radius') }} (km)</label>
                                                     <div class="drop-menu active">
                                                         <input type="text" name="search_radius" placeholder="">
                                                 </div>
@@ -582,7 +475,7 @@
                                 <!-- Seller Type Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Seller Type</h6>
+                                        <h6 class="title">{{ __('messages.seller_type') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
@@ -602,42 +495,42 @@
                                 <!-- Price Evaluation (AutoScout-style) -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Price evaluation</h6>
+                                        <h6 class="title">{{ __('messages.price_evaluation') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="checkbox-container">
                                             <div class="contain">
-                                                <input type="checkbox" name="price_eval[]" value="Super Price" id="price_eval_super" data-label="Top offer" aria-label="Top offer">
+                                                <input type="checkbox" name="price_eval[]" value="Super Price" id="price_eval_super" data-label="{{ __('messages.top_offer') }}" aria-label="{{ __('messages.top_offer') }}">
                                                 <span class="checkmark"></span>
-                                                <label for="price_eval_super" title="Top offer">
-                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#0E5C2F;background:#D5F2E3;">Top offer</span>
+                                                <label for="price_eval_super" title="{{ __('messages.top_offer') }}">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#0E5C2F;background:#D5F2E3;">{{ __('messages.top_offer') }}</span>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="checkbox-container">
                                             <div class="contain">
-                                                <input type="checkbox" name="price_eval[]" value="Great Price" id="price_eval_great" data-label="Good price" aria-label="Good price">
+                                                <input type="checkbox" name="price_eval[]" value="Great Price" id="price_eval_great" data-label="{{ __('messages.good_price') }}" aria-label="{{ __('messages.good_price') }}">
                                                 <span class="checkmark"></span>
-                                                <label for="price_eval_great" title="Good price">
-                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#1F7A3E;background:#E3F7EB;">Good price</span>
+                                                <label for="price_eval_great" title="{{ __('messages.good_price') }}">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#1F7A3E;background:#E3F7EB;">{{ __('messages.good_price') }}</span>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="checkbox-container">
                                             <div class="contain">
-                                                <input type="checkbox" name="price_eval[]" value="Good Price" id="price_eval_good" data-label="Fair price" aria-label="Fair price">
+                                                <input type="checkbox" name="price_eval[]" value="Good Price" id="price_eval_good" data-label="{{ __('messages.fair_price') }}" aria-label="{{ __('messages.fair_price') }}">
                                                 <span class="checkmark"></span>
-                                                <label for="price_eval_good" title="Fair price">
-                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#8A6D00;background:#FFF3CD;">Fair price</span>
+                                                <label for="price_eval_good" title="{{ __('messages.fair_price') }}">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#8A6D00;background:#FFF3CD;">{{ __('messages.fair_price') }}</span>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="checkbox-container">
                                             <div class="contain">
-                                                <input type="checkbox" name="price_eval[]" value="ND" id="price_eval_nd" data-label="No rating" aria-label="No rating">
+                                                <input type="checkbox" name="price_eval[]" value="ND" id="price_eval_nd" data-label="{{ __('messages.no_rating') }}" aria-label="{{ __('messages.no_rating') }}">
                                                 <span class="checkmark"></span>
-                                                <label for="price_eval_nd" title="No rating">
-                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#6C757D;background:#E9ECEF;">No rating</span>
+                                                <label for="price_eval_nd" title="{{ __('messages.no_rating') }}">
+                                                    <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#6C757D;background:#E9ECEF;">{{ __('messages.no_rating') }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -647,7 +540,7 @@
                                 <!-- Vehicle Condition Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Vehicle Condition</h6>
+                                        <h6 class="title">{{ __('messages.vehicle_condition') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
@@ -655,14 +548,14 @@
                                                 <div class="contain">
                                                     <input type="checkbox" name="service_history_available" id="service_history_available">
                                                     <span class="checkmark"></span>
-                                                    <label for="service_history_available">Service History Available</label>
+                                                    <label for="service_history_available">{{ __('messages.service_history_available') }}</label>
                                                 </div>
                                             </div>
                                             <div class="checkbox-container">
                                                 <div class="contain">
                                                     <input type="checkbox" name="warranty_available" id="warranty_available">
                                                     <span class="checkmark"></span>
-                                                    <label for="warranty_available">Warranty Available</label>
+                                                    <label for="warranty_available">{{ __('messages.warranty_available') }}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -672,30 +565,30 @@
                                 <!-- Technical Specifications Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Technical Specifications</h6>
+                                        <h6 class="title">{{ __('messages.technical_specifications') }}</h6>
                                     </div>
                                     <div class="filter-section-content row">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
-                                                <label>Drive Type</label>
+                                                <label>{{ __('messages.drive_type') }}</label>
                                                 <div class="drop-menu" id="drive-type-dropdown">
                                                     <div class="select">
-                                                        <span>Select Drive Type</span>
+                                                        <span>{{ __('messages.select_drive_type') }}</span>
                                                         <i class="fa fa-angle-down"></i>
                                                     </div>
                                                     <input type="hidden" name="drive_type" class="drive_type_input">
                                                     <ul class="dropdown" style="display: none;">
-                                                        <li data-value="">Any Drive Type</li>
-                                                        <li data-value="chain">Chain</li>
-                                                        <li data-value="belt">Belt</li>
-                                                        <li data-value="shaft">Shaft</li>
+                                                        <li data-value="">{{ __('messages.any') }} {{ __('messages.drive_type') }}</li>
+                                                        <li data-value="chain">{{ __('messages.chain') }}</li>
+                                                        <li data-value="belt">{{ __('messages.belt') }}</li>
+                                                        <li data-value="shaft">{{ __('messages.shaft') }}</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Tank Capacity (from)</label>
+                                                <label>{{ __('messages.tank_capacity_from') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="tank_capacity_from" placeholder="">
                                                 </div>
@@ -703,7 +596,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Tank Capacity (to)</label>
+                                                <label>{{ __('messages.tank_capacity_to') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="tank_capacity_to" placeholder="">
                                                 </div>
@@ -711,7 +604,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Seat Height (from)</label>
+                                                <label>{{ __('messages.seat_height_from') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="seat_height_from" placeholder="">
                                                 </div>
@@ -719,7 +612,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Seat Height (to)</label>
+                                                <label>{{ __('messages.seat_height_to') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="seat_height_to" placeholder="">
                                                 </div>
@@ -727,7 +620,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Top Speed (from)</label>
+                                                <label>{{ __('messages.top_speed_from') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="top_speed_from" placeholder="">
                                                 </div>
@@ -735,7 +628,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Top Speed (to)</label>
+                                                <label>{{ __('messages.top_speed_to') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="top_speed_to" placeholder="">
                                                 </div>
@@ -743,7 +636,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Torque (from)</label>
+                                                <label>{{ __('messages.torque_from') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="torque_from" placeholder="">
                                                 </div>
@@ -751,7 +644,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form_boxes">
-                                                <label>Torque (to)</label>
+                                                <label>{{ __('messages.torque_to') }}</label>
                                                 <div class="drop-menu active">
                                                     <input type="text" name="torque_to" placeholder="">
                                                 </div>
@@ -763,7 +656,7 @@
                                 <!-- Sales Features Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Sales Features</h6>
+                                        <h6 class="title">{{ __('messages.sales_features') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
@@ -771,21 +664,21 @@
                                                 <div class="contain">
                                                     <input type="checkbox" name="financing_available" id="financing_available">
                                                     <span class="checkmark"></span>
-                                                    <label for="financing_available">Financing Available</label>
+                                                    <label for="financing_available">{{ __('messages.financing_available') }}</label>
                                                 </div>
                                             </div>
                                             <div class="checkbox-container">
                                                 <div class="contain">
                                                     <input type="checkbox" name="trade_in_possible" id="trade_in_possible">
                                                     <span class="checkmark"></span>
-                                                    <label for="trade_in_possible">Trade-in Possible</label>
+                                                    <label for="trade_in_possible">{{ __('messages.trade_in_possible') }}</label>
                                                 </div>
                                             </div>
                                             <div class="checkbox-container">
                                                 <div class="contain">
                                                     <input type="checkbox" name="available_immediately" id="available_immediately">
                                                     <span class="checkmark"></span>
-                                                    <label for="available_immediately">Available Immediately</label>
+                                                    <label for="available_immediately">{{ __('messages.available_immediately') }}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -795,7 +688,7 @@
                                 <!-- Equipment Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Equipment</h6>
+                                        <h6 class="title">{{ __('messages.equipment') }}</h6>
                                     </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
@@ -806,7 +699,7 @@
                                                             <input type="checkbox" name="equipments[]"
                                                                 value="{{ $equipment->id }}">
                                                             <span class="checkmark"></span>
-                                                            {{ $equipment->name }}
+                                                            {{ $equipment->localized_name }}
                                                         </label>
                                                     @endforeach
                                 </div>
@@ -815,7 +708,7 @@
                                                         <button type="button" class="btn btn-outline-primary show-more-equipment" 
                                                                 data-loaded="10" data-total="{{ $equipments->count() }}">
                                                             <i class="fa fa-plus"></i>
-                                                            Show +10 more equipment
+                                                            {{ __('messages.show_more_equipment', ['count' => 10]) }}
                                                         </button>
                             </div>
                                                 @endif
@@ -827,12 +720,12 @@
                                 <!-- Exteriors Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Exteriors</h6>
+                                        <h6 class="title">{{ __('messages.characteristics') }}</h6>
                                                 </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
-                                                <label>Body Color</label>
+                                                <label>{{ __('messages.exterior_color') }}</label>
                                                 <div class="color-list">
                                                     @foreach ($vehicleColors as $color)
                                                         <label class="checkbox-item"
@@ -840,7 +733,7 @@
                                                             <input type="checkbox" name="color_ids[]"
                                                                 value="{{ $color->id }}">
                                                             <span class="checkmark"></span>
-                                                            {{ $color->name }}
+                                                            {{ $color->localized_name }}
                                                         </label>
                                                     @endforeach
                                             </div>
@@ -852,7 +745,7 @@
                                             <label class="checkbox-item">
                                                 <input type="checkbox" name="is_metallic_paint" value="1">
                                                 <span class="checkmark"></span>
-                                                Metallic Paint
+                                                {{ __('messages.metallic_paint') }}
                                             </label>
                                                 
                                             </div>
@@ -863,14 +756,14 @@
                                 <!-- Vehicle Conditions Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">Vehicle Conditions</h6>
+                                        <h6 class="title">{{ __('messages.vehicle_conditions') }}</h6>
                                                 </div>
                                     <div class="filter-section-content">
     
     
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
-                                                <label>Previous Owners</label>
+                                                <label>{{ __('messages.previous_owners') }}</label>
                                                 <div class="previous-owners-container">
                                                     <div class="owners-options">
                                                         <label class="owners-option">
@@ -914,7 +807,7 @@
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
-                                                <label>Emission Class</label>
+                                                <label>{{ __('messages.emissions_class') }}</label>
                                                 <div class="multi-select-container">
                                                     <div class="selected-options"></div>
                                                     <div class="multi-select-dropdown">
@@ -945,7 +838,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Emissions From</label>
+                                                    <label>{{ __('messages.co2_emissions_from') }}</label>
                                                     <input type="text" name="co2_emissions_from" class=""
                                                         placeholder="" >
                                 </div>
@@ -953,7 +846,7 @@
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Emissions To</label>
+                                                    <label>{{ __('messages.co2_emissions_to') }}</label>
                                                     <input type="text" name="co2_emissions_to" placeholder=""
                                                         >
                         </div>
@@ -961,7 +854,7 @@
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Fuel Consumption From</label>
+                                                    <label>{{ __('messages.fuel_consumption_from') }}</label>
                                                     <input type="text" name="fuel_consumption_from" placeholder=""
                                                         >
                                                 </div>
@@ -969,7 +862,7 @@
     
                                             <div class="col-lg-6">
                                                 <div class="form_boxes">
-                                                    <label>Fuel Consumption To</label>
+                                                    <label>{{ __('messages.fuel_consumption_to') }}</label>
                                                     <input type="text" name="fuel_consumption_to" placeholder="">
                                                 </div>
                                             </div>
@@ -980,20 +873,20 @@
                                 <!-- More Information Section -->
                                 <div class="filter-section">
                                     <div class="filter-section-header">
-                                        <h6 class="title">More Information</h6>
+                                        <h6 class="title">{{ __('messages.more_information') }}</h6>
                                                 </div>
                                     <div class="filter-section-content">
                                         <div class="col-lg-12">
                                             <div class="form_boxes">
-                                                <label>Online From</label>
+                                                <label>{{ __('messages.online_from') }}</label>
                                                 <div class="drop-menu" id="online-from-dropdown">
                                                     <div class="select">
-                                                        <span>Select Period</span>
+                                                        <span>{{ __('messages.select_period') }}</span>
                                                         <i class="fa fa-angle-down"></i>
                                             </div>
                                                     <input type="hidden" name="online_from_period">
                                                     <ul class="dropdown" style="display: none;">
-                                                        <li data-id="">Any Time</li>
+                                                        <li data-id="">{{ __('messages.any_time') }}</li>
                                                         <li data-id="1">1 day</li>
                                                         <li data-id="2">2 days</li>
                                                         <li data-id="3">3 days</li>
@@ -1013,7 +906,7 @@
                                                 <label class="checkbox-item">
                                                     <input type="checkbox" name="tax_deductible" value="1">
                                                     <span class="checkmark"></span>
-                                                    VAT Deductible
+                                                    {{ __('messages.deductible_vat') }}
                                                 </label>
                                 </div>
                             </div>
@@ -1050,7 +943,7 @@
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span id="mobile-results-text">Show <span id="mobile-results-count">{{ $advertisements->total() }}</span> Results</span>
+                            <span id="mobile-results-text">{{ __('messages.show') }} <span id="mobile-results-count">{{ $advertisements->total() }}</span> {{ __('messages.results') }}</span>
                         </button>
                     </div>
                                         </div>
@@ -1064,11 +957,11 @@
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.75 4.50903C13.9446 4.50903 12.4263 5.80309 12.0762 7.50903H2.25C1.83579 7.50903 1.5 7.84482 1.5 8.25903C1.5 8.67324 1.83579 9.00903 2.25 9.00903H12.0762C12.4263 10.715 13.9446 12.009 15.75 12.009C17.5554 12.009 19.0737 10.715 19.4238 9.00903H21.75C22.1642 9.00903 22.5 8.67324 22.5 8.25903C22.5 7.84482 22.1642 7.50903 21.75 7.50903H19.4238C19.0737 5.80309 17.5554 4.50903 15.75 4.50903ZM15.75 6.00903C17.0015 6.00903 18 7.00753 18 8.25903C18 9.51054 17.0015 10.509 15.75 10.509C14.4985 10.509 13.5 9.51054 13.5 8.25903C13.5 7.00753 14.4985 6.00903 15.75 6.00903Z" fill="white"/>
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 12.009C6.44461 12.009 4.92634 13.3031 4.57617 15.009H2.25C1.83579 15.009 1.5 15.3448 1.5 15.759C1.5 16.1732 1.83579 16.509 2.25 16.509H4.57617C4.92634 18.215 6.44461 19.509 8.25 19.509C10.0554 19.509 11.5737 18.215 11.9238 16.509H21.75C22.1642 16.509 22.5 16.1732 22.5 15.759C22.5 15.3448 22.1642 15.009 21.75 15.009H11.9238C11.5737 13.3031 10.0554 12.009 8.25 12.009ZM8.25 13.509C9.5015 13.509 10.5 14.5075 10.5 15.759C10.5 17.0105 9.5015 18.009 8.25 18.009C6.9985 18.009 6 17.0105 6 15.759C6 14.5075 6.9985 13.509 8.25 13.509Z" fill="white"/>
                                     </svg>
-                                    <span>Filters</span>
+                                    <span>{{ __('messages.filters') }}</span>
                                     <span class="mobile-filter-badge" id="mobile-filter-badge-top" style="background: white; color: #405FF2; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; display: none;">0</span>
                                 </button>
                                 <div class="mobile-results-count-text" style="flex: 1; font-size: 14px; color: #666;">
-                                    <span id="mobile-total-results">{{ $advertisements->total() }}</span> results
+                                    <span id="mobile-total-results">{{ $advertisements->total() }}</span> {{ __('messages.results') }}
                                 </div>
                             </div>
                             
@@ -1081,9 +974,9 @@
                         <div class="text-box">
                             <div class="text" id="pagination-info">
                                 @if($advertisements->count() > 0)
-                                    Showing {{ $advertisements->firstItem() }} to {{ $advertisements->lastItem() }} of {{ $advertisements->total() }} vehicles
+                                    {{ __('messages.showing_results') }} {{ $advertisements->firstItem() }} {{ __('messages.to') }} {{ $advertisements->lastItem() }} {{ __('messages.of') }} {{ $advertisements->total() }} {{ __('messages.vehicles') }}
                                 @else
-                                    No vehicles found
+                                    {{ __('messages.no_vehicles_found') }}
                                 @endif
                                     </div>
                                             </div>
@@ -1092,9 +985,9 @@
                             <!-- Loading indicator -->
                             <div id="loading-indicator" style="display: none; text-align: center; padding: 50px;">
                                 <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
+                                    <span class="sr-only">{{ __('messages.loading') }}...</span>
                                     </div>
-                                <p>Loading vehicles...</p>
+                                <p>{{ __('messages.loading_vehicles') }}...</p>
                                 </div>
                             
                             @include('wizmoto.home.partials.vehicle-cards', ['advertisements' => $advertisements])
@@ -1289,7 +1182,7 @@
                     const val = $(this).val();
                     if (val) {
                         const text = $(this).closest('.vehicle-search-group').find('[id^="brand-dropdown"] .select span').text();
-                        if (text && text !== 'Any Brand' && text !== 'Select Brand') {
+                        if (text && text !== '{{ __('messages.any_brands') }}' && text !== '{{ __('messages.select_brand') }}') {
                             selectedFilters.push({type: 'brand', value: val, text: text, input: $(this)});
                             count++;
                         }
@@ -1301,7 +1194,7 @@
                     const val = $(this).val();
                     if (val) {
                         const text = $(this).closest('.vehicle-search-group').find('[id^="model-dropdown"] .select span').text();
-                        if (text && text !== 'Any Model' && text !== 'Select Model') {
+                        if (text && text !== '{{ __('messages.any_model') }}' && text !== '{{ __('messages.select_model') }}') {
                             selectedFilters.push({type: 'model', value: val, text: text, input: $(this)});
                             count++;
                         }
@@ -1310,17 +1203,17 @@
                 
                 // Check other filters
                 const filterMap = {
-                    'vehicle_body_id': 'Body',
-                    'fuel_type_id': 'Fuel',
-                    'seller_type': 'Seller',
-                    'drive_type': 'Drive'
+                    'vehicle_body_id': '{{ __('messages.body_work') }}',
+                    'fuel_type_id': '{{ __('messages.fuel_type') }}',
+                    'seller_type': '{{ __('messages.seller_type') }}',
+                    'drive_type': '{{ __('messages.drive_type') }}'
                 };
                 
                 Object.keys(filterMap).forEach(function(name) {
                     const $input = $('input[name="' + name + '"]');
                     if ($input.val()) {
                         const text = $input.closest('.drop-menu').find('.select span').text();
-                        if (text && !text.includes('Any') && !text.includes('Select')) {
+                        if (text && !text.includes('{{ __('messages.any') }}') && !text.includes('{{ __('messages.select') }}')) {
                             selectedFilters.push({type: name, value: $input.val(), text: text, input: $input});
                             count++;
                         }
@@ -1394,7 +1287,15 @@
                     $removeBtn.on('click', function() {
                         // Clear the filter
                         filter.input.val('').trigger('change');
-                        filter.input.closest('.drop-menu').find('.select span').text('Any ' + filter.type);
+                        const anyLabelMap = {
+                            brand: '{{ __('messages.any_brands') }}',
+                            model: '{{ __('messages.any_model') }}',
+                            vehicle_body_id: '{{ __('messages.any_body_work') }}',
+                            fuel_type_id: '{{ __('messages.any_fuel_type') }}',
+                            drive_type: '{{ __('messages.any_drive_type') }}'
+                        };
+                        const anyLabel = anyLabelMap[filter.type] || '{{ __('messages.any') }}';
+                        filter.input.closest('.drop-menu').find('.select span').text(anyLabel);
                         
                         // Update UI
                         updateMobileFilterCount();
@@ -1441,7 +1342,7 @@
             // Mobile sort button (placeholder - can be enhanced)
             $('#mobile-sort-toggle').on('click', function() {
                 // You can add a sort modal/dropdown here
-                alert('Sort functionality - to be implemented');
+                alert('{{ __('messages.sort_functionality_to_be_implemented') }}');
             });
 
             // Auto-close sidebar after applying filters (optional)
@@ -1476,7 +1377,7 @@
                     // No filters, use server total
                     $('#mobile-total-results').text(serverTotal);
                     $('#mobile-results-count').text(serverTotal);
-                    $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                    $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${serverTotal}</span> {{ __('messages.results') }}${serverTotal !== 1 ? 's' : ''}`);
                     $('#mobile-show-results-btn').prop('disabled', serverTotal === 0);
                     return;
                 }
@@ -1493,10 +1394,10 @@
                         $('#mobile-results-count').text(count);
                         
                         if (count === 0) {
-                            $('#mobile-results-text').html('No Results Found');
+                            $('#mobile-results-text').html('{{ __('messages.no_results_found') }}');
                             $('#mobile-show-results-btn').prop('disabled', true);
                         } else {
-                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${count}</span> Result${count !== 1 ? 's' : ''}`);
+                            $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${count}</span> {{ __('messages.results') }}${count !== 1 ? 's' : ''}`);
                             $('#mobile-show-results-btn').prop('disabled', false);
                         }
                     },
@@ -1505,7 +1406,7 @@
                         // Fallback to server total
                         $('#mobile-total-results').text(serverTotal);
                         $('#mobile-results-count').text(serverTotal);
-                        $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                        $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${serverTotal}</span> {{ __('messages.results') }}${serverTotal !== 1 ? 's' : ''}`);
                         $('#mobile-show-results-btn').prop('disabled', serverTotal === 0);
                     }
                 });
@@ -1550,7 +1451,7 @@
                             const serverTotal = {{ $advertisements->total() }};
                             $('#mobile-total-results').text(serverTotal);
                             $('#mobile-results-count').text(serverTotal);
-                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                            $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${serverTotal}</span> {{ __('messages.results') }}${serverTotal !== 1 ? 's' : ''}`);
                             $('#mobile-show-results-btn').prop('disabled', false);
                         }
                     }, 300);
@@ -1594,10 +1495,10 @@
             $('#mobile-results-count').text(initialTotal);
             
             if (initialTotal > 0) {
-                $('#mobile-results-text').html(`Show <span id="mobile-results-count">${initialTotal}</span> Result${initialTotal !== 1 ? 's' : ''}`);
+                $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${initialTotal}</span> {{ __('messages.results') }}${initialTotal !== 1 ? 's' : ''}`);
                 $('#mobile-show-results-btn').prop('disabled', false);
             } else {
-                $('#mobile-results-text').html('No Results Found');
+                $('#mobile-results-text').html('{{ __('messages.no_results_found') }}');
                 $('#mobile-show-results-btn').prop('disabled', true);
             }
             
@@ -1659,7 +1560,7 @@
                 
                 // Add visible remove button for cloned groups
                 newGroup.append(`
-            <button type="button" class="remove-vehicle-group" title="Remove this vehicle">
+            <button type="button" class="remove-vehicle-group" title="{{ __('messages.remove_this_vehicle') }}">
                 <i class="fa fa-times"></i>
             </button>
         `);
@@ -1758,7 +1659,7 @@
                             const serverTotal = {{ $advertisements->total() }};
                             $('#mobile-total-results').text(serverTotal);
                             $('#mobile-results-count').text(serverTotal);
-                            $('#mobile-results-text').html(`Show <span id="mobile-results-count">${serverTotal}</span> Result${serverTotal !== 1 ? 's' : ''}`);
+                            $('#mobile-results-text').html(`{{ __('messages.show') }} <span id="mobile-results-count">${serverTotal}</span> {{ __('messages.results') }}${serverTotal !== 1 ? 's' : ''}`);
                             $('#mobile-show-results-btn').prop('disabled', false);
                         } else {
                             // Has brand, delay results count to ensure form is updated
@@ -3266,9 +3167,9 @@
                     
                     // Body type
                     const bodyType = $('#body-dropdown .select span').text();
-                    if (bodyType && !bodyType.includes('Select') && !bodyType.includes('Any')) {
+                    if (bodyType && !bodyType.includes('{{ __('messages.select') }}') && !bodyType.includes('{{ __('messages.any') }}')) {
                         filters.body = {
-                            name: 'Body Type',
+                            name: '{{ __('messages.body_work') }}',
                             value: bodyType,
                             type: 'single'
                         };
@@ -3276,9 +3177,9 @@
                     
                     // City
                     const city = $('#city-dropdown .select span').text();
-                    if (city && !city.includes('Select') && !city.includes('Any')) {
+                    if (city && !city.includes('{{ __('messages.select') }}') && !city.includes('{{ __('messages.any') }}')) {
                         filters.city = {
-                            name: 'City',
+                            name: '{{ __('messages.city') }}',
                             value: city,
                             type: 'single'
                         };
@@ -3480,9 +3381,9 @@
                     
                     // Online From Period
                     const onlineFromPeriod = $('#online-from-dropdown .select span').text();
-                    if (onlineFromPeriod && !onlineFromPeriod.includes('Select')) {
+                    if (onlineFromPeriod && !onlineFromPeriod.includes('{{ __('messages.select') }}')) {
                         filters.onlineFromPeriod = {
-                            name: 'Online From',
+                            name: '{{ __('messages.online_from') }}',
                             value: onlineFromPeriod,
                             type: 'single'
                         };
@@ -3647,15 +3548,15 @@
                     
                     if (serviceHistory) {
                         filters.serviceHistory = {
-                            name: 'Service History',
-                            value: 'Available',
+                            name: '{{ __('messages.service_history') }}',
+                            value: '{{ __('messages.available') }}',
                             type: 'single'
                         };
                     }
                     if (warranty) {
                         filters.warranty = {
-                            name: 'Warranty',
-                            value: 'Available',
+                            name: '{{ __('messages.warranty') }}',
+                            value: '{{ __('messages.available') }}',
                             type: 'single'
                         };
                     }
@@ -3664,7 +3565,7 @@
                     const driveType = $('#drive-type-dropdown .select span').text();
                     if (driveType && !driveType.includes('Select')) {
                         filters.driveType = {
-                            name: 'Drive Type',
+                            name: '{{ __('messages.drive_type') }}',
                             value: driveType,
                             type: 'single'
                         };
@@ -3753,22 +3654,22 @@
                     
                     if (financing) {
                         filters.financing = {
-                            name: 'Financing',
-                            value: 'Available',
+                            name: '{{ __('messages.financing') }}',
+                            value: '{{ __('messages.available') }}',
                             type: 'single'
                         };
                     }
                     if (tradeIn) {
                         filters.tradeIn = {
-                            name: 'Trade-in',
-                            value: 'Possible',
+                            name: '{{ __('messages.trade_in') }}',
+                            value: '{{ __('messages.possible') }}',
                             type: 'single'
                         };
                     }
                     if (availableImmediately) {
                         filters.availableImmediately = {
-                            name: 'Available',
-                            value: 'Immediately',
+                            name: '{{ __('messages.available') }}',
+                            value: '{{ __('messages.immediately') }}',
                             type: 'single'
                         };
                     }
@@ -3921,7 +3822,7 @@
                             $('#body-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'city':
-                            $('#city-dropdown .select span').text('Any City');
+                            $('#city-dropdown .select span').text('{{ __('messages.any_city') }}');
                             $('#city-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'fuel':
@@ -3964,7 +3865,7 @@
                             $('#cylinders-dropdown .select span').text('Select Cylinders');
                             break;
                         case 'onlineFromPeriod':
-                            $('#online-from-dropdown .select span').text('Select Period');
+                            $('#online-from-dropdown .select span').text('{{ __('messages.select_period') }}');
                             $('#online-from-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'co2Emissions':

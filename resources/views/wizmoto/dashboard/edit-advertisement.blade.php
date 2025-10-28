@@ -3,13 +3,13 @@
     <div class="content-column">
         <div class="inner-column">
             <div class="list-title">
-                <h3 class="title">Edit Advertisement</h3>
+                <h3 class="title">{{ __('messages.edit_advertisement') }}</h3>
             </div>
             <div class="form-box">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                            type="button" role="tab" aria-controls="home" aria-selected="true">Vehicle Details</button>
+                            type="button" role="tab" aria-controls="home" aria-selected="true">{{ __('messages.vehicle_details') }}</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -21,11 +21,11 @@
                             <input type="hidden" name="provider_id" value="{{ $provider->id }}">
                             <input type="hidden" name="advertisement_id" value="{{ $advertisement->id }}">
                             {{-- Vehicle data --}}
-                            <h6>Vehicle data</h6>
+                            <h6>{{ __('messages.vehicle_data') }}</h6>
                             <div class="form-column col-lg-12">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Sell <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.sell') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="advertisement-type-dropdown">
                                         <div class="select">
                                             <span
@@ -46,7 +46,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Brand <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.brand') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="brand-dropdown">
                                         <div class="select">
                                             <span
@@ -66,7 +66,7 @@
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>Model <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.model') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="model-dropdown">
                                         <div class="select">
                                             <span
@@ -83,7 +83,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Version</label>
+                                    <label>{{ __('messages.version') }}</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="version_model"
                                             value="{{ old('version_model', $advertisement->version_model ?? '') }}">
@@ -92,15 +92,15 @@
                             </div>
                             <hr class="my-5" />
                             {{-- Characteristics --}}
-                            <h6>Characteristics</h6>
+                            <h6>{{ __('messages.characteristics') }}</h6>
                             <div class="form-column col-lg-6">
                                 <span class="error-text text-red-600 text-sm mt-1 block"></span>
                                 <div class="form_boxes">
-                                    <label>BodyWork <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.body_work') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle_body-dropdown">
                                         <div class="select">
                                             <span
-                                                class="selected">{{ old('vehicle_body_id', $advertisement->vehicleBody->name ?? 'Selection') }}</span>
+                                                class="selected">{{ old('vehicle_body_id', $advertisement->vehicleBody->localized_name ?? __('messages.selection')) }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="vehicle_body_id"
@@ -113,7 +113,7 @@
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Exterior color</label>
+                                    <label>{{ __('messages.exterior_color') }}</label>
                                     <div class="color-picker">
                                         @foreach ($vehicleColors as $color)
                                             <div class="color-item">
@@ -122,7 +122,7 @@
                                                     {{ $advertisement->color_id == $color->id ? 'checked' : '' }}>
                                                 <label for="color-{{ $color->id }}" class="color-circle"
                                                     style="background-color: {{ $color->hex_code }}"></label>
-                                                <span class="color-label">{{ $color->name }}</span>
+                                                <span class="color-label">{{ $color->localized_name }}</span>
                                             </div>
                                         @endforeach
                                     </div>
@@ -130,7 +130,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="cheak-box">
-                                    <label class="contain">Metallic Paint
+                                    <label class="contain">{{ __('messages.metallic_paint') }}
                                         <input type="checkbox" name="is_metallic_paint"
                                             {{ $advertisement->is_metallic_paint ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
@@ -139,10 +139,10 @@
                             </div>
                             <hr class="my-5" />
                             {{-- State --}}
-                            <h6>State</h6>
+                            <h6>{{ __('messages.state') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Vehicle Category <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.vehicle_category_field') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="vehicle-category-dropdown">
                                         <div class="select">
                                             <span
@@ -160,7 +160,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Mileage(Km) <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.mileage') }}(Km) <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="mileage" placeholder=""
                                             value="{{ old('mileage', $advertisement->mileage ?? '') }}">
@@ -170,7 +170,7 @@
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Month <span style="color: #ef4444;">*</span></label>
+                                        <label>{{ __('messages.registration_month') }} <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-month-dropdown">
                                             <div class="select">
                                                 <span
@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Registration Year <span style="color: #ef4444;">*</span></label>
+                                        <label>{{ __('messages.registration_year') }} <span style="color: #ef4444;">*</span></label>
                                         <div class="drop-menu" id="registration-year-dropdown">
                                             <div class="select">
                                                 <span
@@ -301,7 +301,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="btn-box">
-                                    <label>Previous Owners</label>
+                                    <label>{{ __('messages.previous_owners') }}</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
                                         <input type="text" name="previous_owners"
@@ -312,7 +312,7 @@
                             </div>
                             <hr class="my-5" />
                             {{-- Equipment --}}
-                            <h6>Equipment</h6>
+                            <h6>{{ __('messages.equipment') }}</h6>
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
                                     <div class="equipment-list-inventory row g-4" >
@@ -321,7 +321,7 @@
             align-items: center;
             gap: 10px;">
                                             <label class="contain">
-                                                {{ $equipment->name }}
+                                                {{ $equipment->localized_name }}
                                                 <input type="checkbox" name="equipments[]" value="{{ $equipment->id }}"
                                                     {{ $advertisement->equipments->pluck('id')->contains($equipment->id) ? 'checked' : '' }}>
                                                 <span class="checkmark"></span>
@@ -334,11 +334,11 @@
                             <hr class="my-5" />
 
                             {{-- Motor --}}
-                            <h6>Motor</h6>
+                            <h6>{{ __('messages.motor') }}</h6>
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Change</label>
+                                        <label>{{ __('messages.change') }}</label>
                                         <div class="drop-menu" id="motor-change-dropdown">
                                             <div class="select">
                                                 <span
@@ -358,7 +358,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Kw <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.power_kw_field') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_kw" type="number" maxlength="4" placeholder=""
                                             value="{{ old('motor_power_kw', $advertisement->motor_power_kw) }}">
@@ -368,7 +368,7 @@
 
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Power Cv <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.power_cv_field') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input name="motor_power_cv" type="number" maxlength="4" placeholder=""
                                             value="{{ old('motor_power_cv', $advertisement->motor_power_cv) }}">
@@ -378,7 +378,7 @@
 
                             <div class="form-column col-lg-6 mb-5">
                                 <div class="btn-box">
-                                    <label>Marches</label>
+                                    <label>{{ __('messages.marches') }}</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
                                         <input type="text"
@@ -391,7 +391,7 @@
 
                             <div class="form-column col-lg-6 mb-5">
                                 <div class="btn-box">
-                                    <label>Cylinders</label>
+                                    <label>{{ __('messages.cylinders') }}</label>
                                     <div class="number" style="padding: 10px">
                                         <span class="minus">-</span>
                                         <input type="text"
@@ -405,7 +405,7 @@
                             <div class="row">
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Displacement</label>
+                                        <label>{{ __('messages.displacement_cc') }}</label>
                                         <div class="drop-menu" id="motor-displacement-dropdown">
                                             <input type="text" name="motor_displacement" placeholder=""
                                                 value="{{ old('motor_displacement', $advertisement->motor_displacement) }}">
@@ -415,7 +415,7 @@
 
                                 <div class="form-column col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Empty Weight (KG)</label>
+                                        <label>{{ __('messages.empty_weight_kg') }}</label>
                                         <div class="drop-menu" id="motor-empty-weight-dropdown">
                                             <input type="text" name="motor_empty_weight" placeholder=""
                                                 value="{{ old('motor_empty_weight', $advertisement->motor_empty_weight) }}">
@@ -424,10 +424,10 @@
                                 </div>
                             </div>
                             {{-- Environment --}}
-                            <h6>Environment</h6>
+                            <h6>{{ __('messages.environment') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Fuel type <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.fuel_type') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu" id="fuel-type-dropdown">
                                         <div class="select">
                                             <span
@@ -444,7 +444,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Combined fuel consumption</label>
+                                    <label>{{ __('messages.combined_fuel_consumption') }}</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="combined_fuel_consumption" maxlength="5"
                                             value="{{ old('combined_fuel_consumption', $advertisement->combined_fuel_consumption) }}">
@@ -453,7 +453,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Combined cycle CO2 emissions</label>
+                                    <label>{{ __('messages.combined_cycle_co2') }}</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="co2_emissions" maxlength="14"
                                             value="{{ old('co2_emissions', $advertisement->co2_emissions) }}">
@@ -462,7 +462,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Emissions class</label>
+                                    <label>{{ __('messages.emissions_class') }}</label>
                                     <div class="drop-menu" id="emissions_class-dropdown">
                                         <div class="select">
                                             <span
@@ -490,10 +490,10 @@
                                 </div>
                             </div>
                             {{-- Photo --}}
-                            <h6>Photo</h6>
+                            <h6>{{ __('messages.photo') }}</h6>
                             <div class="gallery-sec style1" id="media">
                                 <div class="right-box-three">
-                                    <h6 class="title">Gallery</h6>
+                                    <h6 class="title">{{ __('messages.gallery') }}</h6>
                                     <div class="gallery-box">
                                         <div class="inner-box" id="preview-container">
                                             @if (!empty($advertisement->getMedia('covers')))
@@ -524,7 +524,7 @@
                                                 <div class="content-box">
                                                     <label for="fileInput" id="uploadTrigger">
                                                         <img src="{{ asset('wizmoto/images/resource/uplode.svg') }}">
-                                                        <span>Upload</span>
+                                                        <span>{{ __('messages.upload') }}</span>
                                                     </label>
                                                     <input type="file" name="images[]" id="fileInput" multiple
                                                         style="display:none">
@@ -532,26 +532,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text">You can upload a maximum of 5 images. Please only upload images
-                                            in JPEG or PNG format</div>
+                                        <div class="text">{{ __('messages.upload_instructions') }}</div>
                                     </div>
                                 </div>
                             </div>
                             {{-- Vehicle description --}}
-                            <h6>Vehicle description</h6>
+                            <h6>{{ __('messages.vehicle_description') }}</h6>
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes v2">
-                                    <label>Vehicle description</label>
+                                    <label>{{ __('messages.vehicle_description') }}</label>
                                     <div class="drop-menu active">
                                         <textarea name="description" placeholder="">{{ old('description', $advertisement->description) }}</textarea>
                                     </div>
                                 </div>
                             </div>
                             {{-- price --}}
-                            <h6>Final Price</h6>
+                            <h6>{{ __('messages.final_price') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Final Price <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.final_price') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="final_price"
                                             value="{{ old('final_price', $advertisement->final_price) }}">
@@ -560,7 +559,7 @@
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
-                                    <label class="contain">Deductible VAT
+                                    <label class="contain">{{ __('messages.deductible_vat') }}
                                         <input type="checkbox" name="tax_deductible"
                                             {{ $advertisement->tax_deductible ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
@@ -569,7 +568,7 @@
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
-                                    <label class="contain">Price Negotiable
+                                    <label class="contain">{{ __('messages.price_negotiable') }}
                                         <input type="checkbox" name="price_negotiable"
                                             {{ $advertisement->price_negotiable ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
@@ -579,10 +578,10 @@
 
                             <hr class="my-5"/>
                             {{-- Vehicle Condition --}}
-                            <h6>Vehicle Condition</h6>
+                            <h6>{{ __('messages.vehicle_condition') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="cheak-box">
-                                    <label class="contain">Service History Available
+                                    <label class="contain">{{ __('messages.service_history_available') }}
                                         <input type="checkbox" name="service_history_available" value="1" {{ $advertisement->service_history_available ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
@@ -590,7 +589,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="cheak-box">
-                                    <label class="contain">Warranty Available
+                                    <label class="contain">{{ __('messages.warranty_available') }}
                                         <input type="checkbox" name="warranty_available" value="1" {{ $advertisement->warranty_available ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
@@ -599,13 +598,13 @@
 
                             <hr class="my-5"/>
                             {{-- Technical Specs --}}
-                            <h6>Technical Specifications</h6>
+                            <h6>{{ __('messages.technical_specifications') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes">
-                                    <label>Drive Type</label>
+                                    <label>{{ __('messages.drive_type') }}</label>
                                     <div class="drop-menu" id="drive-type-dropdown">
                                         <div class="select">
-                                            <span class="selected">{{ old('drive_type', $advertisement->drive_type ?? 'Select Drive Type') }}</span>
+                                            <span class="selected">{{ old('drive_type', $advertisement->drive_type ?? __('messages.select_drive_type')) }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="drive_type" id="drive_type_input" value="{{ old('drive_type', $advertisement->drive_type) }}">
@@ -619,7 +618,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Tank Capacity (Liters)</label>
+                                    <label>{{ __('messages.tank_capacity_liters') }}</label>
                                     <div class="drop-menu active">
                                         <input type="number" name="tank_capacity_liters" step="0.01" min="0" max="100" value="{{ old('tank_capacity_liters', $advertisement->tank_capacity_liters) }}">
                                     </div>
@@ -627,7 +626,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Seat Height (mm)</label>
+                                    <label>{{ __('messages.seat_height_mm') }}</label>
                                     <div class="drop-menu active">
                                         <input type="number" name="seat_height_mm" min="0" max="2000" value="{{ old('seat_height_mm', $advertisement->seat_height_mm) }}">
                                     </div>
@@ -635,7 +634,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Top Speed (km/h)</label>
+                                    <label>{{ __('messages.top_speed_kmh') }}</label>
                                     <div class="drop-menu active">
                                         <input type="number" name="top_speed_kmh" min="0" max="500" value="{{ old('top_speed_kmh', $advertisement->top_speed_kmh) }}">
                                     </div>
@@ -643,7 +642,7 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Torque (Nm)</label>
+                                    <label>{{ __('messages.torque_nm') }}</label>
                                     <div class="drop-menu active">
                                         <input type="number" name="torque_nm" min="0" max="10000" value="{{ old('torque_nm', $advertisement->torque_nm) }}">
                                     </div>
@@ -652,10 +651,10 @@
 
                             <hr class="my-5"/>
                             {{-- Sales Features --}}
-                            <h6>Sales Features</h6>
+                            <h6>{{ __('messages.sales_features') }}</h6>
                             <div class="form-column col-lg-4">
                                 <div class="cheak-box">
-                                    <label class="contain">Financing Available
+                                    <label class="contain">{{ __('messages.financing_available') }}
                                         <input type="checkbox" name="financing_available" value="1" {{ $advertisement->financing_available ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
@@ -663,7 +662,7 @@
                             </div>
                             <div class="form-column col-lg-4">
                                 <div class="cheak-box">
-                                    <label class="contain">Trade-in Possible
+                                    <label class="contain">{{ __('messages.trade_in_possible') }}
                                         <input type="checkbox" name="trade_in_possible" value="1" {{ $advertisement->trade_in_possible ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
@@ -671,7 +670,7 @@
                             </div>
                             <div class="form-column col-lg-4">
                                 <div class="cheak-box">
-                                    <label class="contain">Available Immediately
+                                    <label class="contain">{{ __('messages.available_immediately') }}
                                         <input type="checkbox" name="available_immediately" value="1" {{ $advertisement->available_immediately ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
@@ -680,10 +679,10 @@
 
                             <hr class="my-5"/>
                             {{-- Contact --}}
-                            <h6>Contact</h6>
+                            <h6>{{ __('messages.contact') }}</h6>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>ZIP Code <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.zip_code') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu active">
                                         <input type="text" name="zip_code"
                                             value="{{ old('zip_code', $advertisement->zip_code) }}">
@@ -692,10 +691,10 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>Country <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.country') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="country-dropdown">
                                         <div class="select">
-                                            <span>{{ $advertisement->city ? 'Select Country' : 'Select Country' }}</span>
+                                            <span>{{ $advertisement->city ? __('messages.select_country') : __('messages.select_country') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="country_id" id="country_id_input" value="{{ $advertisement->city ?? '' }}">
@@ -709,15 +708,15 @@
                             </div>
                             <div class="form-column col-lg-6">
                                 <div class="form_boxes v2">
-                                    <label>City <span style="color: #ef4444;">*</span></label>
+                                    <label>{{ __('messages.city') }} <span style="color: #ef4444;">*</span></label>
                                     <div class="drop-menu searchable-dropdown" id="city-dropdown">
                                         <div class="select">
-                                            <span>{{ $advertisement->city ?? 'Select City' }}</span>
+                                            <span>{{ $advertisement->city ?? __('messages.select_city') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="city_id" id="city_id_input" value="">
                                         <ul class="dropdown" id="cities-list" style="display: none;">
-                                            <li class="placeholder">Please select a country first</li>
+                                            <li class="placeholder">{{ __('messages.please_select_country_first') }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -725,7 +724,7 @@
 
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes">
-                                    <label>International prefix</label>
+                                    <label>{{ __('messages.international_prefix') }}</label>
                                     <div class="drop-menu" id="international-prefix-dropdown">
                                         <div class="select">
                                             <span
@@ -744,7 +743,7 @@
                             </div>
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes v2">
-                                    <label>Prefix</label>
+                                    <label>{{ __('messages.prefix') }}</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="prefix"
                                             value="{{ old('prefix', $advertisement->prefix) }}">
@@ -753,7 +752,7 @@
                             </div>
                             <div class="form-column col-lg-4">
                                 <div class="form_boxes v2">
-                                    <label>Telephone</label>
+                                    <label>{{ __('messages.telephone') }}</label>
                                     <div class="drop-menu active">
                                         <input type="text" name="telephone"
                                             value="{{ old('telephone', $advertisement->telephone) }}"
@@ -764,7 +763,7 @@
 
                             <div class="form-column col-lg-12">
                                 <div class="cheak-box">
-                                    <label class="contain">Display your phone number in your listing as a contact option?
+                                    <label class="contain">{{ __('messages.display_phone_number') }}?
                                         <input type="checkbox" name="show_phone"
                                             {{ $advertisement->show_phone ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
@@ -774,7 +773,7 @@
 
                             <div class="col-lg-12">
                                 <div class="form-submit">
-                                    <button type="submit" class="theme-btn">Submit
+                                    <button type="submit" class="theme-btn">{{ __('messages.submit') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                             viewBox="0 0 14 14" fill="none">
                                             <g clip-path="url(#clip0_711_3214)">

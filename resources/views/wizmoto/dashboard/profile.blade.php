@@ -3,7 +3,7 @@
     <div class="content-column">
         <div class="inner-column">
             <div class="list-title">
-                <h3 class="title">Profile</h3>
+                <h3 class="title">{{ __('messages.my_profile') }}</h3>
             </div>
             <div class="form-box">
                 <form action="{{route('dashboard.update-profile')}}" method="POST" class="row" id="profileForm">

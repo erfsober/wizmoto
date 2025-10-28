@@ -7,7 +7,7 @@
             </svg>
         </div>
         <div class="ai-support-alert-text">
-            <h4>🤖 AI Support Available!</h4>
+            <h4>🤖 {{ __('messages.ai_support_available') }}</h4>
         </div>
         <button id="ai-support-alert-close" class="ai-support-alert-close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +20,7 @@
 <!-- AI Assistant Widget -->
 <div id="ai-assistant-widget" class="ai-assistant-widget">
     <!-- Chat Toggle Button -->
-    <div id="ai-assistant-toggle" class="ai-assistant-toggle">
+        <div id="ai-assistant-toggle" class="ai-assistant-toggle">
         <div class="ai-assistant-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
@@ -39,8 +39,8 @@
                 </svg>
             </div>
             <div class="ai-assistant-info">
-                <h4>Super AI</h4>
-                <span class="ai-status">Online</span>
+                <h4>{{ __('messages.super_ai') }}</h4>
+                <span class="ai-status">{{ __('messages.online') }}</span>
             </div>
             <button id="ai-assistant-close" class="ai-assistant-close">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,9 +58,9 @@
                     </svg>
                 </div>
                 <div class="ai-message-content">
-                    <p>Hi! I'm your virtual assistant 🤖</p>
-                    <p>I'll help you find the perfect vehicle, answer questions about our platform, and assist with any inquiries you might have.</p>
-                    <p>What can I help you with today?</p>
+                    <p>{{ __('messages.ai_welcome_message_1') }}</p>
+                    <p>{{ __('messages.ai_welcome_message_2') }}</p>
+                    <p>{{ __('messages.ai_welcome_message_3') }}</p>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
         <!-- Chat Input -->
         <div class="ai-assistant-input-container">
             <div class="ai-assistant-input-wrapper">
-                <input type="text" id="ai-assistant-input" placeholder="Ask me anything about vehicles..." maxlength="500">
+                <input type="text" id="ai-assistant-input" placeholder="{{ __('messages.ask_me_anything') }}" maxlength="500">
                 <button id="ai-assistant-send" class="ai-assistant-send">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor"/>
@@ -78,17 +78,17 @@
             
             <!-- Quick Questions -->
             <div class="ai-quick-questions">
-                <div class="ai-question-item" data-question="How do I search for vehicles?">
-                    <span>🔍 How do I search for vehicles?</span>
+                <div class="ai-question-item" data-question="{{ __('messages.how_search_vehicles') }}">
+                    <span>🔍 {{ __('messages.how_search_vehicles') }}</span>
                 </div>
-                <div class="ai-question-item" data-question="What are the pricing options?">
-                    <span>💰 What are the pricing options?</span>
+                <div class="ai-question-item" data-question="{{ __('messages.what_pricing_options') }}">
+                    <span>💰 {{ __('messages.what_pricing_options') }}</span>
                 </div>
-                <div class="ai-question-item" data-question="How do I contact a seller?">
-                    <span>📞 How do I contact a seller?</span>
+                <div class="ai-question-item" data-question="{{ __('messages.how_contact_seller') }}">
+                    <span>📞 {{ __('messages.how_contact_seller') }}</span>
                 </div>
-                <div class="ai-question-item" data-question="How do I list my vehicle?">
-                    <span>📝 How do I list my vehicle?</span>
+                <div class="ai-question-item" data-question="{{ __('messages.how_list_vehicle') }}">
+                    <span>📝 {{ __('messages.how_list_vehicle') }}</span>
                 </div>
             </div>
         </div>

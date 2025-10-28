@@ -18,8 +18,22 @@ class Brand extends Model implements HasMedia
      * @var array<string>
      */
     protected $fillable = [
-        'name',
+        'name', 'name_en', 'name_it',
     ];
+
+    /**
+     * Get the localized name based on current locale
+     *
+     * @return string
+     */
+    public function getLocalizedNameAttribute()
+    {
+        $locale = app()->getLocale();
+        $column = "name_{$locale}";
+        
+        // Fallback to English if locale-specific value is not available
+        return $this->$column ?? $this->name_en ?? $this->name;
+    }
 
     /**
      * A brand can belong to multiple advertisement types (many-to-many)

@@ -16,21 +16,21 @@
     </div>
     <div class="support-bot-panel" id="support-bot-panel">
         <div class="support-bot-header">
-            <h4>Need Help?</h4>
+            <h4>{{ __('messages.need_help') }}</h4>
             <button class="support-bot-close" id="support-bot-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="support-bot-content">
-            <p>How can we help you today?</p>
+            <p>{{ __('messages.how_help_today') }}</p>
             <div class="support-bot-options">
                 <button class="support-option" data-action="whatsapp">
                     <i class="fab fa-whatsapp"></i>
-                    <span>WhatsApp Chat</span>
+                    <span>{{ __('messages.whatsapp_chat') }}</span>
                 </button>
                 <button class="support-option" data-action="internal-chat">
                     <i class="fas fa-comments"></i>
-                    <span>Live Support Chat</span>
+                    <span>{{ __('messages.live_support_chat') }}</span>
                 </button>
             </div>
         </div>
@@ -46,8 +46,8 @@
                     <i class="fas fa-headset"></i>
                 </div>
                 <div class="chat-header-text">
-                    <h4>Live Support</h4>
-                    <span class="chat-status">Online</span>
+                    <h4>{{ __('messages.live_support') }}</h4>
+                    <span class="chat-status">{{ __('messages.online') }}</span>
                 </div>
             </div>
             <button class="support-chat-widget-close" id="chat-widget-close">
@@ -65,14 +65,14 @@
                             <span class="message-time">Now</span>
                         </div>
                         <div class="message-bubble">
-                            Hi! For faster assistance, please try our AI assistant first. If you can't find the answer there, I'm here to help you personally.
+                            {{ __('messages.support_message') }}
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
-                <span>Support is typing...</span>
+                <span>{{ __('messages.support_typing') }}</span>
             </div>
         </div>
         
@@ -85,7 +85,7 @@
                         type="text" 
                         name="message" 
                         class="chat-message-input" 
-                        placeholder="Type your message here..."
+                        placeholder="{{ __('messages.type_message_here') }}"
                         id="chat-message-input"
                         required
                     >

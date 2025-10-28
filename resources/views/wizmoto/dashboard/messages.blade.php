@@ -29,7 +29,7 @@
     <div class="content-column">
         <div class="inner-column">
             <div class="list-title">
-                <h3 class="title">Messages</h3>
+                <h3 class="title">{{ __('messages.messages') }}</h3>
             </div>
             <div class="chat-widget">
                 <div class="widget-content">
@@ -38,7 +38,7 @@
                         <div class="col-12 d-lg-none mb-3">
                             <button class="mobile-contacts-btn" id="mobile-toggle-contacts">
                                 <i class="fa fa-comments me-2"></i>
-                                <span class="btn-text">Show Contacts</span>
+                                <span class="btn-text">{{ __('messages.show_contacts') }}</span>
                                 <i class="fa fa-chevron-right ms-auto"></i>
                             </button>
                         </div>
@@ -48,7 +48,7 @@
                             <div class="card contacts_card">
                                 <div class="card-header">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="mb-0">Messages</h5>
+                                        <h5 class="mb-0">{{ __('messages.messages') }}</h5>
                                         <button class="btn btn-sm btn-outline-light d-lg-none" id="close-contacts-btn">
                                             <i class="fa fa-times"></i>
                                         </button>
@@ -60,7 +60,7 @@
                                                     <img src="images/icons/search.svg" alt="" />
                                                 </span>
                                                 <input type="search" name="search-field" id="search-input" value=""
-                                                    placeholder="Search conversations..." required="">
+                                                    placeholder="{{ __('messages.search_conversations') }}" required="">
                                             </div>
                                         </form>
                                     </div>
@@ -88,7 +88,7 @@
                                                         </div>
                                                         <div class="user_info">
                                                             <span>{{ $guest->name }}</span>
-                                                            <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}
+                                                            <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : __('messages.no_messages_yet') }}
                                                             </p>
                                                         </div>
                                                         <span class="info">
@@ -104,7 +104,7 @@
 
                                         @empty
                                             <li class="text-center py-4">
-                                                <p class="text-muted mb-0">No conversations yet</p>
+                                                <p class="text-muted mb-0">{{ __('messages.no_messages_yet') }}</p>
                                                 <small class="text-muted">Messages from customers will appear here</small>
                                             </li>
                                         @endforelse
@@ -126,14 +126,13 @@
                                             </div>
                                         </div>
                                         <div class="user_info">
-                                            <span id="guest-name">Select a conversation</span>
-                                            <p id="guest-email">Click on a contact to start chatting</p>
+                                            <span id="guest-name">{{ __('messages.select_conversation') }}</span>
+                                            <p id="guest-email">{{ __('messages.click_contact_to_chat') }}</p>
                                         </div>
                                     </div>
 
                                     <div class="btn-box">
-                                        <button class="dlt-chat" id="delete-conversation" style="display: none;">Delete
-                                            Conversation</button>
+                                        <button class="dlt-chat" id="delete-conversation" style="display: none;">{{ __('messages.delete_conversation') }}</button>
                                         <button class="toggle-contact d-lg-none"><span class="fa fa-bars"></span></button>
                                     </div>
                                 </div>
@@ -141,18 +140,18 @@
                                 <div class="card-body msg_card_body" id="chat-messages">
                                     <div class="text-center py-5" id="no-chat-selected">
                                         <i class="fa fa-comments fa-3x text-muted mb-3"></i>
-                                        <h5 class="text-muted">Select a conversation</h5>
-                                        <p class="text-muted">Click on a contact from the list to view messages</p>
+                                        <h5 class="text-muted">{{ __('messages.select_conversation') }}</h5>
+                                        <p class="text-muted">{{ __('messages.click_contact_to_chat') }}</p>
                                     </div>
                                 </div>
 
                                 <div class="card-footer" id="chat-footer" style="display: none;">
                                     <div class="form-group mb-0">
-                                        <textarea class="form-control type_msg" id="message-input" placeholder="Type a message..." rows="2"></textarea>
+                                        <textarea class="form-control type_msg" id="message-input" placeholder="{{ __('messages.type_message') }}" rows="2"></textarea>
                                         <button type="button" class="theme-btn btn-style-one submit-btn"
                                             id="send-message-btn">
-                                            <span class="text-dk">Send Message</span>
-                                            <span class="text-mb">Send</span>
+                                            <span class="text-dk">{{ __('messages.send_message') }}</span>
+                                            <span class="text-mb">{{ __('messages.send') }}</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                                 viewBox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_692)">
@@ -448,9 +447,9 @@ $(document).ready(function() {
         $('#chat-messages').html(`
             <div class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">{{ __('messages.loading_conversation') }}</span>
                 </div>
-                <p class="text-muted mt-2">Loading conversation...</p>
+                <p class="text-muted mt-2">{{ __('messages.loading_conversation') }}</p>
             </div>
         `);
     }
@@ -560,7 +559,7 @@ $(document).ready(function() {
 
         if (!messages || messages.length === 0) {
             chatMessages.html(
-                '<div class="text-center py-4"><p class="text-muted">No messages yet. Start the conversation!</p></div>'
+                '<div class="text-center py-4"><p class="text-muted">{{ __('messages.no_messages_yet') }}</p></div>'
             );
             return;
         }
@@ -595,11 +594,11 @@ $(document).ready(function() {
         // Disable send button with visual feedback
         const sendBtn = $('#send-message-btn');
         sendBtn.prop('disabled', true);
-        sendBtn.find('.text-dk').text('Sending...');
+        sendBtn.find('.text-dk').text('{{ __('messages.sending') }}');
 
         // Add sending indicator
         const sendingIndicator = $(
-            '<div class="d-flex justify-content-end mb-2"><div class="msg_cotainer sending">Sending...</div></div>'
+            '<div class="d-flex justify-content-end mb-2"><div class="msg_cotainer sending">{{ __('messages.sending') }}</div></div>'
         );
         $('#chat-messages').append(sendingIndicator);
         scrollToBottom();
@@ -673,7 +672,7 @@ $(document).ready(function() {
             complete: function() {
                 // Re-enable send button
                 sendBtn.prop('disabled', false);
-                sendBtn.find('.text-dk').text('Send Message');
+                sendBtn.find('.text-dk').text('{{ __('messages.send_message') }}');
             }
         });
     }
@@ -751,7 +750,7 @@ $(document).ready(function() {
             <div class="text-center py-4">
                 <i class="fa fa-exclamation-triangle text-warning fa-2x mb-2"></i>
                 <p class="text-muted">${message}</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="location.reload()">Try Again</button>
+                <button class="btn btn-sm btn-outline-primary" onclick="location.reload()">{{ __('messages.try_again') }}</button>
             </div>
         `);
     }

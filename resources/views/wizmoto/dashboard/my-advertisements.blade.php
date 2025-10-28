@@ -3,7 +3,7 @@
     <div class="content-column">
         <div class="inner-column">
             <div class="list-title">
-                <h3 class="title">My Listings</h3>
+                <h3 class="title">{{ __('messages.my_listings') }}</h3>
             </div>
             <div class="my-listing-table wrap-listing">
                 <div class="cart-table" >
@@ -14,20 +14,20 @@
                                         <path d="M6.29301 0.287598C2.9872 0.287598 0.294312 2.98048 0.294312 6.28631C0.294312 9.59211 2.9872 12.2902 6.29301 12.2902C7.70502 12.2902 9.00364 11.7954 10.03 10.9738L12.5287 13.4712C12.6548 13.5921 12.8232 13.6588 12.9979 13.657C13.1725 13.6552 13.3395 13.5851 13.4631 13.4617C13.5867 13.3382 13.6571 13.1713 13.6591 12.9967C13.6611 12.822 13.5947 12.6535 13.474 12.5272L10.9753 10.0285C11.7976 9.00061 12.293 7.69995 12.293 6.28631C12.293 2.98048 9.59882 0.287598 6.29301 0.287598ZM6.29301 1.62095C8.87824 1.62095 10.9584 3.70108 10.9584 6.28631C10.9584 8.87153 8.87824 10.9569 6.29301 10.9569C3.70778 10.9569 1.62764 8.87153 1.62764 6.28631C1.62764 3.70108 3.70778 1.62095 6.29301 1.62095Z" fill="#050B20"/>
                                     </svg>
                                 </span>
-                                <input type="text" placeholder="Search Motors" id="searchInput">
+                                <input type="text" placeholder="{{ __('messages.search_motors') }}" id="searchInput">
                             </div>
                             <div class="text-box v1">
                                 <div class="form_boxes v3">
-                                    <small>Sort by</small>
+                                    <small>{{ __('messages.sort_by') }}</small>
                                     <div class="drop-menu">
                                         <div class="select">
-                                            <span>Newest</span>
+                                            <span>{{ __('messages.newest') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
                                         <input type="hidden" name="sort" id="sortInput" value="newest">
                                         <ul class="dropdown" style="display: none;">
-                                            <li data-id="newest">Newest</li>
-                                            <li data-id="oldest">Oldest</li>
+                                            <li data-id="newest">{{ __('messages.newest') }}</li>
+                                            <li data-id="oldest">{{ __('messages.oldest') }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -36,13 +36,13 @@
                     <table>
                         <thead>
                         <tr>
-                            <th>Make</th>
-                            <th>Brand</th>
-                            <th>Price Evaluation</th>
-                            <th>Year</th>
-                            <th>Transmission</th>
-                            <th>FuelType</th>
-                            <th>Action</th>
+                            <th>{{ __('messages.make') }}</th>
+                            <th>{{ __('messages.brand') }}</th>
+                            <th>{{ __('messages.price_evaluation') }}</th>
+                            <th>{{ __('messages.year') }}</th>
+                            <th>{{ __('messages.transmission') }}</th>
+                            <th>{{ __('messages.fuel_type') }}</th>
+                            <th>{{ __('messages.action') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -55,8 +55,8 @@
                                             <img src="{{ $images->first()?->getUrl('square') }}" alt="">
                                         </div>
                                         <div class="shop-product-cart-info">
-                                            <h3>
-                                                <a href="#" title="">{{$advertisement->brand?->name}}{{' '}}{{$advertisement->vehicleModel?->name}}</a>
+                                                <h3>
+                                                <a href="#" title="">{{$advertisement->brand?->localized_name}}{{' '}}{{$advertisement->vehicleModel?->localized_name}}</a>
                                             </h3>
                                             <p>{{$advertisement->version_model}}</p>
                                             <div class="price">
@@ -66,7 +66,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span>{{$advertisement->brand->name}}</span>
+                                    <span>{{$advertisement->brand->localized_name}}</span>
                                 </td>
                                 <td>
                                     <span>@include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])</span>
@@ -78,7 +78,7 @@
                                     <span>{{$advertisement->motor_change}}</span>
                                 </td>
                                 <td>
-                                    <span>{{$advertisement->fuelType->name}}</span>
+                                    <span>{{$advertisement->fuelType->localized_name}}</span>
                                 </td>
                                 <td>
                                     <a href="#" class="remove-cart-item" data-id="{{ $advertisement->id }}" data-url="{{ route('dashboard.delete-advertisement') }}">
@@ -152,9 +152,9 @@
                                     </li>
                                 </ul>
                                 <div class="text">
-                                    Showing results
+                                    {{ __('messages.showing_results') }}
                                     {{ $advertisements->firstItem() }}-{{ $advertisements->lastItem() }}
-                                    of {{ $advertisements->total() }}
+                                    {{ __('messages.of') }} {{ $advertisements->total() }}
                                 </div>
                             @endif
                         </nav>
@@ -212,10 +212,10 @@
             if (!adId) return;
 
             Swal.fire({
-                title: 'Are you sure?',
+                title: '{{ __('messages.are_you_sure') }}',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: '{{ __('messages.yes_delete') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

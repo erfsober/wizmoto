@@ -21,7 +21,7 @@
                         <ul class="navigation" id="navbar">
                             <li class="current-dropdown current">
                                 <a class="box-account" href="{{route('home')}}">
-                                    Home
+                                    {{ __('messages.home') }}
                                 </a>
                             </li>
                          
@@ -33,12 +33,12 @@
                                     </span>
                                     <ul class="dropdown">
                                         <li>
-                                            <a href="{{ route('dashboard.profile') }}">Dashboard</a>
+                                            <a href="{{ route('dashboard.profile') }}">{{ __('messages.dashboard') }}</a>
                                         </li>
                                         <li>
                                             <a href="{{ route('provider.logout') }}"
                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                Logout
+                                                {{ __('messages.logout') }}
                                             </a>
                                         </li>
                                     </ul>
@@ -54,6 +54,7 @@
                 </div>
 
                 <div class="right-box">
+                    @include('wizmoto.partials.language-switcher')
                     @if(!Auth::guard('provider')->check())
                         <a href="{{ route('provider.auth') }}" title="" class="box-account">
                             <div class="icon">
@@ -69,11 +70,11 @@
                                     </defs>
                                 </svg>
                             </div>
-                            Sign in
+                            {{ __('messages.sign_in') }}
                         </a>
                     @endif
                     <div class="btn">
-                        <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">Sell</a>
+                        <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">{{ __('messages.sell') }}</a>
                     </div>
                     <div class="mobile-navigation">
                         <a href="#nav-mobile" title="">
@@ -113,14 +114,14 @@
     <div class="boxcar-container">
         <div class="boxcar-title wow fadeInUp">
             <ul class="breadcrumb">
-                <li><a href="{{route('home')}}">Home</a></li>
-                <li><span>Blogs</span></li>
+                <li><a href="{{route('home')}}">{{ __('messages.home') }}</a></li>
+                <li><span>{{ __('messages.blogs') }}</span></li>
             </ul>
-            <h2>Blog List</h2>
+            <h2>{{ __('messages.blog_list') }}</h2>
         </div>
         <nav class="wow fadeInUp" data-wow-delay="100ms">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Blogs</button>
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('messages.blogs') }}</button>
           </div>
         </nav>
         <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
@@ -135,7 +136,7 @@
                                     <a href="{{ route('blogs.show', $blog->slug) }}">
                                         <img
                                             src="{{ $blog->getFirstMediaUrl('images', 'medium')}}"
-                                            alt="{{ $blog->title }}">
+                                            alt="{{ $blog->localized_title }}">
                                     </a>
                                 </figure>
                             </div>
@@ -145,8 +146,8 @@
                                     <li>{{ $blog->created_at->format('F d, Y') }}</li>
                                 </ul>
                                 <h6 class="title">
-                                    <a href="{{ route('blogs.show', $blog->slug) }}" title="{{ $blog->title }}">
-                                        {{ Str::limit($blog->title, 70) }}
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" title="{{ $blog->localized_title }}">
+                                        {{ Str::limit($blog->localized_title, 70) }}
                                     </a>
                                 </h6>   </div>
                         </div>
@@ -166,7 +167,7 @@
                                         <path d="M2.57983 5.99989C2.57983 5.7849 2.66192 5.56987 2.82573 5.4059L7.98559 0.24617C8.31382 -0.0820565 8.84598 -0.0820565 9.17408 0.24617C9.50217 0.574263 9.50217 1.10632 9.17408 1.43457L4.60841 5.99989L9.17376 10.5654C9.50185 10.8935 9.50185 11.4256 9.17376 11.7537C8.84566 12.0821 8.31366 12.0821 7.98544 11.7537L2.82555 6.59404C2.66176 6.42999 2.57983 6.21495 2.57983 5.99989Z" fill="#050B20"/>
                                     </svg>
                                 </span>
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only">{{ __('messages.previous') }}</span>
                             </a>
                         </li>
                         @foreach ($blogPosts->links()->elements[0] ?? [] as $page => $url)
@@ -189,13 +190,13 @@
                                         </defs>
                                     </svg>
                                 </span>
-                                <span class="sr-only">Next</span>
+                                <span class="sr-only">{{ __('messages.next') }}</span>
                             </a>
                         </li>
                     </ul>
-                    <div class="text">Showing results
+                    <div class="text">{{ __('messages.showing_results') }}
                         {{ $blogPosts->firstItem() }}-{{ $blogPosts->lastItem() }}
-                                      of {{ $blogPosts->total() }}
+                                      {{ __('messages.of') }} {{ $blogPosts->total() }}
                     </div>
                 @endif
             </nav>

@@ -24,7 +24,7 @@
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown current">
                                     <a class="box-account" href="{{route('home')}}">
-                                        Home
+                                        {{ __('messages.home') }}
                                     </a>
                                 </li>
                                 
@@ -36,27 +36,27 @@
                                         </span>
                                         <ul class="dropdown">
                                             <li>
-                                                <a href="{{ route('provider.dashboard') }}">Dashboard</a>
+                                                <a href="{{ route('provider.dashboard') }}">{{ __('messages.dashboard') }}</a>
                                             </li>
                                             <li>
                                                 <a href="{{route('dashboard.my-advertisements')}}">
-                                                  My Listings
+                                                  {{ __('messages.my_listings') }}
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{{route('dashboard.create-advertisement')}}">
-                                                   Sell
+                                                   {{ __('messages.sell') }}
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{{route('dashboard.profile')}}">
-                                                    My Profile
+                                                    {{ __('messages.my_profile') }}
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('provider.logout') }}"
                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
+                                                    {{ __('messages.logout') }}
                                                 </a>
                                             </li>
                                         </ul>
@@ -72,6 +72,7 @@
                     </div>
 
                     <div class="right-box">
+                        @include('wizmoto.partials.language-switcher')
                         <a href="#" class="haeder-img">
                             @if($provider->getFirstMediaUrl('image','thumb'))
                                 <img src="{{ $provider->getFirstMediaUrl('image','thumb') }}" alt="Header Image" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
@@ -128,29 +129,29 @@
                 <ul class="nav-list">
                     <li>
                         <a href="{{route('dashboard.my-advertisements')}}">
-                            <img src="{{asset("wizmoto/images/icons/dash2.svg")}}" alt="">My Listings
+                            <img src="{{asset("wizmoto/images/icons/dash2.svg")}}" alt="">{{ __('messages.my_listings') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{route('dashboard.create-advertisement')}}">
-                            <img src="{{asset("wizmoto/images/icons/dash3.svg")}}" alt="">Sell
+                            <img src="{{asset("wizmoto/images/icons/dash3.svg")}}" alt="">{{ __('messages.sell') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{route('dashboard.profile')}}">
-                            <img src="{{asset("wizmoto/images/icons/dash7.svg")}}" alt="">My Profile
+                            <img src="{{asset("wizmoto/images/icons/dash7.svg")}}" alt="">{{ __('messages.my_profile') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{route('dashboard.messages')}}">
-                            <img src="{{asset("wizmoto/images/icons/dash6.svg")}}" alt="">Messages
+                            <img src="{{asset("wizmoto/images/icons/dash6.svg")}}" alt="">{{ __('messages.messages') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('provider.logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <img src="{{asset("wizmoto/images/icons/dash8.svg")}}" alt="">
-                            Logout
+                            {{ __('messages.logout') }}
                         </a>
                         </li>
                 </ul>

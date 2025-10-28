@@ -15,7 +15,19 @@ class AboutUsForm
             ->components([
                 TextInput::make('title')
                     ->default(null),
+                TextInput::make('title_en')
+                    ->label('Title (English)'),
+                TextInput::make('title_it')
+                    ->label('Title (Italian)'),
                 Textarea::make('content')
+                    ->default(null)
+                    ->columnSpanFull(),
+                Textarea::make('content_en')
+                    ->label('Content (English)')
+                    ->default(null)
+                    ->columnSpanFull(),
+                Textarea::make('content_it')
+                    ->label('Content (Italian)')
                     ->default(null)
                     ->columnSpanFull(),
                 TextInput::make('section')
