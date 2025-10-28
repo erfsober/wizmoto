@@ -3084,7 +3084,9 @@
                     const advertisementTypeId = $('input[name="advertisement_type"]').val();
                     if (advertisementTypeId && advertisementTypeId.trim() !== '') {
                         const advertisementTypeName = $('#advertisement-type-dropdown .select span').text().trim();
-                        if (advertisementTypeName && !advertisementTypeName.includes('Select') && !advertisementTypeName.includes('Any')) {
+                        const selectText = '{{ __('messages.select') }}';
+                        const anyText = '{{ __('messages.any') }}';
+                        if (advertisementTypeName && !advertisementTypeName.includes(selectText) && !advertisementTypeName.includes(anyText)) {
                             filters[`advertisement_type_${advertisementTypeId}`] = {
                                 name: 'Category',
                                 value: advertisementTypeName,
@@ -3102,7 +3104,9 @@
                         if (brandId && brandId.trim() !== '') {
                             const $brandDropdown = $(this).closest('[id^="brand-dropdown"]');
                             const brandName = $brandDropdown.find('.select span').text().trim();
-                            if (brandName && !brandName.includes('Select')) {
+                            const selectText = '{{ __('messages.select') }}';
+                            const anyText = '{{ __('messages.any') }}';
+                            if (brandName && !brandName.includes(selectText) && !brandName.includes(anyText)) {
                                 // Create individual filter for each brand
                                 filters[`brand_${brandId}`] = {
                                     name: 'Brand',
@@ -3120,7 +3124,9 @@
                         if (modelId && modelId.trim() !== '') {
                             const $modelDropdown = $(this).closest('[id^="model-dropdown"]');
                             const modelName = $modelDropdown.find('.select span').text().trim();
-                            if (modelName && !modelName.includes('Select')) {
+                            const selectText = '{{ __('messages.select') }}';
+                            const anyText = '{{ __('messages.any') }}';
+                            if (modelName && !modelName.includes(selectText) && !modelName.includes(anyText)) {
                                 // Create individual filter for each model
                                 filters[`model_${modelId}`] = {
                                     name: 'Model',
@@ -3136,9 +3142,11 @@
                     const fuelTypeId = $('input[name="fuel_type_id"]').val();
                     if (fuelTypeId && fuelTypeId.trim() !== '') {
                         const fuelTypeName = $('#fuel-dropdown .select span').text().trim();
-                        if (fuelTypeName && !fuelTypeName.includes('Select')) {
+                        const selectText = '{{ __('messages.select') }}';
+                        const anyText = '{{ __('messages.any') }}';
+                        if (fuelTypeName && !fuelTypeName.includes(selectText) && !fuelTypeName.includes(anyText)) {
                             filters[`fuel_type_${fuelTypeId}`] = {
-                                name: 'Fuel Type',
+                                name: '{{ __('messages.fuel_type') }}',
                                 value: fuelTypeName,
                                 type: 'single',
                                 fuelTypeId: fuelTypeId
@@ -3188,17 +3196,19 @@
                     // Registration year (From and To)
                     const regYearFrom = $('#registration-year-dropdown .select span').text();
                     const regYearTo = $('#registration-year-to-dropdown .select span').text();
+                    const selectText = '{{ __('messages.select') }}';
+                    const anyText = '{{ __('messages.any') }}';
                     
-                    if ((regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select')) || 
-                        (regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select'))) {
+                    if ((regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText)) || 
+                        (regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText))) {
                         
                         let yearValue = '';
-                        if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select') && 
-                            regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select')) {
+                        if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText) && 
+                            regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText)) {
                             yearValue = `${regYearFrom} - ${regYearTo}`;
-                        } else if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes('Select')) {
+                        } else if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText)) {
                             yearValue = `From ${regYearFrom}`;
-                        } else if (regYearTo && !regYearTo.includes('To') && !regYearTo.includes('Select')) {
+                        } else if (regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText)) {
                             yearValue = `Up to ${regYearTo}`;
                         }
                         
@@ -3320,7 +3330,9 @@
                     
                     // Cylinders
                     const cylinders = $('#cylinders-dropdown .select span').text();
-                    if (cylinders && !cylinders.includes('Select')) {
+                    const selectText = '{{ __('messages.select') }}';
+                    const anyText = '{{ __('messages.any') }}';
+                    if (cylinders && !cylinders.includes(selectText) && !cylinders.includes(anyText)) {
                         filters.cylinders = {
                             name: 'Cylinders',
                             value: cylinders,
@@ -3563,7 +3575,9 @@
                     
                     // Drive Type
                     const driveType = $('#drive-type-dropdown .select span').text();
-                    if (driveType && !driveType.includes('Select')) {
+                    const selectText = '{{ __('messages.select') }}';
+                    const anyText = '{{ __('messages.any') }}';
+                    if (driveType && !driveType.includes(selectText) && !driveType.includes(anyText)) {
                         filters.driveType = {
                             name: '{{ __('messages.drive_type') }}',
                             value: driveType,
