@@ -61,8 +61,8 @@
                 <div class="message-wrapper message-left">
                     <div class="message-content">
                         <div class="message-header">
-                            <span class="sender-name">Support</span>
-                            <span class="message-time">Now</span>
+                            <span class="sender-name">{{ __('messages.live_support') }}</span>
+                            <span class="message-time">{{ __('messages.now') }}</span>
                         </div>
                         <div class="message-bubble">
                             {{ __('messages.support_message') }}

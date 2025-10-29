@@ -720,7 +720,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // Create a simple fallback alert
             const fallbackAlert = document.createElement('div');
-            fallbackAlert.innerHTML = '🤖 AI Support Available!';
+            fallbackAlert.innerHTML = '🤖 {{ __('messages.ai_support_available') }}';
             fallbackAlert.style.cssText = `
                 position: fixed;
                 bottom: 160px;
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             clearTimeout(typingTimeout); // Clear the timeout
             hideTyping();
-            addMessage(data.response || 'Sorry, I encountered an error. Please try again.', 'ai');
+            addMessage(data.response || '{{ __('messages.ai_generic_error') }}', 'ai');
             // Re-enable input and send button
             input.disabled = false;
             send.disabled = false;
@@ -929,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             clearTimeout(typingTimeout); // Clear the timeout
             hideTyping();
-            addMessage('Sorry, I encountered an error. Please try again.', 'ai');
+            addMessage('{{ __('messages.ai_generic_error') }}', 'ai');
             // Re-enable input and send button
             input.disabled = false;
             send.disabled = false;

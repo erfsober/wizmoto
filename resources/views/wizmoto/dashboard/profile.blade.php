@@ -10,7 +10,7 @@
                     @csrf
                     <div class="gallery-sec">
                         <div class="right-box-three">
-                            <h6 class="title">Gallery</h6>
+                            <h6 class="title">{{ __('messages.gallery') }}</h6>
                             <div class="gallery-box">
                                 <div class="inner-box" id="preview-container">
                                     @if(!empty($provider->getFirstMediaUrl('image')))
@@ -30,7 +30,7 @@
                                             <div class="content-box">
                                                 <a href="#" id="uploadTrigger">
                                                     <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
-                                                    <span>Upload</span>
+                                                    <span>{{ __('messages.upload') }}</span>
                                                 </a>
                                                 <input type="file" name="image" id="fileInput" multiple style="display:none">
                                             </div>
@@ -39,33 +39,33 @@
                                     @if(empty($provider->getFirstMediaUrl('image')))
                                             <div class="uplode-box" style="{{ $provider->getFirstMedia('image') ? 'display:none;' : '' }}">
                                                 <div class="content-box">
-                                                    <a href="#" id="uploadTrigger">
+                                                <a href="#" id="uploadTrigger">
                                                         <img src="{{asset('wizmoto/images/resource/uplode.svg')}}">
-                                                        <span>Upload</span>
+                                                        <span>{{ __('messages.upload') }}</span>
                                                     </a>
                                                     <input type="file" name="image" id="fileInput" multiple style="display:none">
                                                 </div>
                                             </div>
                                         @endif
                                 </div>
-                                <div class="text">You can upload a maximum of 1 image. Please only upload images in JPEG or PNG format</div>
+                                <div class="text">{{ __('messages.single_image_upload_instructions') }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-column col-lg-4">
                         <div class="form_boxes">
-                            <label>Title</label>
+                            <label>{{ __('messages.title') }}</label>
                             <div class="drop-menu" id="title-dropdown">
                                 <div class="select">
-                                    <span>Selection</span>
+                                    <span>{{ __('messages.selection') }}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </div>
                                 <input type="hidden" name="title">
                                 <ul class="dropdown" style="display: none;">
                                     @php
                                         $titles = [
-                                        'Mr','Lady'
+                                        __('messages.title_mr'), __('messages.title_lady')
                                      ];
                                     @endphp
                                     @foreach($titles as $title)
@@ -77,40 +77,40 @@
                     </div>
                     <div class="form-column col-lg-4">
                         <div class="form_boxes">
-                            <label>First Name</label>
+                            <label>{{ __('messages.first_name') }}</label>
                             <input name="first_name" type="text" placeholder="" value="{{$provider->first_name}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
-                            <label>Last Name</label>
+                            <label>{{ __('messages.last_name') }}</label>
                             <input name="last_name" type="text" placeholder="" value="{{$provider->last_name}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
-                            <label>Email</label>
+                            <label>{{ __('messages.email') }}</label>
                             <input name="email" type="email" placeholder="" value="{{$provider->email}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
-                            <label>Phone</label>
+                            <label>{{ __('messages.telephone') }}</label>
                             <input name="phone" type="number" placeholder="" value="{{$provider->phone}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
-                            <label>Whatsapp</label>
+                            <label>{{ __('messages.whatsapp') }}</label>
                             <input name="whatsapp" type="number" placeholder="" value="{{$provider->whatsapp}}">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form_boxes">
-                            <label>Seller Type</label>
+                            <label>{{ __('messages.seller_type') }}</label>
                             <div class="drop-menu" id="seller-type-dropdown">
                                 <div class="select">
-                                    <span class="selected">{{ $provider->seller_type ? $provider->seller_type->getLabel() : 'Select Seller Type' }}</span>
+                                    <span class="selected">{{ $provider->seller_type ? $provider->seller_type->getLabel() : __('messages.seller_type') }}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </div>
                                 <input type="hidden" name="seller_type" id="seller_type_input" value="{{ old('seller_type', $provider->seller_type?->value ?? 'private') }}">
@@ -124,17 +124,17 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="form_boxes">
-                            <label>Street and house number</label>
+                            <label>{{ __('messages.street_house_number') }}</label>
                             <input type="text" name="address" placeholder="" value="{{$provider->address}}">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="form_boxes">
-                            <label>Village</label>
+                            <label>{{ __('messages.village_city') }}</label>
                             <div class="drop-menu" id="motor-change-dropdown">
                                 <div class="select">
-                                    <span class="selected">{{ old('village', $provider->village ?? 'Selection') }}</span>
+                                    <span class="selected">{{ old('village', $provider->village ?? __('messages.selection')) }}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </div>
                                 <input type="hidden" name="village" value="{{ old('village', $provider->village ?? '') }}">
@@ -163,26 +163,26 @@
                     <div class="col-lg-6"></div>
                     <div class="col-lg-6">
                         <div class="form_boxes">
-                            <label>Zip CODE</label>
+                            <label>{{ __('messages.zip_code') }}</label>
                             <input type="text" name="zip_code" placeholder="" value="{{$provider->zip_code}}">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form_boxes">
-                            <label>City</label>
+                            <label>{{ __('messages.city') }}</label>
                             <input type="text" name="city" placeholder="" value="{{$provider->city}}">
                         </div>
                     </div>
                     <div class="form-column col-lg-12 mb-5">
                         <div class="cheak-box">
-                            <label class="contain">Show in advertising
+                            <label class="contain">{{ __('messages.show_in_advertising') }}
                                 <input type="checkbox" name="show_info_in_advertisement">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-submit">
-                        <button type="submit" class="theme-btn">Save Profile<img src="{{asset("wizmoto/images/arrow.svg")}}" alt="">
+                        <button type="submit" class="theme-btn">{{ __('messages.save_profile') }}<img src="{{asset("wizmoto/images/arrow.svg")}}" alt="">
                             <span class="lnr-icon-spinner spinner" style="display:none;"></span>
                         </button>
                     </div>
