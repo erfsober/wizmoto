@@ -23,7 +23,7 @@
     ];
     [$filledColor, $emptyColor] = $palette[$raw] ?? $palette[''];
 @endphp
-<div class="price-evaluation-badge" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:16px;background-color:{{ $emptyColor }};margin-left:8px;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,0.05);">
+<div class="price-evaluation-badge" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:16px;background:rgba(255,255,255,0.92);border:1px solid rgba(0,0,0,0.06);margin-left:8px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
     <strong style="font-size:13px;font-weight:600;line-height:1.2;color:{{ $filledColor }};margin-right:2px;">{{ $label }}</strong>
     <div style="display:inline-flex;align-items:center;gap:3px;">
         @for($i = 1; $i <= $totalCircles; $i++)

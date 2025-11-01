@@ -30,8 +30,6 @@
         /* Override global span styles */
         font-size: inherit !important;
         font-weight: inherit !important;
-        background-color: inherit !important;
-        color: inherit !important;
     }
     
     /* Override for all spans inside badge - prevent global .image-box span rule from affecting them */
