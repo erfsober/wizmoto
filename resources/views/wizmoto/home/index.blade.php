@@ -241,6 +241,9 @@
                         <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                             <div class="inner-box">
                                 <div class="image-box">
+                                    <div class="fair-price-overlay">
+                                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $newAdvertisement->price_evaluation])
+                                    </div>
                                     <div class="image-gallery" data-count="{{ $newAdvertisement->getMedia('covers')->count() }}">
                                         @php
                                             $images = $newAdvertisement->getMedia('covers');
@@ -290,7 +293,9 @@
                                         </li>
                                     </ul>
                                     <div class="btn-box">
-                                        <span>€{{$newAdvertisement->final_price}} @include('wizmoto.partials.price-evaluation-badge', ['value' => $newAdvertisement->price_evaluation])</span>
+                                        <span>€{{$newAdvertisement->final_price}}
+                                            
+                                        </span>
                                         <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">{{ __('messages.view_details') }}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_601_4346)">
@@ -826,6 +831,7 @@
         }
 
     </style>
+    @include('wizmoto.partials.badge-styles')
 @endpush
 
 @push('scripts')

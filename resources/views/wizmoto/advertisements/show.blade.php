@@ -638,6 +638,9 @@
                             <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image-box">
+                                        <div class="fair-price-overlay">
+                                            @include('wizmoto.partials.price-evaluation-badge', ['value' => $relatedAd->price_evaluation])
+                                        </div>
                                         <div class="image-gallery" data-count="{{ $relatedAd->getMedia('covers')->count() }}">
                                             @php
                                                 $images = $relatedAd->getMedia('covers');
@@ -828,6 +831,7 @@
 
     </style>
 @endpush
+@include('wizmoto.partials.badge-styles')
 @push('scripts')
     <script>
         $(document).ready(function() {

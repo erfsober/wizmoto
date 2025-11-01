@@ -4295,18 +4295,6 @@
             justify-content: center;
         }
         
-        /* Fair Price Badge Over Image */
-        #vehicle-cards-container .service-block-thirteen .inner-box .image-box {
-            position: relative;
-        }
-        
-        #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            z-index: 2;
-        }
-        
         /* Restore Original Price and Button Position */
         #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .title {
             text-align: left;
@@ -4953,4 +4941,5 @@
             }
         }
     </style>
+    @include('wizmoto.partials.badge-styles')
 @endpush
