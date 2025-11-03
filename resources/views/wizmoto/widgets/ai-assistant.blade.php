@@ -281,6 +281,7 @@
     flex-direction: column;
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 10001;
 }
 
 .ai-assistant-chat.active {
@@ -535,16 +536,28 @@
     }
     
     .ai-assistant-chat {
-        width: calc(100vw - 30px);
-        height: calc(100vh - 100px);
-        bottom: 145px;
+        position: fixed;
+        left: 0;
         right: 0;
-        margin: 0 auto;
+        bottom: calc(env(safe-area-inset-bottom, 0px));
+        width: 100vw;
+        height: 80dvh;
+        max-height: calc(100dvh - 80px);
+        border-radius: 16px 16px 0 0;
+        margin: 0;
     }
     
     .ai-assistant-toggle {
         width: 50px;
         height: 50px;
+    }
+}
+
+/* Lock background scroll when chat is open on mobile */
+@media (max-width: 768px) {
+    body.ai-chat-open {
+        overflow: hidden;
+        touch-action: none;
     }
 }
 </style>
@@ -847,6 +860,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chat.classList.toggle('active', isOpen);
         if (isOpen) {
             input.focus();
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('ai-chat-open');
+            }
         }
     });
     }
@@ -855,6 +871,9 @@ document.addEventListener('DOMContentLoaded', function() {
     close.addEventListener('click', function() {
         isOpen = false;
         chat.classList.remove('active');
+        if (window.innerWidth <= 768) {
+            document.body.classList.remove('ai-chat-open');
+        }
     });
 
     // Send message
