@@ -839,7 +839,18 @@
         }
         .cars-section-three .car-slider-three .slick-prev,
         .cars-section-three .car-slider-three .slick-next {
-            bottom: 0 !important;
+            top: 50% !important;
+            bottom: auto !important;
+            transform: translateY(-50%) !important;
+            z-index: 2 !important;
+        }
+        .cars-section-three .car-slider-three .slick-prev {
+            left: 0 !important;
+            right: auto !important;
+        }
+        .cars-section-three .car-slider-three .slick-next {
+            right: 0 !important;
+            left: auto !important;
         }
     }
     </style>

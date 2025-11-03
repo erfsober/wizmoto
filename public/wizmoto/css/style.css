@@ -6591,6 +6591,7 @@ Section Title
   text-transform: capitalize;
   line-height: 76px;
   padding: 0 30px;
+  text-wrap: nowrap;
 }
 
 .drop-menu .select i {
