@@ -216,7 +216,7 @@
     position: fixed;
     bottom: 90px;
     right: 20px;
-    z-index: 9998;
+    z-index: 10002;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -558,6 +558,15 @@
     body.ai-chat-open {
         overflow: hidden;
         touch-action: none;
+    }
+
+    /* Move or hide other floating widgets to avoid overlapping AI chat */
+    body.ai-chat-open #support-bot,
+    body.ai-chat-open #chat-widget {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(40px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
     }
 }
 </style>
