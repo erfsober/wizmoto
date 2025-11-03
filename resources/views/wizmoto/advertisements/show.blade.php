@@ -830,16 +830,16 @@
     <style>
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
-        .car-slider-three {
-            padding-bottom: 16px !important;
+        .cars-section-three .car-slider-three {
+            padding-bottom: 8px !important;
         }
-        .car-slider-three .slick-list {
-            padding-bottom: 16px !important;
-            margin-bottom: -16px !important;
+        .cars-section-three .car-slider-three .slick-list {
+            padding-bottom: 8px !important;
+            margin-bottom: 0 !important;
         }
-        .car-slider-three .slick-prev,
-        .car-slider-three .slick-next {
-            bottom: -20px !important;
+        .cars-section-three .car-slider-three .slick-prev,
+        .cars-section-three .car-slider-three .slick-next {
+            bottom: 0 !important;
         }
     }
     </style>
