@@ -831,25 +831,25 @@
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
         .cars-section-three .car-slider-three {
-            padding-bottom: 8px !important;
+            padding-bottom: 36px !important; /* room for arrows below */
         }
         .cars-section-three .car-slider-three .slick-list {
-            padding-bottom: 8px !important;
-            margin-bottom: 0 !important;
+            padding-bottom: 36px !important;
+            margin-bottom: -36px !important;
         }
         .cars-section-three .car-slider-three .slick-prev,
         .cars-section-three .car-slider-three .slick-next {
-            top: 50% !important;
-            bottom: auto !important;
-            transform: translateY(-50%) !important;
-            z-index: 2 !important;
+            top: auto !important;
+            bottom: -12px !important; /* tuck just under cards */
+            transform: none !important;
+            z-index: 1 !important;
         }
         .cars-section-three .car-slider-three .slick-prev {
-            left: 0 !important;
+            left: 12px !important;
             right: auto !important;
         }
         .cars-section-three .car-slider-three .slick-next {
-            right: 0 !important;
+            right: 12px !important;
             left: auto !important;
         }
     }
