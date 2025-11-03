@@ -817,6 +817,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function hideAISupportAlert() {
         if (aiAlert) {
             aiAlert.classList.remove('show');
+            // Ensure hidden even if inline styles were applied
+            aiAlert.style.opacity = '0';
+            aiAlert.style.transform = 'translateY(20px)';
+            aiAlert.style.display = 'none';
             localStorage.setItem('ai-support-alert-shown', new Date().toDateString());
         }
     }

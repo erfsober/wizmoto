@@ -828,7 +828,20 @@
 
 @push('styles')
     <style>
-
+    /* Reduce space between related-cars slider arrows and cards on mobile */
+    @media (max-width: 768px) {
+        .car-slider-three {
+            padding-bottom: 16px !important;
+        }
+        .car-slider-three .slick-list {
+            padding-bottom: 16px !important;
+            margin-bottom: -16px !important;
+        }
+        .car-slider-three .slick-prev,
+        .car-slider-three .slick-next {
+            bottom: -20px !important;
+        }
+    }
     </style>
 @endpush
 @include('wizmoto.partials.badge-styles')
