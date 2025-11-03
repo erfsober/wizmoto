@@ -3079,13 +3079,13 @@
             // Function to collect currently selected filters (global scope)
             function collectSelectedFilters() {
                     const filters = {};
+                    const selectText = '{{ __('messages.select') }}';
+                    const anyText = '{{ __('messages.any') }}';
                     
                     // Advertisement Type filter
                     const advertisementTypeId = $('input[name="advertisement_type"]').val();
                     if (advertisementTypeId && advertisementTypeId.trim() !== '') {
                         const advertisementTypeName = $('#advertisement-type-dropdown .select span').text().trim();
-                        const selectText = '{{ __('messages.select') }}';
-                        const anyText = '{{ __('messages.any') }}';
                         if (advertisementTypeName && !advertisementTypeName.includes(selectText) && !advertisementTypeName.includes(anyText)) {
                             filters[`advertisement_type_${advertisementTypeId}`] = {
                                 name: 'Category',
@@ -3196,8 +3196,6 @@
                     // Registration year (From and To)
                     const regYearFrom = $('#registration-year-dropdown .select span').text();
                     const regYearTo = $('#registration-year-to-dropdown .select span').text();
-                    const selectText = '{{ __('messages.select') }}';
-                    const anyText = '{{ __('messages.any') }}';
                     
                     if ((regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText)) || 
                         (regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText))) {
@@ -3330,8 +3328,6 @@
                     
                     // Cylinders
                     const cylinders = $('#cylinders-dropdown .select span').text();
-                    const selectText = '{{ __('messages.select') }}';
-                    const anyText = '{{ __('messages.any') }}';
                     if (cylinders && !cylinders.includes(selectText) && !cylinders.includes(anyText)) {
                         filters.cylinders = {
                             name: 'Cylinders',
@@ -3575,8 +3571,6 @@
                     
                     // Drive Type
                     const driveType = $('#drive-type-dropdown .select span').text();
-                    const selectText = '{{ __('messages.select') }}';
-                    const anyText = '{{ __('messages.any') }}';
                     if (driveType && !driveType.includes(selectText) && !driveType.includes(anyText)) {
                         filters.driveType = {
                             name: '{{ __('messages.drive_type') }}',
