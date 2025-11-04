@@ -65,28 +65,32 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td data-label="{{ __('messages.brand') }}">
                                     <span>{{$advertisement->brand->localized_name}}</span>
                                 </td>
-                                <td>
+                                <td data-label="{{ __('messages.price_evaluation') }}">
                                     <span>@include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])</span>
                                 </td>
-                                <td>
+                                <td data-label="{{ __('messages.year') }}">
                                     <span>{{$advertisement->register_year}}</span>
                                 </td>
-                                <td>
+                                <td data-label="{{ __('messages.transmission') }}">
                                     <span>{{$advertisement->motor_change}}</span>
                                 </td>
-                                <td>
+                                <td data-label="{{ __('messages.fuel_type') }}">
                                     <span>{{$advertisement->fuelType->localized_name}}</span>
                                 </td>
-                                <td>
-                                    <a href="#" class="remove-cart-item" data-id="{{ $advertisement->id }}" data-url="{{ route('dashboard.delete-advertisement') }}">
-                                        <img src="{{asset("wizmoto/images/icons/remove.svg")}}" alt="">
-                                    </a>
-                                    <a href="{{route("dashboard.edit-advertisement", $advertisement->id )}}" class="edit-cart-item" target="_blank">
-                                        <img src="{{asset("wizmoto/images/icons/edit.svg")}}" alt="">
-                                    </a>
+                                <td >
+                                    <div class="actions">
+                                        <a href="#" class="remove-cart-item action-btn remove" data-id="{{ $advertisement->id }}" data-url="{{ route('dashboard.delete-advertisement') }}">
+                                            <img src="{{asset("wizmoto/images/icons/remove.svg")}}" alt="">
+                                         
+                                        </a>
+                                        <a href="{{route("dashboard.edit-advertisement", $advertisement->id )}}" class="edit-cart-item action-btn edit" target="_blank">
+                                            <img src="{{asset("wizmoto/images/icons/edit.svg")}}" alt="">
+                                           
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -164,6 +168,104 @@
         </div>
     </div>
 @endsection
+@push('styles')
+    <style>
+        /* Hide mobile-only action labels by default (desktop) */
+        .my-listing-table .action-label { display: none; }
+        /* My Advertisements - Mobile Card Layout */
+        @media (max-width: 767px) {
+            .my-listing-table table,
+            .my-listing-table thead,
+            .my-listing-table tbody,
+            .my-listing-table th,
+            .my-listing-table td,
+            .my-listing-table tr { display: block; width: 100%; }
+
+            .my-listing-table thead { display: none; }
+
+            .my-listing-table tbody .advertisement-item {
+                border: 1px solid #e9ecef;
+                border-radius: 10px;
+                margin-bottom: 14px;
+                overflow: hidden;
+                background: #fff;
+            }
+
+            .my-listing-table tbody .advertisement-item td {
+                border: none;
+                padding: 10px 12px;
+            }
+
+            .my-listing-table .shop-cart-product {
+                display: flex;
+                gap: 12px;
+            }
+            .my-listing-table .shop-product-cart-img img {
+                width: 110px; height: 110px; object-fit: cover; border-radius: 8px;
+            }
+            .my-listing-table .shop-product-cart-info h3 { font-size: 18px; margin: 0 0 4px; }
+            .my-listing-table .shop-product-cart-info p { font-size: 13px; color: #6c757d; margin: 0 0 6px; }
+            .my-listing-table .shop-product-cart-info .price span { font-weight: 700; font-size: 16px; }
+
+            .my-listing-table tbody .advertisement-item td[data-label]:before {
+                content: attr(data-label);
+                display: block;
+                font-size: 12px;
+                color: #6c757d;
+                margin-bottom: 4px;
+            }
+
+            .my-listing-table tbody .advertisement-item td[data-label] span { font-size: 14px; }
+
+            .my-listing-table tbody .advertisement-item td:last-child { padding-top: 0; }
+            .my-listing-table tbody .advertisement-item td:last-child .actions {
+                display: flex;
+                gap: 8px;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: nowrap;
+            }
+            .my-listing-table .action-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px 10px;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                background: #fff;
+                width: auto;
+                box-sizing: border-box;
+                white-space: nowrap;
+                text-align: center;
+            }
+            .my-listing-table .action-btn img {
+                width: 18px;
+                height: 18px;
+                display: block;
+                flex: 0 0 18px;
+            }
+            .my-listing-table .action-label {
+                display: inline-block;
+                font-size: 14px;
+                color: #050B20;
+                line-height: 1.2;
+                margin-left: 0 !important;
+                white-space: normal; /* allow wrapping */
+                word-break: break-word;
+                flex: 1 1 auto;
+            }
+            /* no two-column fallback; keep stacked for consistency */
+            .my-listing-table .action-btn.remove { border-color: #ffe0e0; background: #fff5f5; }
+            .my-listing-table .action-btn.edit { border-color: #e0e7ff; background: #f5f7ff; }
+
+            /* Search/sort stack nicely */
+            #search-area { display: grid; gap: 10px; }
+            #search-area .text-box.v1 { justify-content: start; }
+        }
+    </style>
+@endpush
 @push('scripts')
     <script>
 
