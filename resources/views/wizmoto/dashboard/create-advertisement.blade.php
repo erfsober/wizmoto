@@ -282,8 +282,16 @@
                             <h6>{{ __('messages.equipment') }}</h6>
                             <div class="form-column col-lg-12 mb-5">
                                 <div class="cheak-box">
+                                    <div class="equipment-toolbar" style="margin-bottom: 10px;">
+                                        <input type="text" class="equipment-search-input" placeholder="{{ __('messages.search') }}..." style="width:100%; padding:10px 12px; border:1px solid #e1e1e1; border-radius:8px;">
+                                    </div>
                                     <div class="equipment-list-inventory row g-4" >
 
+                                    </div>
+                                    <div class="equipment-actions" style="margin-top: 12px; display:none;">
+                                        <button type="button" class="equipment-toggle-btn" data-expanded="false" style="padding:8px 12px; border:1px solid #e1e1e1; border-radius:8px; background:#fff;">
+                                            Show all
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -840,6 +848,20 @@
             font-weight: 500 !important;
         }
 
+        /* Equipment list responsive layout */
+        .equipment-list-inventory {
+            --gap-x: 16px;
+            --gap-y: 12px;
+            row-gap: var(--gap-y);
+        }
+       
+        .equipment-item-list .contain .checkmark { left: 10px; }
+        @media (max-width: 767px) {
+            .equipment-list-inventory { padding-right: 0; }
+            .equipment-item-list { margin-bottom: 8px; }
+            .equipment-item-list .contain { font-size: 14px; }
+        }
+
     </style>
 @endpush
 @push('scripts')
@@ -956,17 +978,17 @@
                     $equipmentList.empty();
                     $.each(data.equipments, function (index, equipment) {
                         let equipmentItem = `
-                        <div class="equipment-item-list col-3" style="display: flex;
-            align-items: center;
-            gap: 10px;">
-                    <label class="contain">
-                        ${equipment.name}
-                        <input type="checkbox" name="equipments[]" value="${equipment.id}">
-                        <span class="checkmark"></span>
-                    </label>
-                    </div>`;
+                        <div class="equipment-item-list col-6 col-md-4 col-lg-3">
+                            <label class="contain">
+                                ${equipment.name}
+                                <input type="checkbox" name="equipments[]" value="${equipment.id}">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>`;
                         $equipmentList.append(equipmentItem);
                     });
+
+                    setupEquipmentUX();
 
                     // ------------------------
                     // Populate Fuel Types Dropdown
@@ -987,6 +1009,57 @@
                 error: function (xhr, status, error) {
                     console.error('Error fetching advertisement data:', error);
                 }
+            });
+        }
+
+        function setupEquipmentUX() {
+            const $list = $('.equipment-list-inventory');
+            const $items = $list.find('.equipment-item-list');
+            const $toggle = $('.equipment-toggle-btn');
+            const $actions = $('.equipment-actions');
+            const $search = $('.equipment-search-input');
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+            const initialVisible = isMobile ? 12 : $items.length;
+
+            // Reset state
+            $items.show();
+            $search.val('');
+
+            if (isMobile && $items.length > initialVisible) {
+                $items.slice(initialVisible).hide().addClass('truncated');
+                $actions.show();
+                $toggle.attr('data-expanded', 'false').text('Show all');
+            } else {
+                $actions.hide();
+            }
+
+            $toggle.off('click').on('click', function() {
+                const expanded = $(this).attr('data-expanded') === 'true';
+                if (expanded) {
+                    $items.slice(initialVisible).hide();
+                    $(this).attr('data-expanded', 'false').text('Show all');
+                } else {
+                    $items.show();
+                    $(this).attr('data-expanded', 'true').text('Show less');
+                }
+            });
+
+            $search.off('input').on('input', function() {
+                const q = $(this).val().toLowerCase();
+                if (!q) {
+                    // Restore truncated state if any
+                    const expanded = $toggle.attr('data-expanded') === 'true';
+                    $items.each(function(i) {
+                        if (expanded || i < initialVisible) $(this).show(); else $(this).hide();
+                    });
+                    return;
+                }
+                // While searching, show all that match
+                $toggle.attr('data-expanded', 'true').text('Show less');
+                $items.each(function() {
+                    const txt = $(this).text().toLowerCase();
+                    $(this).toggle(txt.indexOf(q) !== -1);
+                });
             });
         }
 

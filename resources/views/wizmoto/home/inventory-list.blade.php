@@ -4356,15 +4356,32 @@
             #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .title {
                 font-size: 22px;
             }
-            
-            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .inspection-sec {
-                gap: 15px;
-                flex-wrap: wrap;
+            /* Hide secondary text to reduce clutter on small screens */
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .text {
+                display: none;
             }
             
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .inspection-sec {
+                gap: 10px 14px;
+                flex-wrap: wrap;
+            }
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .inspection-sec .icon svg {
+                width: 16px;
+                height: 16px;
+            }
+            
+            /* Equipment chips: horizontal scroll, compact */
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent::-webkit-scrollbar { display: none; }
             #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box .ul-cotent li a {
                 font-size: 12px;
                 padding: 5px 10px;
+                white-space: nowrap;
             }
             
             #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .title {
@@ -4373,6 +4390,7 @@
             
             #vehicle-cards-container .service-block-thirteen .inner-box .right-box .content-box-two .button {
                 min-width: 100px;
+                width: 100%;
                 font-size: 14px;
                 padding: 10px 20px;
             }
