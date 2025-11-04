@@ -863,7 +863,7 @@
             border-radius: 8px;
             word-break: break-word;
         } 
-        .equipment-item-list .contain .checkmark { left: 10px; }
+        
         @media (max-width: 767px) {
             .equipment-list-inventory { padding-right: 0; }
             .equipment-item-list { margin-bottom: 8px; }
