@@ -854,7 +854,15 @@
             --gap-y: 12px;
             row-gap: var(--gap-y);
         }
-       
+        .equipment-item-list .contain {
+            display: block; /* keep default checkbox layout */
+            position: relative;
+            /* padding: 8px 10px 8px 34px; leave room for checkmark on the left */
+            padding-left: 30px;
+            line-height: 1.3;
+            border-radius: 8px;
+            word-break: break-word;
+        } 
         .equipment-item-list .contain .checkmark { left: 10px; }
         @media (max-width: 767px) {
             .equipment-list-inventory { padding-right: 0; }
