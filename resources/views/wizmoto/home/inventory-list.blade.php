@@ -2980,33 +2980,11 @@
 
             // Clear all filters functionality
             function initializeClearFilters() {
-                $(document).on('click', '.clear-filters-btn', function(e) {
+                $(document).on('click', '.clear-all-filters-btn', function(e) {
                     e.preventDefault();
-                    
-                    // Clear all form inputs
-                    $('.inventory-sidebar input[type="text"]').val('').trigger('change');
-                    $('input[type="number"]').val('').trigger('change');
-                    $('input[type="checkbox"]').prop('checked', false);
-                    $('input[type="radio"]').prop('checked', false);
-                    
-                    // Reset dropdowns
-                    $('.drop-menu .select span').each(function() {
-                        const originalText = $(this).closest('.drop-menu').find('label').text();
-                        if (originalText.includes('Select')) {
-                            $(this).text(originalText);
-                        } else {
-                            $(this).text('Select ' + originalText);
-                        }
-                    });
-                    $('input[type="hidden"]').val('').trigger('change');
-                    
-                    // Reset multi-select containers
-                    $('.selected-options').empty();
-                    
-                    // Trigger filter update
+                    clearAllFilters();
+                    updateSelectedFiltersBar();
                     updateVehicleCards();
-                    
-                    // Show feedback
                     $(this).addClass('active');
                     setTimeout(() => {
                         $(this).removeClass('active');
@@ -3081,6 +3059,8 @@
                     const filters = {};
                     const selectText = '{{ __('messages.select') }}';
                     const anyText = '{{ __('messages.any') }}';
+                    const fromText = '{{ __('messages.from') }}';
+                    const toText = '{{ __('messages.to') }}';
                     
                     // Advertisement Type filter
                     const advertisementTypeId = $('input[name="advertisement_type"]').val();
@@ -3197,17 +3177,17 @@
                     const regYearFrom = $('#registration-year-dropdown .select span').text();
                     const regYearTo = $('#registration-year-to-dropdown .select span').text();
                     
-                    if ((regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText)) || 
-                        (regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText))) {
+                    if ((regYearFrom && !regYearFrom.includes(fromText) && !regYearFrom.includes(selectText)) || 
+                        (regYearTo && !regYearTo.includes(toText) && !regYearTo.includes(selectText))) {
                         
                         let yearValue = '';
-                        if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText) && 
-                            regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText)) {
+                        if (regYearFrom && !regYearFrom.includes(fromText) && !regYearFrom.includes(selectText) && 
+                            regYearTo && !regYearTo.includes(toText) && !regYearTo.includes(selectText)) {
                             yearValue = `${regYearFrom} - ${regYearTo}`;
-                        } else if (regYearFrom && !regYearFrom.includes('From') && !regYearFrom.includes(selectText)) {
-                            yearValue = `From ${regYearFrom}`;
-                        } else if (regYearTo && !regYearTo.includes('To') && !regYearTo.includes(selectText)) {
-                            yearValue = `Up to ${regYearTo}`;
+                        } else if (regYearFrom && !regYearFrom.includes(fromText) && !regYearFrom.includes(selectText)) {
+                            yearValue = fromText + ' ' + regYearFrom;
+                        } else if (regYearTo && !regYearTo.includes(toText) && !regYearTo.includes(selectText)) {
+                            yearValue = toText + ' ' + regYearTo;
                         }
                         
                         if (yearValue) {
@@ -3963,24 +3943,26 @@
                     $('input[type="checkbox"]').prop('checked', false);
                     $('input[type="radio"]').prop('checked', false);
                     
+                    const selectLabel = '{{ __('messages.select') }}';
+                    const fromText = '{{ __('messages.from') }}';
+                    const toText = '{{ __('messages.to') }}';
+                    
                     // Reset dropdowns
                     $('.drop-menu .select span').each(function() {
                         const originalText = $(this).closest('.drop-menu').find('label').text();
-                        if (originalText.includes('Select')) {
-                            $(this).text(originalText);
-                        } else {
-                            $(this).text('Select ' + originalText);
+                        if (originalText) {
+                            $(this).text(selectLabel + ' ' + originalText);
                         }
                     });
                     $('input[type="hidden"]').val('').trigger('change');
                     
-                    // Reset specific dropdowns that don't follow the general pattern
-                    $('#power-cv-from-dropdown .select span').text('From');
-                    $('#power-cv-to-dropdown .select span').text('To');
-                    $('#power-kw-from-dropdown .select span').text('From');
-                    $('#power-kw-to-dropdown .select span').text('To');
-                    $('#registration-year-dropdown .select span').text('From');
-                    $('#registration-year-to-dropdown .select span').text('To');
+                    // Reset specific dropdowns that use From/To
+                    $('#power-cv-from-dropdown .select span').text(fromText);
+                    $('#power-cv-to-dropdown .select span').text(toText);
+                    $('#power-kw-from-dropdown .select span').text(fromText);
+                    $('#power-kw-to-dropdown .select span').text(toText);
+                    $('#registration-year-dropdown .select span').text(fromText);
+                    $('#registration-year-to-dropdown .select span').text(toText);
                     
                     // Reset multi-select containers
                     $('.selected-options').empty();
@@ -4177,6 +4159,8 @@
             gap: 5px;
             margin-bottom: 15px;
         }
+        .pagination-mobile { display: none; }
+        .pagination-desktop { display: flex; }
         
         .page-item {
             list-style: none;
@@ -4416,9 +4400,16 @@
         /* Responsive pagination */
         @media (max-width: 768px) {
             .pagination {
-                flex-wrap: wrap;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
                 gap: 3px;
+                scrollbar-width: none; /* Firefox */
             }
+            .pagination::-webkit-scrollbar { display: none; } /* WebKit */
+            .pagination-desktop { display: none; }
+            .pagination-mobile { display: flex; }
             
             .page-link {
                 min-width: 35px;
