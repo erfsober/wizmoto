@@ -399,5 +399,6 @@ return [
     'comment' => 'Commento',
     'post_comment' => 'Pubblica Commento',
     'message' => 'Messaggio',
+    'not_specified' => 'Non specificato',
 ];
 

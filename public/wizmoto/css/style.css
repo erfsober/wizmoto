@@ -30793,7 +30793,8 @@ li.nav-sub.mm-listitem .mm-listitem__btn {
 
 .gallery-sec .item2,
 .gallery-sec .item3 {
-  margin-bottom: 4px;
+  margin-bottom: 10px;
+  
 }
 
 .gallery-sec .item2 .image,
@@ -31876,7 +31877,7 @@ body.modal-open .page-overlay {
     align-items: center;
     font-weight: 500;
     color: var(--theme-color-dark);
-    font-size: 1.2rem;
+    font-size: 1rem;
     min-width: 140px;
 }
 

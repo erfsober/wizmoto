@@ -89,13 +89,27 @@
                                                         <small>({{ $advertisement->version_model }})</small>
                                                     @endif
                                             </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ __('messages.make_model') }}
+                                                </span>
+                                                    {{ __('messages.not_specified') }}
+                                            </li>
                                                 @endif
                                                 @if($advertisement->vehicleBody?->name)
                                             <li>
                                                 <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ __('messages.body_type') }}
                                                 </span>
-                                                    {{ $advertisement->vehicleBody->localized_name }}
+                                                    {{ $advertisement->vehicleBody->localized_name ?? __('messages.not_specified') }}
+                                                </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-1.svg') }}">{{ __('messages.body_type') }}
+                                                </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->vehicleColor?->name)
@@ -105,6 +119,13 @@
                                                     </span>
                                                     {{ $advertisement->vehicleColor->localized_name }}@if ($advertisement->is_metallic_paint) <small>{{ __('messages.metallic') }}</small>@endif
                                             </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-11.svg') }}">{{ __('messages.exterior_color_field') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->registration_month || $advertisement->registration_year)
                                                 <li>
@@ -116,6 +137,13 @@
                                                     @elseif($advertisement->registration_year)
                                                         {{ $advertisement->registration_year }}
                                                     @endif
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.first_registration') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -131,12 +159,25 @@
                                                     </span>
                                                     {{ $advertisement->vehicle_category }}
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-7.svg') }}">{{ __('messages.condition') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->mileage)
                                                 <li>
                                                     <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">{{ __('messages.mileage') }}</span>
                                                     {{ number_format($advertisement->mileage) }} km
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-2.svg') }}">{{ __('messages.mileage') }}</span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->previous_owners)
@@ -145,6 +186,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.previous_owners_label') }}
                                                     </span>
                                                     {{ $advertisement->previous_owners }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.previous_owners_label') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->next_review_month || $advertisement->next_review_year)
@@ -157,6 +205,13 @@
                                                     @elseif($advertisement->next_review_year)
                                                         {{ $advertisement->next_review_year }}
                                                     @endif
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.next_inspection') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -180,6 +235,13 @@
                                                 </span>
                                                     {{ $advertisement->fuelType->localized_name }}
                                             </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_type') }}
+                                                </span>
+                                                    {{ __('messages.not_specified') }}
+                                            </li>
                                                 @endif
                                                 @if($advertisement->motor_change)
                                                 <li>
@@ -187,6 +249,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.transmission_label') }}
                                                     </span>
                                                     {{ $advertisement->motor_change }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.transmission_label') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->motor_displacement)
@@ -196,6 +265,13 @@
                                                     </span>
                                                     {{ $advertisement->motor_displacement }} cc
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.displacement_cc') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->motor_cylinders)
                                                 <li>
@@ -203,6 +279,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">{{ __('messages.cylinders') }}
                                                     </span>
                                                     {{ $advertisement->motor_cylinders }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">{{ __('messages.cylinders') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -225,6 +308,13 @@
                                                         {{ $advertisement->motor_power_cv }} {{ __('messages.hp') }}
                                                     @endif
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.power_output') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->motor_marches)
                                                 <li>
@@ -232,6 +322,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.number_of_gears') }}
                                                     </span>
                                                     {{ $advertisement->motor_marches }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.number_of_gears') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                                 @if($advertisement->drive_type)
@@ -241,6 +338,13 @@
                                                     </span>
                                                     {{ $advertisement->drive_type }}
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.drive_type') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->motor_empty_weight)
                                                 <li>
@@ -248,6 +352,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.empty_weight') }}
                                                     </span>
                                                     {{ $advertisement->motor_empty_weight }} {{ __('messages.kg') }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.empty_weight') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -272,6 +383,13 @@
                                                 </span>
                                                     {{ $advertisement->top_speed_kmh }} {{ __('messages.kmh') }}
                                             </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.top_speed_kmh') }}
+                                                </span>
+                                                    {{ __('messages.not_specified') }}
+                                            </li>
                                                 @endif
                                                 @if($advertisement->torque_nm)
                                             <li>
@@ -280,6 +398,13 @@
                                                 </span>
                                                     {{ $advertisement->torque_nm }} Nm
                                             </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.torque_nm') }}
+                                                </span>
+                                                    {{ __('messages.not_specified') }}
+                                            </li>
                                                 @endif
                                                 @if($advertisement->seat_height_mm)
                                                 <li>
@@ -287,6 +412,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.seat_height_mm') }}
                                                     </span>
                                                     {{ $advertisement->seat_height_mm }} mm
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.seat_height_mm') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                         </ul>
@@ -302,6 +434,13 @@
                                                     </span>
                                                     {{ $advertisement->combined_fuel_consumption }} {{ __('messages.l100km') }}
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_consumption') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->co2_emissions)
                                                 <li>
@@ -310,6 +449,13 @@
                                                     </span>
                                                     {{ $advertisement->co2_emissions }} {{ __('messages.gkm') }}
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.co2_emissions_label') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
                                                 @endif
                                                 @if($advertisement->tank_capacity_liters)
                                                 <li>
@@ -317,6 +463,13 @@
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.tank_capacity_label') }}
                                                     </span>
                                                     {{ $advertisement->tank_capacity_liters }} {{ __('messages.l') }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.tank_capacity_label') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
                                             </ul>
@@ -395,12 +548,23 @@
                                                         {{ $advertisement->last_service_year }}
                                                     @endif
                                                 </li>
+                                                @else
+                                            <li>
+                                                <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.last_service') }}
+                                                </span>
+                                                {{ __('messages.not_specified') }}
+                                            </li>
                                                 @endif
                                                 <li>
                                                     <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.service_history_available') }}
                                                     </span>
-                                                    {{ $advertisement->service_history_available ? __('messages.yes') : __('messages.no') }}
+                                                    @if(!is_null($advertisement->service_history_available))
+                                                        {{ $advertisement->service_history_available ? __('messages.yes') : __('messages.no') }}
+                                                    @else
+                                                        {{ __('messages.not_specified') }}
+                                                    @endif
                                             </li>
                                         </ul>
                                     </div>
@@ -412,13 +576,21 @@
                                                     <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.warranty_available') }}
                                                     </span>
-                                                    {{ $advertisement->warranty_available ? __('messages.yes') : __('messages.no') }}
+                                                    @if(!is_null($advertisement->warranty_available))
+                                                        {{ $advertisement->warranty_available ? __('messages.yes') : __('messages.no') }}
+                                                    @else
+                                                        {{ __('messages.not_specified') }}
+                                                    @endif
                                                 </li>
                                                 <li>
                                                     <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-4.svg') }}">{{ __('messages.available_immediately') }}
                                                     </span>
-                                                    {{ $advertisement->available_immediately ? __('messages.yes') : __('messages.no') }}
+                                                    @if(!is_null($advertisement->available_immediately))
+                                                        {{ $advertisement->available_immediately ? __('messages.yes') : __('messages.no') }}
+                                                    @else
+                                                        {{ __('messages.not_specified') }}
+                                                    @endif
                                                 </li>
                                             </ul>
                             </div>
@@ -830,6 +1002,10 @@
     <style>
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
+        /* Keep spec labels on a single line for better alignment */
+        .overview-section .list li { display: flex; align-items: center; gap: 8px; }
+        .overview-section .list li span { white-space: nowrap; flex: 0 0 auto; }
+        .overview-section .list li span + * { flex: 1 1 auto; }
         /* Gallery main image responsive */
         .gallery-sec .image-column .image img {
             width: 100%;
@@ -882,6 +1058,30 @@
             right: 12px !important;
             left: auto !important;
         }
+    }
+    /* Prevent wrapping of label text (icon + label) in spec lists */
+    .overview-section .list span {
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 30px; /* extra space from the value */
+        min-width: 220px; /* keep value clearly separated */
+    }
+    /* Lay out label and value with clear separation */
+    .overview-section .list li {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+        height: 40px; /* uniform row height */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        justify-content: space-between;
+    }
+    @media (max-width: 575px) {
+        .overview-section .list span { min-width: 180px; }
+        .overview-section .list li { min-height: 36px; height: 36px; }
     }
     </style>
 @endpush
