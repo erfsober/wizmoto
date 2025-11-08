@@ -830,6 +830,36 @@
     <style>
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
+        /* Gallery main image responsive */
+        .gallery-sec .image-column .image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+        /* Thumbnails grid: consistent squares with small gaps */
+        .gallery-sec .col-lg-5 .row {
+            margin-left: -6px;
+            margin-right: -6px;
+        }
+        .gallery-sec .image-column-two.item2 {
+            padding-left: 6px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+        }
+        .gallery-sec .image-column-two.item2 .image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .gallery-sec .image-column-two.item2 img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .cars-section-three .car-slider-three {
             padding-bottom: 36px !important; /* room for arrows below */
         }
