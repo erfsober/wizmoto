@@ -243,7 +243,7 @@ class ImportAutoscout24WithRealImages extends Command
             'trade_in_possible'         => false,
             'service_history_available' => false,
             'warranty_available'        => false,
-            'available_immediately'     => null,
+            'available_immediately'     => true,
             'is_verified'               => true,
         ]);
     }
