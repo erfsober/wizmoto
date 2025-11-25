@@ -68,9 +68,12 @@ class ImportAutoscout24WithRealImages extends Command
                 // Create a new Advertisement record from scraped data.
                 $advertisement = $this->createAdvertisementFromAutoscout($ad, $provider, $advertisementType);
 
+                // Resolve full gallery images using headless helper (Playwright) plus fallback images.
+                $galleryImages = $this->resolveGalleryImagesForAd($ad['url'] ?? $url, $ad['images'] ?? []);
+
                 // Attach up to 5 images to the 'covers' media collection.
-                if (! empty($ad['images']) && is_array($ad['images'])) {
-                    $images = array_slice($ad['images'], 0, 5);
+                if (! empty($galleryImages)) {
+                    $images = array_slice($galleryImages, 0, 5);
 
                     foreach ($images as $imageUrl) {
                         try {
@@ -451,51 +454,50 @@ class ImportAutoscout24WithRealImages extends Command
     }
 
     /**
-     * If the given provider does not yet have an image, try to fetch a real
-     * dealer logo from the Autoscout24 ad page using the headless helper script.
+     * Use the headless gallery helper to retrieve all visible listing-images
+     * URLs for the given ad URL. Falls back to the static images scraped by PHP.
+     *
+     * @param string|null $adUrl
+     * @param array<int, string> $fallbackImages
+     * @return array<int, string>
      */
-    private function maybeAttachProviderLogo(Provider $provider, ?string $adUrl): void
+    private function resolveGalleryImagesForAd(?string $adUrl, array $fallbackImages): array
     {
-        if ($provider->hasMedia('image')) {
-            return;
+        $images = [];
+
+        if ($adUrl) {
+            $scriptPath = base_path('scripts/autoscout24-gallery.js');
+            if (! file_exists($scriptPath)) {
+                $this->warn("Gallery script not found at {$scriptPath}, using fallback images only.");
+            } else {
+                $command = sprintf(
+                    'node %s %s 2>&1',
+                    escapeshellarg($scriptPath),
+                    escapeshellarg($adUrl),
+                );
+
+                $output = shell_exec($command);
+                if ($output === null || trim($output) === '') {
+                    $this->warn("Gallery script returned empty output for ad URL {$adUrl}, using fallback images.");
+                } else {
+                    $decoded = json_decode($output, true);
+                    if (is_array($decoded)) {
+                        $images = array_values(
+                            array_filter($decoded, fn ($v) => is_string($v) && trim($v) !== '')
+                        );
+                    }
+                }
+            }
         }
 
-        if (! $adUrl) {
-            return;
+        // Merge with fallback static images (e.g. og:image) and de-duplicate.
+        foreach ($fallbackImages as $img) {
+            if (is_string($img) && trim($img) !== '') {
+                $images[] = trim($img);
+            }
         }
 
-        $scriptPath = base_path('scripts/autoscout24-dealer-logo.js');
-        if (! file_exists($scriptPath)) {
-            $this->warn("Dealer logo script not found at {$scriptPath}, skipping provider logo import.");
-            return;
-        }
-
-        $command = sprintf(
-            'node %s %s 2>&1',
-            escapeshellarg($scriptPath),
-            escapeshellarg($adUrl),
-        );
-
-        $output = shell_exec($command);
-        if ($output === null || trim($output) === '') {
-            $this->warn("Dealer logo script returned empty output for provider {$provider->id}.");
-            return;
-        }
-
-        $decoded = json_decode($output, true);
-        if (! is_array($decoded) || ! isset($decoded['logoUrl']) || ! is_string($decoded['logoUrl']) || $decoded['logoUrl'] === '') {
-            // Best-effort only; don't treat as error.
-            return;
-        }
-
-        try {
-            $provider
-                ->addMediaFromUrl($decoded['logoUrl'])
-                ->toMediaCollection('image');
-
-            $this->line("  Attached dealer logo for provider {$provider->id}");
-        } catch (\Throwable $e) {
-            $this->warn("Failed to attach dealer logo for provider {$provider->id}: {$e->getMessage()}");
-        }
+        return array_values(array_unique($images));
+    }
     }
 }
