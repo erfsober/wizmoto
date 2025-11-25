@@ -115,6 +115,18 @@ class Autoscout24ScraperService
                 : $descriptionNode->textContent;
         }
 
+        // Seller notes: the large dealer-written block, if present.
+        $sellerNotes = null;
+        $sellerNotesNode = $xpath->query('//*[@id="sellerNotesSection"]')->item(0);
+        if ($sellerNotesNode instanceof \DOMElement) {
+            $text = trim($sellerNotesNode->textContent);
+            if ($text !== '') {
+                $sellerNotes = $text;
+                // Prefer the detailed seller notes as description when available.
+                $description = $sellerNotes;
+            }
+        }
+
         // Images: og:image first, then <img>.
         $images = [];
 
@@ -153,19 +165,23 @@ class Autoscout24ScraperService
 
         // Try to extract structured meta information from inline JSON blobs.
         $meta = [
-            'brand'        => null, // human-readable brand name, e.g. "Honda"
-            'model'        => null, // human-readable model name, e.g. "XL 750 Transalp"
-            'brand_code'   => null, // internal Autoscout24 brand id
-            'model_code'   => null, // internal Autoscout24 model id
-            'city'         => null, // e.g. "Alessandria_AL"
-            'zip'          => null, // e.g. "IT15121"
-            'dealer_id'    => null, // Autoscout24 dealer ID
-            'seller_type'  => null, // 'dealer' or 'private'
-            'fuel_code'    => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
-            'gear_code'    => null, // e.g. 'M' (Manual)
-            'condition'    => null, // e.g. 'new', 'used'
-            'power_kw'     => null, // numeric kW if available
-            'power_cv'     => null, // numeric CV/HP if available
+            'brand'         => null, // human-readable brand name, e.g. "Honda"
+            'model'         => null, // human-readable model name, e.g. "XL 750 Transalp"
+            'brand_code'    => null, // internal Autoscout24 brand id
+            'model_code'    => null, // internal Autoscout24 model id
+            'city'          => null, // e.g. "Alessandria_AL"
+            'zip'           => null, // e.g. "IT15121"
+            'dealer_id'     => null, // Autoscout24 dealer ID
+            'seller_type'   => null, // 'dealer' or 'private'
+            'fuel_code'     => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
+            'gear_code'     => null, // e.g. 'M' (Manual)
+            'condition'     => null, // e.g. 'new', 'used'
+            'power_kw'      => null, // numeric kW if available
+            'power_cv'      => null, // numeric CV/HP if available
+            'displacement_cc' => null, // engine displacement in cc
+            'contact_name'   => null,
+            'contact_phone'  => null,
+            'contact_email'  => null,
         ];
 
         if (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
@@ -195,6 +211,69 @@ class Autoscout24ScraperService
             }
         }
 
+        // Technical details section: parse displacement (Cilindrata) if present.
+        $techDtNodes = $xpath->query('//*[@id="technical-details-section"]//dt');
+        $techDdNodes = $xpath->query('//*[@id="technical-details-section"]//dd');
+        if ($techDtNodes !== false && $techDdNodes !== false) {
+            $count = min($techDtNodes->length, $techDdNodes->length);
+            for ($i = 0; $i < $count; $i++) {
+                $label = trim($techDtNodes->item($i)?->textContent ?? '');
+                $value = trim($techDdNodes->item($i)?->textContent ?? '');
+
+                if ($label === '' || $value === '') {
+                    continue;
+                }
+
+                // Cilindrata: e.g. "660 cm³" → 660
+                if (stripos($label, 'Cilindrata') !== false) {
+                    if (preg_match('/([0-9][0-9\.\s]*)\s*cm/i', $value, $mDisp)) {
+                        $num = preg_replace('/[^\d]/', '', $mDisp[1]);
+                        if ($num !== '') {
+                            $meta['displacement_cc'] = (int) $num;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Try to extract dealer contact info from seller notes HTML block.
+        // Pattern example:
+        // <strong>Ansprechpartner:</strong><br>Julian Adolphi<br>07121 95 93 22<br>julian...@...<br>
+        if (preg_match(
+            '/Ansprechpartner:<\/strong><br>\s*([^<]+)<br>\s*([^<]+)<br>\s*([^<]+)<br>/i',
+            $html,
+            $m
+        )) {
+            $meta['contact_name']  = trim($m[1]);
+            $meta['contact_phone'] = trim($m[2]);
+            $meta['contact_email'] = trim($m[3]);
+        }
+
+        // Equipment: list of bullet items from the equipment section, if present.
+        $equipment = [];
+        $equipmentNodes = $xpath->query('//*[@id="equipment-section"]//dd//li');
+        if ($equipmentNodes !== false) {
+            foreach ($equipmentNodes as $li) {
+                if (! $li instanceof \DOMElement) {
+                    continue;
+                }
+                $label = trim($li->textContent);
+                if ($label !== '') {
+                    $equipment[] = $label;
+                }
+            }
+        }
+
+        // Color: specific color name from the color section, if present.
+        $color = null;
+        $colorNode = $xpath->query('//*[@id="color-section"]//dd')->item(0);
+        if ($colorNode instanceof \DOMElement) {
+            $colorText = trim($colorNode->textContent);
+            if ($colorText !== '') {
+                $color = $colorText;
+            }
+        }
+
         $data = [
             'url'         => $url,
             'title'       => $title !== null ? trim($title) : null,
@@ -202,6 +281,9 @@ class Autoscout24ScraperService
             'description' => $description !== null ? trim($description) : null,
             'images'      => array_values(array_unique(array_filter($images))),
             'meta'        => $meta,
+            'equipment'   => array_values(array_unique($equipment)),
+            'color'       => $color,
+            'seller_notes'=> $sellerNotes,
         ];
 
         Log::info('Autoscout24ScraperService@scrapeAd finished', [
