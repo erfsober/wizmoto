@@ -18,7 +18,14 @@ async function main() {
   const searchUrl = process.argv[2] || 'https://www.autoscout24.it/lst-moto';
   const limit = parseInt(process.argv[3] || '10', 10) || 10;
 
-  const browser = await chromium.launch({ headless: true });
+  // In some Linux/container environments (especially when running as root),
+  // Chromium's sandbox causes the browser to immediately crash with
+  // "Target page, context or browser has been closed". Disabling the sandbox
+  // and dev-shm usage makes it work reliably in those environments.
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-dev-shm-usage'],
+  });
   const page = await browser.newPage({
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
