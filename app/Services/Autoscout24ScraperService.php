@@ -323,9 +323,10 @@ class Autoscout24ScraperService
         if (empty($urls)) {
             Log::debug('Autoscout24ScraperService@extractAdUrls: DOM selectors found no URLs, using regex fallback');
 
-            preg_match_all('/href="([^"]*\/annunci\/[^"]*)"/', $html, $matches);
+            // 1) Classic href attributes that already contain /annunci/.
+            preg_match_all('/href="([^"]*\/annunci\/[^"]*)"/', $html, $matchesHref);
 
-            foreach ($matches[1] ?? [] as $href) {
+            foreach ($matchesHref[1] ?? [] as $href) {
                 if (! $this->isValidAdUrl($href)) {
                     continue;
                 }
@@ -335,6 +336,43 @@ class Autoscout24ScraperService
 
                 if (count($urls) >= $limit) {
                     break;
+                }
+            }
+
+            // 2) Absolute ad URLs inside inline JSON / scripts.
+            if (count($urls) < $limit) {
+                preg_match_all('#https://www\.autoscout24\.it/annunci/[^"\'<\s]+#', $html, $matchesAbs);
+
+                foreach ($matchesAbs[0] ?? [] as $absUrl) {
+                    if (! $this->isValidAdUrl($absUrl)) {
+                        continue;
+                    }
+
+                    $urls[$absUrl] = $absUrl;
+
+                    if (count($urls) >= $limit) {
+                        break;
+                    }
+                }
+            }
+
+            // 3) Relative ad URLs inside JSON strings, e.g. "\/annunci\/honda-..."
+            if (count($urls) < $limit) {
+                preg_match_all('#"/annunci/([^"]+)"#', $html, $matchesRel);
+
+                foreach ($matchesRel[1] ?? [] as $path) {
+                    $href = '/annunci/' . ltrim($path, '/');
+
+                    if (! $this->isValidAdUrl($href)) {
+                        continue;
+                    }
+
+                    $fullUrl = $this->buildFullUrl($href);
+                    $urls[$fullUrl] = $fullUrl;
+
+                    if (count($urls) >= $limit) {
+                        break;
+                    }
                 }
             }
         }
