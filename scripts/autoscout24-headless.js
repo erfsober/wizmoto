@@ -85,33 +85,19 @@ async function main() {
     return Array.from(new Set(all));
   });
 
-  let urls = hrefs
+  // Prefer explicit ad-detail links which live under /annunci/.
+  const detailHrefs = hrefs.filter((href) => href.includes('/annunci/'));
+
+  let urls = detailHrefs
     // Normalise to absolute URLs on autoscout24.it
     .map((href) => (href.startsWith('http') ? href : base + href))
-    .filter((url) => url.startsWith(base))
-    // Heuristic: ignore obvious non-detail pages (search, filters, help, auth, etc.).
-    .filter((url) => {
-      const skipPatterns = [
-        '/lst-',
-        '/search',
-        '/filter',
-        '/sort',
-        '/login',
-        '/register',
-        '/help',
-        '/contact',
-        '/privacy',
-        '/terms',
-        '/imprint',
-        '/cookie',
-      ];
-      return !skipPatterns.some((p) => url.includes(p));
-    });
+    .filter((url) => url.startsWith(base));
 
   // If DOM-based scraping didn't find anything useful, fall back to JSON payloads.
   if (urls.length === 0 && jsonBodies.length > 0) {
     const fromJson = new Set();
-    const regex = /https:\/\/www\.autoscout24\.it\/[^\s"']+/g;
+    // Only consider full Autoscout24 ad-detail URLs under /annunci/.
+    const regex = /https:\/\/www\.autoscout24\.it\/annunci\/[^\s"']+/g;
 
     for (const body of jsonBodies) {
       let match;
