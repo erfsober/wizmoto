@@ -38,15 +38,11 @@ async function main() {
   page.on('response', async (response) => {
     try {
       const headers = response.headers();
-      const contentType = headers['content-type'] || headers['Content-Type'] || '';
+      const rawContentType = headers['content-type'] || headers['Content-Type'] || '';
+      const contentType = rawContentType.toLowerCase();
 
-      if (!contentType.includes('application/json')) {
-        return;
-      }
-
-      // Only care about Autoscout24 JSON responses.
-      const url = response.url();
-      if (!url.includes('autoscout24')) {
+      // Keep any response that looks JSON-ish, not just strict application/json.
+      if (!contentType.includes('json')) {
         return;
       }
 
