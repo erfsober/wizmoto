@@ -483,7 +483,7 @@ class ImportAutoscout24WithRealImages extends Command
                     $decoded = json_decode($output, true);
                     if (is_array($decoded)) {
                         $images = array_values(
-                            array_filter($decoded, fn ($v) => is_string($v) && trim($v) !== '')
+                            array_filter($decoded, fn($v) => is_string($v) && trim($v) !== '')
                         );
                     }
                 }
@@ -498,6 +498,5 @@ class ImportAutoscout24WithRealImages extends Command
         }
 
         return array_values(array_unique($images));
-    }
     }
 }
