@@ -165,23 +165,27 @@ class Autoscout24ScraperService
 
         // Try to extract structured meta information from inline JSON blobs.
         $meta = [
-            'brand'         => null, // human-readable brand name, e.g. "Honda"
-            'model'         => null, // human-readable model name, e.g. "XL 750 Transalp"
-            'brand_code'    => null, // internal Autoscout24 brand id
-            'model_code'    => null, // internal Autoscout24 model id
-            'city'          => null, // e.g. "Alessandria_AL"
-            'zip'           => null, // e.g. "IT15121"
-            'dealer_id'     => null, // Autoscout24 dealer ID
-            'seller_type'   => null, // 'dealer' or 'private'
-            'fuel_code'     => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
-            'gear_code'     => null, // e.g. 'M' (Manual)
-            'condition'     => null, // e.g. 'new', 'used'
-            'power_kw'      => null, // numeric kW if available
-            'power_cv'      => null, // numeric CV/HP if available
+            'brand'           => null, // human-readable brand name, e.g. "Malaguti"
+            'model'           => null, // human-readable model name, e.g. "Madison 250"
+            'brand_code'      => null, // internal Autoscout24 brand id
+            'model_code'      => null, // internal Autoscout24 model id
+            'city'            => null, // e.g. "Torino_To"
+            'zip'             => null, // e.g. "IT10132"
+            'dealer_id'       => null, // Autoscout24 dealer ID
+            'seller_type'     => null, // 'dealer' or 'private'
+            'fuel_code'       => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
+            'gear_code'       => null, // e.g. 'M' (Manual)
+            'condition'       => null, // e.g. 'new', 'used'
+            'power_kw'        => null, // numeric kW if available
+            'power_cv'        => null, // numeric CV/HP if available
             'displacement_cc' => null, // engine displacement in cc
-            'contact_name'   => null,
-            'contact_phone'  => null,
-            'contact_email'  => null,
+            'mileage_km'      => null, // total mileage in km
+            'reg_month'       => null, // first registration month (string/int)
+            'reg_year'        => null, // first registration year (string/int)
+            'body_type'       => null, // e.g. "Scooter"
+            'contact_name'    => null,
+            'contact_phone'   => null,
+            'contact_email'   => null,
         ];
 
         if (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
@@ -208,6 +212,18 @@ class Autoscout24ScraperService
                 if (isset($decoded['sthp']) && is_numeric($decoded['sthp'])) {
                     $meta['power_cv'] = (int) $decoded['sthp'];
                 }
+
+                if (isset($decoded['stmil']) && is_numeric($decoded['stmil'])) {
+                    $meta['mileage_km'] = (int) $decoded['stmil'];
+                }
+
+                if (isset($decoded['stmon']) && $decoded['stmon'] !== '') {
+                    $meta['reg_month'] = (string) $decoded['stmon'];
+                }
+
+                if (isset($decoded['styea']) && $decoded['styea'] !== '') {
+                    $meta['reg_year'] = (string) $decoded['styea'];
+                }
             }
         }
 
@@ -233,6 +249,15 @@ class Autoscout24ScraperService
                         }
                     }
                 }
+            }
+        }
+
+        // Dati di base: Carrozzeria (body type), if present.
+        $bodyNode = $xpath->query('//dt[normalize-space()="Carrozzeria"]/following-sibling::dd[1]')->item(0);
+        if ($bodyNode instanceof \DOMElement) {
+            $bodyText = trim($bodyNode->textContent);
+            if ($bodyText !== '') {
+                $meta['body_type'] = $bodyText; // e.g. "Scooter"
             }
         }
 

@@ -223,44 +223,20 @@ class ImportAutoscout24WithRealImages extends Command
             };
         }
 
-        // Try to derive mileage, registration date and body type from description text
-        // OR from detailed seller notes, preferring seller notes when available.
-        // which often looks like:
-        // "Chopper/Cruiser | € 4.290 | 14.418 km | 07/2020 | Benzina - ..."
-        $mileage            = null;
-        $registrationMonth  = null;
-        $registrationYear   = null;
-        $vehicleBodyId      = null;
+        // Mileage and registration date based purely on structured Autoscout24 meta.
+        $mileage           = $meta['mileage_km'] ?? null;
+        $registrationMonth = $meta['reg_month'] ?? null;
+        $registrationYear  = $meta['reg_year'] ?? null;
 
-        $specSource = $data['seller_notes'] ?? $description;
-
-        if (is_string($specSource) && $specSource !== '') {
-            // Mileage: "... 14.418 km ..."
-            if (preg_match('/([0-9][0-9\.\s]*)\s*km/i', $specSource, $m)) {
-                $mileageStr = preg_replace('/[^\d]/', '', $m[1]);
-                if ($mileageStr !== '') {
-                    $mileage = (int) $mileageStr;
-                }
-            }
-
-            // Registration date: "... 07/2020 ..."
-            if (preg_match('/\b(\d{2})\/(\d{4})\b/', $specSource, $m)) {
-                $registrationMonth = $m[1];
-                $registrationYear  = $m[2];
-            }
-
-            // Body type: text between ":" and first "|" after title,
-            // e.g. "... Torino - To: Chopper/Cruiser | € 4.290 | ..."
-            if (preg_match('/:\s*([^|]+)\|/', $description ?? '', $m)) {
-                $bodyName = trim($m[1]);
-                if ($bodyName !== '') {
-                    $vehicleBody = \App\Models\VehicleBody::firstOrCreate(
-                        ['name_it' => $bodyName],
-                        ['name' => $bodyName, 'name_en' => $bodyName],
-                    );
-                    $vehicleBodyId = $vehicleBody->id;
-                }
-            }
+        // Body type based on structured "Carrozzeria" field, if present.
+        $vehicleBodyId = null;
+        $bodyName      = $meta['body_type'] ?? null; // e.g. "Scooter"
+        if (is_string($bodyName) && $bodyName !== '') {
+            $vehicleBody = \App\Models\VehicleBody::firstOrCreate(
+                ['name_it' => $bodyName],
+                ['name' => $bodyName, 'name_en' => $bodyName],
+            );
+            $vehicleBodyId = $vehicleBody->id;
         }
 
         // Color mapping based on the real color section text.
