@@ -99,20 +99,31 @@ async function main() {
   // If DOM-based scraping didn't find anything useful, fall back to JSON payloads.
   if (urls.length === 0 && jsonBodies.length > 0) {
     const fromJson = new Set();
-    // Only consider full Autoscout24 ad-detail URLs under known ad prefixes.
-    const regex = /https:\/\/www\.autoscout24\.it\/(?:annunci|offerta)\/[^\s"']+/g;
+
+    // 1) Absolute ad URLs, e.g. "https://www.autoscout24.it/annunci/..."
+    const absRegex = /https:\/\/www\.autoscout24\.it\/annunci\/[^\s"']+/g;
+    // 2) Relative ad URLs inside JSON strings, e.g. "\/annunci\/honda-..."
+    const relRegex = /"(\/annunci\/[^"']+)"/g;
 
     for (const body of jsonBodies) {
       let match;
-      while ((match = regex.exec(body)) !== null) {
+
+      // Absolute URLs.
+      while ((match = absRegex.exec(body)) !== null) {
         fromJson.add(match[0]);
-        if (fromJson.size >= limit) {
-          break;
-        }
+        if (fromJson.size >= limit) break;
       }
-      if (fromJson.size >= limit) {
-        break;
+
+      if (fromJson.size >= limit) break;
+
+      // Relative URLs.
+      while ((match = relRegex.exec(body)) !== null) {
+        const path = match[1];
+        fromJson.add(base + path);
+        if (fromJson.size >= limit) break;
       }
+
+      if (fromJson.size >= limit) break;
     }
 
     urls = Array.from(fromJson);
@@ -129,6 +140,13 @@ async function main() {
           jsonBodiesCount: jsonBodies.length,
         }),
     );
+
+    // Also log a small sample of the first JSON payload body (if present),
+    // so we can inspect how listing URLs are represented in the API responses.
+    if (jsonBodies.length > 0) {
+      const sample = jsonBodies[0].slice(0, 1000);
+      console.error('Autoscout24HeadlessJsonSample ' + sample);
+    }
   }
 
   await browser.close();
