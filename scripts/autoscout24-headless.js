@@ -61,7 +61,12 @@ async function main() {
     }
   });
 
-  await page.goto(searchUrl, { waitUntil: 'networkidle' });
+  // Avoid "networkidle" on heavy ad/analytics pages (it may never settle).
+  // Use a longer timeout and rely on our own waits/selectors instead.
+  await page.goto(searchUrl, {
+    waitUntil: 'domcontentloaded',
+    timeout: 60000,
+  });
 
   // Wait for at least one listing link to appear (best-effort).
   try {
