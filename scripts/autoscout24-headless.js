@@ -130,26 +130,6 @@ async function main() {
     urls = Array.from(fromJson);
   }
 
-  // If we still have no URLs at all, dump a small debug payload to stderr so it
-  // ends up in laravel.log via shell_exec (2>&1). This will deliberately break
-  // JSON decoding in PHP but is useful for diagnosing selector/structure issues.
-  if (urls.length === 0) {
-    console.error(
-      'Autoscout24HeadlessDebug ' +
-        JSON.stringify({
-          hrefsSample: hrefs.slice(0, 200),
-          jsonBodiesCount: jsonBodies.length,
-        }),
-    );
-
-    // Also log a small sample of the first JSON payload body (if present),
-    // so we can inspect how listing URLs are represented in the API responses.
-    if (jsonBodies.length > 0) {
-      const sample = jsonBodies[0].slice(0, 1000);
-      console.error('Autoscout24HeadlessJsonSample ' + sample);
-    }
-  }
-
   await browser.close();
 
   process.stdout.write(JSON.stringify(urls.slice(0, limit)));

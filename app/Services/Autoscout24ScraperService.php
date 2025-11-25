@@ -151,12 +151,57 @@ class Autoscout24ScraperService
             }
         }
 
+        // Try to extract structured meta information from inline JSON blobs.
+        $meta = [
+            'brand'        => null, // human-readable brand name, e.g. "Honda"
+            'model'        => null, // human-readable model name, e.g. "XL 750 Transalp"
+            'brand_code'   => null, // internal Autoscout24 brand id
+            'model_code'   => null, // internal Autoscout24 model id
+            'city'         => null, // e.g. "Alessandria_AL"
+            'zip'          => null, // e.g. "IT15121"
+            'dealer_id'    => null, // Autoscout24 dealer ID
+            'seller_type'  => null, // 'dealer' or 'private'
+            'fuel_code'    => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
+            'gear_code'    => null, // e.g. 'M' (Manual)
+            'condition'    => null, // e.g. 'new', 'used'
+            'power_kw'     => null, // numeric kW if available
+            'power_cv'     => null, // numeric CV/HP if available
+        ];
+
+        if (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+            $decoded = json_decode($json, true);
+
+            if (is_array($decoded)) {
+                $meta['brand']        = $decoded['stmak'] ?? null;
+                $meta['model']        = $decoded['stmod'] ?? ($decoded['model'] ?? null);
+                $meta['brand_code']   = $decoded['make'] ?? null;
+                $meta['model_code']   = $decoded['model'] ?? null;
+                $meta['city']         = $decoded['city'] ?? null;
+                $meta['zip']          = $decoded['zip'] ?? null;
+                $meta['dealer_id']    = $decoded['did'] ?? null;
+                $meta['seller_type']  = $decoded['ad'] ?? null;
+                $meta['fuel_code']    = $decoded['fuel'] ?? null;
+                $meta['gear_code']    = $decoded['gear'] ?? null;
+                $meta['condition']    = $decoded['fr'] ?? null;
+
+                if (isset($decoded['stkw']) && is_numeric($decoded['stkw'])) {
+                    $meta['power_kw'] = (int) $decoded['stkw'];
+                }
+
+                if (isset($decoded['sthp']) && is_numeric($decoded['sthp'])) {
+                    $meta['power_cv'] = (int) $decoded['sthp'];
+                }
+            }
+        }
+
         $data = [
             'url'         => $url,
             'title'       => $title !== null ? trim($title) : null,
             'price'       => $price,
             'description' => $description !== null ? trim($description) : null,
             'images'      => array_values(array_unique(array_filter($images))),
+            'meta'        => $meta,
         ];
 
         Log::info('Autoscout24ScraperService@scrapeAd finished', [
