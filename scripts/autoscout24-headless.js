@@ -55,8 +55,10 @@ async function main() {
   process.stdout.write(JSON.stringify(urls));
 }
 
-main().catch(() => {
-  // On error, exit with code 1 and no stdout (PHP will see empty output).
+main().catch((err) => {
+  // Log the error so Laravel's shell_exec (with 2>&1) can capture it into laravel.log.
+  // This lets us see Playwright/Node problems instead of just \"empty output\".
+  console.error(err && err.stack ? err.stack : String(err));
   process.exit(1);
 });
 
