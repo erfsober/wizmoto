@@ -31,6 +31,36 @@ async function main() {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   });
 
+  // Collect JSON responses so we can fall back to extracting listing URLs
+  // directly from API payloads if the DOM structure changes.
+  const jsonBodies = [];
+
+  page.on('response', async (response) => {
+    try {
+      const headers = response.headers();
+      const contentType = headers['content-type'] || headers['Content-Type'] || '';
+
+      if (!contentType.includes('application/json')) {
+        return;
+      }
+
+      // Only care about Autoscout24 JSON responses.
+      const url = response.url();
+      if (!url.includes('autoscout24')) {
+        return;
+      }
+
+      const text = await response.text();
+      if (!text) {
+        return;
+      }
+
+      jsonBodies.push(text);
+    } catch {
+      // Ignore network/parse errors here; this is best-effort.
+    }
+  });
+
   await page.goto(searchUrl, { waitUntil: 'networkidle' });
 
   // Wait for at least one listing link to appear (best-effort).
@@ -40,26 +70,68 @@ async function main() {
     // Ignore timeout; we'll just see what links we have.
   }
 
-  // Small extra delay to let more cards render.
+  // Small extra delay to let more cards and XHRs complete.
   await page.waitForTimeout(2000);
 
-  const hrefs = await page.$$eval('a[href^="/annunci/"]', (nodes) => {
+  const base = 'https://www.autoscout24.it';
+
+  // First try DOM-based extraction for links that look like listings.
+  const hrefs = await page.$$eval('a[href]', (nodes) => {
     const all = nodes
       .map((n) => n.getAttribute('href'))
       .filter((href) => typeof href === 'string' && href.trim() !== '');
 
+    // Return unique hrefs only; filtering is done in Node context.
     return Array.from(new Set(all));
   });
 
+  let urls = hrefs
+    // Normalise to absolute URLs on autoscout24.it
+    .map((href) => (href.startsWith('http') ? href : base + href))
+    .filter((url) => url.startsWith(base))
+    // Heuristic: ignore obvious non-detail pages (search, filters, help, auth, etc.).
+    .filter((url) => {
+      const skipPatterns = [
+        '/lst-',
+        '/search',
+        '/filter',
+        '/sort',
+        '/login',
+        '/register',
+        '/help',
+        '/contact',
+        '/privacy',
+        '/terms',
+        '/imprint',
+        '/cookie',
+      ];
+      return !skipPatterns.some((p) => url.includes(p));
+    });
+
+  // If DOM-based scraping didn't find anything useful, fall back to JSON payloads.
+  if (urls.length === 0 && jsonBodies.length > 0) {
+    const fromJson = new Set();
+    const regex = /https:\/\/www\.autoscout24\.it\/[^\s"']+/g;
+
+    for (const body of jsonBodies) {
+      let match;
+      while ((match = regex.exec(body)) !== null) {
+        fromJson.add(match[0]);
+        if (fromJson.size >= limit) {
+          break;
+        }
+      }
+      if (fromJson.size >= limit) {
+        break;
+      }
+    }
+
+    urls = Array.from(fromJson);
+  }
+
   await browser.close();
 
-  const base = 'https://www.autoscout24.it';
-
-  const urls = hrefs
-    .map((href) => (href.startsWith('http') ? href : base + href))
-    .slice(0, limit);
-
-  process.stdout.write(JSON.stringify(urls));
+  process.stdout.write(JSON.stringify(urls.slice(0, limit)));
 }
 
 main().catch((err) => {
