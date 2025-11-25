@@ -23,12 +23,9 @@ class Autoscout24ScraperService
     public function scrapeMotoBikes($limit = 2)
     {
         try {
-            Log::info('Starting Autoscout24 moto bike scraping', ['limit' => $limit]);
-            
             // Get search results page
             $searchResults = $this->fetchSearchResults();
             if (!$searchResults) {
-                Log::warning('Failed to fetch search results from Autoscout24');
                 return [];
             }
             
@@ -37,16 +34,12 @@ class Autoscout24ScraperService
             
             // If no data found from listing page, try individual ad pages
             if (empty($ads)) {
-                Log::info('No data found on listing page, trying individual ad pages');
-                
                 // Extract ad URLs from search results
                 $adUrls = $this->extractAdUrls($searchResults, $limit);
                 if (empty($adUrls)) {
-                    Log::warning('No ad URLs found in search results');
                 } else {
                     // Scrape individual ad details for comprehensive data
                     foreach ($adUrls as $url) {
-                        Log::info('Scraping individual ad page', ['url' => $url]);
                         $adData = $this->scrapeAdDetails($url);
                         if ($adData) {
                             $ads[] = $adData;
@@ -60,18 +53,12 @@ class Autoscout24ScraperService
             
             // If still no data, generate comprehensive mock data for demonstration
             if (empty($ads)) {
-                Log::info('No data found from scraping, generating comprehensive mock data for demonstration');
                 $ads = $this->generateComprehensiveMockData($limit);
             }
             
-            Log::info('Autoscout24 scraping completed', ['ads_found' => count($ads)]);
             return $ads;
             
         } catch (\Exception $e) {
-            Log::error('Error during Autoscout24 scraping', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
             return [];
         }
     }
@@ -101,20 +88,14 @@ class Autoscout24ScraperService
             ->get($this->searchUrl);
             
             if ($response->successful()) {
-                Log::info('Successfully fetched Autoscout24 search page');
+
+                Log::info($response->body());
                 return $response->body();
             } else {
-                Log::error('Failed to fetch Autoscout24 search page', [
-                    'status' => $response->status(),
-                    'response' => $response->body()
-                ]);
                 return null;
             }
             
         } catch (\Exception $e) {
-            Log::error('Exception while fetching search results', [
-                'error' => $e->getMessage()
-            ]);
             return null;
         }
     }
@@ -135,7 +116,6 @@ class Autoscout24ScraperService
             $ads = $this->extractDataWithRegex($html, $limit);
             
             if (!empty($ads)) {
-                Log::info('Successfully extracted data using regex', ['count' => count($ads)]);
                 return $ads;
             }
             
@@ -165,7 +145,6 @@ class Autoscout24ScraperService
             }
             
             if ($vehicles->length === 0) {
-                Log::info('No vehicle items found on listing page');
                 return [];
             }
             
@@ -180,11 +159,9 @@ class Autoscout24ScraperService
                 }
             }
             
-            Log::info('Extracted data from listing page', ['count' => count($ads)]);
             return $ads;
             
         } catch (\Exception $e) {
-            Log::error('Error extracting data from listing page', ['error' => $e->getMessage()]);
             return [];
         }
     }
@@ -301,7 +278,6 @@ class Autoscout24ScraperService
             return $ads;
             
         } catch (\Exception $e) {
-            Log::error('Error in regex extraction', ['error' => $e->getMessage()]);
             return [];
         }
     }
@@ -318,28 +294,20 @@ class Autoscout24ScraperService
         $ads = [];
         
         try {
-            Log::info('Extracting real data from Autoscout24 HTML', ['html_length' => strlen($html)]);
-            
             // Look for price patterns - REAL DATA
             preg_match_all('/€\s*([0-9.,]+)/', $html, $priceMatches);
-            Log::info('Found prices', ['count' => count($priceMatches[1]), 'prices' => array_slice($priceMatches[1], 0, 5)]);
             
             // Look for mileage patterns - REAL DATA  
             preg_match_all('/([0-9.,]+)\s*km/', $html, $mileageMatches);
-            Log::info('Found mileage', ['count' => count($mileageMatches[1]), 'mileage' => array_slice($mileageMatches[1], 0, 5)]);
             
             // Look for motorcycle brand/model patterns - REAL DATA
             preg_match_all('/(Yamaha|Honda|Ducati|Suzuki|BMW|KTM|Aprilia|Benelli|Beta|Kawasaki|Triumph|Harley)\s+([A-Za-z0-9\s-]+)/i', $html, $brandMatches);
-            Log::info('Found brands', ['count' => count($brandMatches[1]), 'brands' => array_slice($brandMatches[1], 0, 5)]);
             
             // Look for REAL Autoscout24 URLs - REAL DATA
             preg_match_all('/\/annunci\/[^"\s]+/', $html, $urlMatches);
-            Log::info('Found real URLs', ['count' => count($urlMatches[0]), 'urls' => array_slice($urlMatches[0], 0, 5)]);
             
             $count = 0;
             $maxItems = min($limit, count($priceMatches[1]), count($mileageMatches[1]), count($brandMatches[1]), count($urlMatches[0]));
-            
-            Log::info('Processing real data', ['max_items' => $maxItems, 'limit' => $limit]);
             
             for ($i = 0; $i < $maxItems && $count < $limit; $i++) {
                 $price = (float) str_replace(',', '.', str_replace('.', '', $priceMatches[1][$i]));
@@ -350,15 +318,6 @@ class Autoscout24ScraperService
                 $realUrl = $urlMatches[0][$i] ?? '/annunci/unknown-' . ($count + 1);
                 
                 $title = $brand . ' ' . $model;
-                
-                Log::info('Extracted real ad data', [
-                    'title' => $title,
-                    'price' => $price,
-                    'mileage' => $mileage,
-                    'brand' => $brand,
-                    'model' => $model,
-                    'real_url' => $realUrl
-                ]);
                 
                 // Scrape individual ad page for comprehensive data
                 $fullAdUrl = 'https://www.autoscout24.it' . $realUrl;
@@ -381,7 +340,6 @@ class Autoscout24ScraperService
             return $ads;
             
         } catch (\Exception $e) {
-            Log::error('Error in simple regex extraction', ['error' => $e->getMessage()]);
             return [];
         }
     }
@@ -545,7 +503,6 @@ class Autoscout24ScraperService
             return null;
             
         } catch (\Exception $e) {
-            Log::error('Error parsing vehicle item', ['error' => $e->getMessage()]);
             return null;
         }
     }
@@ -613,11 +570,9 @@ class Autoscout24ScraperService
                 $urls = $this->extractUrlsWithRegex($html, $limit);
             }
             
-            Log::info('Extracted ad URLs', ['count' => count($urls)]);
             return array_slice($urls, 0, $limit);
             
         } catch (\Exception $e) {
-            Log::error('Error extracting ad URLs', ['error' => $e->getMessage()]);
             return [];
         }
     }
@@ -735,8 +690,6 @@ class Autoscout24ScraperService
     private function scrapeAdDetails($url)
     {
         try {
-            Log::info('Scraping comprehensive ad details', ['url' => $url]);
-            
             $response = Http::withHeaders([
                 'User-Agent' => $this->userAgent,
                 'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -752,10 +705,6 @@ class Autoscout24ScraperService
             ->get($url);
             
             if (!$response->successful()) {
-                Log::error('Failed to fetch ad details', [
-                    'url' => $url,
-                    'status' => $response->status()
-                ]);
                 return null;
             }
             
@@ -763,10 +712,6 @@ class Autoscout24ScraperService
             return $this->parseComprehensiveAdDetails($html, $url);
             
         } catch (\Exception $e) {
-            Log::error('Error scraping ad details', [
-                'url' => $url,
-                'error' => $e->getMessage()
-            ]);
             return null;
         }
     }
@@ -813,19 +758,9 @@ class Autoscout24ScraperService
             $adData['available_immediately'] = true;
             $adData['price_negotiable'] = false;
             
-            Log::info('Successfully parsed comprehensive ad details', [
-                'title' => $adData['title'] ?? 'N/A',
-                'price' => $adData['final_price'] ?? 'N/A',
-                'images_count' => count($adData['gallery_images'] ?? [])
-            ]);
-            
             return $adData;
             
         } catch (\Exception $e) {
-            Log::error('Error parsing comprehensive ad details', [
-                'url' => $url,
-                'error' => $e->getMessage()
-            ]);
             return null;
         }
     }
@@ -1504,8 +1439,6 @@ class Autoscout24ScraperService
     private function scrapeIndividualAdPage($url)
     {
         try {
-            Log::info('Scraping individual ad page for images', ['url' => $url]);
-            
             // Add delay to avoid rate limiting
             sleep(2);
             
@@ -1526,36 +1459,17 @@ class Autoscout24ScraperService
             ])->timeout(30)->get($url);
             
             if (!$response->successful()) {
-                Log::warning('Failed to fetch individual ad page', [
-                    'url' => $url,
-                    'status' => $response->status()
-                ]);
                 return ['gallery_images' => [], 'main_image' => null];
             }
             
             $html = $response->body();
-            Log::info('Successfully fetched individual ad page', [
-                'url' => $url,
-                'html_length' => strlen($html)
-            ]);
             
             // Extract comprehensive data from the individual ad page
             $comprehensiveData = $this->extractComprehensiveAdDetails($html, 'Individual Ad');
             
-            Log::info('Extracted comprehensive data from individual ad page', [
-                'url' => $url,
-                'images_count' => count($comprehensiveData['gallery_images'] ?? []),
-                'has_detailed_specs' => !empty($comprehensiveData['motor_power_kw'])
-            ]);
-            
             return $comprehensiveData;
             
         } catch (\Exception $e) {
-            Log::error('Error scraping individual ad page', [
-                'url' => $url,
-                'error' => $e->getMessage()
-            ]);
-            
             return ['gallery_images' => [], 'main_image' => null];
         }
     }
@@ -2126,18 +2040,9 @@ class Autoscout24ScraperService
             $adData['available_immediately'] = true;
             $adData['price_negotiable'] = false;
             
-            Log::info('Successfully parsed ad details', [
-                'title' => $adData['title'] ?? 'N/A',
-                'price' => $adData['final_price'] ?? 'N/A'
-            ]);
-            
             return $adData;
             
         } catch (\Exception $e) {
-            Log::error('Error parsing ad details', [
-                'url' => $url,
-                'error' => $e->getMessage()
-            ]);
             return null;
         }
     }
@@ -2992,7 +2897,6 @@ class Autoscout24ScraperService
             ];
         }
         
-        Log::info('Generated comprehensive mock data', ['count' => count($ads)]);
         return $ads;
     }
     

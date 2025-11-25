@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder {
                         AboutUsSeeder::class,
                         FaqSeeder::class,
                         SupporterSeeder::class,
-                        SettingsSeeder::class
+                        SettingsSeeder::class,
+                        AdminSeeder::class,
+                        CountriesSeeder::class,
+                        CitiesSeeder::class,
                     ]);
     }
 }
