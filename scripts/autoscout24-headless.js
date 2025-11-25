@@ -85,8 +85,11 @@ async function main() {
     return Array.from(new Set(all));
   });
 
-  // Prefer explicit ad-detail links which live under /annunci/.
-  const detailHrefs = hrefs.filter((href) => href.includes('/annunci/'));
+  // Prefer explicit ad-detail links. On Autoscout24 these commonly live under
+  // country-specific ad paths such as "/annunci/..." or "/offerta/...".
+  const detailHrefs = hrefs.filter(
+    (href) => href.includes('/annunci/') || href.includes('/offerta/'),
+  );
 
   let urls = detailHrefs
     // Normalise to absolute URLs on autoscout24.it
@@ -96,8 +99,8 @@ async function main() {
   // If DOM-based scraping didn't find anything useful, fall back to JSON payloads.
   if (urls.length === 0 && jsonBodies.length > 0) {
     const fromJson = new Set();
-    // Only consider full Autoscout24 ad-detail URLs under /annunci/.
-    const regex = /https:\/\/www\.autoscout24\.it\/annunci\/[^\s"']+/g;
+    // Only consider full Autoscout24 ad-detail URLs under known ad prefixes.
+    const regex = /https:\/\/www\.autoscout24\.it\/(?:annunci|offerta)\/[^\s"']+/g;
 
     for (const body of jsonBodies) {
       let match;
@@ -113,6 +116,19 @@ async function main() {
     }
 
     urls = Array.from(fromJson);
+  }
+
+  // If we still have no URLs at all, dump a small debug payload to stderr so it
+  // ends up in laravel.log via shell_exec (2>&1). This will deliberately break
+  // JSON decoding in PHP but is useful for diagnosing selector/structure issues.
+  if (urls.length === 0) {
+    console.error(
+      'Autoscout24HeadlessDebug ' +
+        JSON.stringify({
+          hrefsSample: hrefs.slice(0, 200),
+          jsonBodiesCount: jsonBodies.length,
+        }),
+    );
   }
 
   await browser.close();
