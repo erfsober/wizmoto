@@ -483,7 +483,7 @@ class ImportAutoscout24WithRealImages extends Command
                     $decoded = json_decode($output, true);
                     if (is_array($decoded)) {
                         $images = array_values(
-                            array_filter($decoded, fn($v) => is_string($v) && trim($v) !== '')
+                            array_filter($decoded, fn ($v) => is_string($v) && trim($v) !== '')
                         );
                     }
                 }
@@ -498,5 +498,54 @@ class ImportAutoscout24WithRealImages extends Command
         }
 
         return array_values(array_unique($images));
+    }
+
+    /**
+     * If the given provider does not yet have an image, try to fetch a real
+     * dealer logo from the Autoscout24 ad page using the headless helper script.
+     */
+    private function maybeAttachProviderLogo(Provider $provider, ?string $adUrl): void
+    {
+        if ($provider->hasMedia('image')) {
+            return;
+        }
+
+        if (! $adUrl) {
+            return;
+        }
+
+        $scriptPath = base_path('scripts/autoscout24-dealer-logo.js');
+        if (! file_exists($scriptPath)) {
+            $this->warn("Dealer logo script not found at {$scriptPath}, skipping provider logo import.");
+            return;
+        }
+
+        $command = sprintf(
+            'node %s %s 2>&1',
+            escapeshellarg($scriptPath),
+            escapeshellarg($adUrl),
+        );
+
+        $output = shell_exec($command);
+        if ($output === null || trim($output) === '') {
+            $this->warn("Dealer logo script returned empty output for provider {$provider->id}.");
+            return;
+        }
+
+        $decoded = json_decode($output, true);
+        if (! is_array($decoded) || ! isset($decoded['logoUrl']) || ! is_string($decoded['logoUrl']) || $decoded['logoUrl'] === '') {
+            // Best-effort only; don't treat as error.
+            return;
+        }
+
+        try {
+            $provider
+                ->addMediaFromUrl($decoded['logoUrl'])
+                ->toMediaCollection('image');
+
+            $this->line("  Attached dealer logo for provider {$provider->id}");
+        } catch (\Throwable $e) {
+            $this->warn("Failed to attach dealer logo for provider {$provider->id}: {$e->getMessage()}");
+        }
     }
 }
