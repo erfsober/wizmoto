@@ -84,6 +84,22 @@ class ImportAutoscout24WithRealImages extends Command
                             $this->warn("Failed to attach image for ad {$advertisement->id}: {$e->getMessage()}");
                         }
                     }
+                } else {
+                    // No real images found for this Autoscout24 ad. Attach a single
+                    // local placeholder image so that Wizmoto cards and detail
+                    // pages always have at least one cover image to display.
+                    $placeholderPath = public_path('wizmoto/images/resource/vehicles1-1.png');
+
+                    if (file_exists($placeholderPath)) {
+                        try {
+                            $advertisement
+                                ->addMedia($placeholderPath)
+                                ->preservingOriginal()
+                                ->toMediaCollection('covers');
+                        } catch (\Throwable $e) {
+                            $this->warn("Failed to attach placeholder image for ad {$advertisement->id}: {$e->getMessage()}");
+                        }
+                    }
                 }
 
                 // Attach real equipment features based on Autoscout24 equipment section.
@@ -592,14 +608,28 @@ class ImportAutoscout24WithRealImages extends Command
             }
         }
 
-        // Merge with fallback static images (e.g. og:image) and de-duplicate.
+        // Merge with fallback static images (e.g. og:image).
         foreach ($fallbackImages as $img) {
             if (is_string($img) && trim($img) !== '') {
                 $images[] = trim($img);
             }
         }
 
-        $images = array_values(array_unique($images));
+        // De-duplicate by canonical URL (strip query params so the same
+        // physical image with different ?width= / ?height= variants is
+        // only kept once). Preserve original order and the first occurrence.
+        $uniqueByCanonical = [];
+        foreach ($images as $url) {
+            if (! is_string($url) || $url === '') {
+                continue;
+            }
+            $canonical = explode('?', $url, 2)[0];
+            if (! isset($uniqueByCanonical[$canonical])) {
+                $uniqueByCanonical[$canonical] = $url;
+            }
+        }
+
+        $images = array_values($uniqueByCanonical);
 
         // Final safety filter: keep only images that belong to the same listing id
         // as the first image (to avoid cross-listing thumbnails from recommendations).

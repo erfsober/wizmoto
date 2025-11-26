@@ -18,7 +18,7 @@ import { chromium } from 'playwright';
 
 async function main() {
   const url = process.argv[2];
-  if (!url) {
+    if (!url) {
     process.stdout.write(JSON.stringify({ phone: null, whatsapp: null }));
     return;
   }
@@ -114,6 +114,33 @@ async function main() {
         whatsapp = match[1].trim();
       } else {
         whatsapp = raw;
+      }
+    }
+
+    // Fallback: if we still don't have a phone number, try to extract the first
+    // plausible phone-like pattern from the visible page text. This is more
+    // tolerant to Autoscout24 layout changes and different languages.
+    if (!phone) {
+      const textPhone = await page.evaluate(() => {
+        const bodyText = document.body ? document.body.innerText : '';
+        // Look for something that looks like a phone number: optional +,
+        // then digits and common separators, at least 8 digits total.
+        const phoneRegex = /(\+?\d[\d\s().\-]{7,})/g;
+        let match;
+        while ((match = phoneRegex.exec(bodyText)) !== null) {
+          const candidate = match[1].trim();
+          // Basic sanity check: require at least 8 digits when stripping
+          // non-digits (except leading +).
+          const digits = candidate.replace(/[^\d+]/g, '');
+          if (digits.replace(/\D/g, '').length >= 8) {
+            return candidate;
+          }
+        }
+        return null;
+      });
+
+      if (textPhone) {
+        phone = textPhone;
       }
     }
 

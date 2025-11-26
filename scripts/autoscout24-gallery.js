@@ -50,6 +50,12 @@ async function main() {
         let src = url.trim();
         if (!src) return null;
 
+        // Strip query params so the same physical image with different
+        // ?width= / ?height= variants is treated as one image.
+        if (src.includes('?')) {
+          src = src.split('?')[0];
+        }
+
         // We only care about the listing-images CDN (real vehicle photos).
         if (!src.includes('listing-images')) return null;
 
@@ -97,7 +103,17 @@ async function main() {
         }
       }
 
-      return Array.from(new Set(out));
+      // De-duplicate while preserving order.
+      const seen = new Set();
+      const unique = [];
+      for (const u of out) {
+        if (!seen.has(u)) {
+          seen.add(u);
+          unique.push(u);
+        }
+      }
+
+      return unique;
     });
 
     // Some pages may contain listing-images for other vehicles (e.g. recommendations).
