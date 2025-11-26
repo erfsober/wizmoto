@@ -21,7 +21,7 @@
                     <h4 class="title">
                         <a href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->localized_name }}{{ ' ' }}{{ $advertisement->vehicleModel?->localized_name }}</a>
                     </h4>
-                    <div class="text">{{ $advertisement->version_model }}</div>
+                    
                     <div class="inspection-sec">
                         <div class="inspection-box">
                             <span class="icon">
