@@ -365,12 +365,14 @@ class ImportAutoscout24WithRealImages extends Command
                     'first_name' => is_string($dealerName) ? trim($dealerName) : null,
                     'last_name'  => null,
                     'email'      => $contactEmail,
+                    'email_verified_at' => $contactEmail ? now() : null,
                     'phone'      => $contactPhone,
                     'whatsapp'   => $whatsappFromHeadless,
                     'address'    => $dealerAddress,
                     'village'    => null,
                     'zip_code'   => $zipCode,
                     'city'       => $city,
+                    'show_info_in_advertisement' => true,
                     'password'   => null,
                 ]
             );
@@ -379,6 +381,9 @@ class ImportAutoscout24WithRealImages extends Command
             $dirty = false;
             if (! $provider->email && $contactEmail) {
                 $provider->email = $contactEmail;
+                if (! $provider->email_verified_at) {
+                    $provider->email_verified_at = now();
+                }
                 $dirty = true;
             }
             if (! $provider->phone && $contactPhone) {
@@ -403,6 +408,10 @@ class ImportAutoscout24WithRealImages extends Command
             }
             if (! $provider->address && $dealerAddress) {
                 $provider->address = $dealerAddress;
+                $dirty = true;
+            }
+            if (! $provider->show_info_in_advertisement) {
+                $provider->show_info_in_advertisement = true;
                 $dirty = true;
             }
             if ($dirty) {
