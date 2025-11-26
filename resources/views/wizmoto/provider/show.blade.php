@@ -77,6 +77,7 @@
                                 {{ __('messages.sign_in') }}
                             </a>
                         @endif
+                        @include('wizmoto.partials.language-switcher')
                         <div class="btn">
                             <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two sell-btn-prominent">
                                 {{ __('messages.sell') }}
