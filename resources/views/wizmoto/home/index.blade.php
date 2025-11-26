@@ -288,9 +288,6 @@
                                         <li>
                                             <i class="flaticon-speedometer"></i>{{ $newAdvertisement->mileage ? number_format($newAdvertisement->mileage) . ' miles' : 'N/A' }}
                                         </li>
-                                        <li>
-                                            <i class="flaticon-gearbox"></i> {{ $newAdvertisement->motor_change ?? 'N/A' }}
-                                        </li>
                                     </ul>
                                     <div class="btn-box">
                                         <span>€{{$newAdvertisement->final_price}}
