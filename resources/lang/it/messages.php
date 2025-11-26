@@ -401,5 +401,11 @@ return [
     'message' => 'Messaggio',
     'not_specified' => 'Non specificato',
     'standard_features' => 'Caratteristiche Standard',
+    'seller' => 'Venditore',
+    'products' => 'Prodotti',
+    'contact_intro' => 'Invia un messaggio per richiedere informazioni su questo concessionario. La tua email sarà tenuta privata.',
+    'default_contact_message_placeholder' => 'Ciao, sono interessato alle tue moto. Puoi fornire maggiori informazioni su disponibilità e prezzi?',
+    'advertisement_image_alt' => 'Immagine annuncio',
+    'error' => 'Errore',
 ];
 

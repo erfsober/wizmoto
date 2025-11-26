@@ -21,7 +21,7 @@
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown current">
                                     <a class="box-account" href="{{ route('home') }}">
-                                        Home
+                                        {{ __('messages.home') }}
                                     </a>
                                 </li>
                                 @if (Auth::guard('provider')->check())
@@ -32,12 +32,12 @@
                                         </span>
                                         <ul class="dropdown">
                                             <li>
-                                                <a href="{{ route('dashboard.profile') }}">Dashboard</a>
+                                                <a href="{{ route('dashboard.profile') }}">{{ __('messages.dashboard') }}</a>
                                             </li>
                                             <li>
                                                 <a href="{{ route('provider.logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
+                                                    {{ __('messages.logout') }}
                                                 </a>
                                             </li>
                                         </ul>
@@ -74,12 +74,13 @@
                                         </defs>
                                     </svg>
                                 </div>
-                                Sign in
+                                {{ __('messages.sign_in') }}
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two btn-anim">Add
-                                Listing</a>
+                            <a href="{{ route('dashboard.create-advertisement') }}" class="header-btn-two sell-btn-prominent">
+                                {{ __('messages.sell') }}
+                            </a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -105,7 +106,7 @@
             <div class="search-inner">
                 <form method="post" action="index.html">
                     <div class="form-group">
-                        <input type="search" name="search-field" value="" placeholder="Search..." required="">
+                        <input type="search" name="search-field" value="" placeholder="{{ __('messages.search_placeholder') }}" required="">
                         <button type="submit">
                             <i class="fa fa-search"></i>
                         </button>
@@ -126,9 +127,9 @@
                 <div class="boxcar-title-three">
                     <ul class="breadcrumb">
                         <li>
-                            <a href="{{ route('home') }}">Home</a>
+                            <a href="{{ route('home') }}">{{ __('messages.home') }}</a>
                         </li>
-                        <li><span>Seller</span></li>
+                        <li><span>{{ __('messages.seller') }}</span></li>
                     </ul>
                     <h2>{{ $provider->full_name }}</h2>
                 </div>
@@ -224,7 +225,7 @@
                                 @endif
                             </div>
                             <div class="location-box">
-                                <h4 class="title">Location</h4>
+                                <h4 class="title">{{ __('messages.location') }}</h4>
                                 <div class="text">
                                     {{-- Show full address --}}
                                     {{ $provider->address ?? '' }}
@@ -234,7 +235,7 @@
                                 </div>
                                 <a target="_blank"
                                     href="https://www.google.com/maps/search/?api=1&query={{ urlencode($provider->address . ' ' . $provider->city . ' ' . $provider->zip_code) }}"
-                                    class="brand-btn">Get Directions
+                                    class="brand-btn">{{ __('messages.get_directions') }}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
                                         viewbox="0 0 15 14" fill="none">
                                         <g clip-path="url(#clip0_881_14440)">
@@ -261,7 +262,7 @@
 
                             @if ($provider->reviews->count() !== 0)
                                 <div class="reviews">
-                                    <h4 class="title">Customer Reviews</h4>
+                                    <h4 class="title">{{ __('messages.customer_reviews') }}</h4>
                                     @foreach ($provider->reviews as $review)
                                         <div class="content-box">
                                             <div class="auther-name">
@@ -288,13 +289,12 @@
                             @endif
                             <form class="row" action="{{ route('reviews.store') }}" method="POST">
                                 <div class="Reply-sec">
-                                    <h6 class="title">Leave a Reply</h6>
-                                    <div class="text">Your email address will not be published. Required fields are
-                                        marked *</div>
+                                    <h6 class="title">{{ __('messages.leave_reply') }}</h6>
+                                    <div class="text">{{ __('messages.email_privacy_notice') }}</div>
                                     <div class="right-box">
                                         <div class="rating-list">
                                             <div class="list-box">
-                                                <span>Rate this post</span>
+                                                <span>{{ __('messages.rate_post') }}</span>
                                                 <ul class="list">
                                                     <li>
                                                         <i class="fa fa-star"></i>
@@ -322,25 +322,25 @@
                                 <input type="hidden" name="id" value="{{ $provider->id }}">
                                 <div class="col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Name</label>
+                                        <label>{{ __('messages.name') }}</label>
                                         <input type="text" name="name" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form_boxes">
-                                        <label>Email</label>
+                                        <label>{{ __('messages.email') }}</label>
                                         <input type="email" name="email" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form_boxes v2">
-                                        <label>Comment</label>
+                                        <label>{{ __('messages.comment') }}</label>
                                         <textarea name="comment" placeholder="" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-submit">
-                                        <button type="submit" class="theme-btn">Post Comment
+                                        <button type="submit" class="theme-btn">{{ __('messages.post_comment') }}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                                 viewbox="0 0 14 14" fill="none">
                                                 <g clip-path="url(#clip0_711_3214)">
@@ -363,7 +363,7 @@
                     <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
                         <div class="side-bar">
                             <a href="#" id="initiate-chat-btn" class="message" data-bs-toggle="modal"
-                                data-bs-target="#contactModal">Send Message
+                                data-bs-target="#contactModal">{{ __('messages.send_message_cta') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
                                     viewbox="0 0 15 14" fill="none">
                                     <g clip-path="url(#clip0_881_16253)">
@@ -390,7 +390,7 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                aria-selected="true">Products</button>
+                                aria-selected="true">{{ __('messages.products') }}</button>
                         </div>
                     </nav>
                     <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
@@ -421,7 +421,7 @@
                                                                 <img
                                                                     src="{{ $firstImage->getUrl('card') }}"
                                                                     loading="lazy"
-                                                                    alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                                                    alt="{{ $advertisement->title ?? __('messages.advertisement_image_alt') }}">
                                                             </a>
                                                         </div>
                                                     @endif
@@ -433,8 +433,8 @@
                                                                     <img
                                                                         src="{{ $image->getUrl('card') }}"
                                                                         loading="lazy"
-                                                            alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
-                                                    </a>
+                                                                        alt="{{ $advertisement->title ?? __('messages.advertisement_image_alt') }}">
+                                                                </a>
                                                             @endforeach
                                                         </div>
                                                     @endif
@@ -449,10 +449,11 @@
                                                 <div class="text">{{ $advertisement->version_model }}</div>
                                                 <ul>
                                                     <li>
-                                                        <i class="flaticon-gasoline-pump"></i>{{ $advertisement->fuelType?->localized_name ?? 'N/A' }}
+                                                        <i class="flaticon-gasoline-pump"></i>{{ $advertisement->fuelType?->localized_name ?? __('messages.not_specified') }}
                                                     </li>
                                                     <li>
-                                                        <i class="flaticon-speedometer"></i>{{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
+                                                        <i class="flaticon-speedometer"></i>
+                                                        {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' ' . __('messages.miles') : __('messages.not_specified') }}
                                                     </li>
                                                 </ul>
                                                 <div class="btn-box">
@@ -497,25 +498,24 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contactModalLabel">💬 Contact {{ $provider->full_name }}</h5>
+                    <h5 class="modal-title" id="contactModalLabel">💬 {{ __('messages.contact') }} {{ $provider->full_name }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="contact-form" class="inventroy-widget">
-                        <p class="text-muted mb-4">Send a message to inquire about this dealer. Your email will be kept
-                            private.</p>
+                        <p class="text-muted mb-4">{{ __('messages.contact_intro') }}</p>
 
                         <form id="initiate-contact-form" method="POST" action="{{ route('chat.initiate') }}">
                             @csrf
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Your Name *</label>
+                                    <label>{{ __('messages.your_name') }} *</label>
                                     <input type="text" id="guest-name" placeholder="" required>
                                 </div>
                             </div>
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Your Email *</label>
+                                    <label>{{ __('messages.your_email') }} *</label>
                                     <input type="email" id="guest-email" placeholder="" required>
                                 </div>
                             </div>
@@ -523,7 +523,7 @@
 
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes">
-                                    <label>Phone (Optional)</label>
+                                    <label>{{ __('messages.phone_optional') }} ({{ __('messages.optional') }})</label>
                                     <input type="tel" id="guest-phone" placeholder="">
                                 </div>
                             </div>
@@ -531,9 +531,9 @@
 
                             <div class="form-column col-lg-12">
                                 <div class="form_boxes v2">
-                                    <label>Message *</label>
+                                    <label>{{ __('messages.message') }} *</label>
                                     <textarea id="contact-message"
-                                        placeholder="Hi, I'm interested in your motorcycles. Can you provide more information about availability and pricing?"
+                                        placeholder="{{ __('messages.default_contact_message_placeholder') }}"
                                         required></textarea>
                                 </div>
                             </div>
@@ -542,19 +542,18 @@
                             <div class="alert alert-info">
                                 <small>
                                     <i class="fa fa-info-circle"></i>
-                                    <strong>Privacy Notice:</strong> Your email will be kept private until you choose to
-                                    share it with the dealer.
+                                    <strong>{{ __('messages.privacy_notice') }}:</strong> {{ __('messages.email_kept_private') }}
                                 </small>
                             </div>
 
-                            <div class="form-submit">
-                                <button type="submit" class="theme-btn" id="send-contact-btn"
-                                    data-url="{{ route('chat.initiate') }}">
-                                    <span class="d-flex align-items-center gap-2">
-                                        Send Message <i class="fa fa-paper-plane"></i>
-                                    </span>
-                                </button>
-                            </div>
+                        <div class="form-submit">
+                            <button type="submit" class="theme-btn" id="send-contact-btn"
+                                data-url="{{ route('chat.initiate') }}">
+                                <span class="d-flex align-items-center gap-2">
+                                    {{ __('messages.send_message_cta') }} <i class="fa fa-paper-plane"></i>
+                                </span>
+                            </button>
+                        </div>
                         </form>
                     </div>
 
@@ -563,17 +562,17 @@
                             <div class="mb-3">
                                 <i class="fa fa-check-circle text-success" style="font-size: 3rem;"></i>
                             </div>
-                            <h4 class="text-success">Message Sent Successfully!</h4>
-                            <p class="mb-3">Your message has been sent to {{ $provider->full_name }}.</p>
+                            <h4 class="text-success">{{ __('messages.message_sent_successfully') }}</h4>
+                            <p class="mb-3">{{ __('messages.message_sent_to') }} {{ $provider->full_name }}.</p>
                             <div class="alert alert-success">
-                                <strong>Your conversation link:</strong><br>
+                                <strong>{{ __('messages.conversation_link') }}:</strong><br>
                                 <span id="conversation-link" class="text-break"></span>
                             </div>
                             <p class="text-muted">
-                                <i class="fa fa-bookmark"></i> <strong>Bookmark this link</strong> to continue the
-                                conversation later!
+                                <i class="fa fa-bookmark"></i>
+                                <strong>{{ __('messages.bookmark_this_link') }}</strong> {{ __('messages.to_continue_conversation') }}!
                             </p>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close') }}</button>
                         </div>
                     </div>
                 </div>
@@ -712,7 +711,7 @@
 
                             // Disable submit button
                             $('#send-contact-btn').prop('disabled', true).html(
-                                '<i class="fa fa-spinner fa-spin"></i> Sending...');
+                                '<i class="fa fa-spinner fa-spin"></i> {{ __('messages.sending') }}...');
 
                             // Send message via AJAX
                             $.ajax({
@@ -739,8 +738,8 @@
                                                 // Show success notification
                                                 swal.fire({
                                                     toast: true,
-                                                    title: 'Message sent successfully!',
-                                                    text: 'Your message has been sent successfully!',
+                                                    title: @json(__('messages.message_sent_successfully')),
+                                                    text: @json(__('messages.message_sent_successfully')),
                                                     icon: 'success',
                                                     position: 'top-end',
                                                     showConfirmButton: false,
@@ -755,7 +754,7 @@
                                                 });
                                                 swal.fire({
                                                     toast: true,
-                                                    title: 'Error',
+                                                    title: @json(__('messages.error')),
                                                     text: errors,
                                                     icon: 'error',
                                                     position: 'top-end',
@@ -769,8 +768,8 @@
                                           
                                             swal.fire({
                                                 toast: true,
-                                                title: 'Error',
-                                                text: 'Failed to send message. Please try again.',
+                                                title: @json(__('messages.error')),
+                                                text: @json(__('messages.something_went_wrong')),
                                                 icon: 'error',
                                                 position: 'top-end',
                                                 showConfirmButton: false,
@@ -780,7 +779,7 @@
                                         complete: function() {
                                             // Re-enable submit button
                                             $('#send-contact-btn').prop('disabled', false).html(
-                                                '<i class="fa fa-paper-plane"></i> Send Message');
+                                                '<i class="fa fa-paper-plane"></i> {{ __('messages.send_message_cta') }}');
                                         }
                                     });
 

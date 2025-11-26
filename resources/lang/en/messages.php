@@ -401,5 +401,11 @@ return [
     'message' => 'Message',
     'not_specified' => 'Not specified',
     'standard_features' => 'Standard Features',
+    'seller' => 'Seller',
+    'products' => 'Products',
+    'contact_intro' => 'Send a message to inquire about this dealer. Your email will be kept private.',
+    'default_contact_message_placeholder' => 'Hi, I\'m interested in your motorcycles. Can you provide more information about availability and pricing?',
+    'advertisement_image_alt' => 'Advertisement Image',
+    'error' => 'Error',
 ];
 
