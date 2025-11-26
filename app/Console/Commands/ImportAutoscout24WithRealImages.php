@@ -272,7 +272,6 @@ class ImportAutoscout24WithRealImages extends Command
             'advertisement_type_id'     => $type->id,
             'brand_id'                  => $brandId,
             'vehicle_model_id'          => $vehicleModelId,
-            'version_model'             => $title,
             'vehicle_body_id'           => $vehicleBodyId,
             'color_id'                  => $colorId,
             'is_metallic_paint'         => false,
@@ -306,7 +305,7 @@ class ImportAutoscout24WithRealImages extends Command
             'international_prefix'      => null,
             'prefix'                    => null,
             'telephone'                 => null,
-            'show_phone'                => false,
+            'show_phone'                => true,
             'drive_type'                => null,
             'tank_capacity_liters'      => null,
             'seat_height_mm'            => null,
@@ -316,7 +315,7 @@ class ImportAutoscout24WithRealImages extends Command
             'trade_in_possible'         => false,
             'service_history_available' => false,
             'warranty_available'        => false,
-            'available_immediately'     => true,
+            'available_immediately'     => false,
             'is_verified'               => true,
         ]);
     }
