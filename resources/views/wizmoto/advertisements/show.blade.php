@@ -1110,10 +1110,13 @@
         white-space: nowrap;
     }
     .overview-section .list .spec-value {
+        display: block;
         flex: 1 1 auto;
         text-align: right;
         margin-left: 12px;
         word-break: break-word;
+        min-width: 0; /* override global min-width on spans */
+        font-weight: 400; /* normal weight for values */
     }
     /* On very small screens, allow the label text itself to wrap if needed */
     @media (max-width: 575px) {
