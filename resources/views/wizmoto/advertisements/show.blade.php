@@ -1002,23 +1002,6 @@
     <style>
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
-        /* Spec rows: label left, value right */
-        .overview-section .list li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-        .overview-section .list li span {
-            white-space: nowrap;
-            flex: 0 0 auto;
-        }
-        /* Value block: take remaining space and align to the right */
-        .overview-section .list li span + * {
-            flex: 1 1 auto;
-            margin-left: auto;
-            text-align: right;
-        }
         /* Gallery main image responsive */
         .gallery-sec .image-column .image img {
             width: 100%;
@@ -1072,23 +1055,24 @@
             left: auto !important;
         }
     }
-    /* Labels (icon + text) and values side-by-side with space between */
+    /* Overview spec rows: 2-column grid, label left, value right */
+    .overview-section .list li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 8px;
+        row-gap: 2px;
+        align-items: center;
+        padding: 4px 0;
+        text-align: right; /* values (second column) right aligned */
+    }
     .overview-section .list span {
-        white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        margin-right: 16px; /* space between label and value */
-        min-width: 0; /* let flexbox decide, avoid forcing overflow */
+        white-space: nowrap;
+        text-align: left; /* labels (first column) left aligned */
     }
-    .overview-section .list li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 0;
-        gap: 8px;
-    }
-    /* On very small screens, allow the label text to wrap if needed */
+    /* On very small screens allow label text to wrap if needed */
     @media (max-width: 575px) {
         .overview-section .list span {
             white-space: normal;
