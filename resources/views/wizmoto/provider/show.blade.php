@@ -433,8 +433,8 @@
                                                                     <img
                                                                         src="{{ $image->getUrl('card') }}"
                                                                         loading="lazy"
-                                                                        alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
-                                                                </a>
+                                                            alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                                    </a>
                                                             @endforeach
                                                         </div>
                                                     @endif
@@ -457,13 +457,13 @@
                                                 </ul>
                                                 <div class="btn-box">
                                                     <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}
-                                            
+
                                                     </span>
                                                     <a href="{{ route('advertisements.show', $advertisement->id) }}"
                                                        class="details">
                                                         {{ __('messages.view_details') }}
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                             height="14" viewBox="0 0 14 14" fill="none">
+                                                            height="14" viewBox="0 0 14 14" fill="none">
                                                             <g clip-path="url(#clip0_601_4346)">
                                                                 <path
                                                                     d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
@@ -782,20 +782,20 @@
                                             $('#send-contact-btn').prop('disabled', false).html(
                                                 '<i class="fa fa-paper-plane"></i> Send Message');
                                         }
-                    });
+                                    });
 
                     // Initialize image galleries on provider product cards
                     initializeImageGalleries();
-            });
+                            });
 
-            // Reset modal when closed
-            $('#contactModal').on('hidden.bs.modal', function() {
-                $('#contact-form').removeClass('d-none');
-                $('#contact-success').addClass('d-none');
-                $('#initiate-contact-form')[0].reset();
-                $('#send-contact-btn').prop('disabled', false).html(
-                    '<i class="fa fa-paper-plane"></i> Send Message');
-            });
+                        // Reset modal when closed
+                        $('#contactModal').on('hidden.bs.modal', function() {
+                            $('#contact-form').removeClass('d-none');
+                            $('#contact-success').addClass('d-none');
+                            $('#initiate-contact-form')[0].reset();
+                            $('#send-contact-btn').prop('disabled', false).html(
+                                '<i class="fa fa-paper-plane"></i> Send Message');
+                        });
 
             // Fix modal blocking issues (same as advertisement show page)
             $('#contactModal').on('show.bs.modal', function() {
@@ -838,11 +838,11 @@
                 }, 100);
             });
 
-            // Pre-fill email if previously used
-            const savedEmail = localStorage.getItem('guest_email_' + {{ $provider->id }});
-            if (savedEmail) {
-                $('#guest-email').val(savedEmail);
-            }
-        });
+                        // Pre-fill email if previously used
+                        const savedEmail = localStorage.getItem('guest_email_' + {{ $provider->id }});
+                        if (savedEmail) {
+                            $('#guest-email').val(savedEmail);
+                        }
+                    });
     </script>
 @endpush

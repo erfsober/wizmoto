@@ -1059,26 +1059,27 @@
             left: auto !important;
         }
     }
-    /* Prevent wrapping of label text (icon + label) in spec lists, but allow the VALUE to wrap */
+    /* Labels (icon + text) stay in one block; values are on the right */
     .overview-section .list span {
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        margin-right: 16px; /* space between label and value */
-        min-width: 180px; /* keep label block aligned */
+        margin-right: 30px; /* extra space from the value */
+        min-width: 200px; /* keep value clearly separated */
     }
-    /* Lay out label and value with clear separation, without cutting text */
+    /* Label and value side-by-side with space between (no clipping) */
     .overview-section .list li {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
+        justify-content: space-between;
         padding: 4px 0;
         gap: 8px;
     }
     /* On very small screens, reduce label width so value has more room */
     @media (max-width: 575px) {
         .overview-section .list span {
-            min-width: 140px;
+            min-width: 160px;
         }
     }
     </style>
