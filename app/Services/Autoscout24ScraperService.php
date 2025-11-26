@@ -174,6 +174,7 @@ class Autoscout24ScraperService
             'dealer_id'        => null, // Autoscout24 dealer ID
             'dealer_name'      => null, // e.g. "Magic Bike srl"
             'dealer_address'   => null, // e.g. "CORSO CASALE 479, 10132 Torino - To, IT"
+            'dealer_page_url'  => null, // e.g. "https://www.autoscout24.it/concessionari/magic-bike-srl/chi-siamo"
             'seller_type'      => null, // 'dealer' or 'private'
             'fuel_code'        => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
             'gear_code'        => null, // e.g. 'M' (Manual)
@@ -291,6 +292,19 @@ class Autoscout24ScraperService
             $addr = trim(preg_replace("/\s+/", ' ', $dealerAddressNode->textContent));
             if ($addr !== '') {
                 $meta['dealer_address'] = $addr;
+            }
+        }
+
+        // Dealer page URL: anchor around dealer name usually links to "/concessionari/.../chi-siamo".
+        $dealerLinkNode = $xpath->query('//*[contains(@class,"RatingsAndCompanyName_dealer")]//a[@href][1]')->item(0);
+        if ($dealerLinkNode instanceof \DOMElement) {
+            $href = trim($dealerLinkNode->getAttribute('href'));
+            if ($href !== '') {
+                if (str_starts_with($href, 'http')) {
+                    $meta['dealer_page_url'] = $href;
+                } else {
+                    $meta['dealer_page_url'] = 'https://www.autoscout24.it' . (str_starts_with($href, '/') ? $href : '/' . $href);
+                }
             }
         }
 

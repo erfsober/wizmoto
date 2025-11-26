@@ -318,14 +318,12 @@ class ImportAutoscout24WithRealImages extends Command
         $dealerId      = $meta['dealer_id'] ?? null;
         $dealerName    = $meta['dealer_name'] ?? null;
         $dealerAddress = $meta['dealer_address'] ?? null;
+        $dealerPageUrl = $meta['dealer_page_url'] ?? null;
         $cityRaw       = $meta['city'] ?? null;
         $zipRaw        = $meta['zip'] ?? null;
         $contactName   = $meta['contact_name'] ?? null;
         $contactPhone  = $meta['contact_phone'] ?? null;
         $contactEmail  = $meta['contact_email'] ?? null;
-
-        // Fallback key if dealer_id is missing.
-        $username = $dealerId ? 'as24-' . $dealerId : null;
 
         $city = null;
         if (is_string($cityRaw) && $cityRaw !== '') {
@@ -338,12 +336,70 @@ class ImportAutoscout24WithRealImages extends Command
             $zipCode = preg_replace('/^[A-Z]{2}/', '', $zipRaw);
         }
 
+        // 1) If you already created this dealer manually in Wizmoto, REUSE it.
+        //    We never touch its existing avatar or existing contact details.
+        if (is_string($dealerName) && $dealerName !== '') {
+            $existing = Provider::query()
+                ->where(function ($q) use ($dealerName) {
+                    $lower = mb_strtolower($dealerName);
+                    $q->whereRaw('LOWER(first_name) = ?', [$lower])
+                        ->orWhereRaw('LOWER(title) = ?', [$lower]);
+                })
+                ->when($city, fn ($q) => $q->where('city', $city))
+                ->first();
+
+            if ($existing) {
+                // Optionally backfill only missing fields, NEVER overwrite.
+                $dirty = false;
+                if (! $existing->email && $contactEmail) {
+                    $existing->email = $contactEmail;
+                    if (! $existing->email_verified_at) {
+                        $existing->email_verified_at = now();
+                    }
+                    $dirty = true;
+                }
+                if (! $existing->phone && $contactPhone) {
+                    $existing->phone = $contactPhone;
+                    $dirty = true;
+                }
+                if (! $existing->zip_code && $zipCode) {
+                    $existing->zip_code = $zipCode;
+                    $dirty = true;
+                }
+                if (! $existing->address && $dealerAddress) {
+                    $existing->address = $dealerAddress;
+                    $dirty = true;
+                }
+                if (! $existing->show_info_in_advertisement) {
+                    $existing->show_info_in_advertisement = true;
+                    $dirty = true;
+                }
+                if ($dirty) {
+                    $existing->save();
+                }
+
+                return $existing;
+            }
+        }
+
+        // 2) Otherwise, create/link a dedicated Autoscout24 provider keyed by dealer_id.
+        $username = $dealerId ? 'as24-' . $dealerId : null;
+
         if ($username) {
             // Best-effort: enrich contact details from a headless "Mostra numero" click
             // on the first ad URL for this dealer, if present in the meta.
             $whatsappFromHeadless = null;
-            if (! empty($meta['first_ad_url']) && is_string($meta['first_ad_url'])) {
-                $contact = $this->resolveRealtimeContactFromHeadless($meta['first_ad_url']);
+            // Prefer dealer page URL for "Mostra numero" if we have it,
+            // otherwise fall back to the specific ad URL.
+            $contactUrl = null;
+            if (is_string($dealerPageUrl) && $dealerPageUrl !== '') {
+                $contactUrl = $dealerPageUrl;
+            } elseif (! empty($meta['first_ad_url']) && is_string($meta['first_ad_url'])) {
+                $contactUrl = $meta['first_ad_url'];
+            }
+
+            if ($contactUrl) {
+                $contact = $this->resolveRealtimeContactFromHeadless($contactUrl);
                 if (is_array($contact)) {
                     $headlessPhone = $contact['phone'] ?? null;
                     $headlessWhatsapp = $contact['whatsapp'] ?? null;
