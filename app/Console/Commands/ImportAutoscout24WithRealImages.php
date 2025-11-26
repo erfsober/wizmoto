@@ -315,12 +315,14 @@ class ImportAutoscout24WithRealImages extends Command
      */
     private function resolveProviderFromAutoscoutMeta(array $meta): Provider
     {
-        $dealerId = $meta['dealer_id'] ?? null;
-        $cityRaw  = $meta['city'] ?? null;
-        $zipRaw   = $meta['zip'] ?? null;
-        $contactName  = $meta['contact_name'] ?? null;
-        $contactPhone = $meta['contact_phone'] ?? null;
-        $contactEmail = $meta['contact_email'] ?? null;
+        $dealerId      = $meta['dealer_id'] ?? null;
+        $dealerName    = $meta['dealer_name'] ?? null;
+        $dealerAddress = $meta['dealer_address'] ?? null;
+        $cityRaw       = $meta['city'] ?? null;
+        $zipRaw        = $meta['zip'] ?? null;
+        $contactName   = $meta['contact_name'] ?? null;
+        $contactPhone  = $meta['contact_phone'] ?? null;
+        $contactEmail  = $meta['contact_email'] ?? null;
 
         // Fallback key if dealer_id is missing.
         $username = $dealerId ? 'as24-' . $dealerId : null;
@@ -337,16 +339,35 @@ class ImportAutoscout24WithRealImages extends Command
         }
 
         if ($username) {
+            // Best-effort: enrich contact details from a headless "Mostra numero" click
+            // on the first ad URL for this dealer, if present in the meta.
+            $whatsappFromHeadless = null;
+            if (! empty($meta['first_ad_url']) && is_string($meta['first_ad_url'])) {
+                $contact = $this->resolveRealtimeContactFromHeadless($meta['first_ad_url']);
+                if (is_array($contact)) {
+                    $headlessPhone = $contact['phone'] ?? null;
+                    $headlessWhatsapp = $contact['whatsapp'] ?? null;
+
+                    // Prefer headless phone over static HTML seller-notes, if present.
+                    if ($headlessPhone) {
+                        $contactPhone = $headlessPhone;
+                    }
+                    if ($headlessWhatsapp) {
+                        $whatsappFromHeadless = $headlessWhatsapp;
+                    }
+                }
+            }
+
             $provider = Provider::firstOrCreate(
                 ['username' => $username],
                 [
-                    // Name/location/phone/email are based on real Autoscout24 meta and seller notes.
-                    'first_name' => is_string($contactName) ? trim($contactName) : null,
+                    // Use the real dealer/company name as the provider label.
+                    'first_name' => is_string($dealerName) ? trim($dealerName) : null,
                     'last_name'  => null,
                     'email'      => $contactEmail,
                     'phone'      => $contactPhone,
-                    'whatsapp'   => null,
-                    'address'    => null,
+                    'whatsapp'   => $whatsappFromHeadless,
+                    'address'    => $dealerAddress,
                     'village'    => null,
                     'zip_code'   => $zipCode,
                     'city'       => $city,
@@ -354,7 +375,7 @@ class ImportAutoscout24WithRealImages extends Command
                 ]
             );
 
-            // If provider existed before without contact details, fill them now.
+            // If provider existed before without these details, backfill them from real data.
             $dirty = false;
             if (! $provider->email && $contactEmail) {
                 $provider->email = $contactEmail;
@@ -364,8 +385,12 @@ class ImportAutoscout24WithRealImages extends Command
                 $provider->phone = $contactPhone;
                 $dirty = true;
             }
-            if (! $provider->first_name && $contactName) {
-                $provider->first_name = $contactName;
+            if (! $provider->whatsapp && ! empty($whatsappFromHeadless)) {
+                $provider->whatsapp = $whatsappFromHeadless;
+                $dirty = true;
+            }
+            if (! $provider->first_name && $dealerName) {
+                $provider->first_name = $dealerName;
                 $dirty = true;
             }
             if (! $provider->city && $city) {
@@ -374,6 +399,10 @@ class ImportAutoscout24WithRealImages extends Command
             }
             if (! $provider->zip_code && $zipCode) {
                 $provider->zip_code = $zipCode;
+                $dirty = true;
+            }
+            if (! $provider->address && $dealerAddress) {
+                $provider->address = $dealerAddress;
                 $dirty = true;
             }
             if ($dirty) {
@@ -406,27 +435,44 @@ class ImportAutoscout24WithRealImages extends Command
     }
 
     /**
-     * Resolve or create AdvertisementType from Autoscout24 meta.
-     *
-     * For now we only distinguish dealer vs private based on real "ad" meta.
+     * Resolve an AdvertisementType based on Autoscout24 body type,
+     * using ONLY existing types from your seeder (e.g. "Motor Scooter",
+     * "Motorcycle", "Scooter", "Bike").
      */
     private function resolveAdvertisementTypeFromAutoscoutMeta(array $meta): AdvertisementType
     {
-        $sellerType = $meta['seller_type'] ?? null; // 'dealer' or 'private'
+        $bodyType = $meta['body_type'] ?? null; // e.g. "Scooter", "Enduro", ...
 
-        $baseTitle = match ($sellerType) {
-            'dealer'  => 'Dealer listing',
-            'private' => 'Private listing',
-            default   => 'Autoscout24 listing',
-        };
+        // Default for motos if we can't detect anything better.
+        $desiredTitle = 'Motorcycle';
 
-        return AdvertisementType::firstOrCreate(
-            ['title' => $baseTitle],
-            [
-                'title_en' => $baseTitle,
-                'title_it' => $baseTitle,
-            ]
-        );
+        if (is_string($bodyType) && $bodyType !== '') {
+            $bt = mb_strtolower($bodyType);
+
+            if (str_contains($bt, 'scooter')) {
+                // Prefer your explicit "Scooter" type when Carrozzeria contains "Scooter".
+                $desiredTitle = 'Scooter';
+            } elseif (str_contains($bt, 'bike')) {
+                $desiredTitle = 'Bike';
+            } elseif (str_contains($bt, 'motor')) {
+                $desiredTitle = 'Motorcycle';
+            }
+        }
+
+        // Try to find an existing type with this title.
+        $type = AdvertisementType::where('title', $desiredTitle)->first();
+        if ($type) {
+            return $type;
+        }
+
+        // Fallback: return the first existing type, so we never break imports.
+        $fallback = AdvertisementType::first();
+        if ($fallback) {
+            return $fallback;
+        }
+
+        // Last resort: create one using the desired title.
+        return AdvertisementType::create(['title' => $desiredTitle]);
     }
 
     /**
@@ -523,5 +569,50 @@ class ImportAutoscout24WithRealImages extends Command
         } catch (\Throwable $e) {
             $this->warn("Failed to attach dealer logo for provider {$provider->id}: {$e->getMessage()}");
         }
+    }
+
+    /**
+     * Use the headless contact helper to click "Mostra numero" on an ad page
+     * and retrieve the real phone / WhatsApp contact, if available.
+     *
+     * @param string $adUrl
+     * @return array{phone: string|null, whatsapp: string|null}|null
+     */
+    private function resolveRealtimeContactFromHeadless(string $adUrl): ?array
+    {
+        $scriptPath = base_path('scripts/autoscout24-contact.js');
+        if (! file_exists($scriptPath)) {
+            $this->warn("Contact script not found at {$scriptPath}, skipping realtime contact import.");
+            return null;
+        }
+
+        $command = sprintf(
+            'node %s %s 2>&1',
+            escapeshellarg($scriptPath),
+            escapeshellarg($adUrl),
+        );
+
+        $output = shell_exec($command);
+        if ($output === null || trim($output) === '') {
+            $this->warn("Contact script returned empty output for ad URL {$adUrl}.");
+            return null;
+        }
+
+        $decoded = json_decode($output, true);
+        if (! is_array($decoded)) {
+            return null;
+        }
+
+        $phone = isset($decoded['phone']) && is_string($decoded['phone']) && $decoded['phone'] !== ''
+            ? $decoded['phone']
+            : null;
+        $whatsapp = isset($decoded['whatsapp']) && is_string($decoded['whatsapp']) && $decoded['whatsapp'] !== ''
+            ? $decoded['whatsapp']
+            : null;
+
+        return [
+            'phone' => $phone,
+            'whatsapp' => $whatsapp,
+        ];
     }
 }

@@ -165,27 +165,29 @@ class Autoscout24ScraperService
 
         // Try to extract structured meta information from inline JSON blobs.
         $meta = [
-            'brand'           => null, // human-readable brand name, e.g. "Malaguti"
-            'model'           => null, // human-readable model name, e.g. "Madison 250"
-            'brand_code'      => null, // internal Autoscout24 brand id
-            'model_code'      => null, // internal Autoscout24 model id
-            'city'            => null, // e.g. "Torino_To"
-            'zip'             => null, // e.g. "IT10132"
-            'dealer_id'       => null, // Autoscout24 dealer ID
-            'seller_type'     => null, // 'dealer' or 'private'
-            'fuel_code'       => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
-            'gear_code'       => null, // e.g. 'M' (Manual)
-            'condition'       => null, // e.g. 'new', 'used'
-            'power_kw'        => null, // numeric kW if available
-            'power_cv'        => null, // numeric CV/HP if available
-            'displacement_cc' => null, // engine displacement in cc
-            'mileage_km'      => null, // total mileage in km
-            'reg_month'       => null, // first registration month (string/int)
-            'reg_year'        => null, // first registration year (string/int)
-            'body_type'       => null, // e.g. "Scooter"
-            'contact_name'    => null,
-            'contact_phone'   => null,
-            'contact_email'   => null,
+            'brand'            => null, // human-readable brand name, e.g. "Malaguti"
+            'model'            => null, // human-readable model name, e.g. "Madison 250"
+            'brand_code'       => null, // internal Autoscout24 brand id
+            'model_code'       => null, // internal Autoscout24 model id
+            'city'             => null, // e.g. "Torino_To"
+            'zip'              => null, // e.g. "IT10132"
+            'dealer_id'        => null, // Autoscout24 dealer ID
+            'dealer_name'      => null, // e.g. "Magic Bike srl"
+            'dealer_address'   => null, // e.g. "CORSO CASALE 479, 10132 Torino - To, IT"
+            'seller_type'      => null, // 'dealer' or 'private'
+            'fuel_code'        => null, // e.g. 'B' (Benzina), 'D' (Diesel), 'E' (Electric)
+            'gear_code'        => null, // e.g. 'M' (Manual)
+            'condition'        => null, // e.g. 'new', 'used'
+            'power_kw'         => null, // numeric kW if available
+            'power_cv'         => null, // numeric CV/HP if available
+            'displacement_cc'  => null, // engine displacement in cc
+            'mileage_km'       => null, // total mileage in km
+            'reg_month'        => null, // first registration month (string/int)
+            'reg_year'         => null, // first registration year (string/int)
+            'body_type'        => null, // e.g. "Scooter"
+            'contact_name'     => null, // salesperson contact (if present)
+            'contact_phone'    => null,
+            'contact_email'    => null,
         ];
 
         if (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
@@ -274,6 +276,24 @@ class Autoscout24ScraperService
             $meta['contact_email'] = trim($m[3]);
         }
 
+        // Dealer name: from RatingsAndCompanyName_dealer block.
+        $dealerNameNode = $xpath->query('//*[contains(@class,"RatingsAndCompanyName_dealer")]//div[@data-cs-mask][1]')->item(0);
+        if ($dealerNameNode instanceof \DOMElement) {
+            $dealerName = trim($dealerNameNode->textContent);
+            if ($dealerName !== '') {
+                $meta['dealer_name'] = $dealerName;
+            }
+        }
+
+        // Dealer address: from Department_departmentContainer link (Google Maps).
+        $dealerAddressNode = $xpath->query('//*[contains(@class,"Department_departmentContainer")]//a[1]')->item(0);
+        if ($dealerAddressNode instanceof \DOMElement) {
+            $addr = trim(preg_replace("/\s+/", ' ', $dealerAddressNode->textContent));
+            if ($addr !== '') {
+                $meta['dealer_address'] = $addr;
+            }
+        }
+
         // Equipment: list of bullet items from the equipment section, if present.
         $equipment = [];
         $equipmentNodes = $xpath->query('//*[@id="equipment-section"]//dd//li');
@@ -299,16 +319,19 @@ class Autoscout24ScraperService
             }
         }
 
+        // Let downstream importer know this ad URL for possible headless contact scraping.
+        $meta['first_ad_url'] = $url;
+
         $data = [
-            'url'         => $url,
-            'title'       => $title !== null ? trim($title) : null,
-            'price'       => $price,
-            'description' => $description !== null ? trim($description) : null,
-            'images'      => array_values(array_unique(array_filter($images))),
-            'meta'        => $meta,
-            'equipment'   => array_values(array_unique($equipment)),
-            'color'       => $color,
-            'seller_notes'=> $sellerNotes,
+            'url'          => $url,
+            'title'        => $title !== null ? trim($title) : null,
+            'price'        => $price,
+            'description'  => $description !== null ? trim($description) : null,
+            'images'       => array_values(array_unique(array_filter($images))),
+            'meta'         => $meta,
+            'equipment'    => array_values(array_unique($equipment)),
+            'color'        => $color,
+            'seller_notes' => $sellerNotes,
         ];
 
         Log::info('Autoscout24ScraperService@scrapeAd finished', [
