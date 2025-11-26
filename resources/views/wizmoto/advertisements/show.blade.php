@@ -1002,10 +1002,23 @@
     <style>
     /* Reduce space between related-cars slider arrows and cards on mobile */
     @media (max-width: 768px) {
-        /* Keep spec labels on a single line for better alignment */
-        .overview-section .list li { display: flex; align-items: center; gap: 8px; }
-        .overview-section .list li span { white-space: nowrap; flex: 0 0 auto; }
-        .overview-section .list li span + * { flex: 1 1 auto; }
+        /* Spec rows: label left, value right */
+        .overview-section .list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .overview-section .list li span {
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+        /* Value block: take remaining space and align to the right */
+        .overview-section .list li span + * {
+            flex: 1 1 auto;
+            margin-left: auto;
+            text-align: right;
+        }
         /* Gallery main image responsive */
         .gallery-sec .image-column .image img {
             width: 100%;
@@ -1059,16 +1072,15 @@
             left: auto !important;
         }
     }
-    /* Labels (icon + text) stay in one block; values are on the right */
+    /* Labels (icon + text) and values side-by-side with space between */
     .overview-section .list span {
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        margin-right: 30px; /* extra space from the value */
-        min-width: 200px; /* keep value clearly separated */
+        margin-right: 16px; /* space between label and value */
+        min-width: 0; /* let flexbox decide, avoid forcing overflow */
     }
-    /* Label and value side-by-side with space between (no clipping) */
     .overview-section .list li {
         display: flex;
         align-items: center;
@@ -1076,10 +1088,10 @@
         padding: 4px 0;
         gap: 8px;
     }
-    /* On very small screens, reduce label width so value has more room */
+    /* On very small screens, allow the label text to wrap if needed */
     @media (max-width: 575px) {
         .overview-section .list span {
-            min-width: 160px;
+            white-space: normal;
         }
     }
     </style>
