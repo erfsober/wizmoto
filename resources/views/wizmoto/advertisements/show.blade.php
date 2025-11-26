@@ -15,7 +15,7 @@
                 <h2>{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</h2>
                 <div class="text">{{ $advertisement->version_model }}</div>
                 <div class="content-box">
-                    <h3 class="title">€{{ $advertisement->final_price }}</h3>
+                    <h3 class="title">€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</h3>
                     <div class="">
                         @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
                     </div>
@@ -492,7 +492,7 @@
                                                 <span>
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.price_field') }}
                                                 </span>
-                                                    €{{ number_format($advertisement->final_price, 0, ',', '.') }}
+                                                    € {{ number_format($advertisement->final_price, 0, ',', '.') }}
                                                     @if($advertisement->tax_deductible)
                                                         <small>({{ __('messages.vat_deductible') }})</small>
                                                     @endif
@@ -862,7 +862,7 @@
                                             </li>
                                         </ul>
                                         <div class="btn-box">
-                                            <span>€{{$relatedAd->final_price}}</span>
+                                            <span>€ {{ number_format($relatedAd->final_price, 0, ',', '.') }}</span>
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}" class="details">{{ __('messages.view_details') }}
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                     <g clip-path="url(#clip0_601_4346)">
