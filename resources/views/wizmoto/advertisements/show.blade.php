@@ -229,136 +229,175 @@
                                         <div class="inner-column">
                                             <ul class="list">
                                                 @if($advertisement->fuelType?->name)
-                                            <li>
-                                                <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_type') }}
-                                                </span>
-                                                    {{ $advertisement->fuelType->localized_name }}
-                                            </li>
+                                                    </span>
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->fuelType->localized_name }}
+                                                    </span>
+                                                </li>
                                                 @else
-                                            <li>
-                                                <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.fuel_type') }}
-                                                </span>
-                                                    {{ __('messages.not_specified') }}
-                                            </li>
+                                                    </span>
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
+                                                </li>
                                                 @endif
+
                                                 @if($advertisement->motor_change)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.transmission_label') }}
                                                     </span>
-                                                    {{ $advertisement->motor_change }}
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->motor_change }}
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.transmission_label') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
+
                                                 @if($advertisement->motor_displacement)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.displacement_cc') }}
                                                     </span>
-                                                    {{ $advertisement->motor_displacement }} cc
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->motor_displacement }} cc
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.displacement_cc') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
+
                                                 @if($advertisement->motor_cylinders)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">{{ __('messages.cylinders') }}
                                                     </span>
-                                                    {{ $advertisement->motor_cylinders }}
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->motor_cylinders }}
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-10.svg') }}">{{ __('messages.cylinders') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
                                             </ul>
                                         </div>
                                     </div>
+
                                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                                         <div class="inner-column">
                                             <ul class="list">
                                                 @if($advertisement->motor_power_kw || $advertisement->motor_power_cv)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.power_output') }}
                                                     </span>
-                                                    @if($advertisement->motor_power_kw)
-                                                        {{ $advertisement->motor_power_kw }} kW
-                                                        @if($advertisement->motor_power_cv)
-                                                            ({{ $advertisement->motor_power_cv }} {{ __('messages.hp') }})
+                                                    <span class="spec-value">
+                                                        @if($advertisement->motor_power_kw)
+                                                            {{ $advertisement->motor_power_kw }} kW
+                                                            @if($advertisement->motor_power_cv)
+                                                                ({{ $advertisement->motor_power_cv }} {{ __('messages.hp') }})
+                                                            @endif
+                                                        @elseif($advertisement->motor_power_cv)
+                                                            {{ $advertisement->motor_power_cv }} {{ __('messages.hp') }}
                                                         @endif
-                                                    @elseif($advertisement->motor_power_cv)
-                                                        {{ $advertisement->motor_power_cv }} {{ __('messages.hp') }}
-                                                    @endif
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.power_output') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
+
                                                 @if($advertisement->motor_marches)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.number_of_gears') }}
                                                     </span>
-                                                    {{ $advertisement->motor_marches }}
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->motor_marches }}
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-5.svg') }}">{{ __('messages.number_of_gears') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
+
                                                 @if($advertisement->drive_type)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.drive_type') }}
                                                     </span>
-                                                    {{ $advertisement->drive_type }}
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->drive_type }}
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.drive_type') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
+
                                                 @if($advertisement->motor_empty_weight)
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.empty_weight') }}
                                                     </span>
-                                                    {{ $advertisement->motor_empty_weight }} {{ __('messages.kg') }}
+                                                    <span class="spec-value">
+                                                        {{ $advertisement->motor_empty_weight }} {{ __('messages.kg') }}
+                                                    </span>
                                                 </li>
                                                 @else
-                                                <li>
-                                                    <span>
+                                                <li class="spec-row">
+                                                    <span class="spec-label">
                                                         <img src="{{ asset('wizmoto/images/resource/insep1-8.svg') }}">{{ __('messages.empty_weight') }}
                                                     </span>
-                                                    {{ __('messages.not_specified') }}
+                                                    <span class="spec-value">
+                                                        {{ __('messages.not_specified') }}
+                                                    </span>
                                                 </li>
                                                 @endif
                                             </ul>
@@ -1055,26 +1094,30 @@
             left: auto !important;
         }
     }
-    /* Overview spec rows: 2-column grid, label left, value right */
-    .overview-section .list li {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        column-gap: 8px;
-        row-gap: 2px;
+    /* Overview spec rows: label left, value right, robust on mobile & desktop */
+    .overview-section .list li.spec-row {
+        display: flex;
         align-items: center;
+        justify-content: space-between;
+        gap: 8px;
         padding: 4px 0;
-        text-align: right; /* values (second column) right aligned */
+        width: 100%;
     }
-    .overview-section .list span {
+    .overview-section .list .spec-label {
         display: inline-flex;
         align-items: center;
         gap: 6px;
         white-space: nowrap;
-        text-align: left; /* labels (first column) left aligned */
     }
-    /* On very small screens allow label text to wrap if needed */
+    .overview-section .list .spec-value {
+        flex: 1 1 auto;
+        text-align: right;
+        margin-left: 12px;
+        word-break: break-word;
+    }
+    /* On very small screens, allow the label text itself to wrap if needed */
     @media (max-width: 575px) {
-        .overview-section .list span {
+        .overview-section .list .spec-label {
             white-space: normal;
         }
     }
