@@ -457,7 +457,7 @@
                                                 </ul>
                                                 <div class="btn-box">
                                                     <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}
-                                                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
+                                            
                                                     </span>
                                                     <a href="{{ route('advertisements.show', $advertisement->id) }}"
                                                        class="details">
