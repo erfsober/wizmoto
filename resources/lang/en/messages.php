@@ -400,5 +400,6 @@ return [
     'post_comment' => 'Post Comment',
     'message' => 'Message',
     'not_specified' => 'Not specified',
+    'standard_features' => 'Standard Features',
 ];
 
