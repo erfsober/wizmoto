@@ -397,11 +397,9 @@
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                             aria-labelledby="nav-home-tab">
                             <div class="row car-slider-three" data-preview="4">
-                                @foreach ($advertisements as $advertisement)
-                                    <div class="col-lg-3 col-md-6 col-sm-12">
-                                        @include('wizmoto.components.advertisement-card', ['advertisement' => $advertisement])
-                                    </div>
-                                @endforeach
+                                <div class="service-block-thirteen" id="vehicle-cards-container">
+                                    @include('wizmoto.home.partials.vehicle-cards', ['advertisements' => $advertisements])
+                                </div>
 
                             </div>
                         </div>
