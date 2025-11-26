@@ -50,18 +50,34 @@ async function main() {
         let src = url.trim();
         if (!src) return null;
 
+        // srcset may contain "url 1x" → take the first token as the URL.
+        let firstPart = src.split(/\s+/)[0];
+
         // Strip query params so the same physical image with different
         // ?width= / ?height= variants is treated as one image.
-        if (src.includes('?')) {
-          src = src.split('?')[0];
+        if (firstPart.includes('?')) {
+          firstPart = firstPart.split('?')[0];
         }
 
         // We only care about the listing-images CDN (real vehicle photos).
-        if (!src.includes('listing-images')) return null;
+        if (!firstPart.includes('listing-images')) return null;
 
-        // srcset may contain "url 1x" → take the first token as the URL.
-        const firstPart = src.split(/\s+/)[0];
-        return firstPart;
+        // On Autoscout24 the same photo is often served in multiple resolutions,
+        // e.g. ".../listing-images/<id>_.../.../1920x1080.webp" vs "800x600.webp".
+        // Normalize by stripping the trailing "<width>x<height>[.ext]" segment
+        // so that all size variants of the same photo collapse to one key.
+        try {
+          const u = new URL(firstPart, window.location.origin);
+          let path = u.pathname;
+
+          // Remove trailing "/<width>x<height>[.ext]" folder/file segment.
+          path = path.replace(/\/\d+x\d+(?:\.[^/]+)?$/i, '');
+
+          return `${u.origin}${path}`;
+        } catch {
+          // If URL parsing fails, fall back to the cleaned firstPart.
+          return firstPart;
+        }
       };
 
       // 1) Prefer <picture><source type="image/jpeg"> where available.
