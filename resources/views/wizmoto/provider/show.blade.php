@@ -584,6 +584,7 @@
     @include('wizmoto.partials.footer')
 
 @endsection
+@include('wizmoto.partials.badge-styles')
 @push('styles')
     <style>
         .rating-list .list li i.gray {
