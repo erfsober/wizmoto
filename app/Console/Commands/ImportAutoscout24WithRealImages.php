@@ -584,7 +584,21 @@ class ImportAutoscout24WithRealImages extends Command
             }
         }
 
-        return array_values(array_unique($images));
+        $images = array_values(array_unique($images));
+
+        // Final safety filter: keep only images that belong to the same listing id
+        // as the first image (to avoid cross-listing thumbnails from recommendations).
+        if (! empty($images)) {
+            if (preg_match('#listing-images/([^_/]+)_#', $images[0], $m)) {
+                $listingId = $m[1];
+                $images = array_values(array_filter(
+                    $images,
+                    fn ($url) => is_string($url) && str_contains($url, "listing-images/{$listingId}_")
+                ));
+            }
+        }
+
+        return $images;
     }
 
     /**
