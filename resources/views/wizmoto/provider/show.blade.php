@@ -136,7 +136,7 @@
                     <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
                         <div class="inner-column">
                             <div class="brand-box">
-                                <div class="image-box pb-5">
+                                <div class="image-box pb-5" style="width:200px; height:200px;">
                                     <img src="{{ $provider->getFirstMediaUrl('image', 'thumb') }}"
                                         alt="{{ $provider->name }}">
                                 </div>
