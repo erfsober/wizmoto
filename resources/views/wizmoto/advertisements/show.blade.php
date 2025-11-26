@@ -684,7 +684,7 @@
                                 @if($advertisement->provider?->getFirstMediaUrl('image', 'thumb'))
                                     <img src="{{ $advertisement->provider->getFirstMediaUrl('image', 'thumb') }}"
                                         alt="Provider Image"
-                                        style="width: 80px; height: 80px; border-radius: 80%; object-fit: cover;">
+                                        style="width: 80px; height: 80px; border-radius: 80%; object-fit: contain;">
                                 @else
                                     <div style="width: 80px; height: 80px; border-radius: 80%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
                                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
