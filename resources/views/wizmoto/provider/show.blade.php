@@ -397,9 +397,90 @@
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                             aria-labelledby="nav-home-tab">
                             <div class="row car-slider-three" data-preview="4">
-                                <div class="service-block-thirteen" id="vehicle-cards-container">
-                                    @include('wizmoto.home.partials.vehicle-cards', ['advertisements' => $advertisements])
-                                </div>
+                                @foreach ($advertisements as $advertisement)
+                                    @php
+                                        $image = $advertisement->getMedia('covers')->first();
+                                    @endphp
+                                    <!-- car-block-three (same style as home page & related vehicles) -->
+                                    <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                                        <div class="inner-box">
+                                            <div class="image-box">
+                                                <div class="fair-price-overlay">
+                                                    @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
+                                                </div>
+                                                <div class="image-gallery" data-count="{{ $advertisement->getMedia('covers')->count() }}">
+                                                    @php
+                                                        $images = $advertisement->getMedia('covers');
+                                                        $firstImage = $images->first();
+                                                        $remainingImages = $images->skip(1)->take(2);
+                                                    @endphp
+
+                                                    @if($firstImage)
+                                                        <div class="main-image">
+                                                            <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
+                                                                <img
+                                                                    src="{{ $firstImage->getUrl('card') }}"
+                                                                    loading="lazy"
+                                                                    alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                                            </a>
+                                                        </div>
+                                                    @endif
+
+                                                    @if($remainingImages->count() > 0)
+                                                        <div class="thumbnail-images">
+                                                            @foreach($remainingImages as $image)
+                                                                <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}" class="thumb-link">
+                                                                    <img
+                                                                        src="{{ $image->getUrl('card') }}"
+                                                                        loading="lazy"
+                                                                        alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                                                </a>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="content-box">
+                                                <h6 class="title">
+                                                    <a href="{{ route('advertisements.show', $advertisement->id) }}">
+                                                        {{ $advertisement->brand?->localized_name }} {{ $advertisement->vehicleModel?->localized_name }}
+                                                    </a>
+                                                </h6>
+                                                <div class="text">{{ $advertisement->version_model }}</div>
+                                                <ul>
+                                                    <li>
+                                                        <i class="flaticon-gasoline-pump"></i>{{ $advertisement->fuelType?->localized_name ?? 'N/A' }}
+                                                    </li>
+                                                    <li>
+                                                        <i class="flaticon-speedometer"></i>{{ $advertisement->mileage ? number_format($advertisement->mileage) . ' miles' : 'N/A' }}
+                                                    </li>
+                                                </ul>
+                                                <div class="btn-box">
+                                                    <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}
+                                                        @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
+                                                    </span>
+                                                    <a href="{{ route('advertisements.show', $advertisement->id) }}"
+                                                       class="details">
+                                                        {{ __('messages.view_details') }}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                             height="14" viewBox="0 0 14 14" fill="none">
+                                                            <g clip-path="url(#clip0_601_4346)">
+                                                                <path
+                                                                    d="M13.6109 0H5.05533C4.84037 0 4.66643 0.173943 4.66643 0.388901C4.66643 0.603859 4.84037 0.777802 5.05533 0.777802H12.6721L0.113697 13.3362C-0.0382246 13.4881 -0.0382246 13.7342 0.113697 13.8861C0.18964 13.962 0.289171 14 0.388666 14C0.488161 14 0.587656 13.962 0.663635 13.8861L13.222 1.3277V8.94447C13.222 9.15943 13.3959 9.33337 13.6109 9.33337C13.8259 9.33337 13.9998 9.15943 13.9998 8.94447V0.388901C13.9998 0.173943 13.8258 0 13.6109 0Z"
+                                                                    fill="#405FF2"/>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_601_4346">
+                                                                    <rect width="14" height="14" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
 
                             </div>
                         </div>
