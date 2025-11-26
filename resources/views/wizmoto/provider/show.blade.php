@@ -602,10 +602,81 @@
             color: #ffb400;
             /* gold for hover/selected */
         }
+
+        /* Image Gallery Styles for product cards (match home/related vehicles) */
+        .image-gallery {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumbnail-images {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .thumb-link {
+            display: block;
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumb-link:hover {
+            border-color: #405FF2;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(64, 95, 242, 0.3);
+        }
+
+        .thumb-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .main-image {
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            transition: all 0.3s ease;
+        }
     </style>
 @endpush
 @push('scripts')
     <script>
+        // Initialize image gallery interactions for product cards (same as home/related)
+        function initializeImageGalleries() {
+            $('.thumb-link').off('click').on('click', function(e) {
+                e.preventDefault();
+
+                const $gallery = $(this).closest('.image-gallery');
+                const $mainImage = $gallery.find('.main-image img');
+                const $thumbImage = $(this).find('img');
+
+                const mainSrc = $mainImage.attr('src');
+                const thumbSrc = $thumbImage.attr('src');
+
+                $mainImage.attr('src', thumbSrc);
+                $thumbImage.attr('src', mainSrc);
+
+                const $mainLink = $gallery.find('.main-image a');
+                const thumbHref = $(this).attr('href');
+                $mainLink.attr('href', thumbHref);
+            });
+        }
+
         $(document).ready(function() {
                     const $stars = $('.rating-list .list-box .list li');
 
@@ -710,7 +781,10 @@
                                             $('#send-contact-btn').prop('disabled', false).html(
                                                 '<i class="fa fa-paper-plane"></i> Send Message');
                                         }
-                                    });
+                    });
+
+                    // Initialize image galleries on provider product cards
+                    initializeImageGalleries();
                             });
 
                         // Reset modal when closed
