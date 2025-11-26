@@ -1059,29 +1059,27 @@
             left: auto !important;
         }
     }
-    /* Prevent wrapping of label text (icon + label) in spec lists */
+    /* Prevent wrapping of label text (icon + label) in spec lists, but allow the VALUE to wrap */
     .overview-section .list span {
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        margin-right: 30px; /* extra space from the value */
-        min-width: 220px; /* keep value clearly separated */
+        margin-right: 16px; /* space between label and value */
+        min-width: 180px; /* keep label block aligned */
     }
-    /* Lay out label and value with clear separation */
+    /* Lay out label and value with clear separation, without cutting text */
     .overview-section .list li {
         display: flex;
-        align-items: center;
-        min-height: 40px;
-        height: 40px; /* uniform row height */
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        justify-content: space-between;
+        align-items: flex-start;
+        padding: 4px 0;
+        gap: 8px;
     }
+    /* On very small screens, reduce label width so value has more room */
     @media (max-width: 575px) {
-        .overview-section .list span { min-width: 180px; }
-        .overview-section .list li { min-height: 36px; height: 36px; }
+        .overview-section .list span {
+            min-width: 140px;
+        }
     }
     </style>
 @endpush
