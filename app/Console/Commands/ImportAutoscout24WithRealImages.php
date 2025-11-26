@@ -420,7 +420,9 @@ class ImportAutoscout24WithRealImages extends Command
 
                     // Prefer headless phone over static HTML seller-notes, if present.
                     if ($headlessPhone) {
-                        $contactPhone = $headlessPhone;
+                        // Normalize phone: keep leading + and digits, strip spaces, dashes, etc.
+                        $normalized = preg_replace('/[^\d\+]/', '', (string) $headlessPhone);
+                        $contactPhone = $normalized !== '' ? $normalized : $headlessPhone;
                     }
                     if ($headlessWhatsapp) {
                         $whatsappFromHeadless = $headlessWhatsapp;
