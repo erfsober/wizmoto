@@ -17,7 +17,7 @@
                 </figure>
             </div>
             <div class="right-box">
-                <div class="content-box">
+                <div class="content-box" style="display: flex;flex-direction: column;justify-content: space-around;">
                     <h4 class="title">
                         <a href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->localized_name }}{{ ' ' }}{{ $advertisement->vehicleModel?->localized_name }}</a>
                     </h4>
