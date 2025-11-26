@@ -42,10 +42,7 @@ async function main() {
     // Give the gallery a bit of time to load its images.
     await page.waitForTimeout(4000);
 
-    // Collect gallery images from the main image slider, preferring JPEG variants
-    // from the <picture><source type="image/jpeg"> tags, and falling back to
-    // the <img src> if needed.
-    const urls = await page.$$eval('.image-gallery-slides picture', (pictures) => {
+    const urls = await page.evaluate(() => {
       const out = [];
 
       const normalize = (url) => {
@@ -61,29 +58,42 @@ async function main() {
         return firstPart;
       };
 
+      // 1) Prefer <picture><source type="image/jpeg"> where available.
+      const pictures = Array.from(document.querySelectorAll('picture'));
       for (const picture of pictures) {
         let chosen = null;
 
-        // 1) Prefer JPEG sources (more compatible than webp for some stacks).
         const jpegSources = Array.from(
           picture.querySelectorAll('source[type="image/jpeg"][srcset]')
         );
         if (jpegSources.length > 0) {
-          // Take the last one (usually the largest resolution).
           const last = jpegSources[jpegSources.length - 1];
           chosen = normalize(last.getAttribute('srcset') || '');
         }
 
-        // 2) Fallback to the <img src> inside the picture.
+        // Fallback: try any <img> inside the picture.
         if (!chosen) {
           const img = picture.querySelector('img');
           if (img) {
-            chosen = normalize(img.getAttribute('src') || img.getAttribute('data-src') || '');
+            chosen = normalize(
+              img.getAttribute('src') || img.getAttribute('data-src') || ''
+            );
           }
         }
 
         if (chosen) {
           out.push(chosen);
+        }
+      }
+
+      // 2) Fallback: plain <img> tags that might not be wrapped in <picture>.
+      const imgs = Array.from(document.querySelectorAll('img'));
+      for (const img of imgs) {
+        const candidate = normalize(
+          img.getAttribute('src') || img.getAttribute('data-src') || ''
+        );
+        if (candidate) {
+          out.push(candidate);
         }
       }
 
