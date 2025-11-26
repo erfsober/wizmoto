@@ -90,8 +90,19 @@ async function main() {
       return Array.from(new Set(out));
     });
 
+    // Some pages may contain listing-images for other vehicles (e.g. recommendations).
+    // Filter to only keep URLs that share the same listing id as the first image.
+    let filtered = urls;
+    if (urls.length > 0) {
+      const m = urls[0].match(/listing-images\/([^_/]+)_/);
+      if (m && m[1]) {
+        const mainId = m[1];
+        filtered = urls.filter((u) => u.includes(`listing-images/${mainId}_`));
+      }
+    }
+
     await browser.close();
-    process.stdout.write(JSON.stringify(urls));
+    process.stdout.write(JSON.stringify(filtered));
   } catch {
     await browser.close();
     process.stdout.write(JSON.stringify([]));
