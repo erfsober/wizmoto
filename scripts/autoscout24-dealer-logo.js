@@ -45,6 +45,9 @@ async function main() {
     // Try several reasonable selectors for a dealer/seller logo image.
     const logoUrl = await page.evaluate(() => {
       const selectors = [
+        // New stage dealer logo on detail page / dealer page.
+        'img[data-testid="stage-dealer-logo"]',
+        'img[src*="dealer-info"]',
         // Explicit testids if present.
         '[data-testid="seller-logo"] img',
         '[data-testid="dealer-logo"] img',

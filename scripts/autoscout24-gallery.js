@@ -42,34 +42,51 @@ async function main() {
     // Give the gallery a bit of time to load its images.
     await page.waitForTimeout(4000);
 
-    // Try to collect all gallery images that point to listing-images.
-    const urls = await page.$$eval('img', (nodes) => {
-      const base = 'https://www.autoscout24.it';
+    // Collect gallery images from the main image slider, preferring JPEG variants
+    // from the <picture><source type="image/jpeg"> tags, and falling back to
+    // the <img src> if needed.
+    const urls = await page.$$eval('.image-gallery-slides picture', (pictures) => {
       const out = [];
 
-      for (const n of nodes) {
-        let src = n.getAttribute('data-src') || n.getAttribute('src');
-        if (!src) continue;
-        src = src.trim();
-        if (!src) continue;
+      const normalize = (url) => {
+        if (!url) return null;
+        let src = url.trim();
+        if (!src) return null;
 
-        // Only keep images from the listing-images CDN, which are actual vehicle photos.
-        if (!src.includes('listing-images')) continue;
+        // We only care about the listing-images CDN (real vehicle photos).
+        if (!src.includes('listing-images')) return null;
 
-        // Normalize to absolute URL.
-        let full = src;
-        if (src.startsWith('//')) {
-          full = 'https:' + src;
-        } else if (src.startsWith('/')) {
-          full = base + src;
-        } else if (!src.startsWith('http')) {
-          full = base + '/' + src;
+        // srcset may contain "url 1x" → take the first token as the URL.
+        const firstPart = src.split(/\s+/)[0];
+        return firstPart;
+      };
+
+      for (const picture of pictures) {
+        let chosen = null;
+
+        // 1) Prefer JPEG sources (more compatible than webp for some stacks).
+        const jpegSources = Array.from(
+          picture.querySelectorAll('source[type="image/jpeg"][srcset]')
+        );
+        if (jpegSources.length > 0) {
+          // Take the last one (usually the largest resolution).
+          const last = jpegSources[jpegSources.length - 1];
+          chosen = normalize(last.getAttribute('srcset') || '');
         }
 
-        out.push(full);
+        // 2) Fallback to the <img src> inside the picture.
+        if (!chosen) {
+          const img = picture.querySelector('img');
+          if (img) {
+            chosen = normalize(img.getAttribute('src') || img.getAttribute('data-src') || '');
+          }
+        }
+
+        if (chosen) {
+          out.push(chosen);
+        }
       }
 
-      // Remove duplicates.
       return Array.from(new Set(out));
     });
 
