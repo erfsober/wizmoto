@@ -211,6 +211,10 @@ class ImportAutoscout24WithRealImages extends Command
         // Displacement based on real Autoscout24 meta (from "Cilindrata" field).
         $motorDisplacement = $meta['displacement_cc'] ?? null;
 
+        // Gears and cylinders based on technical details section.
+        $motorMarches    = $meta['motor_marches'] ?? null;
+        $motorCylinders  = $meta['motor_cylinders'] ?? null;
+
         // Gearbox description from real Autoscout24 gear code.
         $motorChange = null;
         $gearCode    = $meta['gear_code'] ?? null;
@@ -250,8 +254,18 @@ class ImportAutoscout24WithRealImages extends Command
             $colorId = $vehicleColor->id;
         }
 
-        // Since this scraper is for "lst-moto", we know the vehicle category is Moto.
-        $vehicleCategory = 'Moto';
+        // Vehicle condition / category: map Autoscout24 "condition" (e.g. "used","new")
+        // into your existing vehicle_category values ("Used", "Era", ...).
+        $vehicleCategory = null;
+        $condition       = $meta['condition'] ?? null;
+        if (is_string($condition) && $condition !== '') {
+            $cond = mb_strtolower($condition);
+            if (str_contains($cond, 'used') || str_contains($cond, 'usato')) {
+                $vehicleCategory = 'Used';
+            } elseif (str_contains($cond, 'vintage') || str_contains($cond, 'classic') || str_contains($cond, 'epoca')) {
+                $vehicleCategory = 'Era';
+            }
+        }
 
         return Advertisement::create([
             'provider_id'               => $provider->id,
@@ -274,8 +288,8 @@ class ImportAutoscout24WithRealImages extends Command
             'motor_change'              => $motorChange,
             'motor_power_kw'            => $powerKw,
             'motor_power_cv'            => $powerCv,
-            'motor_marches'             => null,
-            'motor_cylinders'           => null,
+            'motor_marches'             => $motorMarches,
+            'motor_cylinders'           => $motorCylinders,
             'motor_displacement'        => $motorDisplacement,
             'motor_empty_weight'        => null,
             'fuel_type_id'              => $fuelTypeId,

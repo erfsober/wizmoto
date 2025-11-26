@@ -186,6 +186,8 @@ class Autoscout24ScraperService
             'reg_month'        => null, // first registration month (string/int)
             'reg_year'         => null, // first registration year (string/int)
             'body_type'        => null, // e.g. "Scooter"
+            'motor_marches'    => null, // number of gears
+            'motor_cylinders'  => null, // number of cylinders
             'contact_name'     => null, // salesperson contact (if present)
             'contact_phone'    => null,
             'contact_email'    => null,
@@ -230,7 +232,7 @@ class Autoscout24ScraperService
             }
         }
 
-        // Technical details section: parse displacement (Cilindrata) if present.
+        // Technical details section: parse displacement (Cilindrata), gears, cylinders, etc.
         $techDtNodes = $xpath->query('//*[@id="technical-details-section"]//dt');
         $techDdNodes = $xpath->query('//*[@id="technical-details-section"]//dd');
         if ($techDtNodes !== false && $techDdNodes !== false) {
@@ -251,6 +253,31 @@ class Autoscout24ScraperService
                             $meta['displacement_cc'] = (int) $num;
                         }
                     }
+                    continue;
+                }
+
+                // Number of gears (Marce / Gears): value like "6" or "6 marce".
+                $lowerLabel = mb_strtolower($label);
+                if (
+                    str_contains($lowerLabel, 'marce') ||
+                    str_contains($lowerLabel, 'marches') ||
+                    str_contains($lowerLabel, 'gears')
+                ) {
+                    if (preg_match('/\d+/', $value, $mG)) {
+                        $meta['motor_marches'] = (int) $mG[0];
+                    }
+                    continue;
+                }
+
+                // Cylinders (Cilindri / Cylinders): value like "2" or "2 cilindri".
+                if (
+                    str_contains($lowerLabel, 'cilindri') ||
+                    str_contains($lowerLabel, 'cylinders')
+                ) {
+                    if (preg_match('/\d+/', $value, $mC)) {
+                        $meta['motor_cylinders'] = (int) $mC[0];
+                    }
+                    continue;
                 }
             }
         }
