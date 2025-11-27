@@ -64,7 +64,7 @@ class StoreAdvertisementRequest extends FormRequest {
             'fuel_type_id' => 'required|string|max:50' ,
             'final_price' => 'required|string|max:255' ,
             'zip_code' => 'required|string|max:20' ,
-            'city' => 'required|string|max:100' ,
+           
             
             // Seller Type
             'seller_type' => 'nullable|string|in:private,dealer' ,

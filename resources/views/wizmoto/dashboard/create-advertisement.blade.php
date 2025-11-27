@@ -461,7 +461,7 @@
                                         </div>
                                         <div class="text">{{ __('messages.must_upload_one') }}</div>
                                         <div class="text-danger mt-2" id="image-required-warning" style="display: none;">
-                                            <i class="fa fa-exclamation-triangle"></i> At least one image is required to create an advertisement.
+                                            <i class="fa fa-exclamation-triangle"></i> {{ __('messages.image_required_warning') }}
                                         </div>
                                     </div>
                                 </div>

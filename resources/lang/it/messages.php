@@ -181,6 +181,7 @@ return [
     'displacement_from' => 'Cilindrata Da (cc)',
     'displacement_to' => 'Cilindrata A (cc)',
     'price' => 'Prezzo',
+    'image_required_warning' => 'È richiesta almeno un\'immagine per creare un annuncio.',
     
     // Create/Edit Advertisement Form
     'vehicle_details' => 'Dettagli Veicolo',

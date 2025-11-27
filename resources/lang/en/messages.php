@@ -182,6 +182,7 @@ return [
     'displacement_to' => 'Displacement To (cc)',
     'price' => 'Price',
     
+    'image_required_warning' => 'At least one image is required to create an advertisement.',
     // Create/Edit Advertisement Form
     'vehicle_details' => 'Vehicle Details',
     'vehicle_data' => 'Vehicle Data',
