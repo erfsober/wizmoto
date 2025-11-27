@@ -16,12 +16,10 @@ class BrandForm
                     ->label('Brand Name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('name_en')
-                    ->label('Brand Name (English)')
-                    ->maxLength(255),
-                Select::make('advertisement_type_id')
-                    ->label('Advertisement Type')
-                    ->relationship('advertisementType', 'title')
+                Select::make('advertisementTypes')
+                    ->label('Advertisement Types')
+                    ->relationship('advertisementTypes', 'title')
+                    ->multiple()
                     ->required()
                     ->searchable()
                     ->preload(),

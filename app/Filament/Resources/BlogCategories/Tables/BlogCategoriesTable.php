@@ -14,6 +14,8 @@ class BlogCategoriesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
+            ->defaultSort('sort')
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
@@ -21,9 +23,6 @@ class BlogCategoriesTable
                     ->boolean(),
                 TextColumn::make('slug')
                     ->searchable(),
-                TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

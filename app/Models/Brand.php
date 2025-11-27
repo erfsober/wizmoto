@@ -18,7 +18,7 @@ class Brand extends Model implements HasMedia
      * @var array<string>
      */
     protected $fillable = [
-        'name', 'name_en', 'name_it',
+        'name', 'name_it',
     ];
 
     /**
@@ -28,11 +28,9 @@ class Brand extends Model implements HasMedia
      */
     public function getLocalizedNameAttribute()
     {
-        $locale = app()->getLocale();
-        $column = "name_{$locale}";
-        
-        // Fallback to English if locale-specific value is not available
-        return $this->$column ?? $this->name_en ?? $this->name;
+        return app()->getLocale() === 'it' && $this->name_it
+            ? $this->name_it
+            : $this->name;
     }
 
     /**
@@ -43,14 +41,6 @@ class Brand extends Model implements HasMedia
         return $this->belongsToMany(AdvertisementType::class, 'advertisement_type_brand');
     }
 
-    /**
-     * Legacy method for backward compatibility
-     * Returns the first advertisement type
-     */
-    public function advertisementType()
-    {
-        return $this->advertisementTypes()->first();
-    }
 
     public function advertisements()
     {

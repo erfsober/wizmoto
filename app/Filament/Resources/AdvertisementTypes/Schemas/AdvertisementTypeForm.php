@@ -13,8 +13,6 @@ class AdvertisementTypeForm
             ->components([
                 TextInput::make('title')
                     ->default(null),
-                TextInput::make('title_en')
-                    ->label('Title (English)'),
             ]);
     }
 }

@@ -15,13 +15,7 @@ class FaqForm
             ->components([
                 TextInput::make('question')
                     ->default(null),
-                TextInput::make('question_en')
-                    ->label('Question (English)'),
                 Textarea::make('answer')
-                    ->default(null)
-                    ->columnSpanFull(),
-                Textarea::make('answer_en')
-                    ->label('Answer (English)')
                     ->default(null)
                     ->columnSpanFull(),
                 TextInput::make('category')

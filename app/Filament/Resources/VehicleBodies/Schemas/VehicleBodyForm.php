@@ -16,9 +16,6 @@ class VehicleBodyForm
                     ->label('Vehicle Body Name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('name_en')
-                    ->label('Vehicle Body Name (English)')
-                    ->maxLength(255),
                 Select::make('advertisement_type_id')
                     ->label('Advertisement Type')
                     ->relationship('advertisementType', 'title')

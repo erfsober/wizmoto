@@ -14,14 +14,9 @@ class BlogCategoryForm
             ->components([
                 TextInput::make('title')
                     ->default(null),
-                TextInput::make('title_en')
-                    ->label('Title (English)'),
                 Toggle::make('published')
                     ->required(),
                 TextInput::make('slug')
-                    ->default(null),
-                TextInput::make('sort')
-                    ->numeric()
                     ->default(null),
             ]);
     }

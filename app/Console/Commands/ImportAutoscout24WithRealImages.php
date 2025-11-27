@@ -113,7 +113,7 @@ class ImportAutoscout24WithRealImages extends Command
 
                         $equipment = Equipment::firstOrCreate(
                             ['name_it' => $label],
-                            ['name' => $label, 'name_en' => $label],
+                            ['name' => $label],
                         );
 
                         $equipmentIds[] = $equipment->id;
@@ -186,14 +186,14 @@ class ImportAutoscout24WithRealImages extends Command
         if (is_string($brandName) && $brandName !== '') {
             $brand = \App\Models\Brand::firstOrCreate(
                 ['name' => $brandName],
-                ['name_en' => $brandName, 'name_it' => $brandName],
+                ['name_it' => $brandName],
             );
             $brandId = $brand->id;
 
             if (is_string($modelName) && $modelName !== '') {
                 $vehicleModel = \App\Models\VehicleModel::firstOrCreate(
                     ['name' => $modelName, 'brand_id' => $brand->id],
-                    ['name_en' => $modelName, 'name_it' => $modelName],
+                    ['name_it' => $modelName],
                 );
                 $vehicleModelId = $vehicleModel->id;
             }
@@ -214,7 +214,7 @@ class ImportAutoscout24WithRealImages extends Command
             if ($fuelNameIt !== null) {
                 $fuelType = \App\Models\FuelType::firstOrCreate(
                     ['name_it' => $fuelNameIt],
-                    ['name' => $fuelNameIt, 'name_en' => $fuelNameIt],
+                    ['name' => $fuelNameIt],
                 );
                 $fuelTypeId = $fuelType->id;
             }
@@ -254,7 +254,7 @@ class ImportAutoscout24WithRealImages extends Command
         if (is_string($bodyName) && $bodyName !== '') {
             $vehicleBody = \App\Models\VehicleBody::firstOrCreate(
                 ['name_it' => $bodyName],
-                ['name' => $bodyName, 'name_en' => $bodyName],
+                ['name' => $bodyName],
             );
             $vehicleBodyId = $vehicleBody->id;
         }
@@ -265,7 +265,7 @@ class ImportAutoscout24WithRealImages extends Command
         if (is_string($colorName) && $colorName !== '') {
             $vehicleColor = \App\Models\VehicleColor::firstOrCreate(
                 ['name_it' => $colorName],
-                ['name' => $colorName, 'name_en' => $colorName],
+                ['name' => $colorName],
             );
             $colorId = $vehicleColor->id;
         }

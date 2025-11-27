@@ -66,9 +66,6 @@ class StoreAdvertisementRequest extends FormRequest {
             'zip_code' => 'required|string|max:20' ,
            
             
-            // Seller Type
-            'seller_type' => 'nullable|string|in:private,dealer' ,
-            
             // Vehicle Condition
             'service_history_available' => 'nullable|boolean' ,
             'warranty_available' => 'nullable|boolean' ,

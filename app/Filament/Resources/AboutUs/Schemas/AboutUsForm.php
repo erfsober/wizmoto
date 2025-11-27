@@ -15,21 +15,12 @@ class AboutUsForm
             ->components([
                 TextInput::make('title')
                     ->default(null),
-                TextInput::make('title_en')
-                    ->label('Title (English)'),
                 Textarea::make('content')
                     ->default(null)
                     ->columnSpanFull(),
-                Textarea::make('content_en')
-                    ->label('Content (English)')
-                    ->default(null)
-                    ->columnSpanFull(),
                 TextInput::make('section')
+                ->columnSpanFull()
                     ->default(null),
-                TextInput::make('sort')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 Toggle::make('is_active')
                     ->required(),
             ]);

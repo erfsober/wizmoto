@@ -14,20 +14,10 @@ return new class extends Migration
     {
         Schema::table('blog_posts', function (Blueprint $table) {
             // Add locale columns for title
-            $table->text('title_en')->nullable()->after('title');
-            $table->text('title_it')->nullable()->after('title_en');
-            
-            // Add locale columns for summary
-            $table->text('summary_en')->nullable()->after('summary');
-            $table->text('summary_it')->nullable()->after('summary_en');
-            
-            // Add locale columns for body
-            $table->longText('body_en')->nullable()->after('body');
-            $table->longText('body_it')->nullable()->after('body_en');
+            $table->text('title_it')->nullable();
+            $table->text('summary_it')->nullable();
+            $table->longText('body_it')->nullable();
         });
-        
-        // Copy existing data to English columns
-        DB::statement('UPDATE blog_posts SET title_en = title, summary_en = summary, body_en = body');
     }
 
     /**

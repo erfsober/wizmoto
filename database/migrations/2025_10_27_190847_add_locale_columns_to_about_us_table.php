@@ -13,15 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('about_us', function (Blueprint $table) {
-            $table->string('title_en')->nullable()->after('title');
-            $table->string('title_it')->nullable()->after('title_en');
-            $table->text('content_en')->nullable()->after('content');
-            $table->text('content_it')->nullable()->after('content_en');
+            $table->string('title_it')->nullable();
+            $table->text('content_it')->nullable();
         });
-        
-        // Copy existing data to _en columns
-        DB::statement('UPDATE about_us SET title_en = title');
-        DB::statement('UPDATE about_us SET content_en = content');
     }
 
     /**

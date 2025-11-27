@@ -67,8 +67,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            FuelType::where('name_en', $english)
-                ->orWhere('name', $english)
+            FuelType::where('name', $english)
                 ->update(['name_it' => $italian]);
         }
 
@@ -88,8 +87,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            AdvertisementType::where('title_en', $english)
-                ->orWhere('title', $english)
+            AdvertisementType::where('title', $english)
                 ->update(['title_it' => $italian]);
         }
 
@@ -146,7 +144,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
         
         foreach ($brands as $brand) {
-            $englishName = $brand->name_en ?? $brand->name;
+            $englishName = $brand->name;
             
             if (isset($italianBrandNames[$englishName])) {
                 $brand->update(['name_it' => $italianBrandNames[$englishName]]);
@@ -169,7 +167,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         $vehicleModels = VehicleModel::all();
         
         foreach ($vehicleModels as $model) {
-            $englishName = $model->name_en ?? $model->name;
+            $englishName = $model->name;
             // Keep the same name as Italian (model names are usually international)
             $model->update(['name_it' => $englishName]);
         }
@@ -219,15 +217,14 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            VehicleBody::where('name_en', $english)
-                ->orWhere('name', $english)
+            VehicleBody::where('name', $english)
                 ->update(['name_it' => $italian]);
         }
 
         // For any remaining, copy English name
         $vehicleBodies = VehicleBody::whereNull('name_it')->get();
         foreach ($vehicleBodies as $body) {
-            $body->update(['name_it' => $body->name_en ?? $body->name]);
+            $body->update(['name_it' => $body->name]);
         }
 
         $this->command->info('✓ Vehicle bodies translated');
@@ -263,15 +260,14 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            VehicleColor::where('name_en', $english)
-                ->orWhere('name', $english)
+            VehicleColor::where('name', $english)
                 ->update(['name_it' => $italian]);
         }
 
         // For any remaining, copy English name
         $vehicleColors = VehicleColor::whereNull('name_it')->get();
         foreach ($vehicleColors as $color) {
-            $color->update(['name_it' => $color->name_en ?? $color->name]);
+            $color->update(['name_it' => $color->name]);
         }
 
         $this->command->info('✓ Vehicle colors translated');
@@ -320,15 +316,14 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            Equipment::where('name_en', $english)
-                ->orWhere('name', $english)
+            Equipment::where('name', $english)
                 ->update(['name_it' => $italian]);
         }
 
         // For any remaining, copy English name
         $equipments = Equipment::whereNull('name_it')->get();
         foreach ($equipments as $equipment) {
-            $equipment->update(['name_it' => $equipment->name_en ?? $equipment->name]);
+            $equipment->update(['name_it' => $equipment->name]);
         }
 
         $this->command->info('✓ Equipment translated');
@@ -354,15 +349,14 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($translations as $english => $italian) {
-            BlogCategory::where('title_en', $english)
-                ->orWhere('title', $english)
+            BlogCategory::where('title', $english)
                 ->update(['title_it' => $italian]);
         }
 
         // For any remaining, copy English title
         $blogCategories = BlogCategory::whereNull('title_it')->get();
         foreach ($blogCategories as $category) {
-            $category->update(['title_it' => $category->title_en ?? $category->title]);
+            $category->update(['title_it' => $category->title]);
         }
 
         $this->command->info('✓ Blog categories translated');
@@ -428,8 +422,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         ];
 
         foreach ($faqTranslations as $englishQuestion => $translation) {
-            Faq::where('question_en', $englishQuestion)
-                ->orWhere('question', $englishQuestion)
+            Faq::where('question', $englishQuestion)
                 ->update([
                     'question_it' => $translation['question'],
                     'answer_it' => $translation['answer']

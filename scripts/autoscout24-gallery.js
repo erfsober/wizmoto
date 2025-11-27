@@ -76,7 +76,7 @@ async function main() {
           return `${u.origin}${path}`;
         } catch {
           // If URL parsing fails, fall back to the cleaned firstPart.
-          return firstPart;
+        return firstPart;
         }
       };
 

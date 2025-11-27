@@ -12,7 +12,7 @@ class TranslateMissingItalianColumns extends Command
     protected $signature = 'translations:fill-italian {--dry-run : Show what would be translated without writing to the database}';
 
   
-    protected $description = 'Translate *_en columns to *_it for all configured tables where the Italian value is empty';
+    protected $description = 'Translate base columns to *_it for all configured tables where the Italian value is empty';
 
    
     public function handle(OpenAiService $openAi): void
@@ -23,7 +23,7 @@ class TranslateMissingItalianColumns extends Command
             $this->warn('Running in DRY RUN mode – no database changes will be written.');
         }
 
-        // Tables and base column names for which we have *_en and *_it variants.
+        // Tables and base column names for which we have *_it variants.
         $tables = [
             'about_us'        => ['title', 'content'],
             'faqs'            => ['question', 'answer'],
@@ -67,11 +67,10 @@ class TranslateMissingItalianColumns extends Command
                 $updates = [];
 
                 foreach ($columns as $column) {
-                    $colEn = $column . '_en';
                     $colIt = $column . '_it';
 
-                    // Source text: prefer *_en, fall back to original column if needed.
-                    $source = $row->{$colEn} ?? $row->{$column} ?? null;
+                    // Source text is always the base (English/default) column.
+                    $source = $row->{$column} ?? null;
                     $currentIt = $row->{$colIt} ?? null;
 
                     if (! is_string($source) || trim($source) === '') {
@@ -86,7 +85,7 @@ class TranslateMissingItalianColumns extends Command
                     $preview = mb_strimwidth($source, 0, 60, '...');
 
                     if ($dryRun) {
-                        $this->line("  [DRY RUN] {$table} #{$row->id}: {$colEn} → {$colIt} ({$preview})");
+                        $this->line("  [DRY RUN] {$table} #{$row->id}: {$column} → {$colIt} ({$preview})");
                         continue;
                     }
 
@@ -95,13 +94,13 @@ class TranslateMissingItalianColumns extends Command
                     try {
                         $translated = $openAi->generateResponseWithoutProcess($message);
                     } catch (\Throwable $e) {
-                        $this->error("  Failed to translate {$table} #{$row->id} ({$colEn}): {$e->getMessage()}");
+                        $this->error("  Failed to translate {$table} #{$row->id} ({$column}): {$e->getMessage()}");
                         continue;
                     }
 
                     if (is_string($translated) && trim($translated) !== '') {
                         $updates[$colIt] = $translated;
-                        $this->line("  Updated {$table} #{$row->id}: {$colEn} → {$colIt}");
+                        $this->line("  Updated {$table} #{$row->id}: {$column} → {$colIt}");
                     }
                 }
 

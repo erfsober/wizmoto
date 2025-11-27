@@ -17,9 +17,9 @@ class BlogPost extends Model implements HasMedia
     protected $with = ['media'];
     
     protected $fillable = [
-        'title', 'title_en', 'title_it',
-        'summary', 'summary_en', 'summary_it',
-        'body', 'body_en', 'body_it',
+        'title', 'title_it',
+        'summary', 'summary_it',
+        'body', 'body_it',
         'slug', 'author_name', 'published', 'views',
         'admin_id', 'blog_category_id'
     ];
@@ -31,11 +31,9 @@ class BlogPost extends Model implements HasMedia
      */
     public function getLocalizedTitleAttribute()
     {
-        $locale = app()->getLocale();
-        $column = "title_{$locale}";
-        
-        // Fallback to English if locale-specific value is not available
-        return $this->$column ?? $this->title_en ?? $this->title;
+        return app()->getLocale() === 'it' && $this->title_it
+            ? $this->title_it
+            : $this->title;
     }
 
     /**
@@ -45,11 +43,9 @@ class BlogPost extends Model implements HasMedia
      */
     public function getLocalizedSummaryAttribute()
     {
-        $locale = app()->getLocale();
-        $column = "summary_{$locale}";
-        
-        // Fallback to English if locale-specific value is not available
-        return $this->$column ?? $this->summary_en ?? $this->summary;
+        return app()->getLocale() === 'it' && $this->summary_it
+            ? $this->summary_it
+            : $this->summary;
     }
 
     /**
@@ -59,11 +55,9 @@ class BlogPost extends Model implements HasMedia
      */
     public function getLocalizedBodyAttribute()
     {
-        $locale = app()->getLocale();
-        $column = "body_{$locale}";
-        
-        // Fallback to English if locale-specific value is not available
-        return $this->$column ?? $this->body_en ?? $this->body;
+        return app()->getLocale() === 'it' && $this->body_it
+            ? $this->body_it
+            : $this->body;
     }
 
     public function registerMediaCollections(): void

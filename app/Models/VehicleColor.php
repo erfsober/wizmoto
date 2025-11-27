@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VehicleColor extends Model
 {
-    protected $fillable = ['name', 'name_en', 'name_it', 'hex_code'];
+    protected $fillable = ['name', 'name_it', 'hex_code'];
 
     /**
      * Get the localized name based on current locale
@@ -15,11 +15,9 @@ class VehicleColor extends Model
      */
     public function getLocalizedNameAttribute()
     {
-        $locale = app()->getLocale();
-        $column = "name_{$locale}";
-        
-        // Fallback to English if locale-specific value is not available
-        return $this->$column ?? $this->name_en ?? $this->name;
+        return app()->getLocale() === 'it' && $this->name_it
+            ? $this->name_it
+            : $this->name;
     }
 
     public function advertisements()

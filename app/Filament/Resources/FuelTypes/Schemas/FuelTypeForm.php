@@ -20,9 +20,6 @@ class FuelTypeForm
                     ->label('Fuel Type Name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('name_en')
-                    ->label('Fuel Type Name (English)')
-                    ->maxLength(255),
                 Select::make('advertisement_type_id')
                     ->label('Advertisement Type')
                     ->relationship('advertisementType', 'title')

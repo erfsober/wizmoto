@@ -13,12 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('equipment', function (Blueprint $table) {
-            $table->string('name_en')->nullable()->after('name');
-            $table->string('name_it')->nullable()->after('name_en');
+            $table->string('name_it')->nullable();
         });
-        
-        // Copy existing data to English column
-        DB::statement('UPDATE equipment SET name_en = name');
     }
 
     /**

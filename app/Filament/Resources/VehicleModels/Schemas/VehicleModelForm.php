@@ -16,9 +16,6 @@ class VehicleModelForm
                     ->label('Model Name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('name_en')
-                    ->label('Model Name (English)')
-                    ->maxLength(255),
                 Select::make('brand_id')
                     ->label('Brand')
                     ->relationship('brand', 'name')

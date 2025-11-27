@@ -13,12 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('blog_categories', function (Blueprint $table) {
-            $table->string('title_en')->nullable()->after('title');
-            $table->string('title_it')->nullable()->after('title_en');
+            $table->string('title_it')->nullable();
         });
-        
-        // Copy existing data to English column
-        DB::statement('UPDATE blog_categories SET title_en = title');
     }
 
     /**

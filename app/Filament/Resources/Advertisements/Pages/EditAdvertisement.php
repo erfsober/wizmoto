@@ -64,7 +64,7 @@ class EditAdvertisement extends EditRecord
                     // Add new media
                     if (isset($data['media']) && is_array($data['media'])) {
                         foreach ($data['media'] as $file) {
-                            $this->record->addMediaFromDisk($file, 'public')
+                            $this->record->addMediaFromDisk($file)
                                 ->toMediaCollection('covers');
                         }
                     }
