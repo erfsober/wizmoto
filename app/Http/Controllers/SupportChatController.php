@@ -11,7 +11,6 @@ use App\Models\Setting;
 use Illuminate\Support\Str;
 use App\Events\MessageSent;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 class SupportChatController extends Controller
 {
     public function index()
@@ -219,13 +218,6 @@ class SupportChatController extends Controller
             broadcast(new MessageSent($message));
 
             // Log for debugging
-            Log::info('Provider message sent to support chat', [
-                'message_id' => $message->id,
-                'conversation_id' => $conversation->id,
-                'conversation_uuid' => $conversation->uuid,
-                'sender_type' => $message->sender_type,
-                'message' => $message->message
-            ]);
 
             return response()->json([
                 'success' => true,

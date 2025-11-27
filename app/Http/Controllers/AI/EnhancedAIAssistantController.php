@@ -51,7 +51,6 @@ class EnhancedAIAssistantController extends Controller
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('Enhanced AI Assistant Error: ' . $e->getMessage());
             
             return response()->json([
                 'response' => $this->getEnhancedFallbackResponse($request->input('message', ''), []),
@@ -113,7 +112,6 @@ class EnhancedAIAssistantController extends Controller
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('AI Recommendations Error: ' . $e->getMessage());
             
             return response()->json([
                 'vehicles' => [],
@@ -166,7 +164,6 @@ class EnhancedAIAssistantController extends Controller
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('AI Price Analysis Error: ' . $e->getMessage());
             
             return response()->json([
                 'analysis' => 'Sorry, I couldn\'t analyze the price right now. Please try again later.',
@@ -236,7 +233,6 @@ class EnhancedAIAssistantController extends Controller
                         ];
                     }
                 } catch (\Exception $e) {
-                    \Log::warning('Could not fetch vehicle details for AI context: ' . $e->getMessage());
                 }
             }
         }

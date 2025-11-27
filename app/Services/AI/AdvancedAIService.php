@@ -3,7 +3,6 @@
 namespace App\Services\AI;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class AdvancedAIService implements AIServiceInterface
 {
@@ -42,13 +41,11 @@ class AdvancedAIService implements AIServiceInterface
             
             // If external API returns null or empty, use fallback
             if (empty($response)) {
-                Log::info('External AI API returned empty response, using fallback');
                 return $this->getFallbackResponse($prompt);
             }
             
             return $response;
         } catch (\Exception $e) {
-            Log::error('AI Service Error: ' . $e->getMessage());
             return $this->getFallbackResponse($prompt);
         }
     }
@@ -77,26 +74,15 @@ class AdvancedAIService implements AIServiceInterface
                 'temperature' => 0.7
             ]);
 
-            Log::info('OpenAI Responses API Response', [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
 
             if ($response->successful()) {
                 $data = $response->json();
                 return $data['choices'][0]['message']['content'] ?? null;
             } else {
-                Log::error('OpenAI Responses API Error', [
-                    'status' => $response->status(),
-                    'body' => $response->body()
-                ]);
             }
 
             return null;
         } catch (\Exception $e) {
-            Log::error('OpenAI Responses API Exception', [
-                'message' => $e->getMessage()
-            ]);
             return null;
         }
     }
@@ -123,11 +109,6 @@ class AdvancedAIService implements AIServiceInterface
                 ]
             ]);
 
-            Log::info('Hugging Face API Response', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-                'model_url' => $modelUrl
-            ]);
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -141,18 +122,10 @@ class AdvancedAIService implements AIServiceInterface
                     return $data;
                 }
             } else {
-                Log::error('Hugging Face API Error', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'model_url' => $modelUrl
-                ]);
             }
 
             return null;
         } catch (\Exception $e) {
-            Log::error('Hugging Face API Exception', [
-                'message' => $e->getMessage()
-            ]);
             return null;
         }
     }

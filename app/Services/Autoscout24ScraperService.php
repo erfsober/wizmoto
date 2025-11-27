@@ -5,7 +5,6 @@ namespace App\Services;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class Autoscout24ScraperService
 {
@@ -27,37 +26,26 @@ class Autoscout24ScraperService
      */
     public function scrapePage(int $limit = 10): array
     {
-        Log::info('Autoscout24ScraperService@scrapePage called', [
-            'limit' => $limit,
-        ]);
 
         // First try using the headless Node scraper (Playwright).
         $urls = $this->scrapePageWithHeadless($limit);
 
         if (! empty($urls)) {
-            Log::info('Autoscout24ScraperService@scrapePage finished (headless)', [
-                'urls_count' => count($urls),
-            ]);
 
             return $urls;
         }
 
-        Log::warning('Autoscout24ScraperService@scrapePage: headless scraper returned no URLs, falling back to HTML parsing');
 
         // Fallback: old HTML-based extraction (will likely return 0, but keep as backup).
         $html = $this->fetchHtml($this->searchUrl);
 
         if ($html === null) {
-            Log::warning('Autoscout24ScraperService@scrapePage: fetchHtml returned null in fallback');
 
             return [];
         }
 
         $urls = $this->extractAdUrls($html, $limit);
 
-        Log::info('Autoscout24ScraperService@scrapePage finished (fallback HTML)', [
-            'urls_count' => count($urls),
-        ]);
 
         return $urls;
     }
@@ -69,16 +57,10 @@ class Autoscout24ScraperService
      */
     public function scrapeAd(string $url): ?array
     {
-        Log::info('Autoscout24ScraperService@scrapeAd called', [
-            'url' => $url,
-        ]);
 
         $html = $this->fetchHtml($url);
 
         if ($html === null) {
-            Log::warning('Autoscout24ScraperService@scrapeAd: fetchHtml returned null', [
-                'url' => $url,
-            ]);
             return null;
         }
 
@@ -375,12 +357,6 @@ class Autoscout24ScraperService
             'seller_notes' => $sellerNotes,
         ];
 
-        Log::info('Autoscout24ScraperService@scrapeAd finished', [
-            'url' => $url,
-            'has_title' => $data['title'] !== null,
-            'has_price' => $data['price'] !== null,
-            'images_count' => count($data['images']),
-        ]);
 
         return $data;
     }
@@ -390,9 +366,6 @@ class Autoscout24ScraperService
      */
     private function fetchHtml(string $url): ?string
     {
-        Log::debug('Autoscout24ScraperService@fetchHtml called', [
-            'url' => $url,
-        ]);
 
         try {
             $response = Http::withHeaders([
@@ -401,23 +374,12 @@ class Autoscout24ScraperService
             ])->get($url);
 
             if (! $response->successful()) {
-                Log::warning('Autoscout24ScraperService@fetchHtml: non-success status', [
-                    'url' => $url,
-                    'status' => $response->status(),
-                ]);
                 return null;
             }
 
-            Log::debug('Autoscout24ScraperService@fetchHtml: successful response', [
-                'url' => $url,
-            ]);
 
             return $response->body();
         } catch (\Throwable $e) {
-            Log::error('Autoscout24ScraperService@fetchHtml exception', [
-                'url' => $url,
-                'message' => $e->getMessage(),
-            ]);
             return null;
         }
     }
@@ -432,9 +394,6 @@ class Autoscout24ScraperService
         $scriptPath = base_path('scripts/autoscout24-headless.js');
 
         if (! file_exists($scriptPath)) {
-            Log::error('Autoscout24ScraperService@scrapePageWithHeadless: script not found', [
-                'script' => $scriptPath,
-            ]);
 
             return [];
         }
@@ -448,14 +407,10 @@ class Autoscout24ScraperService
             $limit
         );
 
-        Log::info('Autoscout24ScraperService@scrapePageWithHeadless executing command', [
-            'command' => $command,
-        ]);
 
         $output = shell_exec($command);
 
         if ($output === null || trim($output) === '') {
-            Log::warning('Autoscout24ScraperService@scrapePageWithHeadless: empty output from node script');
 
             return [];
         }
@@ -463,18 +418,12 @@ class Autoscout24ScraperService
         $decoded = json_decode($output, true);
 
         if (! is_array($decoded)) {
-            Log::error('Autoscout24ScraperService@scrapePageWithHeadless: invalid JSON from node script', [
-                'output_sample' => mb_substr($output, 0, 500),
-            ]);
 
             return [];
         }
 
         $urls = array_values(array_unique(array_filter($decoded, 'is_string')));
 
-        Log::info('Autoscout24ScraperService@scrapePageWithHeadless finished', [
-            'urls_count' => count($urls),
-        ]);
 
         return $urls;
     }
@@ -486,10 +435,6 @@ class Autoscout24ScraperService
      */
     private function extractAdUrls(string $html, int $limit): array
     {
-        Log::debug('Autoscout24ScraperService@extractAdUrls called', [
-            'limit' => $limit,
-            'html_length' => strlen($html),
-        ]);
 
         $urls = [];
 
@@ -537,7 +482,6 @@ class Autoscout24ScraperService
 
         // Fallback: regex on raw HTML if DOM selectors found nothing.
         if (empty($urls)) {
-            Log::debug('Autoscout24ScraperService@extractAdUrls: DOM selectors found no URLs, using regex fallback');
 
             // 1) Classic href attributes that already contain /annunci/.
             preg_match_all('/href="([^"]*\/annunci\/[^"]*)"/', $html, $matchesHref);
@@ -595,9 +539,6 @@ class Autoscout24ScraperService
 
         $final = array_values($urls);
 
-        Log::info('Autoscout24ScraperService@extractAdUrls finished', [
-            'urls_count' => count($final),
-        ]);
 
         return $final;
     }
@@ -607,9 +548,6 @@ class Autoscout24ScraperService
      */
     private function isValidAdUrl(string $url): bool
     {
-        Log::debug('Autoscout24ScraperService@isValidAdUrl called', [
-            'url' => $url,
-        ]);
 
         $skipPatterns = [
             '/search',
@@ -629,20 +567,12 @@ class Autoscout24ScraperService
 
         foreach ($skipPatterns as $pattern) {
             if (str_contains($url, $pattern)) {
-                Log::debug('Autoscout24ScraperService@isValidAdUrl: url rejected by skip pattern', [
-                    'url' => $url,
-                    'pattern' => $pattern,
-                ]);
                 return false;
             }
         }
 
         $isValid = str_contains($url, '/annunci/');
 
-        Log::debug('Autoscout24ScraperService@isValidAdUrl result', [
-            'url' => $url,
-            'is_valid' => $isValid,
-        ]);
 
         return $isValid;
     }
@@ -652,9 +582,6 @@ class Autoscout24ScraperService
      */
     private function buildFullUrl(string $url): string
     {
-        Log::debug('Autoscout24ScraperService@buildFullUrl called', [
-            'url' => $url,
-        ]);
 
         $url = trim($url);
 
@@ -672,10 +599,6 @@ class Autoscout24ScraperService
             $full = $this->baseUrl . '/' . $url;
         }
 
-        Log::debug('Autoscout24ScraperService@buildFullUrl result', [
-            'original' => $url,
-            'full' => $full,
-        ]);
 
         return $full;
     }
@@ -685,9 +608,6 @@ class Autoscout24ScraperService
      */
     private function buildFullImageUrl(string $src): string
     {
-        Log::debug('Autoscout24ScraperService@buildFullImageUrl called', [
-            'src' => $src,
-        ]);
 
         $src = trim($src);
 
@@ -705,10 +625,6 @@ class Autoscout24ScraperService
             $full = $this->baseUrl . '/' . $src;
         }
 
-        Log::debug('Autoscout24ScraperService@buildFullImageUrl result', [
-            'original' => $src,
-            'full' => $full,
-        ]);
 
         return $full;
     }

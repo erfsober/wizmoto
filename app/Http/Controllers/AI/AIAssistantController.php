@@ -22,10 +22,6 @@ class AIAssistantController extends Controller
     public function chat(Request $request): JsonResponse
     {
         try {
-            \Log::info('AI Assistant request received', [
-                'message' => $request->input('message'),
-                'headers' => $request->headers->all()
-            ]);
 
             $request->validate([
                 'message' => 'required|string|max:500'
@@ -41,9 +37,6 @@ class AIAssistantController extends Controller
             
             $response = $this->aiService->generateResponse($prompt);
             
-            \Log::info('AI Assistant response generated', [
-                'response' => $response
-            ]);
             
             // If AI service fails, provide fallback responses
             if (!$response || empty(trim($response))) {
@@ -56,9 +49,6 @@ class AIAssistantController extends Controller
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('AI Assistant Error: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
             
             return response()->json([
                 'response' => $this->getFallbackResponse($request->input('message', '')),

@@ -184,15 +184,6 @@ class ChatController extends Controller
         $provider->avatar = $provider->getFirstMediaUrl('image');
 
         // Debug: Log provider data from API
-        \Log::info('getChatMessages provider data', [
-            'conversation_id' => $conversation->id,
-            'provider_id' => $provider->id,
-            'username' => $provider->username,
-            'first_name' => $provider->first_name,
-            'last_name' => $provider->last_name,
-            'full_name' => $provider->full_name,
-            'email' => $provider->email
-        ]);
 
         return response()->json([
             'success' => true,
@@ -219,17 +210,6 @@ class ChatController extends Controller
         $guest = $conversation->guest;
 
         // Debug: Log provider data
-        \Log::info('Guest chat provider data', [
-            'access_token' => $accessToken,
-            'conversation_id' => $conversation->id,
-            'conversation_uuid' => $conversation->uuid,
-            'provider_id' => $provider->id,
-            'username' => $provider->username,
-            'first_name' => $provider->first_name,
-            'last_name' => $provider->last_name,
-            'full_name' => $provider->full_name,
-            'email' => $provider->email
-        ]);
 
         return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
             'conversationUuid' => $conversation->uuid

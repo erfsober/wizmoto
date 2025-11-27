@@ -102,11 +102,6 @@ class GeocodeAdvertisements extends Command
             $this->info("Failed: {$failed}");
         } else {
             // Log for scheduled runs
-            \Log::info("Scheduled geocoding completed", [
-                'processed' => $processed,
-                'successful' => $successful,
-                'failed' => $failed
-            ]);
         }
     }
 

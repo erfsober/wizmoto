@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class GeocodingService
 {
@@ -29,22 +28,13 @@ class GeocodingService
             try {
                 $result = $service();
                 if ($result) {
-                    Log::info("Geocoding successful using {$serviceName}", [
-                        'address' => $address,
-                        'coordinates' => $result
-                    ]);
                     return $result;
                 }
             } catch (\Exception $e) {
-                Log::warning("Geocoding failed with {$serviceName}", [
-                    'address' => $address,
-                    'error' => $e->getMessage()
-                ]);
                 continue;
             }
         }
 
-        Log::error("All geocoding services failed", ['address' => $address]);
         return null;
     }
 
@@ -199,11 +189,6 @@ class GeocodingService
                 'country_code' => $data['address']['country_code'] ?? null,
             ];
         } catch (\Exception $e) {
-            Log::error("Reverse geocoding failed", [
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'error' => $e->getMessage()
-            ]);
             return null;
         }
     }

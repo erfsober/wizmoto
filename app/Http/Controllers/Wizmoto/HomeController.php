@@ -317,9 +317,7 @@ class HomeController extends Controller
             ->latest('id')
             ->paginate(10);
 
-        // Debug logging
-        \Log::info('Advertisement type filter applied: ' . ($request->advertisement_type ?? 'none'));
-        \Log::info('Total advertisements found: ' . $advertisements->total());
+
 
         // If it's an AJAX request for brands only, return just the brands
         if ($request->ajax() && $request->has('get_brands_only')) {
