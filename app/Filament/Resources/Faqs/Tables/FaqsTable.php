@@ -14,14 +14,13 @@ class FaqsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
+            ->defaultSort('sort')
             ->columns([
                 TextColumn::make('question')
                     ->searchable(),
                 TextColumn::make('category')
                     ->searchable(),
-                TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('created_at')

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\FuelTypes\Schemas;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 
 class FuelTypeForm
@@ -20,12 +19,6 @@ class FuelTypeForm
                     ->label('Fuel Type Name')
                     ->required()
                     ->maxLength(255),
-                Select::make('advertisement_type_id')
-                    ->label('Advertisement Type')
-                    ->relationship('advertisementType', 'title')
-                    ->required()
-                    ->searchable()
-                    ->preload(),
             ]);
     }
 }

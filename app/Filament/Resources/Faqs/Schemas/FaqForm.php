@@ -20,10 +20,6 @@ class FaqForm
                     ->columnSpanFull(),
                 TextInput::make('category')
                     ->default(null),
-                TextInput::make('sort')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 Toggle::make('is_active')
                     ->required(),
             ]);

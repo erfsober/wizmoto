@@ -19,10 +19,6 @@ class FuelTypesTable
                     ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('advertisementType.title')
-                    ->label('Advertisement Type')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
