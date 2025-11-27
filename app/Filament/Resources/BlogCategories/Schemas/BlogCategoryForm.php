@@ -16,8 +16,6 @@ class BlogCategoryForm
                     ->default(null),
                 TextInput::make('title_en')
                     ->label('Title (English)'),
-                TextInput::make('title_it')
-                    ->label('Title (Italian)'),
                 Toggle::make('published')
                     ->required(),
                 TextInput::make('slug')

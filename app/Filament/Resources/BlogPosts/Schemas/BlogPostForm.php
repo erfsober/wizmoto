@@ -23,19 +23,12 @@ class BlogPostForm
                 TextInput::make('title_en')
                     ->label('Title (English)')
                     ->columnSpanFull(),
-                TextInput::make('title_it')
-                    ->label('Title (Italian)')
-                    ->columnSpanFull(),
                 Textarea::make('summary')
                     ->label('Summary/Excerpt')
                     ->rows(3)
                     ->columnSpanFull(),
                 Textarea::make('summary_en')
                     ->label('Summary/Excerpt (English)')
-                    ->rows(3)
-                    ->columnSpanFull(),
-                Textarea::make('summary_it')
-                    ->label('Summary/Excerpt (Italian)')
                     ->rows(3)
                     ->columnSpanFull(),
                 Select::make('blog_category_id')
@@ -78,26 +71,6 @@ class BlogPostForm
                     ]),
                 RichEditor::make('body_en')
                     ->label('Content (English)')
-                    ->default(null)
-                    ->columnSpanFull()
-                    ->toolbarButtons([
-                        'attachFiles',
-                        'blockquote',
-                        'bold',
-                        'bulletList',
-                        'codeBlock',
-                        'h2',
-                        'h3',
-                        'italic',
-                        'link',
-                        'orderedList',
-                        'redo',
-                        'strike',
-                        'underline',
-                        'undo',
-                    ]),
-                RichEditor::make('body_it')
-                    ->label('Content (Italian)')
                     ->default(null)
                     ->columnSpanFull()
                     ->toolbarButtons([

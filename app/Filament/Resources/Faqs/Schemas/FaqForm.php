@@ -17,17 +17,11 @@ class FaqForm
                     ->default(null),
                 TextInput::make('question_en')
                     ->label('Question (English)'),
-                TextInput::make('question_it')
-                    ->label('Question (Italian)'),
                 Textarea::make('answer')
                     ->default(null)
                     ->columnSpanFull(),
                 Textarea::make('answer_en')
                     ->label('Answer (English)')
-                    ->default(null)
-                    ->columnSpanFull(),
-                Textarea::make('answer_it')
-                    ->label('Answer (Italian)')
                     ->default(null)
                     ->columnSpanFull(),
                 TextInput::make('category')

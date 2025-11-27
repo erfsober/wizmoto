@@ -20,9 +20,6 @@ class VehicleColorForm
                 TextInput::make('name_en')
                     ->label('Color Name (English)')
                     ->maxLength(255),
-                TextInput::make('name_it')
-                    ->label('Color Name (Italian)')
-                    ->maxLength(255),
                 ColorPicker::make('hex_code')
                     ->label('Color')
                     ->required()
