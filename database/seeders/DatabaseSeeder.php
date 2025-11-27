@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder {
                         AdminSeeder::class,
                         CountriesSeeder::class,
                         CitiesSeeder::class,
+                        PopulateAllItalianTranslationsSeeder::class,
                     ]);
     }
 }
