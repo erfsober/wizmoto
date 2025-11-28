@@ -136,145 +136,125 @@ async function main() {
     timeout: 60000,
   });
 
+  // Wait for page to load
+  try {
+    await page.waitForSelector('a[href^="/annunci/"]', { timeout: 15000 });
+  } catch {
+    // Ignore timeout
+  }
+  await page.waitForTimeout(2000);
+
+  // Extract base URL and search_id from current URL for pagination
+  const initialUrl = page.url();
+  const urlObj = new URL(initialUrl);
+  const searchId = urlObj.searchParams.get('search_id');
+  const baseSearchParams = new URLSearchParams(urlObj.search);
+  
+  process.stderr.write(`Initial URL: ${initialUrl}\n`);
+  process.stderr.write(`Search ID: ${searchId || 'not found'}\n`);
+
   // Loop through pages until we have enough URLs or run out of pages
   while (allUrls.size < limit && hasMorePages && currentPage <= maxPages) {
     // Extract URLs from current page
     const pageUrls = await extractUrlsFromPage();
 
     // Add new URLs to our collection
+    const urlsBeforeAdd = allUrls.size;
     for (const url of pageUrls) {
       if (allUrls.size >= limit) {
         break;
       }
       allUrls.add(url);
     }
+    const urlsAfterAdd = allUrls.size;
+
+    // Debug: log page info to stderr (so it doesn't interfere with JSON output)
+    process.stderr.write(`Page ${currentPage}: Found ${pageUrls.length} URLs, Total: ${allUrls.size}/${limit}\n`);
 
     // Check if we have enough URLs
     if (allUrls.size >= limit) {
       break;
     }
 
-    // Try to navigate to next page
-    let navigated = false;
-    
+    // Check if we got any new URLs from this page
+    if (urlsAfterAdd === urlsBeforeAdd && pageUrls.length > 0) {
+      // We're getting duplicate URLs, might be stuck on same page
+      process.stderr.write(`Warning: No new URLs added from page ${currentPage}, might be duplicate content\n`);
+    }
+
+    // Navigate to next page using URL-based pagination
     try {
-      // Strategy 1: Try URL-based pagination (most reliable)
+      process.stderr.write(`[Page ${currentPage}] Need more URLs (${allUrls.size}/${limit}), navigating to page ${currentPage + 1}...\n`);
+      
+      // Get current page's first URL for comparison
+      const urlsBeforeNav = await extractUrlsFromPage();
+      const firstUrlBeforeNav = urlsBeforeNav.length > 0 ? urlsBeforeNav[0] : null;
+      
+      // Build next page URL - preserve all query parameters from current URL
+      const nextPageNum = currentPage + 1;
       const currentUrl = page.url();
-      const urlObj = new URL(currentUrl);
-      const pageParam = urlObj.searchParams.get('page') || urlObj.searchParams.get('p');
-      const currentPageNum = pageParam ? parseInt(pageParam) : (currentPage || 1);
-      const nextPageNum = currentPageNum + 1;
-
-      // Try to navigate to next page URL
-      urlObj.searchParams.set('page', nextPageNum.toString());
-      const nextPageUrl = urlObj.toString();
-
-      if (nextPageUrl !== currentUrl) {
-        try {
-          await page.goto(nextPageUrl, {
-            waitUntil: 'domcontentloaded',
-            timeout: 60000,
-          });
-
-          await page.waitForTimeout(2000);
-
-          // Check if we actually got new listings
-          const testUrls = await extractUrlsFromPage();
-          
-          if (testUrls.length > 0) {
-            // We got listings, continue with this page
-            navigated = true;
-            currentPage = nextPageNum;
-            continue;
-          }
-          // No listings found, but try alternative pagination methods
-        } catch (err) {
-          // Navigation failed, try button clicking
-        }
+      const nextPageUrlObj = new URL(currentUrl);
+      
+      // Update page parameter
+      nextPageUrlObj.searchParams.set('page', nextPageNum.toString());
+      
+      // Ensure search_id is included (get from current URL if available)
+      const currentSearchId = nextPageUrlObj.searchParams.get('search_id');
+      if (!currentSearchId && searchId) {
+        nextPageUrlObj.searchParams.set('search_id', searchId);
       }
-
-      // Strategy 2: Try clicking next button if URL pagination didn't work
-      if (!navigated) {
-        const possibleSelectors = [
-          'button[aria-label*="next" i]',
-          'a[aria-label*="next" i]',
-          'button[aria-label*="Avanti" i]',
-          'a[aria-label*="Avanti" i]',
-          '[data-testid*="next"]',
-          '[data-testid*="pagination-next"]',
-          '.pagination-next',
-          '[class*="pagination-next"]',
-        ];
-
-        for (const selector of possibleSelectors) {
-          try {
-            const button = await page.$(selector);
-            if (button) {
-              const isDisabled = await button.evaluate((el) => {
-                return el.hasAttribute('disabled') || 
-                       el.classList.contains('disabled') || 
-                       el.getAttribute('aria-disabled') === 'true' ||
-                       el.classList.contains('pagination-item--disabled') ||
-                       el.getAttribute('href') === '#' ||
-                       el.getAttribute('href') === '';
-              });
-
-              if (!isDisabled) {
-                await button.click();
-                await page.waitForTimeout(3000);
-                navigated = true;
-                currentPage++;
-                break;
-              }
-            }
-          } catch {
-            // Continue to next selector
-          }
-        }
+      
+      // Add source parameter if not present (required for pagination to work)
+      if (!nextPageUrlObj.searchParams.has('source')) {
+        nextPageUrlObj.searchParams.set('source', 'listpage_pagination');
       }
-
-      // Strategy 3: Look for next page link in pagination area
-      if (!navigated) {
-        try {
-          const nextLink = await page.evaluate(() => {
-            const links = Array.from(document.querySelectorAll('a[href]'));
-            for (const link of links) {
-              const text = (link.textContent || '').trim().toLowerCase();
-              const ariaLabel = (link.getAttribute('aria-label') || '').trim().toLowerCase();
-              const href = link.getAttribute('href') || '';
-              
-              if ((text.match(/^(›|»|next|avanti|successivo)$/i) || 
-                   ariaLabel.match(/next|avanti|successivo/i)) &&
-                  href && href !== '#' && !href.includes('#')) {
-                return href;
-              }
-            }
-            return null;
-          });
-
-          if (nextLink) {
-            const fullUrl = nextLink.startsWith('http') ? nextLink : new URL(nextLink, base).toString();
-            await page.goto(fullUrl, {
-              waitUntil: 'domcontentloaded',
-              timeout: 60000,
-            });
-            await page.waitForTimeout(2000);
-            navigated = true;
-            currentPage++;
-            continue;
-          }
-        } catch {
-          // Ignore errors
-        }
+      
+      const nextPageUrl = nextPageUrlObj.toString();
+      process.stderr.write(`[Page ${currentPage}] Navigating to: ${nextPageUrl}\n`);
+      
+      // Navigate to next page
+      await page.goto(nextPageUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000,
+      });
+      
+      // Wait for page to load
+      await page.waitForTimeout(3000);
+      
+      try {
+        await page.waitForSelector('a[href^="/annunci/"]', { timeout: 10000 });
+      } catch {
+        // Continue anyway
       }
-
-      // If we couldn't navigate to next page, stop
-      if (!navigated) {
+      
+      // Verify we got new content by checking if first URL changed
+      const urlsAfterNav = await extractUrlsFromPage();
+      const firstUrlAfterNav = urlsAfterNav.length > 0 ? urlsAfterNav[0] : null;
+      
+      if (urlsAfterNav.length === 0) {
+        process.stderr.write(`[Page ${currentPage}] ✗ No listings found on page ${nextPageNum}. Stopping.\n`);
         hasMorePages = false;
         break;
       }
+      
+      if (firstUrlAfterNav && firstUrlAfterNav !== firstUrlBeforeNav) {
+        // We got different URLs, navigation successful
+        currentPage = nextPageNum;
+        process.stderr.write(`[Page ${currentPage}] ✓ Successfully navigated! Found ${urlsAfterNav.length} listings.\n`);
+        continue;
+      } else if (urlsAfterNav.length > 0) {
+        // Got URLs but might be same as before (shouldn't happen, but continue)
+        currentPage = nextPageNum;
+        process.stderr.write(`[Page ${currentPage}] ⚠ Navigated but URLs appear similar. Continuing anyway...\n`);
+        continue;
+      } else {
+        process.stderr.write(`[Page ${currentPage}] ✗ Navigation failed - no new listings found. Stopping.\n`);
+        hasMorePages = false;
+        break;
+      }
+      
     } catch (err) {
-      // Error occurred, assume no more pages
+      process.stderr.write(`[Page ${currentPage}] ✗ Error during pagination: ${err.message}\n`);
       hasMorePages = false;
       break;
     }

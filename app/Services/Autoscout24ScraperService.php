@@ -36,19 +36,159 @@ class Autoscout24ScraperService
             return $urls;
         }
 
+        // Fallback: HTML-based extraction with pagination support.
+        return $this->scrapePageWithPagination($limit);
+    }
 
-        // Fallback: old HTML-based extraction (will likely return 0, but keep as backup).
-        $html = $this->fetchHtml($this->searchUrl);
+    /**
+     * Scrape multiple pages using HTTP requests with pagination.
+     *
+     * @return array<int, string>  List of ad URLs
+     */
+    private function scrapePageWithPagination(int $limit): array
+    {
+        $allUrls = [];
+        $currentPage = 1;
+        $maxPages = 50;
+        $searchId = null;
 
-        if ($html === null) {
+        while (count($allUrls) < $limit && $currentPage <= $maxPages) {
+            // Build URL for current page
+            $pageUrl = $this->buildPageUrl($currentPage, $searchId);
+            
+            Log::info("Fetching page {$currentPage} from: {$pageUrl}");
 
-            return [];
+            $html = $this->fetchHtml($pageUrl);
+
+            if ($html === null) {
+                Log::warning("Failed to fetch page {$currentPage}");
+                break;
+            }
+
+            // Extract search_id from first page if not set
+            if ($currentPage === 1 && $searchId === null) {
+                $searchId = $this->extractSearchId($html);
+                if ($searchId) {
+                    Log::info("Extracted search_id: {$searchId}");
+                }
+            }
+
+            // Extract URLs from current page
+            $pageUrls = $this->extractAdUrls($html, $limit - count($allUrls));
+
+            if (empty($pageUrls)) {
+                Log::info("No URLs found on page {$currentPage}, stopping pagination");
+                break;
+            }
+
+            // Add new URLs (avoid duplicates)
+            $newUrls = array_diff($pageUrls, $allUrls);
+            $allUrls = array_merge($allUrls, $newUrls);
+
+            Log::info("Page {$currentPage}: Found " . count($pageUrls) . " URLs, Total: " . count($allUrls) . "/{$limit}");
+
+            // Check if we have enough URLs
+            if (count($allUrls) >= $limit) {
+                break;
+            }
+
+            // Check if there's a next page by looking for pagination indicators
+            if (!$this->hasNextPage($html)) {
+                Log::info("No next page found, stopping pagination");
+                break;
+            }
+
+            $currentPage++;
+            
+            // Small delay between pages to avoid rate limiting
+            sleep(1);
         }
 
-        $urls = $this->extractAdUrls($html, $limit);
+        return array_slice($allUrls, 0, $limit);
+    }
 
+    /**
+     * Build URL for a specific page number.
+     */
+    private function buildPageUrl(int $pageNum, ?string $searchId = null): string
+    {
+        $urlParts = parse_url($this->searchUrl);
+        $queryParams = [];
+        
+        // Parse existing query parameters
+        if (isset($urlParts['query'])) {
+            parse_str($urlParts['query'], $queryParams);
+        }
+        
+        // Update page number
+        $queryParams['page'] = $pageNum;
+        
+        // Add search_id if provided
+        if ($searchId !== null) {
+            $queryParams['search_id'] = $searchId;
+        }
+        
+        // Add source parameter for pagination
+        if (!isset($queryParams['source']) && $pageNum > 1) {
+            $queryParams['source'] = 'listpage_pagination';
+        }
 
-        return $urls;
+        // Rebuild URL
+        $scheme = $urlParts['scheme'] ?? 'https';
+        $host = $urlParts['host'] ?? '';
+        $path = $urlParts['path'] ?? '';
+        $query = http_build_query($queryParams);
+
+        return "{$scheme}://{$host}{$path}?{$query}";
+    }
+
+    /**
+     * Extract search_id from HTML (might be in URL or in page).
+     */
+    private function extractSearchId(string $html): ?string
+    {
+        // Try to find search_id in pagination links (most reliable)
+        if (preg_match('/href=["\']([^"\']*[?&]search_id=([a-z0-9]+)[^"\']*)["\']/i', $html, $matches)) {
+            return $matches[2];
+        }
+
+        // Try to find it in URL parameters in the HTML
+        if (preg_match('/[?&]search_id=([a-z0-9]+)/i', $html, $matches)) {
+            return $matches[1];
+        }
+
+        // Try to find it in JavaScript/JSON data
+        if (preg_match('/["\']search_id["\']\s*:\s*["\']([a-z0-9]+)["\']/i', $html, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if HTML indicates there's a next page.
+     */
+    private function hasNextPage(string $html): bool
+    {
+        // Check if next button exists and is not disabled
+        if (preg_match('/button[^>]*aria-label[^>]*successiva[^>]*disabled/i', $html)) {
+            return false;
+        }
+
+        // Check for next button that's not disabled
+        if (preg_match('/<button[^>]*aria-label[^>]*successiva[^>]*(?!disabled)/i', $html)) {
+            return true;
+        }
+
+        // Check for pagination showing current page vs total pages
+        if (preg_match('/(\d+)\s*\/\s*(\d+)/', $html, $matches)) {
+            $currentPage = (int) $matches[1];
+            $totalPages = (int) $matches[2];
+            return $currentPage < $totalPages;
+        }
+
+        // If we can't determine, assume there might be more pages
+        return true;
     }
 
     /**
@@ -61,33 +201,8 @@ class Autoscout24ScraperService
 
         $html = $this->fetchHtml($url);
 
-        // Check if this is a valid ad page (not an error or removed page)
-        $isValidHtml = $html !== null && 
-            !str_contains(strtolower($html), 'annuncio non trovato') &&
-            !str_contains(strtolower($html), 'annuncio non disponibile') &&
-            !str_contains(strtolower($html), 'ad not found') &&
-            !str_contains(strtolower($html), '404') &&
-            !(strlen($html) < 5000 && !str_contains($html, 'annunci'));
-
-        // If HTTP request failed or returned invalid HTML, try headless browser
-        if (! $isValidHtml) {
-            Log::info("HTTP request failed or invalid HTML, trying headless browser for: {$url}");
-            $html = $this->fetchHtmlWithHeadless($url);
-
-            if ($html === null) {
-                Log::warning("Both HTTP and headless browser failed for: {$url}");
-                return null;
-            }
-
-            // Re-validate after headless fetch
-            if (str_contains(strtolower($html), 'annuncio non trovato') ||
-                str_contains(strtolower($html), 'annuncio non disponibile') ||
-                str_contains(strtolower($html), 'ad not found') ||
-                str_contains(strtolower($html), '404') ||
-                (strlen($html) < 5000 && !str_contains($html, 'annunci'))) {
-                Log::warning("Ad page appears to be invalid or removed (after headless fetch): {$url}");
-                return null;
-            }
+        if ($html === null) {
+            return null;
         }
 
         $dom = new DOMDocument();
@@ -499,30 +614,66 @@ class Autoscout24ScraperService
 
         $searchUrl = $this->searchUrl;
 
+        // Separate stderr from stdout - write stderr to a temp file and stdout to another
+        $stderrFile = sys_get_temp_dir() . '/autoscout24-stderr-' . uniqid() . '.log';
+        $stdoutFile = sys_get_temp_dir() . '/autoscout24-stdout-' . uniqid() . '.log';
+
         $command = sprintf(
-            'node %s %s %d 2>&1',
+            'node %s %s %d > %s 2> %s',
             escapeshellarg($scriptPath),
             escapeshellarg($searchUrl),
-            $limit
+            $limit,
+            escapeshellarg($stdoutFile),
+            escapeshellarg($stderrFile)
         );
 
+        shell_exec($command);
 
-        $output = shell_exec($command);
+        // Read stderr for debugging/logging
+        if (file_exists($stderrFile)) {
+            $stderr = file_get_contents($stderrFile);
+            if (! empty(trim($stderr))) {
+                Log::info("Autoscout24 pagination debug:\n" . $stderr);
+                // Also output to console if in command context
+                if (app()->runningInConsole()) {
+                    echo "\n=== Pagination Debug ===\n" . $stderr . "\n=======================\n";
+                }
+            }
+            @unlink($stderrFile);
+        }
 
-        if ($output === null || trim($output) === '') {
-
+        // Read stdout for JSON data
+        if (! file_exists($stdoutFile)) {
+            Log::warning('Autoscout24 headless script did not produce output');
             return [];
         }
 
-        $decoded = json_decode($output, true);
+        $output = file_get_contents($stdoutFile);
+        @unlink($stdoutFile);
+
+        if (empty(trim($output))) {
+            Log::warning('Autoscout24 headless script returned empty output');
+            return [];
+        }
+
+        // Try to extract JSON from output (in case stderr mixed in)
+        // Find the JSON array in the output
+        $jsonStart = strpos($output, '[');
+        $jsonEnd = strrpos($output, ']');
+        
+        if ($jsonStart !== false && $jsonEnd !== false && $jsonEnd > $jsonStart) {
+            $jsonString = substr($output, $jsonStart, $jsonEnd - $jsonStart + 1);
+            $decoded = json_decode($jsonString, true);
+        } else {
+            $decoded = json_decode($output, true);
+        }
 
         if (! is_array($decoded)) {
-
+            Log::warning('Autoscout24 headless script output is not valid JSON: ' . substr($output, 0, 200));
             return [];
         }
 
         $urls = array_values(array_unique(array_filter($decoded, 'is_string')));
-
 
         return $urls;
     }
