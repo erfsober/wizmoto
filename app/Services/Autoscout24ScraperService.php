@@ -5,6 +5,7 @@ namespace App\Services;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Autoscout24ScraperService
 {
@@ -60,8 +61,33 @@ class Autoscout24ScraperService
 
         $html = $this->fetchHtml($url);
 
-        if ($html === null) {
-            return null;
+        // Check if this is a valid ad page (not an error or removed page)
+        $isValidHtml = $html !== null && 
+            !str_contains(strtolower($html), 'annuncio non trovato') &&
+            !str_contains(strtolower($html), 'annuncio non disponibile') &&
+            !str_contains(strtolower($html), 'ad not found') &&
+            !str_contains(strtolower($html), '404') &&
+            !(strlen($html) < 5000 && !str_contains($html, 'annunci'));
+
+        // If HTTP request failed or returned invalid HTML, try headless browser
+        if (! $isValidHtml) {
+            Log::info("HTTP request failed or invalid HTML, trying headless browser for: {$url}");
+            $html = $this->fetchHtmlWithHeadless($url);
+
+            if ($html === null) {
+                Log::warning("Both HTTP and headless browser failed for: {$url}");
+                return null;
+            }
+
+            // Re-validate after headless fetch
+            if (str_contains(strtolower($html), 'annuncio non trovato') ||
+                str_contains(strtolower($html), 'annuncio non disponibile') ||
+                str_contains(strtolower($html), 'ad not found') ||
+                str_contains(strtolower($html), '404') ||
+                (strlen($html) < 5000 && !str_contains($html, 'annunci'))) {
+                Log::warning("Ad page appears to be invalid or removed (after headless fetch): {$url}");
+                return null;
+            }
         }
 
         $dom = new DOMDocument();
@@ -362,26 +388,99 @@ class Autoscout24ScraperService
     }
 
     /**
-     * Low-level HTTP fetch.
+     * Low-level HTTP fetch with retry logic.
      */
-    private function fetchHtml(string $url): ?string
+    private function fetchHtml(string $url, int $retries = 3): ?string
     {
+        $attempt = 0;
 
-        try {
-            $response = Http::withHeaders([
-                'User-Agent' => $this->userAgent,
-                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            ])->get($url);
+        while ($attempt < $retries) {
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => $this->userAgent,
+                    'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language' => 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
+                    'Accept-Encoding' => 'gzip, deflate, br',
+                    'Referer' => 'https://www.autoscout24.it/',
+                    'Connection' => 'keep-alive',
+                ])
+                ->timeout(30)
+                ->retry(2, 1000)
+                ->get($url);
 
-            if (! $response->successful()) {
-                return null;
+                if (! $response->successful()) {
+                    $attempt++;
+                    if ($attempt >= $retries) {
+                        Log::warning("Failed to fetch HTML for {$url}: HTTP {$response->status()}");
+                        return null;
+                    }
+                    // Wait before retry (exponential backoff)
+                    sleep(min($attempt, 3));
+                    continue;
+                }
+
+                $body = $response->body();
+                
+                // Check if we got a valid HTML page (not a redirect or error page)
+                if (empty($body) || strlen($body) < 500) {
+                    $attempt++;
+                    if ($attempt >= $retries) {
+                        Log::warning("Received empty or too short HTML for {$url}");
+                        return null;
+                    }
+                    sleep(min($attempt, 3));
+                    continue;
+                }
+
+                return $body;
+            } catch (\Throwable $e) {
+                $attempt++;
+                if ($attempt >= $retries) {
+                    Log::error("Exception fetching HTML for {$url}: {$e->getMessage()}");
+                    return null;
+                }
+                // Wait before retry (exponential backoff)
+                sleep(min($attempt, 3));
             }
+        }
 
+        return null;
+    }
 
-            return $response->body();
-        } catch (\Throwable $e) {
+    /**
+     * Fetch HTML using headless browser (Playwright) for pages that require JavaScript.
+     *
+     * @return string|null
+     */
+    private function fetchHtmlWithHeadless(string $url): ?string
+    {
+        $scriptPath = base_path('scripts/autoscout24-ad-html.js');
+
+        if (! file_exists($scriptPath)) {
+            Log::warning("Headless ad HTML script not found at {$scriptPath}");
             return null;
         }
+
+        $command = sprintf(
+            'node %s %s 2>&1',
+            escapeshellarg($scriptPath),
+            escapeshellarg($url)
+        );
+
+        $output = shell_exec($command);
+
+        if ($output === null || trim($output) === '') {
+            Log::warning("Headless browser returned empty output for ad URL {$url}");
+            return null;
+        }
+
+        // Check if there was an error (script writes errors to stderr, which goes to output with 2>&1)
+        if (str_contains(strtolower($output), 'error:') || str_contains(strtolower($output), 'fatal error:')) {
+            Log::warning("Headless browser error for {$url}: " . substr($output, 0, 200));
+            return null;
+        }
+
+        return $output;
     }
 
     /**

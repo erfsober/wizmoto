@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 
 class ImportAutoscout24WithRealImages extends Command
 {
-    protected $signature = 'import:autoscout24-images {--limit=1 : Number of ads to scrape}';
+    protected $signature = 'import:autoscout24-images {--limit=200 : Number of ads to scrape}';
     protected $description = 'Scrape ads from Autoscout24 listing page and show basic data in the console';
 
     public function __construct(
@@ -41,7 +41,15 @@ class ImportAutoscout24WithRealImages extends Command
 
             $count = 0;
 
-            foreach ($urls as $url) {
+            foreach ($urls as $index => $url) {
+                // Add a small delay between requests to avoid rate limiting
+                if ($index > 0 && $index % 10 === 0) {
+                    $this->info("Processed {$index} ads, pausing for 2 seconds...");
+                    sleep(2);
+                } elseif ($index > 0) {
+                    usleep(500000); // 0.5 second delay between requests
+                }
+
                 $ad = $this->scraper->scrapeAd($url);
 
                 if ($ad === null) {
