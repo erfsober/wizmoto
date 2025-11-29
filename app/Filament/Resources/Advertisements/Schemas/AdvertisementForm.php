@@ -50,7 +50,16 @@ class AdvertisementForm
                             Select::make('provider_id')
                                 ->label('Provider')
                                 ->relationship('provider', 'title')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->title ?? trim("{$record->first_name} {$record->last_name}") ?: $record->email)
+                                ->getOptionLabelFromRecordUsing(function ($record) {
+                                    if ($record->title) {
+                                        return $record->title;
+                                    }
+                                    $fullName = trim(($record->first_name ?? '') . ' ' . ($record->last_name ?? ''));
+                                    if ($fullName) {
+                                        return $fullName;
+                                    }
+                                    return $record->email ?? 'N/A';
+                                })
                                 ->required()
                                 ->searchable()
                                 ->preload(),
@@ -68,13 +77,13 @@ class AdvertisementForm
                 Select::make('advertisement_type_id')
                                 ->label('What do you sell?')
                     ->relationship('advertisementType', 'title')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_title ?? $record->title)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_title ?? $record->title ?? 'N/A')
                                 ->required()
                                 ->searchable()
                                 ->preload(),
                 Select::make('brand_id')
                     ->relationship('brand', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name ?? 'N/A')
                                 ->label('Brand')
                                 ->required()
                                 ->searchable()
@@ -113,7 +122,7 @@ class AdvertisementForm
                 Select::make('vehicle_body_id')
                                 ->label('Body Type')
                     ->relationship('vehicleBody', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name ?? 'N/A')
                                 ->required()
                                 ->searchable()
                                 ->preload(),
@@ -223,7 +232,7 @@ class AdvertisementForm
                 Select::make('fuel_type_id')
                                 ->label('Fuel Type')
                                 ->relationship('fuelType', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name)
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->localized_name ?? $record->name ?? 'N/A')
                                 ->searchable()
                                 ->preload()
                                 ->required(),

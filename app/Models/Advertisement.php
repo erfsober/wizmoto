@@ -16,7 +16,8 @@ class Advertisement extends Model implements HasMedia {
     protected $with = [ 'media' ];
 
     public function registerMediaCollections (): void {
-        $this->addMediaCollection('covers');
+        $this->addMediaCollection('covers')
+            ->useDisk('public');
     }
 
     public function registerMediaConversions ( \Spatie\MediaLibrary\MediaCollections\Models\Media $media = null ): void {

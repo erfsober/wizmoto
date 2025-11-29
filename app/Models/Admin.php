@@ -21,7 +21,8 @@ class Admin extends Authenticatable implements FilamentUser, HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('image');
+        $this->addMediaCollection('image')
+            ->useDisk('public');
     }
 
     public function registerMediaConversions(Media $media = null): void

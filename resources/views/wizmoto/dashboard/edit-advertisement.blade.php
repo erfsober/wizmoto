@@ -714,7 +714,7 @@
                                             <span>{{ $advertisement->city ?? __('messages.select_city') }}</span>
                                             <i class="fa fa-angle-down"></i>
                                         </div>
-                                        <input type="hidden" name="city_id" id="city_id_input" value="">
+                                        <input type="hidden" name="city" id="city_input" value="{{ old('city', $advertisement->city ?? '') }}">
                                         <ul class="dropdown" id="cities-list" style="display: none;">
                                             <li class="placeholder">{{ __('messages.please_select_country_first') }}</li>
                                         </ul>
@@ -1454,11 +1454,15 @@
             e.preventDefault();
             e.stopPropagation();
             
-            let id = $(this).data('id');
+            // Skip placeholder items
+            if ($(this).hasClass('placeholder') || !$(this).data('id')) {
+                return;
+            }
+            
             let name = $(this).text().trim();
             
-            if (id) {
-                $('#city_id_input').val(id);
+            if (name) {
+                $('#city_input').val(name);
                 $('#city-dropdown .select span').text(name);
                 $('#city-dropdown .dropdown').hide();
             }
@@ -1468,13 +1472,13 @@
             if (!countryId) {
                 $('#cities-list').html('<li class="placeholder">Please select a country first</li>');
                 $('#city-dropdown .select span').text('Select City');
-                $('#city_id_input').val('');
+                $('#city_input').val('');
                 return;
             }
 
             $('#cities-list').html('<li>Loading cities...</li>');
             $('#city-dropdown .select span').text('Loading...');
-            $('#city_id_input').val('');
+            $('#city_input').val('');
 
             $.ajax({
                 url: '{{ route("get-cities") }}',

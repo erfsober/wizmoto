@@ -27,7 +27,8 @@ class Provider extends Authenticatable implements MustVerifyEmail, HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')
-            ->singleFile();
+            ->singleFile()
+            ->useDisk('public');
     }
 
     public function registerMediaConversions(Media $media = null): void

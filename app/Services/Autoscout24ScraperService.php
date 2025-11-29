@@ -42,43 +42,57 @@ class Autoscout24ScraperService
 
     /**
      * Scrape multiple pages using HTTP requests with pagination.
+     * First scrapes pages 11 to 1 (backwards), then continues forward if needed.
      *
      * @return array<int, string>  List of ad URLs
      */
     private function scrapePageWithPagination(int $limit): array
     {
         $allUrls = [];
-        $currentPage = 1;
-        $maxPages = 50;
         $searchId = null;
 
-        while (count($allUrls) < $limit && $currentPage <= $maxPages) {
+        // First, fetch page 1 to get search_id
+        $firstPageUrl = $this->buildPageUrl(1);
+        Log::info("Fetching page 1 to extract search_id: {$firstPageUrl}");
+
+        $html = $this->fetchHtml($firstPageUrl);
+        if ($html === null) {
+            Log::warning("Failed to fetch page 1");
+            return [];
+        }
+
+        // Extract search_id from first page
+        $searchId = $this->extractSearchId($html);
+        if ($searchId) {
+            Log::info("Extracted search_id: {$searchId}");
+        }
+
+        // Phase 1: Scrape pages 11 to 1 (backwards) - get latest ads first
+        Log::info("Phase 1: Scraping pages 11 to 1 (backwards)");
+        $startPage = 11;
+        $currentPage = $startPage;
+
+        while (count($allUrls) < $limit && $currentPage >= 1) {
             // Build URL for current page
             $pageUrl = $this->buildPageUrl($currentPage, $searchId);
             
-            Log::info("Fetching page {$currentPage} from: {$pageUrl}");
+            Log::info("Fetching page {$currentPage} (backwards): {$pageUrl}");
 
             $html = $this->fetchHtml($pageUrl);
 
             if ($html === null) {
                 Log::warning("Failed to fetch page {$currentPage}");
-                break;
-            }
-
-            // Extract search_id from first page if not set
-            if ($currentPage === 1 && $searchId === null) {
-                $searchId = $this->extractSearchId($html);
-                if ($searchId) {
-                    Log::info("Extracted search_id: {$searchId}");
-                }
+                $currentPage--;
+                continue;
             }
 
             // Extract URLs from current page
             $pageUrls = $this->extractAdUrls($html, $limit - count($allUrls));
 
             if (empty($pageUrls)) {
-                Log::info("No URLs found on page {$currentPage}, stopping pagination");
-                break;
+                Log::info("No URLs found on page {$currentPage}");
+                $currentPage--;
+                continue;
             }
 
             // Add new URLs (avoid duplicates)
@@ -92,16 +106,62 @@ class Autoscout24ScraperService
                 break;
             }
 
-            // Check if there's a next page by looking for pagination indicators
-            if (!$this->hasNextPage($html)) {
-                Log::info("No next page found, stopping pagination");
-                break;
-            }
-
-            $currentPage++;
+            // Move to previous page (go backwards)
+            $currentPage--;
             
             // Small delay between pages to avoid rate limiting
             sleep(1);
+        }
+
+        // Phase 2: If we still need more URLs, continue forward from page 12
+        if (count($allUrls) < $limit) {
+            Log::info("Phase 2: Need more URLs, continuing forward from page 12");
+            $currentPage = 12;
+            $maxPages = 50;
+
+            while (count($allUrls) < $limit && $currentPage <= $maxPages) {
+                // Build URL for current page
+                $pageUrl = $this->buildPageUrl($currentPage, $searchId);
+                
+                Log::info("Fetching page {$currentPage} (forward): {$pageUrl}");
+
+                $html = $this->fetchHtml($pageUrl);
+
+                if ($html === null) {
+                    Log::warning("Failed to fetch page {$currentPage}");
+                    break;
+                }
+
+                // Extract URLs from current page
+                $pageUrls = $this->extractAdUrls($html, $limit - count($allUrls));
+
+                if (empty($pageUrls)) {
+                    Log::info("No URLs found on page {$currentPage}, stopping pagination");
+                    break;
+                }
+
+                // Add new URLs (avoid duplicates)
+                $newUrls = array_diff($pageUrls, $allUrls);
+                $allUrls = array_merge($allUrls, $newUrls);
+
+                Log::info("Page {$currentPage}: Found " . count($pageUrls) . " URLs, Total: " . count($allUrls) . "/{$limit}");
+
+                // Check if we have enough URLs
+                if (count($allUrls) >= $limit) {
+                    break;
+                }
+
+                // Check if there's a next page by looking for pagination indicators
+                if (!$this->hasNextPage($html)) {
+                    Log::info("No next page found, stopping pagination");
+                    break;
+                }
+
+                $currentPage++;
+                
+                // Small delay between pages to avoid rate limiting
+                sleep(1);
+            }
         }
 
         return array_slice($allUrls, 0, $limit);
@@ -311,6 +371,17 @@ class Autoscout24ScraperService
             'body_type'        => null, // e.g. "Scooter"
             'motor_marches'    => null, // number of gears
             'motor_cylinders'  => null, // number of cylinders
+            'motor_empty_weight' => null, // empty weight in kg
+            'drive_type'       => null, // transmission type (Chain, Belt, Shaft)
+            'tank_capacity_liters' => null, // tank capacity in liters
+            'seat_height_mm'   => null, // seat height in mm
+            'top_speed_kmh'    => null, // top speed in km/h
+            'torque_nm'        => null, // torque in Nm
+            'combined_fuel_consumption' => null, // fuel consumption in l/100km
+            'co2_emissions'    => null, // CO2 emissions in g/km
+            'emissions_class'  => null, // emissions class (Euro 4, Euro 5, etc.)
+            'previous_owners'  => null, // number of previous owners
+            'price_negotiable' => null, // whether price is negotiable
             'contact_name'     => null, // salesperson contact (if present)
             'contact_phone'    => null,
             'contact_email'    => null,
@@ -402,10 +473,133 @@ class Autoscout24ScraperService
                     }
                     continue;
                 }
+
+                // Motor empty weight (Peso a vuoto / Weight)
+                if (
+                    str_contains($lowerLabel, 'peso') ||
+                    str_contains($lowerLabel, 'weight') ||
+                    (str_contains($lowerLabel, 'tare') && str_contains($lowerLabel, 'peso'))
+                ) {
+                    if (preg_match('/([0-9][0-9\.\s]*)\s*kg/i', $value, $mWeight)) {
+                        $num = preg_replace('/[^\d]/', '', $mWeight[1]);
+                        if ($num !== '') {
+                            $meta['motor_empty_weight'] = (int) $num;
+                        }
+                    }
+                    continue;
+                }
+
+                // Drive type / Transmission (Trasmissione)
+                if (
+                    str_contains($lowerLabel, 'trasmissione') ||
+                    str_contains($lowerLabel, 'transmission')
+                ) {
+                    $lowerValue = mb_strtolower($value);
+                    if (str_contains($lowerValue, 'catena') || str_contains($lowerValue, 'chain')) {
+                        $meta['drive_type'] = 'Catena';
+                    } elseif (str_contains($lowerValue, 'cintura') || str_contains($lowerValue, 'belt')) {
+                        $meta['drive_type'] = 'Cintura';
+                    } elseif (str_contains($lowerValue, 'albero') || str_contains($lowerValue, 'shaft')) {
+                        $meta['drive_type'] = 'Albero';
+                    } else {
+                        $meta['drive_type'] = trim($value);
+                    }
+                    continue;
+                }
+
+                // Tank capacity (Capacità serbatoio)
+                if (
+                    str_contains($lowerLabel, 'serbatoio') ||
+                    str_contains($lowerLabel, 'tank') ||
+                    (str_contains($lowerLabel, 'capacità') && str_contains($lowerLabel, 'serbatoio'))
+                ) {
+                    if (preg_match('/([0-9]+[.,]?[0-9]*)\s*l/i', $value, $mTank)) {
+                        $num = str_replace(',', '.', $mTank[1]);
+                        $meta['tank_capacity_liters'] = (float) $num;
+                    }
+                    continue;
+                }
+
+                // Seat height (Altezza sella)
+                if (
+                    str_contains($lowerLabel, 'sella') ||
+                    str_contains($lowerLabel, 'seat')
+                ) {
+                    if (preg_match('/([0-9]+)\s*mm/i', $value, $mSeat)) {
+                        $meta['seat_height_mm'] = (int) $mSeat[1];
+                    } elseif (preg_match('/([0-9]+)\s*cm/i', $value, $mSeat)) {
+                        $meta['seat_height_mm'] = (int) $mSeat[1] * 10; // Convert cm to mm
+                    }
+                    continue;
+                }
+
+                // Top speed (Velocità massima)
+                if (
+                    str_contains($lowerLabel, 'velocità') ||
+                    str_contains($lowerLabel, 'speed')
+                ) {
+                    if (preg_match('/([0-9]+)\s*km/i', $value, $mSpeed)) {
+                        $meta['top_speed_kmh'] = (int) $mSpeed[1];
+                    }
+                    continue;
+                }
+
+                // Torque (Coppia)
+                if (
+                    str_contains($lowerLabel, 'coppia') ||
+                    str_contains($lowerLabel, 'torque')
+                ) {
+                    if (preg_match('/([0-9]+)\s*Nm/i', $value, $mTorque)) {
+                        $meta['torque_nm'] = (int) $mTorque[1];
+                    }
+                    continue;
+                }
+
+                // Fuel consumption (Consumo)
+                if (
+                    str_contains($lowerLabel, 'consumo') ||
+                    str_contains($lowerLabel, 'consumption')
+                ) {
+                    if (preg_match('/([0-9]+[.,][0-9]+)\s*l/i', $value, $mCons)) {
+                        $num = str_replace(',', '.', $mCons[1]);
+                        $meta['combined_fuel_consumption'] = (float) $num;
+                    } elseif (preg_match('/([0-9]+)\s*l/i', $value, $mCons)) {
+                        $meta['combined_fuel_consumption'] = (float) $mCons[1];
+                    }
+                    continue;
+                }
+
+                // CO2 emissions
+                if (
+                    str_contains($lowerLabel, 'co2') ||
+                    (str_contains($lowerLabel, 'emissioni') && str_contains($lowerLabel, 'co2'))
+                ) {
+                    if (preg_match('/([0-9]+)\s*g/i', $value, $mCO2)) {
+                        $meta['co2_emissions'] = (int) $mCO2[1];
+                    }
+                    continue;
+                }
+
+                // Emissions class (Classe emissioni / Euro)
+                if (
+                    str_contains($lowerLabel, 'euro') ||
+                    (str_contains($lowerLabel, 'emissioni') && !str_contains($lowerLabel, 'co2'))
+                ) {
+                    if (preg_match('/euro\s*([0-9]+)/i', $value, $mEuro)) {
+                        $meta['emissions_class'] = 'Euro ' . $mEuro[1];
+                    } elseif (preg_match('/(euro\s*[0-9]+)/i', $value, $mEuro)) {
+                        $meta['emissions_class'] = trim($mEuro[1]);
+                    }
+                    continue;
+                }
             }
         }
 
-        // Dati di base: Carrozzeria (body type), if present.
+        // Dati di base section: parse all fields
+        $baseDtNodes = $xpath->query('//*[@id="data-section"]//dt | //dt[contains(., "Carrozzeria") or contains(., "Proprietari") or contains(., "Proprietario precedente")]');
+        $baseDdNodes = $xpath->query('//*[@id="data-section"]//dd | //dt[contains(., "Carrozzeria") or contains(., "Proprietari") or contains(., "Proprietario precedente")]/following-sibling::dd[1]');
+        
+        // Also check for Carrozzeria in the original way
         $bodyNode = $xpath->query('//dt[normalize-space()="Carrozzeria"]/following-sibling::dd[1]')->item(0);
         if ($bodyNode instanceof \DOMElement) {
             $bodyText = trim($bodyNode->textContent);
@@ -413,6 +607,74 @@ class Autoscout24ScraperService
                 $meta['body_type'] = $bodyText; // e.g. "Scooter"
             }
         }
+
+        // Parse all "Dati di base" fields
+        if ($baseDtNodes !== false && $baseDdNodes !== false) {
+            $count = min($baseDtNodes->length, $baseDdNodes->length);
+            for ($i = 0; $i < $count; $i++) {
+                $label = trim($baseDtNodes->item($i)?->textContent ?? '');
+                $value = trim($baseDdNodes->item($i)?->textContent ?? '');
+
+                if ($label === '' || $value === '') {
+                    continue;
+                }
+
+                $lowerLabel = mb_strtolower($label);
+
+                // Previous owners (Proprietari / Proprietario precedente)
+                if (
+                    str_contains($lowerLabel, 'proprietari') ||
+                    str_contains($lowerLabel, 'owners')
+                ) {
+                    if (preg_match('/\d+/', $value, $mOwners)) {
+                        $meta['previous_owners'] = (int) $mOwners[0];
+                    }
+                    continue;
+                }
+
+                // Body type (Carrozzeria) - already handled above, but check again
+                if (str_contains($lowerLabel, 'carrozzeria') || str_contains($lowerLabel, 'body')) {
+                    if (empty($meta['body_type'])) {
+                        $meta['body_type'] = trim($value);
+                    }
+                    continue;
+                }
+            }
+        }
+        
+        // Alternative method: search in all dt/dd pairs for additional fields
+        $allDtNodes = $xpath->query('//dt');
+        if ($allDtNodes !== false) {
+            foreach ($allDtNodes as $dtNode) {
+                if (! $dtNode instanceof \DOMElement) {
+                    continue;
+                }
+                $label = trim($dtNode->textContent);
+                $lowerLabel = mb_strtolower($label);
+                
+                // Previous owners
+                if (str_contains($lowerLabel, 'proprietari') || str_contains($lowerLabel, 'proprietario precedente')) {
+                    $ddNode = $xpath->query('following-sibling::dd[1]', $dtNode)->item(0);
+                    if ($ddNode instanceof \DOMElement) {
+                        $value = trim($ddNode->textContent);
+                        if (preg_match('/\d+/', $value, $mOwners)) {
+                            $meta['previous_owners'] = (int) $mOwners[0];
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check for price negotiable in the page
+        $priceNegotiable = false;
+        if (stripos($html, 'prezzo trattabile') !== false ||
+            stripos($html, 'price negotiable') !== false ||
+            stripos($html, 'prezzo negoziabile') !== false ||
+            stripos($html, 'trattabile') !== false ||
+            stripos($html, 'negoziabile') !== false) {
+            $priceNegotiable = true;
+        }
+        $meta['price_negotiable'] = $priceNegotiable;
 
         // Try to extract dealer contact info from seller notes HTML block.
         // Pattern example:

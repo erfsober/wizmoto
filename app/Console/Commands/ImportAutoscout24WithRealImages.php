@@ -158,6 +158,19 @@ class ImportAutoscout24WithRealImages extends Command
         $description = $data['description'] ?? null;
         $sourceUrl   = $data['url'] ?? null;
 
+        // Extract version_model from title if present (e.g., "Honda CBR 600RR" -> version might be "600RR")
+        // This is a simple extraction - the full model name usually contains version info
+        $versionModel = null;
+        if (is_string($title) && $title !== '') {
+            // Try to extract version from title after model name
+            // This is heuristic - adjust based on actual title patterns
+            $parts = explode(' ', $title);
+            if (count($parts) > 2) {
+                // Usually format is "Brand Model Version" - take everything after model
+                $versionModel = implode(' ', array_slice($parts, 2));
+            }
+        }
+
         // Parse numeric final_price from a string like "€ 4.290" or "€ 9.990,-".
         $finalPrice = null;
         if (is_string($priceString) && $priceString !== '') {
@@ -239,6 +252,19 @@ class ImportAutoscout24WithRealImages extends Command
         $motorMarches    = $meta['motor_marches'] ?? null;
         $motorCylinders  = $meta['motor_cylinders'] ?? null;
 
+        // Additional motor/technical fields from Autoscout24
+        $motorEmptyWeight = $meta['motor_empty_weight'] ?? null;
+        $driveType = $meta['drive_type'] ?? null;
+        $tankCapacity = $meta['tank_capacity_liters'] ?? null;
+        $seatHeight = $meta['seat_height_mm'] ?? null;
+        $topSpeed = $meta['top_speed_kmh'] ?? null;
+        $torque = $meta['torque_nm'] ?? null;
+        $fuelConsumption = $meta['combined_fuel_consumption'] ?? null;
+        $co2Emissions = $meta['co2_emissions'] ?? null;
+        $emissionsClass = $meta['emissions_class'] ?? null;
+        $previousOwners = $meta['previous_owners'] ?? null;
+        $priceNegotiable = $meta['price_negotiable'] ?? false;
+
         // Gearbox description from real Autoscout24 gear code.
         $motorChange = null;
         $gearCode    = $meta['gear_code'] ?? null;
@@ -296,6 +322,7 @@ class ImportAutoscout24WithRealImages extends Command
             'advertisement_type_id'     => $type->id,
             'brand_id'                  => $brandId,
             'vehicle_model_id'          => $vehicleModelId,
+            'version_model'             => $versionModel,
             'vehicle_body_id'           => $vehicleBodyId,
             'color_id'                  => $colorId,
             'is_metallic_paint'         => false,
@@ -303,7 +330,7 @@ class ImportAutoscout24WithRealImages extends Command
             'mileage'                   => $mileage,
             'registration_month'        => $registrationMonth,
             'registration_year'         => $registrationYear,
-            'previous_owners'           => null,
+            'previous_owners'           => $previousOwners,
             'next_review_year'          => null,
             'next_review_month'         => null,
             'last_service_year'         => null,
@@ -314,14 +341,14 @@ class ImportAutoscout24WithRealImages extends Command
             'motor_marches'             => $motorMarches,
             'motor_cylinders'           => $motorCylinders,
             'motor_displacement'        => $motorDisplacement,
-            'motor_empty_weight'        => null,
+            'motor_empty_weight'        => $motorEmptyWeight,
             'fuel_type_id'              => $fuelTypeId,
-            'combined_fuel_consumption' => null,
-            'co2_emissions'             => null,
-            'emissions_class'           => null,
+            'combined_fuel_consumption' => $fuelConsumption,
+            'co2_emissions'             => $co2Emissions,
+            'emissions_class'           => $emissionsClass,
             'description'               => $description,
             'source_url'                => $sourceUrl,
-            'price_negotiable'          => false,
+            'price_negotiable'          => $priceNegotiable,
             'tax_deductible'            => false,
             'final_price'               => $finalPrice,
             'zip_code'                  => $zipCode,
@@ -330,11 +357,11 @@ class ImportAutoscout24WithRealImages extends Command
             'prefix'                    => null,
             'telephone'                 => null,
             'show_phone'                => true,
-            'drive_type'                => null,
-            'tank_capacity_liters'      => null,
-            'seat_height_mm'            => null,
-            'top_speed_kmh'             => null,
-            'torque_nm'                 => null,
+            'drive_type'                => $driveType,
+            'tank_capacity_liters'      => $tankCapacity,
+            'seat_height_mm'            => $seatHeight,
+            'top_speed_kmh'             => $topSpeed,
+            'torque_nm'                 => $torque,
             'financing_available'       => false,
             'trade_in_possible'         => false,
             'service_history_available' => false,

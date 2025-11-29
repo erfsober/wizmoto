@@ -64,6 +64,7 @@ class StoreAdvertisementRequest extends FormRequest {
             'fuel_type_id' => 'required|string|max:50' ,
             'final_price' => 'required|string|max:255' ,
             'zip_code' => 'required|string|max:20' ,
+            'city' => 'required|string|max:255' ,
            
             
             // Vehicle Condition
