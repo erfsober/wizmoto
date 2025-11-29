@@ -221,7 +221,6 @@
                             </div>
 
                             {{-- Engine Specifications Section --}}
-                            @if($advertisement->fuelType?->name || $advertisement->motor_change || $advertisement->motor_displacement || $advertisement->motor_cylinders || $advertisement->motor_power_kw || $advertisement->motor_power_cv || $advertisement->motor_marches || $advertisement->drive_type || $advertisement->motor_empty_weight)
                             <div class="overview-section mb-4">
                                 <h5 class="section-title">{{ __('messages.engine_specifications') }}</h5>
                                 <div class="row">
@@ -373,10 +372,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
                             {{-- Performance & Efficiency Section --}}
-                            @if($advertisement->top_speed_kmh || $advertisement->torque_nm || $advertisement->seat_height_mm || $advertisement->combined_fuel_consumption || $advertisement->co2_emissions || $advertisement->tank_capacity_liters)
                             <div class="overview-section mb-4">
                                 <h5 class="section-title">{{ __('messages.performance_efficiency') }}</h5>
                                 <div class="row">
@@ -464,6 +461,21 @@
                                                     {{ __('messages.not_specified') }}
                                                 </li>
                                                 @endif
+                                                @if($advertisement->emissions_class)
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.emissions_class') }}
+                                                    </span>
+                                                    {{ $advertisement->emissions_class }}
+                                                </li>
+                                                @else
+                                                <li>
+                                                    <span>
+                                                        <img src="{{ asset('wizmoto/images/resource/insep1-3.svg') }}">{{ __('messages.emissions_class') }}
+                                                    </span>
+                                                    {{ __('messages.not_specified') }}
+                                                </li>
+                                                @endif
                                                 @if($advertisement->tank_capacity_liters)
                                                 <li>
                                                     <span>
@@ -484,10 +496,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
                             {{-- Pricing & Sales Section --}}
-                            @if($advertisement->final_price || $advertisement->price_negotiable || $advertisement->financing_available || $advertisement->trade_in_possible)
                             <div class="overview-section mb-4">
                                 <h5 class="section-title">{{ __('messages.pricing_sales') }}</h5>
                                 <div class="row">
@@ -534,7 +544,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
                             {{-- Condition & History Section --}}
                             @if($advertisement->last_service_month || $advertisement->last_service_year || $advertisement->service_history_available || $advertisement->warranty_available || $advertisement->available_immediately)
@@ -856,7 +865,7 @@
                                         <h6 class="title">
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}">{{$relatedAd->brand?->localized_name}}{{' '}}{{$relatedAd->vehicleModel?->localized_name}}</a>
                                         </h6>
-                                        <div class="text">{{$relatedAd->version_model}}</div>
+                                       
                                         <ul>
                                             <li>
                                                 <i class="flaticon-gasoline-pump"></i>{{ $relatedAd->fuelType?->localized_name ?? 'N/A' }}
