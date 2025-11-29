@@ -48,37 +48,85 @@ async function main() {
       'button:has-text("Mostra numero di telefono")',
       'a:has-text("Mostra numero")',
       'a:has-text("Mostra numero di telefono")',
+      'button[aria-label*="numero"]',
+      'a[aria-label*="numero"]',
     ];
 
+    let buttonClicked = false;
     for (const sel of triggerSelectors) {
       const locator = page.locator(sel);
-      if (await locator.first().isVisible().catch(() => false)) {
+      if (await locator.first().isVisible({ timeout: 3000 }).catch(() => false)) {
         try {
           await locator.first().click({ timeout: 5000 });
-          // Give time for JS to reveal the number.
+          buttonClicked = true;
+          
+          // Wait for phone container to appear with multiple selector strategies
+          try {
+            // Wait for the specific container class
+            await page.waitForSelector('.Contact_phonesContainer__afkGU', { 
+              timeout: 5000,
+              state: 'visible' 
+            }).catch(() => {
+              // Try alternative selectors
+              return page.waitForSelector('[class*="phonesContainer"], [class*="Contact_phone"], a[href^="tel:"]', { 
+                timeout: 5000 
+              }).catch(() => null);
+            });
+          } catch {
+            // Container might not have that exact class, continue anyway
+          }
+          
+          // Give additional time for JS to reveal the numbers after container appears
           await page.waitForTimeout(2000);
           break;
-        } catch {
+        } catch (err) {
           // Ignore and try the next selector.
+          process.stderr.write(`Failed to click button with selector ${sel}: ${err.message}\n`);
         }
       }
     }
+    
+    // If button was clicked, wait a bit more for all numbers to load
+    if (buttonClicked) {
+      await page.waitForTimeout(1000);
+    }
 
-    // After reveal, look for tel: links and WhatsApp links.
+    // After reveal, specifically look for phone numbers in the contact container
     const contacts = await page.evaluate(() => {
       const result = {
         telLinks: [],
         whatsappLinks: [],
+        phoneNumbers: [],
       };
 
-      const anchors = Array.from(document.querySelectorAll('a[href]'));
+      // First, try to find the specific phone container (only use numbers from this container)
+      const phoneContainer = document.querySelector('.Contact_phonesContainer__afkGU') ||
+                            document.querySelector('[class*="phonesContainer"]') ||
+                            document.querySelector('[class*="Contact_phone"]');
+
+      // Only get tel: links from the container - don't search entire page to avoid fake numbers
+      if (!phoneContainer) {
+        // If no container found, return empty (we don't want fake numbers from page text)
+        return result;
+      }
+
+      const anchors = Array.from(phoneContainer.querySelectorAll('a[href^="tel:"]'));
+
+      // Extract all phone numbers from tel: links
       for (const a of anchors) {
         const href = (a.getAttribute('href') || '').trim();
-        if (!href) continue;
-
         if (href.startsWith('tel:')) {
+          const phoneNum = href.replace(/^tel:/i, '').trim();
           result.telLinks.push(href);
+          result.phoneNumbers.push(phoneNum);
         }
+      }
+
+      // Also look for WhatsApp links
+      const allAnchors = Array.from(document.querySelectorAll('a[href]'));
+      for (const a of allAnchors) {
+        const href = (a.getAttribute('href') || '').trim();
+        if (!href) continue;
 
         const h = href.toLowerCase();
         if (
@@ -93,10 +141,26 @@ async function main() {
       return result;
     });
 
-    if (contacts && Array.isArray(contacts.telLinks) && contacts.telLinks.length > 0) {
-      // Take the first tel: link and strip the scheme.
-      const raw = contacts.telLinks[0];
-      phone = raw.replace(/^tel:/i, '').trim();
+    // Use all phone numbers found (deduplicate)
+    if (contacts && Array.isArray(contacts.phoneNumbers) && contacts.phoneNumbers.length > 0) {
+      // Remove duplicates and filter out empty values
+      const uniquePhones = [...new Set(contacts.phoneNumbers.filter(p => p && p.trim()))];
+      if (uniquePhones.length > 0) {
+        // Use the first phone number as primary
+        // For multiple numbers, we'll return the first one (PHP can be updated later to handle multiple)
+        phone = uniquePhones[0];
+        // Log to stderr if multiple numbers found for debugging
+        if (uniquePhones.length > 1) {
+          process.stderr.write(`Found ${uniquePhones.length} phone numbers: ${uniquePhones.join(', ')}\n`);
+          process.stderr.write(`Using first: ${phone}\n`);
+        }
+      }
+    } else if (contacts && Array.isArray(contacts.telLinks) && contacts.telLinks.length > 0) {
+      // Fallback: extract from tel: links if phoneNumbers array is empty
+      const uniqueTels = [...new Set(contacts.telLinks)];
+      if (uniqueTels.length > 0) {
+        phone = uniqueTels[0].replace(/^tel:/i, '').trim();
+      }
     }
 
     if (
@@ -117,32 +181,9 @@ async function main() {
       }
     }
 
-    // Fallback: if we still don't have a phone number, try to extract the first
-    // plausible phone-like pattern from the visible page text. This is more
-    // tolerant to Autoscout24 layout changes and different languages.
-    if (!phone) {
-      const textPhone = await page.evaluate(() => {
-        const bodyText = document.body ? document.body.innerText : '';
-        // Look for something that looks like a phone number: optional +,
-        // then digits and common separators, at least 8 digits total.
-        const phoneRegex = /(\+?\d[\d\s().\-]{7,})/g;
-        let match;
-        while ((match = phoneRegex.exec(bodyText)) !== null) {
-          const candidate = match[1].trim();
-          // Basic sanity check: require at least 8 digits when stripping
-          // non-digits (except leading +).
-          const digits = candidate.replace(/[^\d+]/g, '');
-          if (digits.replace(/\D/g, '').length >= 8) {
-            return candidate;
-          }
-        }
-        return null;
-      });
-
-      if (textPhone) {
-        phone = textPhone;
-      }
-    }
+    // Only extract phone from contact container - don't use page text fallback
+    // to avoid getting fake/incorrect numbers. Only real numbers shown after
+    // clicking "Mostra numero" should be used.
 
     await browser.close();
     process.stdout.write(JSON.stringify({ phone, whatsapp }));
@@ -156,5 +197,6 @@ main().catch(() => {
   // On error, just return nulls (PHP side treats as "no contact").
   process.stdout.write(JSON.stringify({ phone: null, whatsapp: null }));
 });
+
 
 
