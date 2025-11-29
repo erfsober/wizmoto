@@ -22,3 +22,4 @@ Schedule::command('cleanup:support-messages')->dailyAt('4:00')->withoutOverlappi
 
 // Translate missing Italian columns - run at 5 AM daily
 Schedule::command('translations:fill-italian')->dailyAt('5:00')->withoutOverlapping();
+Schedule::command('colors:update-hex-codes')->dailyAt('5:00')->withoutOverlapping();
