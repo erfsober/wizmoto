@@ -3059,13 +3059,37 @@
                     const fromText = '{{ __('messages.from') }}';
                     const toText = '{{ __('messages.to') }}';
                     
+                    // Translated filter labels
+                    const labelCategory = '{{ __('messages.vehicle_category') }}';
+                    const labelBrand = '{{ __('messages.brand') }}';
+                    const labelModel = '{{ __('messages.model') }}';
+                    const labelPrice = '{{ __('messages.price') }}';
+                    const labelYear = '{{ __('messages.register_year') }}';
+                    const labelMileage = '{{ __('messages.mileage') }}';
+                    const labelTransmission = '{{ __('messages.transmission') }}';
+                    const labelCondition = '{{ __('messages.vehicle_condition') }}';
+                    const labelEquipment = '{{ __('messages.equipment') }}';
+                    const labelColor = '{{ __('messages.exterior_color') }}';
+                    const labelEmissions = '{{ __('messages.emissions_class') }}';
+                    const labelVersion = '{{ __('messages.version') }}';
+                    const labelCylinders = '{{ __('messages.number_of_cylinders') }}';
+                    const labelPreviousOwners = '{{ __('messages.previous_owners') }}';
+                    const labelPostalCode = '{{ __('messages.zip_code') }}';
+                    const labelSearchRadius = '{{ __('messages.search_radius') }}';
+                    const labelDisplacement = '{{ __('messages.displacement_cc') }}';
+                    const labelFuelConsumption = '{{ __('messages.fuel_consumption') }}';
+                    const labelTankCapacity = '{{ __('messages.tank_capacity') }}';
+                    const labelSeatHeight = '{{ __('messages.seat_height') }}';
+                    const labelTopSpeed = '{{ __('messages.top_speed') }}';
+                    const labelTorque = '{{ __('messages.torque') }}';
+                    
                     // Advertisement Type filter
                     const advertisementTypeId = $('input[name="advertisement_type"]').val();
                     if (advertisementTypeId && advertisementTypeId.trim() !== '') {
                         const advertisementTypeName = $('#advertisement-type-dropdown .select span').text().trim();
                         if (advertisementTypeName && !advertisementTypeName.includes(selectText) && !advertisementTypeName.includes(anyText)) {
                             filters[`advertisement_type_${advertisementTypeId}`] = {
-                                name: 'Category',
+                                name: labelCategory,
                                 value: advertisementTypeName,
                                 type: 'single',
                                 advertisementTypeId: advertisementTypeId
@@ -3086,7 +3110,7 @@
                             if (brandName && !brandName.includes(selectText) && !brandName.includes(anyText)) {
                                 // Create individual filter for each brand
                                 filters[`brand_${brandId}`] = {
-                                    name: 'Brand',
+                                    name: labelBrand,
                                     value: brandName,
                                     type: 'single',
                                     brandId: brandId
@@ -3106,7 +3130,7 @@
                             if (modelName && !modelName.includes(selectText) && !modelName.includes(anyText)) {
                                 // Create individual filter for each model
                                 filters[`model_${modelId}`] = {
-                                    name: 'Model',
+                                    name: labelModel,
                                     value: modelName,
                                     type: 'single',
                                     modelId: modelId
@@ -3144,7 +3168,7 @@
                             priceValue = `Up to $${priceTo}`;
                         }
                         filters.price = {
-                            name: 'Price',
+                            name: labelPrice,
                             value: priceValue,
                             type: 'range'
                         };
@@ -3189,7 +3213,7 @@
                         
                         if (yearValue) {
                             filters.year = {
-                                name: 'Year',
+                                name: labelYear,
                                 value: yearValue,
                                 type: 'range'
                             };
@@ -3209,7 +3233,7 @@
                             mileageValue = `Up to ${mileageTo} miles`;
                         }
                         filters.mileage = {
-                            name: 'Mileage',
+                            name: labelMileage,
                             value: mileageValue,
                             type: 'range'
                         };
@@ -3220,7 +3244,7 @@
                         const transmissionValue = $(this).val();
                         const transmissionName = $(this).closest('label').text().trim();
                         filters[`transmission_${transmissionValue}`] = {
-                            name: 'Transmission',
+                            name: labelTransmission,
                             value: transmissionName,
                             type: 'single',
                             inputName: 'motor_change[]',
@@ -3233,7 +3257,7 @@
                         const conditionValue = $(this).val();
                         const conditionName = $(this).closest('label').text().trim();
                         filters[`condition_${conditionValue}`] = {
-                            name: 'Condition',
+                            name: labelCondition,
                             value: conditionName,
                             type: 'single',
                             inputName: 'advertisement_type_id[]',
@@ -3246,7 +3270,7 @@
                         const equipmentValue = $(this).val();
                         const equipmentName = $(this).closest('label').text().trim();
                         filters[`equipment_${equipmentValue}`] = {
-                            name: 'Equipment',
+                            name: labelEquipment,
                             value: equipmentName,
                             type: 'single',
                             inputName: 'equipments[]',
@@ -3259,7 +3283,7 @@
                         const colorValue = $(this).val();
                         const colorName = $(this).closest('label').text().trim();
                         filters[`color_${colorValue}`] = {
-                            name: 'Color',
+                            name: labelColor,
                             value: colorName,
                             type: 'single',
                             inputName: 'color_ids[]',
@@ -3272,7 +3296,7 @@
                         const categoryValue = $(this).val();
                         const categoryName = $(this).closest('label').text().trim();
                         filters[`category_${categoryValue}`] = {
-                            name: 'Category',
+                            name: labelCategory,
                             value: categoryName,
                             type: 'single',
                             inputName: 'vehicle_category[]',
@@ -3285,7 +3309,7 @@
                         const emissionValue = $(this).val();
                         const emissionName = $(this).closest('label').text().trim();
                         filters[`emissions_${emissionValue}`] = {
-                            name: 'Emissions',
+                            name: labelEmissions,
                             value: emissionName,
                             type: 'single',
                             inputName: 'emissions_class[]',
@@ -3297,7 +3321,7 @@
                     const versionModel = $('input[name="version_model[]"]').val();
                     if (versionModel && versionModel.trim() !== '') {
                         filters.version = {
-                            name: 'Version',
+                            name: labelVersion,
                             value: versionModel,
                             type: 'single'
                         };
@@ -3307,7 +3331,7 @@
                     const cylinders = $('#cylinders-dropdown .select span').text();
                     if (cylinders && !cylinders.includes(selectText) && !cylinders.includes(anyText)) {
                         filters.cylinders = {
-                            name: 'Cylinders',
+                            name: labelCylinders,
                             value: cylinders,
                             type: 'single'
                         };
@@ -3325,7 +3349,7 @@
                             previousOwnersValue = '3+ Owners';
                         }
                         filters.previousOwners = {
-                            name: 'Previous Owners',
+                            name: labelPreviousOwners,
                             value: previousOwnersValue,
                             type: 'single'
                         };
@@ -3335,7 +3359,7 @@
                     const zipCode = $('input[name="zip_code"]').val();
                     if (zipCode && zipCode.trim() !== '') {
                         filters.zipCode = {
-                            name: 'Postal Code',
+                            name: labelPostalCode,
                             value: zipCode,
                             type: 'single'
                         };
@@ -3345,7 +3369,7 @@
                     const searchRadius = $('input[name="search_radius"]').val();
                     if (searchRadius && searchRadius.trim() !== '') {
                         filters.searchRadius = {
-                            name: 'Search Radius',
+                            name: labelSearchRadius,
                             value: `${searchRadius} km`,
                             type: 'single'
                         };
@@ -3358,7 +3382,7 @@
                     });
                     if (emissionClasses.length > 0) {
                         filters.emissionClass = {
-                            name: 'Emission Class',
+                            name: labelEmissions,
                             value: emissionClasses.join(', '),
                             type: 'multi'
                         };
@@ -3387,7 +3411,7 @@
                             co2EmissionsValue = `To ${co2EmissionsTo} g/km`;
                         }
                         filters.co2Emissions = {
-                            name: 'CO2 Emissions',
+                            name: '{{ __('messages.co2_emissions') }}',
                             value: co2EmissionsValue,
                             type: 'range'
                         };
@@ -3406,7 +3430,7 @@
                             powerCvValue = `Up to ${powerCvTo} CV`;
                         }
                         filters.powerCv = {
-                            name: 'Power CV',
+                            name: '{{ __('messages.power_cv') }}',
                             value: powerCvValue,
                             type: 'range'
                         };
@@ -3425,7 +3449,7 @@
                             powerKwValue = `Up to ${powerKwTo} KW`;
                         }
                         filters.powerKw = {
-                            name: 'Power KW',
+                            name: '{{ __('messages.power_kw') }}',
                             value: powerKwValue,
                             type: 'range'
                         };
@@ -3444,7 +3468,7 @@
                             displacementValue = `Up to ${displacementTo} L`;
                         }
                         filters.displacement = {
-                            name: 'Displacement',
+                            name: labelDisplacement,
                             value: displacementValue,
                             type: 'range'
                         };
@@ -3463,7 +3487,7 @@
                             consumptionValue = `Up to ${consumptionTo} L/100km`;
                         }
                         filters.consumption = {
-                            name: 'Fuel Consumption',
+                            name: labelFuelConsumption,
                             value: consumptionValue,
                             type: 'range'
                         };
@@ -3472,14 +3496,14 @@
                     // Special filters
                     const specialFilters = [];
                     if ($('input[name="is_metallic_paint"]:checked').length > 0) {
-                        specialFilters.push('Metallic Paint');
+                        specialFilters.push('{{ __('messages.metallic_paint') }}');
                     }
                     if ($('input[name="tax_deductible"]:checked').length > 0) {
-                        specialFilters.push('Tax Deductible');
+                        specialFilters.push('{{ __('messages.deductible_vat') }}');
                     }
                     if (specialFilters.length > 0) {
                         filters.special = {
-                            name: 'Special',
+                            name: '{{ __('messages.characteristics') }}',
                             values: specialFilters,
                             type: 'multi-select'
                         };
@@ -3490,7 +3514,7 @@
                         const sellerTypeValue = $(this).val();
                         const sellerTypeName = $(this).closest('label').text().trim() || $(this).next('label').text().trim();
                         filters[`seller_type_${sellerTypeValue}`] = {
-                            name: 'Seller Type',
+                            name: '{{ __('messages.seller_type') }}',
                             value: sellerTypeName,
                             type: 'single',
                             inputName: 'seller_type[]',
@@ -3519,7 +3543,7 @@
                                 priceEvalLabel = priceEvalValue;
                         }
                         filters[`price_eval_${priceEvalValue}`] = {
-                            name: 'Price evaluation',
+                            name: '{{ __('messages.price_evaluation') }}',
                             value: priceEvalLabel,
                             type: 'single',
                             inputName: 'price_eval[]',
@@ -3569,7 +3593,7 @@
                             tankCapacityValue = `To ${tankCapacityTo} L`;
                         }
                         filters.tankCapacity = {
-                            name: 'Tank Capacity',
+                            name: labelTankCapacity,
                             value: tankCapacityValue,
                             type: 'range'
                         };
@@ -3588,7 +3612,7 @@
                             seatHeightValue = `To ${seatHeightTo} mm`;
                         }
                         filters.seatHeight = {
-                            name: 'Seat Height',
+                            name: labelSeatHeight,
                             value: seatHeightValue,
                             type: 'range'
                         };
@@ -3607,7 +3631,7 @@
                             topSpeedValue = `To ${topSpeedTo} km/h`;
                         }
                         filters.topSpeed = {
-                            name: 'Top Speed',
+                            name: labelTopSpeed,
                             value: topSpeedValue,
                             type: 'range'
                         };
@@ -3626,7 +3650,7 @@
                             torqueValue = `To ${torqueTo} Nm`;
                         }
                         filters.torque = {
-                            name: 'Torque',
+                            name: labelTorque,
                             value: torqueValue,
                             type: 'range'
                         };
