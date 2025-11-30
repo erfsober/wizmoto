@@ -43,7 +43,9 @@ async function main() {
     });
 
     // Wait a bit for page to fully load
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(5000);
+    
+    process.stderr.write(`Page loaded: ${url}\n`);
 
     // Try to click the "Mostra numero" button - prioritize by ID selector first
     const triggerSelectors = [
@@ -79,14 +81,20 @@ async function main() {
           const isVisible = await locator.isVisible({ timeout: 5000 }).catch(() => false);
           
           if (isVisible) {
+            // Scroll to button to ensure it's in view
+            await locator.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(500);
+            
             // Check if it's already a phone link (don't click if already revealed)
             const href = await locator.getAttribute('href').catch(() => null);
             if (href && href.startsWith('tel:')) {
               buttonAlreadyRevealed = true;
+              process.stderr.write(`Button already has tel: link: ${href}\n`);
               break;
             }
             
-            await locator.click({ timeout: 5000 });
+            // Try to click the button
+            await locator.click({ timeout: 5000, force: false });
             buttonClicked = true;
             
             process.stderr.write(`Successfully clicked button with selector: ${sel}\n`);
@@ -95,26 +103,35 @@ async function main() {
             try {
               // Wait for the button to change to an <a> tag with tel: href
               await page.waitForSelector('#call-desktop-button[href^="tel:"]', { 
-                timeout: 8000,
+                timeout: 10000,
                 state: 'visible' 
+              }).then(() => {
+                process.stderr.write('Phone link appeared after click\n');
               }).catch(() => {
                 // Alternative: wait for phone container
                 return page.waitForSelector('.Contact_phonesContainer__afkGU', { 
-                  timeout: 5000,
+                  timeout: 8000,
                   state: 'visible' 
+                }).then(() => {
+                  process.stderr.write('Phone container appeared after click\n');
                 }).catch(() => {
                   // Try more generic selectors
                   return page.waitForSelector('[class*="phonesContainer"], [class*="Contact_phone"], a[href^="tel:"]', { 
                     timeout: 5000 
-                  }).catch(() => null);
+                  }).then(() => {
+                    process.stderr.write('Generic phone selector found after click\n');
+                  }).catch(() => {
+                    process.stderr.write('No phone elements found after click - continuing anyway\n');
+                  });
                 });
               });
             } catch {
               // Container might not have that exact class, continue anyway
+              process.stderr.write('Error waiting for phone elements - continuing\n');
             }
             
             // Give additional time for JS to reveal the numbers after clicking
-            await page.waitForTimeout(3000);
+            await page.waitForTimeout(5000);
             break;
           }
         } catch (err) {
@@ -122,11 +139,58 @@ async function main() {
           process.stderr.write(`Failed to click button with selector ${sel}: ${err.message}\n`);
         }
       }
+      
+      // If no button was clicked, log warning
+      if (!buttonClicked && !buttonAlreadyRevealed) {
+        process.stderr.write('WARNING: No "Mostra numero" button was found or clicked!\n');
+        process.stderr.write('Will try to extract phone numbers from page anyway...\n');
+      }
     }
     
     // If button was clicked or already revealed, wait a bit more for all numbers to fully load
     if (buttonClicked || buttonAlreadyRevealed) {
-      await page.waitForTimeout(2000);
+      await page.waitForTimeout(5000); // Increased wait time
+      
+      // Try clicking again if still no phone visible
+      if (!buttonAlreadyRevealed) {
+        try {
+          const phoneVisible = await page.locator('#call-desktop-button[href^="tel:"]').isVisible({ timeout: 1000 }).catch(() => false);
+          if (!phoneVisible) {
+            process.stderr.write('Phone not visible after click, trying again...\n');
+            // Try clicking one more time
+            const retryButton = await page.locator('button:has-text("Mostra numero"), #call-desktop-button').first();
+            if (await retryButton.isVisible({ timeout: 2000 }).catch(() => false)) {
+              await retryButton.click();
+              await page.waitForTimeout(3000);
+            }
+          }
+        } catch (err) {
+          process.stderr.write(`Retry click failed: ${err.message}\n`);
+        }
+      }
+    }
+
+    // Debug: Check what buttons are on the page
+    const buttonInfo = await page.evaluate(() => {
+      const buttons = Array.from(document.querySelectorAll('button, a'));
+      return buttons
+        .filter(b => b.textContent && b.textContent.includes('Mostra'))
+        .map(b => ({
+          tag: b.tagName,
+          id: b.id || '',
+          text: b.textContent?.trim().substring(0, 50) || '',
+          href: b.href || b.getAttribute('href') || '',
+          classes: b.className || ''
+        }));
+    });
+    
+    if (buttonInfo && buttonInfo.length > 0) {
+      process.stderr.write(`Found ${buttonInfo.length} buttons with "Mostra" text:\n`);
+      buttonInfo.forEach((btn, idx) => {
+        process.stderr.write(`  ${idx + 1}. ${btn.tag}#${btn.id || 'no-id'} - "${btn.text}" - href: ${btn.href}\n`);
+      });
+    } else {
+      process.stderr.write('No buttons with "Mostra" text found on page\n');
     }
 
     // After reveal, specifically look for phone numbers
@@ -186,18 +250,37 @@ async function main() {
       
       // THIRD PRIORITY: Look for any tel: links on the page (but only if we haven't found any yet)
       if (result.phoneNumbers.length === 0) {
-        const allTelLinks = Array.from(document.querySelectorAll('a[href^="tel:"]'));
+        const allTelLinks = Array.from(document.querySelectorAll('a[href^="tel:"], button[href^="tel:"]'));
         for (const a of allTelLinks) {
           const href = (a.getAttribute('href') || '').trim();
           if (href.startsWith('tel:')) {
             const phoneNum = href.replace(/^tel:/i, '').trim();
             if (phoneNum && !result.phoneNumbers.includes(phoneNum)) {
-              // Skip if it's a button element (might be the call button itself, already handled)
-              const isCallButton = a.id === 'call-desktop-button';
-              if (!isCallButton) {
-                result.telLinks.push(href);
-                result.phoneNumbers.push(phoneNum);
-              }
+              result.telLinks.push(href);
+              result.phoneNumbers.push(phoneNum);
+            }
+          }
+        }
+      }
+      
+      // FOURTH PRIORITY: Look for phone numbers in text content (as last resort)
+      if (result.phoneNumbers.length === 0) {
+        // Look for Italian phone patterns: +39 xxx xxxxxxx or similar
+        const textContent = document.body.textContent || '';
+        const phoneRegex = /(?:\+39|0039)?\s*[0-9]{2,3}\s*[0-9]{6,7}/g;
+        const matches = textContent.match(phoneRegex);
+        if (matches && matches.length > 0) {
+          // Try to find the most likely phone number (longest, contains +39 or starts with common prefixes)
+          const cleaned = matches
+            .map(m => m.replace(/\s+/g, '').trim())
+            .filter(m => m.length >= 9 && m.length <= 15)
+            .filter(m => m.startsWith('+39') || m.startsWith('0039') || /^[0-9]{9,}$/.test(m));
+          
+          if (cleaned.length > 0) {
+            // Prefer numbers starting with +39
+            const preferred = cleaned.find(m => m.startsWith('+39')) || cleaned[0];
+            if (preferred) {
+              result.phoneNumbers.push(preferred);
             }
           }
         }
@@ -272,14 +355,20 @@ async function main() {
 
     await browser.close();
     process.stdout.write(JSON.stringify({ phone, whatsapp }));
-  } catch {
+  } catch (err) {
+    process.stderr.write(`Error in contact script: ${err.message}\n`);
+    process.stderr.write(`Stack: ${err.stack}\n`);
     await browser.close();
     process.stdout.write(JSON.stringify({ phone: null, whatsapp: null }));
   }
 }
 
-main().catch(() => {
-  // On error, just return nulls (PHP side treats as "no contact").
+main().catch((err) => {
+  // On error, log it and return nulls
+  process.stderr.write(`Fatal error in contact script: ${err.message}\n`);
+  if (err.stack) {
+    process.stderr.write(`Stack: ${err.stack}\n`);
+  }
   process.stdout.write(JSON.stringify({ phone: null, whatsapp: null }));
 });
 

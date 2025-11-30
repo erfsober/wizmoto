@@ -957,33 +957,57 @@ class ImportAutoscout24WithRealImages extends Command
             escapeshellarg($adUrl),
         );
 
-        $output = shell_exec($command);
-        if ($output === null || trim($output) === '') {
+        // Use separate files for stdout and stderr to avoid mixing
+        $stdoutFile = sys_get_temp_dir() . '/autoscout24-contact-stdout-' . uniqid() . '.log';
+        $stderrFile = sys_get_temp_dir() . '/autoscout24-contact-stderr-' . uniqid() . '.log';
+
+        $command = sprintf(
+            'node %s %s > %s 2> %s',
+            escapeshellarg($scriptPath),
+            escapeshellarg($adUrl),
+            escapeshellarg($stdoutFile),
+            escapeshellarg($stderrFile)
+        );
+
+        shell_exec($command);
+        
+        // Read stderr for debugging
+        $stderr = '';
+        if (file_exists($stderrFile)) {
+            $stderr = file_get_contents($stderrFile);
+            if (!empty(trim($stderr))) {
+                $this->info("Contact script stderr: " . trim($stderr));
+            }
+            @unlink($stderrFile);
+        }
+        
+        // Read stdout for JSON
+        if (!file_exists($stdoutFile)) {
+            $this->warn("Contact script did not produce output file for ad URL {$adUrl}.");
+            if (!empty($stderr)) {
+                $this->warn("Stderr output: " . trim($stderr));
+            }
+            return null;
+        }
+        
+        $output = file_get_contents($stdoutFile);
+        @unlink($stdoutFile);
+        
+        if (empty(trim($output))) {
             $this->warn("Contact script returned empty output for ad URL {$adUrl}.");
+            if (!empty($stderr)) {
+                $this->warn("Stderr output: " . trim($stderr));
+            }
             return null;
         }
 
-        // Extract JSON from output (stderr messages may be mixed in)
-        $jsonOutput = '';
-        $lines = explode("\n", trim($output));
-        
-        // Look for JSON line - it should be the one with { and }
-        foreach (array_reverse($lines) as $line) {
-            $trimmed = trim($line);
-            if (str_starts_with($trimmed, '{') && str_ends_with($trimmed, '}')) {
-                $jsonOutput = $trimmed;
-                break;
-            }
-        }
-        
-        // If no JSON found in lines, try parsing the whole output
-        if (empty($jsonOutput)) {
-            $jsonOutput = trim($output);
-        }
-        
-        $decoded = json_decode($jsonOutput, true);
+        // Parse JSON
+        $decoded = json_decode(trim($output), true);
         if (! is_array($decoded)) {
-            $this->warn("Failed to parse contact script JSON output for {$adUrl}: " . substr($output, 0, 200));
+            $this->warn("Failed to parse contact script JSON output for {$adUrl}. Output: " . substr($output, 0, 200));
+            if (!empty($stderr)) {
+                $this->warn("Stderr: " . trim($stderr));
+            }
             return null;
         }
 
@@ -993,6 +1017,20 @@ class ImportAutoscout24WithRealImages extends Command
         $whatsapp = isset($decoded['whatsapp']) && is_string($decoded['whatsapp']) && $decoded['whatsapp'] !== ''
             ? $decoded['whatsapp']
             : null;
+
+        // Log results for debugging
+        if ($phone) {
+            $this->info("✓ Extracted phone: {$phone} from {$adUrl}");
+        } else {
+            $this->warn("✗ No phone number extracted from {$adUrl}");
+            if (!empty($stderr)) {
+                $this->warn("Script debug info: " . trim($stderr));
+            }
+        }
+        
+        if ($whatsapp) {
+            $this->info("✓ Extracted WhatsApp: {$whatsapp} from {$adUrl}");
+        }
 
         return [
             'phone' => $phone,
