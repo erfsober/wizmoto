@@ -76,11 +76,120 @@ async function main() {
     // Wait for page to be fully interactive
     await page.waitForTimeout(3000);
     
+    // Dismiss cookie consent popup if present (it blocks button clicks)
+    try {
+      const cookiePopup = await page.locator('#as24-cmp-popup, [id*="cookie"], [id*="consent"], [class*="cookie-popup"], [class*="consent-popup"]').first();
+      if (await cookiePopup.isVisible({ timeout: 3000 }).catch(() => false)) {
+        process.stderr.write('Cookie consent popup detected, trying to dismiss...\n');
+        
+        // Try to find and click accept/close button
+        const acceptButtons = [
+          'button:has-text("Accetta")',
+          'button:has-text("Accept")',
+          'button:has-text("Ok")',
+          '[id*="accept"]',
+          '[class*="accept"]',
+          '[aria-label*="accept"]',
+          '[aria-label*="Accetta"]',
+        ];
+        
+        for (const selector of acceptButtons) {
+          try {
+            const btn = await page.locator(selector).first();
+            if (await btn.isVisible({ timeout: 1000 }).catch(() => false)) {
+              await btn.click({ timeout: 2000 });
+              process.stderr.write(`✓ Dismissed cookie popup with: ${selector}\n`);
+              await page.waitForTimeout(1000);
+              break;
+            }
+          } catch (err) {
+            // Try next button
+          }
+        }
+        
+        // If no button found, try clicking outside or pressing Escape
+        try {
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(500);
+        } catch {
+          // Ignore
+        }
+      }
+    } catch (err) {
+      process.stderr.write(`Cookie popup handling failed: ${err.message}\n`);
+    }
+    
     // Verify page loaded
     const pageTitle = await page.title().catch(() => '');
     const currentUrl = page.url();
     process.stderr.write(`Page title: ${pageTitle.substring(0, 60)}\n`);
     process.stderr.write(`Current URL: ${currentUrl.substring(0, 80)}\n`);
+
+    // Dismiss cookie consent popup if present (it blocks button clicks)
+    try {
+      const cookiePopupSelectors = [
+        '#as24-cmp-popup',
+        '[id*="cookie"]',
+        '[id*="consent"]',
+        '[class*="cookie-popup"]',
+        '[class*="consent-popup"]',
+        '[class*="cmp-popup"]',
+      ];
+      
+      for (const popupSel of cookiePopupSelectors) {
+        const popup = await page.locator(popupSel).first();
+        if (await popup.isVisible({ timeout: 2000 }).catch(() => false)) {
+          process.stderr.write(`Cookie consent popup detected: ${popupSel}\n`);
+          
+          // Try to find and click accept/close button
+          const acceptButtonSelectors = [
+            'button:has-text("Accetta")',
+            'button:has-text("Accept")',
+            'button:has-text("Ok")',
+            'button:has-text("Chiudi")',
+            'button:has-text("Close")',
+            '[id*="accept"]',
+            '[id*="close"]',
+            '[class*="accept"]',
+            '[class*="close"]',
+            '[aria-label*="accept"]',
+            '[aria-label*="Accetta"]',
+            '[aria-label*="close"]',
+            '[aria-label*="Chiudi"]',
+          ];
+          
+          let dismissed = false;
+          for (const btnSel of acceptButtonSelectors) {
+            try {
+              const btn = await page.locator(btnSel).first();
+              if (await btn.isVisible({ timeout: 1000 }).catch(() => false)) {
+                await btn.click({ timeout: 2000, force: true });
+                process.stderr.write(`✓ Dismissed cookie popup with: ${btnSel}\n`);
+                await page.waitForTimeout(1500);
+                dismissed = true;
+                break;
+              }
+            } catch (err) {
+              // Try next button
+            }
+          }
+          
+          // If no button found, try pressing Escape or clicking outside
+          if (!dismissed) {
+            try {
+              await page.keyboard.press('Escape');
+              await page.waitForTimeout(500);
+              process.stderr.write('Tried Escape key to dismiss popup\n');
+            } catch {
+              // Ignore
+            }
+          }
+          break;
+        }
+      }
+    } catch (err) {
+      process.stderr.write(`Cookie popup handling: ${err.message}\n`);
+    }
 
     // Try to click the "Mostra numero" button - prioritize by ID selector first
     const triggerSelectors = [
@@ -128,9 +237,44 @@ async function main() {
               break;
             }
             
-            // Try to click the button
-            await locator.click({ timeout: 5000, force: false });
-            buttonClicked = true;
+            // Dismiss any overlays/popups that might block the click
+            try {
+              // Hide cookie popup if visible
+              await page.evaluate(() => {
+                const popup = document.querySelector('#as24-cmp-popup, [id*="cookie"], [id*="consent"]');
+                if (popup) {
+                  popup.style.display = 'none';
+                  popup.remove();
+                }
+              });
+              await page.waitForTimeout(300);
+            } catch {
+              // Ignore
+            }
+            
+            // Try to click the button - use force as fallback if normal click fails
+            try {
+              await locator.click({ timeout: 5000, force: false });
+              buttonClicked = true;
+            } catch (clickErr) {
+              // If normal click fails (blocked by popup), try force click
+              process.stderr.write(`Normal click failed, trying force click: ${clickErr.message}\n`);
+              try {
+                await locator.click({ timeout: 3000, force: true });
+                buttonClicked = true;
+                process.stderr.write('✓ Force click successful\n');
+              } catch (forceErr) {
+                // Try using JavaScript click as last resort
+                process.stderr.write(`Force click failed, trying JavaScript click\n`);
+                await page.evaluate((selector) => {
+                  const btn = document.querySelector(selector);
+                  if (btn) {
+                    btn.click();
+                  }
+                }, sel);
+                buttonClicked = true;
+              }
+            }
             
             process.stderr.write(`Successfully clicked button with selector: ${sel}\n`);
             
@@ -386,6 +530,12 @@ async function main() {
         whatsapp = raw;
         process.stderr.write(`WhatsApp link (raw): ${whatsapp}\n`);
       }
+    }
+
+    // If phone was found but WhatsApp wasn't, use phone for WhatsApp too
+    if (phone && !whatsapp) {
+      whatsapp = phone;
+      process.stderr.write(`Using phone number for WhatsApp: ${whatsapp}\n`);
     }
 
     await browser.close();

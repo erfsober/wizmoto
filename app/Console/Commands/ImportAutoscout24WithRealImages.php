@@ -662,19 +662,30 @@ class ImportAutoscout24WithRealImages extends Command
                     // Use WhatsApp if found, otherwise use phone number for both phone and WhatsApp
                     if ($headlessWhatsapp) {
                         $whatsappFromHeadless = $headlessWhatsapp;
+                        $this->info("  Using extracted WhatsApp: {$whatsappFromHeadless}");
                     } elseif ($headlessPhone) {
                         // If no WhatsApp found, use phone number for WhatsApp too
                         $normalized = preg_replace('/[^\d\+]/', '', (string) $headlessPhone);
                         $whatsappFromHeadless = $normalized !== '' ? $normalized : $headlessPhone;
+                        $this->info("  Using phone number for WhatsApp: {$whatsappFromHeadless}");
                     }
+                } else {
+                    $this->warn("  Contact extraction returned no data");
                 }
+            } else {
+                $this->warn("  No contact URL available for headless extraction");
             }
             
             // If no WhatsApp from headless but we have a phone, use phone for WhatsApp
             if (empty($whatsappFromHeadless) && $contactPhone) {
                 $whatsappFromHeadless = $contactPhone;
+                $this->info("  Setting WhatsApp to phone number (fallback): {$whatsappFromHeadless}");
             }
 
+            $this->info("Creating/updating provider for username: {$username}");
+            $this->info("  Phone: " . ($contactPhone ?? 'NULL'));
+            $this->info("  WhatsApp: " . ($whatsappFromHeadless ?? 'NULL'));
+            
             $provider = Provider::firstOrCreate(
                 ['username' => $username],
                 [
@@ -693,6 +704,9 @@ class ImportAutoscout24WithRealImages extends Command
                     'password'   => null,
                 ]
             );
+            
+            $wasExisting = $provider->wasRecentlyCreated === false;
+            $this->info($wasExisting ? "  Provider already existed" : "  Provider created");
 
             // If provider existed before without these details, backfill them from real data.
             $dirty = false;
@@ -707,8 +721,10 @@ class ImportAutoscout24WithRealImages extends Command
                 $provider->phone = $contactPhone;
                 $dirty = true;
             }
+            
+            // Always ensure WhatsApp is set - use extracted WhatsApp or phone number
             if (! $provider->whatsapp) {
-                // Use WhatsApp from headless if available, otherwise use phone number
+                // Use WhatsApp from headless if available
                 if (! empty($whatsappFromHeadless)) {
                     $provider->whatsapp = $whatsappFromHeadless;
                     $dirty = true;
@@ -721,6 +737,10 @@ class ImportAutoscout24WithRealImages extends Command
                     $provider->whatsapp = $provider->phone;
                     $dirty = true;
                 }
+            } elseif ($contactPhone && empty($provider->whatsapp)) {
+                // If provider has phone but no WhatsApp, use the phone for WhatsApp
+                $provider->whatsapp = $provider->phone;
+                $dirty = true;
             }
             if (! $provider->first_name && $dealerName) {
                 $provider->first_name = $dealerName;
@@ -744,6 +764,13 @@ class ImportAutoscout24WithRealImages extends Command
             }
             if ($dirty) {
                 $provider->save();
+                $this->info("  Provider updated with new contact information");
+                $this->info("  Final phone: " . ($provider->phone ?? 'NULL'));
+                $this->info("  Final WhatsApp: " . ($provider->whatsapp ?? 'NULL'));
+            } else {
+                $this->info("  No updates needed");
+                $this->info("  Current phone: " . ($provider->phone ?? 'NULL'));
+                $this->info("  Current WhatsApp: " . ($provider->whatsapp ?? 'NULL'));
             }
 
             return $provider;
