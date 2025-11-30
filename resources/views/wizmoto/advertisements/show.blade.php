@@ -1553,5 +1553,40 @@
     height: auto;
     transition: all 0.3s ease;
 }
+
+/* Fix button widths on mobile - ensure all buttons have same width */
+@media (max-width: 991.98px) {
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn,
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn.two,
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn-three {
+        width: 100% !important;
+        flex: 0 0 auto;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Fix SVG alignment in get directions button - center it vertically */
+.inventory-section .inspection-column .inner-column .location-box .brand-btn {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.inventory-section .inspection-column .inner-column .location-box .brand-btn svg {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 9px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    position: relative;
+    top: 0;
+}
 </style>
 @endpush
