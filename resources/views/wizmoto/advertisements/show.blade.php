@@ -792,7 +792,7 @@
                                     @if($advertisement->provider->whatsapp_link)
                                     <a href="{{ $advertisement->provider->whatsapp_link }}" class="side-btn two"
                                         target="_blank">
-                                        Chat Via Whatsapp
+                                        {{ __('messages.chat_via_whatsapp') }}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                             viewBox="0 0 14 14" fill="none">
                                             <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
@@ -1605,14 +1605,115 @@
     transition: all 0.3s ease;
 }
 
-/* Fix button widths on mobile - ensure all buttons have same width */
+/* Mobile Contact Box Organization */
 @media (max-width: 991.98px) {
+    /* Contact box container */
+    .inventory-section .side-bar-column .inner-column .contact-box {
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Icon box - center on mobile */
+    .inventory-section .side-bar-column .inner-column .contact-box .icon-box {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    /* Content box - better spacing */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box {
+        text-align: center;
+    }
+    
+    /* Title */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+        line-height: 1.3;
+    }
+    
+    /* Seller type badge */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .seller-type-badge {
+        margin: 8px 0 12px 0;
+        display: flex;
+        justify-content: center;
+    }
+    
+    /* Address text */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .text {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    /* Contact list - better organization */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list {
+        margin: 20px 0;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li {
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 14px;
+        color: #333;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a:hover {
+        background: #e9ecef;
+        transform: translateY(-1px);
+    }
+    
+    /* Contact list image boxes on mobile */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        background: #E9F2FF;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        display: block;
+    }
+    
+    /* Button box - organized layout */
     .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box {
         display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 12px;
+        margin-top: 24px;
     }
     
+    /* All buttons - consistent styling */
     .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn,
     .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn.two,
     .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn-three {
@@ -1620,6 +1721,40 @@
         flex: 0 0 auto;
         max-width: 100%;
         box-sizing: border-box;
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-bottom: 0 !important;
+    }
+    
+    /* Button SVG icons */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn svg,
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn.two svg,
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn-three svg {
+        flex-shrink: 0;
+        margin-left: 0;
+    }
+    
+    /* Side button three - underline link style on mobile */
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn-three {
+        background: transparent !important;
+        border: none !important;
+        text-decoration: underline;
+        color: #405FF2 !important;
+        padding: 12px !important;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .btn-box .side-btn-three:hover {
+        text-decoration: none;
+        background: #f8f9fa !important;
     }
 }
 
@@ -1640,16 +1775,18 @@
     top: 0;
 }
 
-/* Center content in contact-list image-box */
-.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
-    display: block;
-    margin: 0 auto;
+/* Contact list image-box - desktop styles */
+@media (min-width: 992px) {
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
+        display: block;
+        margin: 0 auto;
+    }
 }
 </style>
 @endpush
