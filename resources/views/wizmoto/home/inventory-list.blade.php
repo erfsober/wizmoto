@@ -1150,15 +1150,27 @@
                 }, 350);
             }
 
-            $('#sidebar-backdrop').on('click', function(e) {
+            $(document).on('click', '#sidebar-backdrop', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
+                
+                // Prevent multiple clicks during animation
+                if (sidebarAnimating) {
+                    return;
+                }
+                
                 closeSidebar();
             });
 
             $(document).on('click', '#mobile-close-sidebar-btn', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
+                
+                // Prevent multiple clicks during animation
+                if (sidebarAnimating) {
+                    return;
+                }
+                
                 closeSidebar();
             });
 
@@ -2978,22 +2990,7 @@
             // Initialize quick filters
             initializeQuickFilters();
 
-            // Clear all filters functionality
-            function initializeClearFilters() {
-                $(document).on('click', '.clear-all-filters-btn', function(e) {
-                    e.preventDefault();
-                    clearAllFilters();
-                    updateSelectedFiltersBar();
-                    updateVehicleCards();
-                    $(this).addClass('active');
-                    setTimeout(() => {
-                        $(this).removeClass('active');
-                    }, 200);
-                });
-            }
-
-            // Initialize clear filters
-            initializeClearFilters();
+            // Clear all filters functionality - REMOVED DUPLICATE, handled below
 
             // Function to update the selected filters bar (global scope)
             function updateSelectedFiltersBar() {
@@ -3674,12 +3671,24 @@
                     updateVehicleCards();
                 });
                 
-                // Handle clear all filters
+                // Handle clear all filters (single handler for both desktop and mobile)
                 $(document).on('click', '.clear-all-filters-btn', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     clearAllFilters();
                     updateSelectedFiltersBar();
                     updateVehicleCards();
+                    
+                    // Update mobile filter count if on mobile
+                    if ($(window).width() <= 991) {
+                        updateMobileFilterCount();
+                        updateMobileResultsCount();
+                    }
+                    
+                    $(this).addClass('active');
+                    setTimeout(() => {
+                        $(this).removeClass('active');
+                    }, 200);
                 });
                 
             // Function to remove a specific filter (global scope)
@@ -3687,20 +3696,35 @@
                     // Handle individual brand removal (brand_123 format)
                     if (filterKey.startsWith('brand_')) {
                         const brandId = filterKey.replace('brand_', '');
-                        // Find and clear the specific brand input
-                        $(`input[name="brand_id[]"][value="${brandId}"]`).val('').trigger('change');
-                        // Reset the dropdown display
-                        $('#brand-dropdown .select span').text('Select Brand');
+                        // Find and clear the specific brand input in all vehicle groups
+                        $(`.brand_id_input[value="${brandId}"]`).val('').trigger('change');
+                        $(`.brand_id_input`).each(function() {
+                            if ($(this).val() === brandId) {
+                                $(this).val('').trigger('change');
+                            }
+                        });
+                        // Reset the dropdown display using translated text
+                        $('[id^="brand-dropdown"] .select span').text('{{ __('messages.any_brands') }}');
+                        // Update mobile filter count
+                        if ($(window).width() <= 991) {
+                            updateMobileFilterCount();
+                            updateMobileResultsCount();
+                        }
                         return;
                     }
                     
                     // Handle individual model removal (model_123 format)
                     if (filterKey.startsWith('model_')) {
                         const modelId = filterKey.replace('model_', '');
-                        // Find and clear the specific model input
-                        $(`input[name="vehicle_model_id[]"][value="${modelId}"]`).val('').trigger('change');
-                        // Reset the dropdown display
-                        $('#model-dropdown .select span').text('Select Model');
+                        // Find and clear the specific model input in all vehicle groups
+                        $(`.vehicle_model_id_input[value="${modelId}"]`).val('').trigger('change');
+                        // Reset the dropdown display using translated text
+                        $('[id^="model-dropdown"] .select span').text('{{ __('messages.any_model') }}');
+                        // Update mobile filter count
+                        if ($(window).width() <= 991) {
+                            updateMobileFilterCount();
+                            updateMobileResultsCount();
+                        }
                         return;
                     }
                     
@@ -3709,28 +3733,39 @@
                         const fuelTypeId = filterKey.replace('fuel_type_', '');
                         // Clear the fuel type input
                         $('input[name="fuel_type_id"]').val('').trigger('change');
-                        // Reset the dropdown display
-                        $('#fuel-dropdown .select span').text('Select');
+                        // Reset the dropdown display using translated text
+                        $('#fuel-dropdown .select span').text('{{ __('messages.any_fuel_type') }}');
+                        // Update mobile filter count
+                        if ($(window).width() <= 991) {
+                            updateMobileFilterCount();
+                            updateMobileResultsCount();
+                        }
                         return;
                     }
                     
                     // Handle advertisement type removal (advertisement_type_123 format)
                     if (filterKey.startsWith('advertisement_type_')) {
-                        // Clear the advertisement type dropdown
-                        $('#advertisement-type-dropdown .select span').text('Select Category');
+                        // Clear the advertisement type dropdown using translated text
+                        $('#advertisement-type-dropdown .select span').text('{{ __('messages.select_category') }}');
                         $('#advertisement-type-dropdown input[type="hidden"]').val('').trigger('change');
                         
                         // Clear brand, model, and fuel type selections when category changes
-                        $('#brand-dropdown .select span').text('Any Brand');
-                        $('#brand-dropdown input[type="hidden"]').val('').trigger('change');
-                        $('#model-dropdown .select span').text('Any Model');
-                        $('#model-dropdown input[type="hidden"]').val('').trigger('change');
-                        $('#fuel-dropdown .select span').text('Select Fuel Type');
+                        $('[id^="brand-dropdown"] .select span').text('{{ __('messages.any_brands') }}');
+                        $('.brand_id_input').val('').trigger('change');
+                        $('[id^="model-dropdown"] .select span').text('{{ __('messages.any_model') }}');
+                        $('.vehicle_model_id_input').val('').trigger('change');
+                        $('#fuel-dropdown .select span').text('{{ __('messages.any_fuel_type') }}');
                         $('#fuel-dropdown input[type="hidden"]').val('').trigger('change');
                         
                         // Reload all brands and fuel types
                         loadAllBrands();
                         loadAllFuelTypes();
+                        
+                        // Update mobile filter count
+                        if ($(window).width() <= 991) {
+                            updateMobileFilterCount();
+                            updateMobileResultsCount();
+                        }
                         return;
                     }
                     
@@ -3790,23 +3825,33 @@
                         return;
                     }
                     
+                    // Get translated texts for switch cases
+                    const fromText = '{{ __('messages.from') }}';
+                    const toText = '{{ __('messages.to') }}';
+                    const anyBrandsText = '{{ __('messages.any_brands') }}';
+                    const anyModelText = '{{ __('messages.any_model') }}';
+                    const anyBodyWorkText = '{{ __('messages.any_body_work') }}';
+                    const anyFuelTypeText = '{{ __('messages.any_fuel_type') }}';
+                    const selectCylindersText = '{{ __('messages.select_cylinders') }}';
+                    const selectDriveTypeText = '{{ __('messages.select_drive_type') }}';
+                    
                     switch(filterKey) {
                         case 'brands':
                             // Remove all brands
-                            $('#brand-dropdown .select span').text('Select Brand');
-                            $('#brand-dropdown input[type="hidden"]').val('').trigger('change');
+                            $('[id^="brand-dropdown"] .select span').text(anyBrandsText);
+                            $('.brand_id_input').val('').trigger('change');
                             break;
                         case 'models':
                             // Remove all models
-                            $('#model-dropdown .select span').text('Select Model');
-                            $('#model-dropdown input[type="hidden"]').val('').trigger('change');
+                            $('[id^="model-dropdown"] .select span').text(anyModelText);
+                            $('.vehicle_model_id_input').val('').trigger('change');
                             break;
                         case 'price':
                             $('input[name="price_from"]').val('').trigger('change');
                             $('input[name="price_to"]').val('').trigger('change');
                             break;
                         case 'body':
-                            $('#body-dropdown .select span').text('Any Body Work');
+                            $('#body-dropdown .select span').text(anyBodyWorkText);
                             $('#body-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'city':
@@ -3814,13 +3859,13 @@
                             $('#city-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'fuel':
-                            $('#fuel-dropdown .select span').text('Select Fuel Type');
+                            $('#fuel-dropdown .select span').text(anyFuelTypeText);
                             $('#fuel-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'year':
-                            $('#registration-year-dropdown .select span').text('From');
+                            $('#registration-year-dropdown .select span').text(fromText);
                             $('#registration-year-dropdown input[type="hidden"]').val('').trigger('change');
-                            $('#registration-year-to-dropdown .select span').text('To');
+                            $('#registration-year-to-dropdown .select span').text(toText);
                             $('#registration-year-to-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'mileage':
@@ -3828,29 +3873,29 @@
                             $('input[name="mileage_to"]').val('').trigger('change');
                             break;
                         case 'transmission':
-                            $('input[name="motor_change[]"]:checked').prop('checked', false);
+                            $('input[name="motor_change[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'condition':
-                            $('input[name="advertisement_type_id[]"]:checked').prop('checked', false);
+                            $('input[name="advertisement_type_id[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'equipment':
-                            $('input[name="equipments[]"]:checked').prop('checked', false);
+                            $('input[name="equipments[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'color':
-                            $('input[name="color_ids[]"]:checked').prop('checked', false);
+                            $('input[name="color_ids[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'category':
-                            $('input[name="vehicle_category[]"]:checked').prop('checked', false);
+                            $('input[name="vehicle_category[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'emissionClass':
-                            $('input[name="emissions_class[]"]:checked').prop('checked', false);
+                            $('input[name="emissions_class[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'version':
                             $('input[name="version_model[]"]').val('').trigger('change');
                             break;
                         case 'cylinders':
                             $('input[name="cylinders"]').val('').trigger('change');
-                            $('#cylinders-dropdown .select span').text('Select Cylinders');
+                            $('#cylinders-dropdown .select span').text(selectCylindersText);
                             break;
                         case 'onlineFromPeriod':
                             $('#online-from-dropdown .select span').text('{{ __('messages.select_period') }}');
@@ -3861,7 +3906,7 @@
                             $('input[name="co2_emissions_to"]').val('').trigger('change');
                             break;
                         case 'previousOwners':
-                            $('input[name="previous_owners_filter"][value="any"]').prop('checked', true);
+                            $('input[name="previous_owners_filter"][value="any"]').prop('checked', true).trigger('change');
                             break;
                         case 'zipCode':
                             $('input[name="zip_code"]').val('').trigger('change');
@@ -3872,14 +3917,14 @@
                         case 'powerCv':
                             $('input[name="power_cv_from"]').val('').trigger('change');
                             $('input[name="power_cv_to"]').val('').trigger('change');
-                            $('#power-cv-from-dropdown .select span').text('From');
-                            $('#power-cv-to-dropdown .select span').text('To');
+                            $('#power-cv-from-dropdown .select span').text(fromText);
+                            $('#power-cv-to-dropdown .select span').text(toText);
                             break;
                         case 'powerKw':
                             $('input[name="power_kw_from"]').val('').trigger('change');
                             $('input[name="power_kw_to"]').val('').trigger('change');
-                            $('#power-kw-from-dropdown .select span').text('From');
-                            $('#power-kw-to-dropdown .select span').text('To');
+                            $('#power-kw-from-dropdown .select span').text(fromText);
+                            $('#power-kw-to-dropdown .select span').text(toText);
                             break;
                         case 'displacement':
                             $('input[name="motor_displacement_from"]').val('').trigger('change');
@@ -3890,22 +3935,22 @@
                             $('input[name="fuel_consumption_to"]').val('').trigger('change');
                             break;
                         case 'special':
-                            $('input[name="damaged_vehicle"]:checked').prop('checked', false);
-                            $('input[name="coupon_documentation"]:checked').prop('checked', false);
-                            $('input[name="is_metallic_paint"]:checked').prop('checked', false);
-                            $('input[name="tax_deductible"]:checked').prop('checked', false);
+                            $('input[name="damaged_vehicle"]:checked').prop('checked', false).trigger('change');
+                            $('input[name="coupon_documentation"]:checked').prop('checked', false).trigger('change');
+                            $('input[name="is_metallic_paint"]:checked').prop('checked', false).trigger('change');
+                            $('input[name="tax_deductible"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'sellerType':
-                            $('input[name="seller_type[]"]:checked').prop('checked', false);
+                            $('input[name="seller_type[]"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'serviceHistory':
-                            $('input[name="service_history_available"]:checked').prop('checked', false);
+                            $('input[name="service_history_available"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'warranty':
-                            $('input[name="warranty_available"]:checked').prop('checked', false);
+                            $('input[name="warranty_available"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'driveType':
-                            $('#drive-type-dropdown .select span').text('Select Drive Type');
+                            $('#drive-type-dropdown .select span').text(selectDriveTypeText);
                             $('#drive-type-dropdown input[type="hidden"]').val('').trigger('change');
                             break;
                         case 'tankCapacity':
@@ -3925,50 +3970,81 @@
                             $('input[name="torque_to"]').val('').trigger('change');
                             break;
                         case 'financing':
-                            $('input[name="financing_available"]:checked').prop('checked', false);
+                            $('input[name="financing_available"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'tradeIn':
-                            $('input[name="trade_in_possible"]:checked').prop('checked', false);
+                            $('input[name="trade_in_possible"]:checked').prop('checked', false).trigger('change');
                             break;
                         case 'availableImmediately':
-                            $('input[name="available_immediately"]:checked').prop('checked', false);
+                            $('input[name="available_immediately"]:checked').prop('checked', false).trigger('change');
                             break;
+                    }
+                    
+                    // Update mobile filter count after removing filter
+                    if ($(window).width() <= 991) {
+                        updateMobileFilterCount();
+                        updateMobileResultsCount();
                     }
                 }
                 
             // Function to clear all filters (global scope)
             function clearAllFilters() {
+                    // Clear all text and number inputs
                     $('.inventory-sidebar input[type="text"]').val('').trigger('change');
-                    $('input[type="number"]').val('').trigger('change');
-                    $('input[type="checkbox"]').prop('checked', false);
-                    $('input[type="radio"]').prop('checked', false);
+                    $('.inventory-sidebar input[type="number"]').val('').trigger('change');
+                    $('.inventory-sidebar input[type="checkbox"]').prop('checked', false).trigger('change');
+                    $('.inventory-sidebar input[type="radio"]').prop('checked', false).trigger('change');
                     
-                    const selectLabel = '{{ __('messages.select') }}';
+                    // Get translated texts
+                    const anyBrandsText = '{{ __('messages.any_brands') }}';
+                    const anyModelText = '{{ __('messages.any_model') }}';
+                    const anyBodyWorkText = '{{ __('messages.any_body_work') }}';
+                    const anyFuelTypeText = '{{ __('messages.any_fuel_type') }}';
+                    const selectCategoryText = '{{ __('messages.select_category') }}';
+                    const selectCylindersText = '{{ __('messages.select_cylinders') }}';
+                    const anyCityText = '{{ __('messages.any_city') }}';
+                    const selectDriveTypeText = '{{ __('messages.select_drive_type') }}';
+                    const selectPeriodText = '{{ __('messages.select_period') }}';
+                    const anyYearText = '{{ __('messages.any_year') }}';
+                    const anyText = '{{ __('messages.any') }}';
                     const fromText = '{{ __('messages.from') }}';
                     const toText = '{{ __('messages.to') }}';
                     
-                    // Reset dropdowns
-                    $('.drop-menu .select span').each(function() {
-                        const originalText = $(this).closest('.drop-menu').find('label').text();
-                        if (originalText) {
-                            $(this).text(selectLabel + ' ' + originalText);
-                        }
-                    });
-                    $('input[type="hidden"]').val('').trigger('change');
+                    // Reset all hidden inputs
+                    $('.inventory-sidebar input[type="hidden"]').val('').trigger('change');
+                    
+                    // Reset specific dropdowns with proper default text
+                    $('#advertisement-type-dropdown .select span').text(selectCategoryText);
+                    $('[id^="brand-dropdown"] .select span').text(anyBrandsText);
+                    $('[id^="model-dropdown"] .select span').text(anyModelText);
+                    $('#body-dropdown .select span').text(anyBodyWorkText);
+                    $('#fuel-dropdown .select span').text(anyFuelTypeText);
+                    $('#cylinders-dropdown .select span').text(selectCylindersText);
+                    $('#city-dropdown .select span').text(anyCityText);
+                    $('#drive-type-dropdown .select span').text(selectDriveTypeText);
+                    $('#online-from-dropdown .select span').text(selectPeriodText);
                     
                     // Reset specific dropdowns that use From/To
+                    $('#registration-year-dropdown .select span').text(fromText);
+                    $('#registration-year-to-dropdown .select span').text(toText);
                     $('#power-cv-from-dropdown .select span').text(fromText);
                     $('#power-cv-to-dropdown .select span').text(toText);
                     $('#power-kw-from-dropdown .select span').text(fromText);
                     $('#power-kw-to-dropdown .select span').text(toText);
-                    $('#registration-year-dropdown .select span').text(fromText);
-                    $('#registration-year-to-dropdown .select span').text(toText);
                     
                     // Reset multi-select containers
                     $('.selected-options').empty();
                     
                     // Reset previous owners to "any"
-                    $('input[name="previous_owners_filter"][value="any"]').prop('checked', true);
+                    $('input[name="previous_owners_filter"][value="any"]').prop('checked', true).trigger('change');
+                    
+                    // Clear model dropdowns
+                    $('[id^="model-dropdown"] .dropdown').each(function() {
+                        const $dropdown = $(this);
+                        if ($dropdown.find('.clear-option').length === 0) {
+                            $dropdown.html('<li data-id="" class="clear-option">' + anyModelText + '</li>');
+                        }
+                    });
                 }
                 
                 // Update the bar whenever filters change
