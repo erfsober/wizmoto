@@ -408,5 +408,23 @@ return [
     'default_contact_message_placeholder' => 'Hi, I\'m interested in your motorcycles. Can you provide more information about availability and pricing?',
     'advertisement_image_alt' => 'Advertisement Image',
     'error' => 'Error',
+    
+    // Authentication
+    'register' => 'Register',
+    'login' => 'Login',
+    'password' => 'Password',
+    'remember' => 'Remember',
+    'forgotten_password' => 'Forgotten password?',
+    'or' => 'OR',
+    'continue_apple' => 'Continue Apple',
+    'continue_google' => 'Continue Google',
+    'username' => 'Username',
+    'accept_privacy_policy' => 'I accept the privacy policy',
+    'login_failed' => 'Login failed.',
+    'registration_failed' => 'Registration failed.',
+    'dont_have_account' => 'Don\'t have an account?',
+    'register_here' => 'Register here',
+    'problem_persists_contact_support' => 'If the problem persists, please contact our support team.',
+    'check_information_try_again' => 'Please check your information and try again.',
 ];
 

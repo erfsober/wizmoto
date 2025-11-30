@@ -408,5 +408,23 @@ return [
     'default_contact_message_placeholder' => 'Ciao, sono interessato alle tue moto. Puoi fornire maggiori informazioni su disponibilità e prezzi?',
     'advertisement_image_alt' => 'Immagine annuncio',
     'error' => 'Errore',
+    
+    // Authentication
+    'register' => 'Registrati',
+    'login' => 'Accedi',
+    'password' => 'Password',
+    'remember' => 'Ricorda',
+    'forgotten_password' => 'Password dimenticata?',
+    'or' => 'OPPURE',
+    'continue_apple' => 'Continua con Apple',
+    'continue_google' => 'Continua con Google',
+    'username' => 'Nome utente',
+    'accept_privacy_policy' => 'Accetto l\'informativa sulla privacy',
+    'login_failed' => 'Accesso fallito.',
+    'registration_failed' => 'Registrazione fallita.',
+    'dont_have_account' => 'Non hai un account?',
+    'register_here' => 'Registrati qui',
+    'problem_persists_contact_support' => 'Se il problema persiste, contatta il nostro team di supporto.',
+    'check_information_try_again' => 'Controlla le tue informazioni e riprova.',
 ];
 

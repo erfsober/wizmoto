@@ -17,12 +17,12 @@
                             <ul class="navigation" id="navbar">
                                 <li class="current-dropdown">
                                     <a class="box-account" href="{{route('home')}}">
-                                        Home
+                                        {{ __('messages.home') }}
                                     </a>
                                 </li>
                                 <li class="current-dropdown">
                                     <a class="box-account" href="#">
-                                        Blog
+                                        {{ __('messages.blog') }}
                                     </a>
                                 </li>
                             </ul>
@@ -47,11 +47,11 @@
                                         </defs>
                                     </svg>
                                 </div>
-                                Sign in
+                                {{ __('messages.sign_in') }}
                             </a>
                         @endif
                         <div class="btn">
-                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">Sell</a>
+                            <a href="{{route("dashboard.create-advertisement")}}" class="header-btn-two btn-anim sell-btn-prominent">{{ __('messages.sell') }}</a>
                         </div>
                         <div class="mobile-navigation">
                             <a href="#nav-mobile" title="">
@@ -75,7 +75,7 @@
             <div class="search-inner">
                 <form method="post" action="index.html">
                     <div class="form-group">
-                        <input type="search" name="search-field" value="" placeholder="Search..." required="">
+                        <input type="search" name="search-field" value="" placeholder="{{ __('messages.search_placeholder') }}" required="">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </div>
                 </form>
@@ -93,8 +93,8 @@
                 <div class="form-sec">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Sign in</button>
-                            <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">Register</button>
+                            <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">{{ __('messages.sign_in') }}</button>
+                            <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">{{ __('messages.register') }}</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -109,16 +109,16 @@
                                                 <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#dc3545"/>
                                             </svg>
                                             <div class="alert-text">
-                                                <strong>Login failed.</strong>
+                                                <strong>{{ __('messages.login_failed') }}</strong>
                                                 <p>
                                                     {{ session('toast_error') ?? $errors->first() }}
                                                     @if(session('suggest_register'))
                                                         <span class="register-suggestion">
-                                                            Don't have an account? 
-                                                            <a href="#" id="switch-to-register" class="register-link">Register here</a>
+                                                            {{ __('messages.dont_have_account') }} 
+                                                            <a href="#" id="switch-to-register" class="register-link">{{ __('messages.register_here') }}</a>
                                                         </span>
                                                     @else
-                                                        If the problem persists, please contact our support team.
+                                                        {{ __('messages.problem_persists_contact_support') }}
                                                     @endif
                                                 </p>
                                             </div>
@@ -126,30 +126,30 @@
                                     @endif
                                     
                                     <div class="form_boxes">
-                                        <label>Email</label>
+                                        <label>{{ __('messages.email') }}</label>
                                         <input type="email" name="email" value="{{ old('email') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
-                                        <label>Password</label>
+                                        <label>{{ __('messages.password') }}</label>
                                         <input type="password" name="password" placeholder="" required>
                                     </div>
                                     <div class="btn-box">
-                                        <label class="contain">Remember
+                                        <label class="contain">{{ __('messages.remember') }}
                                             <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
                                             <span class="checkmark"></span>
                                         </label>
-                                        <a href="{{ route('provider.password.request') }}" class="pasword-btn">Forgotten password?</a>
+                                        <a href="{{ route('provider.password.request') }}" class="pasword-btn">{{ __('messages.forgotten_password') }}</a>
                                     </div>
                                     <div class="form-submit">
-                                        <button type="submit" class="theme-btn">Login <img src="images/arrow.svg" alt="">
+                                        <button type="submit" class="theme-btn">{{ __('messages.login') }} <img src="images/arrow.svg" alt="">
                                         </button>
                                     </div>
                                 </form>
                                 <div class="btn-box-two">
-                                    <span>OR</span>
+                                    <span>{{ __('messages.or') }}</span>
                                     <div class="social-btns">
-                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>Continue Apple</a>
-                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
+                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>{{ __('messages.continue_apple') }}</a>
+                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>{{ __('messages.continue_google') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -165,40 +165,40 @@
                                                 <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#dc3545"/>
                                             </svg>
                                             <div class="alert-text">
-                                                <strong>Registration failed.</strong>
-                                                <p>{{ $errors->first() }} Please check your information and try again.</p>
+                                                <strong>{{ __('messages.registration_failed') }}</strong>
+                                                <p>{{ $errors->first() }} {{ __('messages.check_information_try_again') }}</p>
                                             </div>
                                         </div>
                                     @endif
                                     
                                     <div class="form_boxes">
-                                        <label>Username</label>
+                                        <label>{{ __('messages.username') }}</label>
                                         <input type="text" name="username" value="{{ old('username') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
-                                        <label>Email</label>
+                                        <label>{{ __('messages.email') }}</label>
                                         <input type="email" name="email" value="{{ old('email') }}" placeholder="" required>
                                     </div>
                                     <div class="form_boxes">
-                                        <label>Password</label>
+                                        <label>{{ __('messages.password') }}</label>
                                         <input type="password" name="password" placeholder="" required>
                                     </div>
                                     <div class="form-submit">
-                                        <button type="submit" class="theme-btn">Register <img src="images/arrow.svg" alt="">
+                                        <button type="submit" class="theme-btn">{{ __('messages.register') }} <img src="images/arrow.svg" alt="">
                                         </button>
                                     </div>
                                     <div class="btn-box">
-                                        <label class="contain">I accept the privacy policy
+                                        <label class="contain">{{ __('messages.accept_privacy_policy') }}
                                             <input type="checkbox" checked="checked"  name="privacy_policy">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                 </form>
                                 <div class="btn-box-two">
-                                    <span>OR</span>
+                                    <span>{{ __('messages.or') }}</span>
                                     <div class="social-btns">
-                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>Continue Apple</a>
-                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>Continue Google</a>
+                                        <a href="{{route("provider.auth.apple") }}" class="fb-btn"><i class="fa-brands fa-apple"></i>{{ __('messages.continue_apple') }}</a>
+                                        <a href="{{ route("provider.auth.google") }}" class="fb-btn two"><i class="fa-brands fa-google"></i>{{ __('messages.continue_google') }}</a>
                                     </div>
                                 </div>
                             </div>
