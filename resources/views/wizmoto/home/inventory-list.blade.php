@@ -1560,12 +1560,12 @@
                 newGroup.find('input[type="text"]').val('').trigger('change');
                 
                 // Reset all dropdown texts
-                newGroup.find('#advertisement-type-dropdown-' + groupCounter + ' .select span').text('Select Category');
-                newGroup.find('#brand-dropdown-' + groupCounter + ' .select span').text('Any Brand');
-                newGroup.find('#model-dropdown-' + groupCounter + ' .select span').text('Any Model');
+                newGroup.find('#advertisement-type-dropdown-' + groupCounter + ' .select span').text('{{ __('messages.select_category') }}');
+                newGroup.find('#brand-dropdown-' + groupCounter + ' .select span').text('{{ __('messages.any_brands') }}');
+                newGroup.find('#model-dropdown-' + groupCounter + ' .select span').text('{{ __('messages.any_model') }}');
                 
                 // Clear model dropdown options
-                newGroup.find('#model-dropdown-' + groupCounter + ' .dropdown').html('<li data-id="" class="clear-option">Any Model</li>');
+                newGroup.find('#model-dropdown-' + groupCounter + ' .dropdown').html('<li data-id="" class="clear-option">{{ __('messages.any_model') }}</li>');
 
                 // Remove the cloned hidden button from first group
                 newGroup.find('.remove-vehicle-group').remove();
@@ -1619,9 +1619,9 @@
                     $(this).closest('.dropdown').hide();
                     
                     // Clear ONLY this group's brand and model (not affecting other groups)
-                    $container.find('[id^="brand-dropdown"] .select span').text('Any Brand');
+                    $container.find('[id^="brand-dropdown"] .select span').text('{{ __('messages.any_brands') }}');
                     $container.find('[id^="brand-dropdown"] input[type="hidden"]').val('').trigger('change');
-                    $container.find('[id^="model-dropdown"] .select span').text('Any Model');
+                    $container.find('[id^="model-dropdown"] .select span').text('{{ __('messages.any_model') }}');
                     $container.find('[id^="model-dropdown"] input[type="hidden"]').val('').trigger('change');
                     
                     // Note: For now, advertisement type doesn't trigger brand reload in cloned groups
@@ -1650,9 +1650,9 @@
 
                     // If "Any Brand" selected, clear models
                     if (!brandId || brandId === '') {
-                        $modelDropdown.find('.select span').text('Any Model');
+                        $modelDropdown.find('.select span').text('{{ __('messages.any_model') }}');
                         $modelDropdown.find('input[type="hidden"]').val('').trigger('change');
-                        $modelDropdown.find('.dropdown').html('<li data-id="" class="clear-option">Any Model</li>');
+                        $modelDropdown.find('.dropdown').html('<li data-id="" class="clear-option">{{ __('messages.any_model') }}</li>');
                     } else {
                         // Load models for selected brand
                         loadModels(container, brandId);
@@ -1761,7 +1761,7 @@
                                     <li data-id="${brand.id}">${brand.name}</li>
                                 `);
                             });
-                            $brandSelect.text('Select Brand');
+                            $brandSelect.text('{{ __('messages.any_brands') }}');
                         } else {
                             $brandDropdown.append('<li>No brands available for this category</li>');
                             $brandSelect.text('No brands available');
@@ -1787,7 +1787,7 @@
                 const $fuelInput = $('#fuel-dropdown input[type="hidden"]');
 
                 // Reset fuel type selection
-                $fuelSelect.text('Select Fuel Type');
+                $fuelSelect.text('{{ __('messages.any_fuel_type') }}');
                 $fuelInput.val('').trigger('change');
                 $fuelDropdown.empty();
 
@@ -1846,7 +1846,7 @@
                 $brandDropdown.empty();
                 
                 // Add "Any Brand" option first
-                $brandDropdown.append(`<li data-id="" class="clear-option">Any Brand</li>`);
+                $brandDropdown.append(`<li data-id="" class="clear-option">{{ __('messages.any_brands') }}</li>`);
                 
                 brands.forEach(function(brand) {
                     $brandDropdown.append(`
@@ -1867,7 +1867,7 @@
                 const $modelInput = container.find('.vehicle_model_id_input');
 
                 // Reset model selection
-                $modelSelect.text('Select Model');
+                $modelSelect.text('{{ __('messages.any_model') }}');
                 $modelInput.val('').trigger('change');
                 $modelDropdown.empty();
 
@@ -1887,7 +1887,7 @@
                         $modelDropdown.empty();
                         
                         // Add "Any Model" option first
-                        $modelDropdown.append('<li data-id="" class="clear-option">Any Model</li>');
+                        $modelDropdown.append('<li data-id="" class="clear-option">{{ __('messages.any_model') }}</li>');
 
                         if (Object.keys(models).length === 0) {
                             $modelDropdown.append('<li>No models available</li>');
@@ -1898,7 +1898,7 @@
                                     modelName + '</li>');
                             });
                         }
-                        $modelSelect.text('Any Model');
+                        $modelSelect.text('{{ __('messages.any_model') }}');
                         
                         // Reinitialize searchable dropdown for model dropdown
                         if (typeof initializeSearchableDropdowns === 'function') {
@@ -1908,7 +1908,7 @@
                     error: function(xhr, status, error) {
                         console.error('Error fetching models:', error);
                         $modelDropdown.html('<li>Error loading models</li>');
-                        $modelSelect.text('Select Model');
+                        $modelSelect.text('{{ __('messages.any_model') }}');
                     }
                 });
             }
@@ -1958,11 +1958,11 @@
                     $(this).closest('.dropdown').hide();
                     
                     // Clear brand, model, and fuel type selections when category changes
-                    $('#brand-dropdown .select span').text('Select Brand');
+                    $('#brand-dropdown .select span').text('{{ __('messages.any_brands') }}');
                     $('#brand-dropdown input[type="hidden"]').val('').trigger('change');
-                    $('#model-dropdown .select span').text('Select Model');
+                    $('#model-dropdown .select span').text('{{ __('messages.any_model') }}');
                     $('#model-dropdown input[type="hidden"]').val('').trigger('change');
-                    $('#fuel-dropdown .select span').text('Select Fuel Type');
+                    $('#fuel-dropdown .select span').text('{{ __('messages.any_fuel_type') }}');
                     $('#fuel-dropdown input[type="hidden"]').val('').trigger('change');
                     
                     // Load brands and fuel types for selected advertisement type

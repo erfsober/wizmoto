@@ -43,22 +43,35 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12">
                         <div class="row">
-
                             @foreach ($images->skip(1) as $image)
-                                <div class="image-column-two item2 col-6">
-                                    <div class="inner-column">
-                                        <div class="image-box">
-                                            <figure class="image">
-                                                <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery"
-                                                    class="fancybox">
-                                                    <img src="{{ $image->getUrl('square') }}" loading="lazy"
-                                                        alt="">
-                                                </a>
-                                            </figure>
-
+                                @if($image)
+                                    @php
+                                        try {
+                                            $squareUrl = $image->getUrl('square');
+                                            $previewUrl = $image->getUrl('preview');
+                                        } catch (\Exception $e) {
+                                            $squareUrl = null;
+                                            $previewUrl = null;
+                                        }
+                                    @endphp
+                                    @if($squareUrl && $previewUrl)
+                                        <div class="image-column-two item2 col-6">
+                                            <div class="inner-column">
+                                                <div class="image-box">
+                                                    <figure class="image">
+                                                        <a href="{{ $previewUrl }}" data-fancybox="gallery"
+                                                            class="fancybox">
+                                                            <img src="{{ $squareUrl }}" 
+                                                                loading="lazy"
+                                                                alt="{{ $advertisement->title ?? 'Advertisement Image' }}"
+                                                                onerror="this.onerror=null; this.classList.add('broken'); const container = this.closest('.image-column-two'); if(container) { container.classList.add('image-error'); container.style.display='none'; }">
+                                                        </a>
+                                                    </figure>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endif
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -1034,18 +1047,31 @@
             padding-left: 6px;
             padding-right: 6px;
             margin-bottom: 12px;
+            min-height: 0; /* Allow empty boxes to collapse */
+        }
+        /* Hide empty or broken image containers */
+        .gallery-sec .image-column-two.item2.hidden,
+        .gallery-sec .image-column-two.item2.image-error {
+            display: none !important;
         }
         .gallery-sec .image-column-two.item2 .image {
             width: 100%;
             aspect-ratio: 1 / 1;
             overflow: hidden;
             border-radius: 10px;
+            position: relative;
+            background-color: #f5f5f5; /* Light gray background for loading state */
         }
         .gallery-sec .image-column-two.item2 img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+        /* Hide broken images and empty image containers */
+        .gallery-sec .image-column-two.item2 img.broken,
+        .gallery-sec .image-column-two.item2:has(img.broken) {
+            display: none !important;
         }
 
         .cars-section-three .car-slider-three {
@@ -1078,6 +1104,31 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // Handle broken images in gallery - hide empty boxes
+            $('.gallery-sec .image-column-two.item2 img').on('error', function() {
+                const $container = $(this).closest('.image-column-two.item2');
+                $container.addClass('image-error').hide();
+            });
+            
+            // Check for images without src or empty src and hide containers
+            $('.gallery-sec .image-column-two.item2 img').each(function() {
+                const $img = $(this);
+                const src = $img.attr('src');
+                if (!src || src === '' || src === 'undefined') {
+                    $img.closest('.image-column-two.item2').addClass('image-error').hide();
+                }
+            });
+            
+            // Remove empty containers that have no visible images
+            setTimeout(function() {
+                $('.gallery-sec .image-column-two.item2').each(function() {
+                    const $container = $(this);
+                    const $img = $container.find('img');
+                    if ($img.length === 0 || !$img.attr('src') || $img.hasClass('broken')) {
+                        $container.addClass('image-error').hide();
+                    }
+                });
+            }, 500);
     
             const $stars = $('.rating-list .list-box .list li');
 
