@@ -9,22 +9,37 @@ class PriceEvaluationService {
             return 'ND'; // Missing required data
         }
 
+        $matchingLevel = 'none'; // Track which matching level we used
+        $marketPrice = null;
+
         // Try strict matching first (same brand, model, year, mileage ±20k)
         $marketPrice = $this->calculateMarketPrice($ad, strict: true);
+        if ($marketPrice) {
+            $matchingLevel = 'strict';
+        }
         
         // If strict matching fails, try broader matching (same brand, model, year, any mileage)
         if (!$marketPrice) {
             $marketPrice = $this->calculateMarketPrice($ad, strict: false);
+            if ($marketPrice) {
+                $matchingLevel = 'relaxed';
+            }
         }
         
         // If still no data, try even broader (same brand, model, any year, any mileage)
         if (!$marketPrice && $ad->brand_id && $ad->vehicle_model_id) {
             $marketPrice = $this->calculateMarketPriceByBrandModel($ad);
+            if ($marketPrice) {
+                $matchingLevel = 'brand_model';
+            }
         }
         
         // If still no data, try same brand only (very broad)
         if (!$marketPrice && $ad->brand_id) {
             $marketPrice = $this->calculateMarketPriceByBrand($ad);
+            if ($marketPrice) {
+                $matchingLevel = 'brand_only';
+            }
         }
         
         if ( !$marketPrice ) {
@@ -35,17 +50,40 @@ class PriceEvaluationService {
         $diff = $finalPrice - $marketPrice;
         $percent = ( $diff / $marketPrice ) * 100;
         
-        if ( $percent <= -10 ) {
-            return 'Super Price'; // 10%+ cheaper
+        // Adjust thresholds based on matching accuracy
+        // For stricter matches, use precise thresholds
+        // For broader matches, be more lenient (default to "Good Price")
+        
+        if ( $percent <= -15 ) {
+            return 'Super Price'; // 15%+ cheaper - exceptional deal
+        }
+        elseif ( $percent <= -8 ) {
+            return 'Super Price'; // 8-15% cheaper - great deal
         }
         elseif ( $percent <= -5 ) {
-            return 'Great Price'; // 5–10% cheaper
+            return 'Great Price'; // 5-8% cheaper
         }
-        elseif ( abs($percent) <= 5 ) {
-            return 'Good Price'; // around market
+        elseif ( $percent <= -3 ) {
+            return 'Great Price'; // 3-5% cheaper
+        }
+        elseif ( $percent <= 3 ) {
+            return 'Good Price'; // within 3% of market - fair price
+        }
+        elseif ( $percent <= 8 ) {
+            return 'Good Price'; // 3-8% above market - still reasonable
+        }
+        elseif ( $percent <= 15 ) {
+            return 'Good Price'; // 8-15% above - slightly above market
         }
 
-        return 'ND'; // too high or rare
+        // For very broad matches (brand-only), always default to "Good Price"
+        // to avoid penalizing ads when we don't have accurate market data
+        if ($matchingLevel === 'brand_only') {
+            return 'Good Price';
+        }
+
+        // Only return ND if price is way above market (15%+) AND we have accurate matching data
+        return 'ND'; // 15%+ above market with accurate data
     }
 
     /**
@@ -71,9 +109,9 @@ class PriceEvaluationService {
         
         $avg = $query->avg('final_price');
         
-        // Only return if we have at least 3 similar ads for a reliable average
+        // Lower threshold to allow more evaluations - need at least 2 similar ads
         $count = $query->count();
-        if ($count >= 3 && $avg) {
+        if ($count >= 2 && $avg) {
             return (float) $avg;
         }
         
@@ -98,8 +136,8 @@ class PriceEvaluationService {
                             ->where('id', '!=', $ad->id)
                             ->count();
         
-        // Need at least 5 ads for broad matching to be reliable
-        if ($count >= 5 && $avg) {
+        // Lower threshold to allow more evaluations - need at least 3 ads for brand+model matching
+        if ($count >= 3 && $avg) {
             return (float) $avg;
         }
         
@@ -122,8 +160,8 @@ class PriceEvaluationService {
                             ->where('id', '!=', $ad->id)
                             ->count();
         
-        // Need at least 10 ads for brand-only matching to be reliable
-        if ($count >= 10 && $avg) {
+        // Lower threshold - need at least 5 ads for brand-only matching
+        if ($count >= 5 && $avg) {
             return (float) $avg;
         }
         
