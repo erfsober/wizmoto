@@ -517,26 +517,99 @@ async function main() {
     ) {
       const raw = contacts.whatsappLinks[0];
       // Try to extract a phone number from common WhatsApp URL formats.
-      const match =
-        raw.match(/phone=([0-9+]+)/i) ||
-        raw.match(/wa\.me\/([0-9+]+)/i) ||
-        raw.match(/send\/([0-9+]+)/i) ||
-        raw.match(/whatsapp\.com\/send\?phone=([0-9+]+)/i);
+      let extractedNumber = null;
       
+      // Try api.whatsapp.com format: https://api.whatsapp.com/send/?phone=390811993630&text...
+      let match = raw.match(/phone=([0-9+]+)/i);
       if (match && match[1]) {
-        whatsapp = match[1].trim();
-        process.stderr.write(`Extracted WhatsApp number: ${whatsapp}\n`);
+        extractedNumber = match[1];
+      }
+      
+      // Try wa.me format: https://wa.me/390811993630
+      if (!extractedNumber) {
+        match = raw.match(/wa\.me\/([0-9+]+)/i);
+        if (match && match[1]) {
+          extractedNumber = match[1];
+        }
+      }
+      
+      // Try send format: https://whatsapp.com/send/390811993630
+      if (!extractedNumber) {
+        match = raw.match(/send\/([0-9+]+)/i);
+        if (match && match[1]) {
+          extractedNumber = match[1];
+        }
+      }
+      
+      // Try whatsapp.com/send?phone= format
+      if (!extractedNumber) {
+        match = raw.match(/whatsapp\.com\/send\?phone=([0-9+]+)/i);
+        if (match && match[1]) {
+          extractedNumber = match[1];
+        }
+      }
+      
+      // Try api.whatsapp.com/send/?phone= format (with query params)
+      if (!extractedNumber) {
+        match = raw.match(/api\.whatsapp\.com\/send\/\?phone=([0-9+]+)/i);
+        if (match && match[1]) {
+          extractedNumber = match[1];
+        }
+      }
+      
+      if (extractedNumber) {
+        // Clean and normalize the number: remove all non-digit characters except +
+        let cleaned = extractedNumber.replace(/[^0-9+]/g, '');
+        
+        // Remove + sign for consistency (WhatsApp URLs don't need it)
+        cleaned = cleaned.replace(/\+/g, '');
+        
+        // Remove leading 00 (international prefix) if present
+        if (cleaned.startsWith('00') && cleaned.length > 2) {
+          cleaned = cleaned.substring(2);
+        }
+        
+        // Common EU country codes
+        const euCountryCodes = ['39', '49', '33', '34', '44', '41', '43', '31', '32', '46', '47', '48', '45'];
+        const hasCountryCode = euCountryCodes.includes(cleaned.substring(0, 2));
+        
+        // If number has country code but has leading 0 after country code, remove it
+        // Example: 3903331234567 -> 393331234567
+        if (hasCountryCode && cleaned.length > 2 && cleaned.charAt(2) === '0') {
+          const countryCode = cleaned.substring(0, 2);
+          const restOfNumber = cleaned.substring(3);
+          cleaned = countryCode + restOfNumber;
+        }
+        
+        // If number starts with 0 (local format), remove it
+        if (!hasCountryCode && cleaned.charAt(0) === '0') {
+          cleaned = cleaned.substring(1);
+        }
+        
+        // Re-check country code after removing leading zero
+        const hasCountryCodeAfter = euCountryCodes.includes(cleaned.substring(0, 2));
+        
+        // If number doesn't have a country code and is valid length, add Italy (39)
+        if (!hasCountryCodeAfter && cleaned.length >= 9 && cleaned.length <= 10) {
+          cleaned = '39' + cleaned;
+        }
+        
+        // Final validation: ensure number is valid (at least 10 digits)
+        if (cleaned.length >= 10 && /^[0-9]+$/.test(cleaned)) {
+          whatsapp = cleaned;
+          process.stderr.write(`Extracted and normalized WhatsApp number: ${whatsapp}\n`);
+        } else {
+          process.stderr.write(`Extracted number is invalid: ${cleaned}\n`);
+          whatsapp = extractedNumber.trim(); // Fallback to original
+        }
       } else {
         whatsapp = raw;
-        process.stderr.write(`WhatsApp link (raw): ${whatsapp}\n`);
+        process.stderr.write(`WhatsApp link (raw, no number extracted): ${whatsapp}\n`);
       }
     }
 
-    // If phone was found but WhatsApp wasn't, use phone for WhatsApp too
-    if (phone && !whatsapp) {
-      whatsapp = phone;
-      process.stderr.write(`Using phone number for WhatsApp: ${whatsapp}\n`);
-    }
+    // Note: We don't automatically use phone for WhatsApp because not all phone numbers have WhatsApp
+    // WhatsApp should only be set if an actual WhatsApp link/number is found
 
     await browser.close();
     process.stdout.write(JSON.stringify({ phone, whatsapp }));

@@ -659,15 +659,13 @@ class ImportAutoscout24WithRealImages extends Command
                         $contactPhone = $normalized !== '' ? $normalized : $headlessPhone;
                     }
                     
-                    // Use WhatsApp if found, otherwise use phone number for both phone and WhatsApp
+                    // Use WhatsApp only if explicitly found (don't use phone as fallback)
+                    // Not all phone numbers have WhatsApp
                     if ($headlessWhatsapp) {
-                        $whatsappFromHeadless = $headlessWhatsapp;
+                        $whatsappFromHeadless = $this->normalizeWhatsAppNumber($headlessWhatsapp);
                         $this->info("  Using extracted WhatsApp: {$whatsappFromHeadless}");
-                    } elseif ($headlessPhone) {
-                        // If no WhatsApp found, use phone number for WhatsApp too
-                        $normalized = preg_replace('/[^\d\+]/', '', (string) $headlessPhone);
-                        $whatsappFromHeadless = $normalized !== '' ? $normalized : $headlessPhone;
-                        $this->info("  Using phone number for WhatsApp: {$whatsappFromHeadless}");
+                    } else {
+                        $this->info("  No WhatsApp found (phone may not have WhatsApp)");
                     }
                 } else {
                     $this->warn("  Contact extraction returned no data");
@@ -676,12 +674,9 @@ class ImportAutoscout24WithRealImages extends Command
                 $this->warn("  No contact URL available for headless extraction");
             }
             
-            // If no WhatsApp from headless but we have a phone, use phone for WhatsApp
-            if (empty($whatsappFromHeadless) && $contactPhone) {
-                $whatsappFromHeadless = $contactPhone;
-                $this->info("  Setting WhatsApp to phone number (fallback): {$whatsappFromHeadless}");
-            }
-
+            // Note: WhatsApp number is already normalized at extraction (line 665)
+            // Don't use phone as fallback - not all phones have WhatsApp
+            
             $this->info("Creating/updating provider for username: {$username}");
             $this->info("  Phone: " . ($contactPhone ?? 'NULL'));
             $this->info("  WhatsApp: " . ($whatsappFromHeadless ?? 'NULL'));
@@ -695,7 +690,7 @@ class ImportAutoscout24WithRealImages extends Command
                     'email'      => $contactEmail,
                     'email_verified_at' => $contactEmail ? now() : null,
                     'phone'      => $contactPhone,
-                    'whatsapp'   => $whatsappFromHeadless,
+                    'whatsapp'   => $whatsappFromHeadless, // Already normalized
                     'address'    => $dealerAddress,
                     'village'    => null,
                     'zip_code'   => $zipCode,
@@ -722,26 +717,13 @@ class ImportAutoscout24WithRealImages extends Command
                 $dirty = true;
             }
             
-            // Always ensure WhatsApp is set - use extracted WhatsApp or phone number
-            if (! $provider->whatsapp) {
-                // Use WhatsApp from headless if available
-                if (! empty($whatsappFromHeadless)) {
-                    $provider->whatsapp = $whatsappFromHeadless;
-                    $dirty = true;
-                } elseif ($contactPhone) {
-                    // If no WhatsApp found, use phone number for WhatsApp too
-                    $provider->whatsapp = $contactPhone;
-                    $dirty = true;
-                } elseif ($provider->phone) {
-                    // If we have phone but no contactPhone set, use existing phone for WhatsApp
-                    $provider->whatsapp = $provider->phone;
-                    $dirty = true;
-                }
-            } elseif ($contactPhone && empty($provider->whatsapp)) {
-                // If provider has phone but no WhatsApp, use the phone for WhatsApp
-                $provider->whatsapp = $provider->phone;
+            // Only set WhatsApp if explicitly found (don't use phone as fallback)
+            // Not all phone numbers have WhatsApp, so keep them separate
+            if (! $provider->whatsapp && ! empty($whatsappFromHeadless)) {
+                $provider->whatsapp = $this->normalizeWhatsAppNumber($whatsappFromHeadless);
                 $dirty = true;
             }
+            // Note: We intentionally don't fall back to using phone for WhatsApp
             if (! $provider->first_name && $dealerName) {
                 $provider->first_name = $dealerName;
                 $dirty = true;
@@ -1063,5 +1045,74 @@ class ImportAutoscout24WithRealImages extends Command
             'phone' => $phone,
             'whatsapp' => $whatsapp,
         ];
+    }
+
+    /**
+     * Normalize WhatsApp number for wa.me links
+     * Removes invalid characters, ensures proper country code format
+     * 
+     * @param string|null $whatsappNumber
+     * @return string|null
+     */
+    private function normalizeWhatsAppNumber(?string $whatsappNumber): ?string
+    {
+        if (!$whatsappNumber) {
+            return null;
+        }
+
+        // Remove all non-numeric characters (spaces, dashes, parentheses, +, etc.)
+        $number = preg_replace('/[^0-9]/', '', $whatsappNumber);
+
+        // If empty after cleaning, return null
+        if (empty($number)) {
+            return null;
+        }
+
+        // Remove leading 00 (international prefix) if present
+        // Example: 00393517455691 -> 393517455691
+        if (substr($number, 0, 2) === '00' && strlen($number) > 2) {
+            $number = substr($number, 2);
+        }
+
+        // Common EU country codes (2-digit)
+        $euCountryCodes = ['39', '49', '33', '34', '44', '41', '43', '31', '32', '46', '47', '48', '45'];
+        
+        // Check if number already starts with a known country code
+        $hasCountryCode = in_array(substr($number, 0, 2), $euCountryCodes);
+        
+        // If number has country code but has leading 0 after country code, remove it
+        // Example: 3903331234567 -> 393331234567
+        if ($hasCountryCode && strlen($number) > 2 && substr($number, 2, 1) === '0') {
+            $countryCode = substr($number, 0, 2);
+            $restOfNumber = substr($number, 3); // Skip country code and leading 0
+            $number = $countryCode . $restOfNumber;
+        }
+        
+        // If number starts with 0 (local format without country code), remove it
+        // Example: 03331234567 -> 3331234567
+        if (!$hasCountryCode && substr($number, 0, 1) === '0') {
+            $number = substr($number, 1);
+        }
+        
+        // Re-check country code after removing leading zero
+        $hasCountryCode = in_array(substr($number, 0, 2), $euCountryCodes);
+        
+        // If number doesn't have a country code and is valid length, add Italy (39)
+        // Italian numbers are typically 9-10 digits without country code
+        if (!$hasCountryCode && strlen($number) >= 9 && strlen($number) <= 10) {
+            $number = '39' . $number;
+        }
+        // If number is too short (less than 9 digits), add Italy country code (39)
+        elseif (!$hasCountryCode && strlen($number) < 9) {
+            $number = '39' . $number;
+        }
+
+        // Final validation: ensure number is valid length (at least 10 digits total)
+        // WhatsApp numbers should be at least country code (2) + local number (8+) = 10 digits
+        if (strlen($number) < 10) {
+            return null;
+        }
+
+        return $number;
     }
 }
