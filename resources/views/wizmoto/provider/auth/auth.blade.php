@@ -31,6 +31,7 @@
                     </div>
 
                     <div class="right-box">
+                        @include('wizmoto.partials.language-switcher')
                         @if(!Auth::guard('provider')->check())
                             <a href="{{ route('provider.auth') }}" title="" class="box-account">
                                 <div class="icon">
