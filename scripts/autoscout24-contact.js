@@ -38,21 +38,24 @@ async function main() {
 
   try {
     await page.goto(url, {
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'networkidle',
       timeout: 60000,
     });
+
+    // Wait a bit for page to fully load
+    await page.waitForTimeout(3000);
 
     // Try to click the "Mostra numero" button - prioritize by ID selector first
     const triggerSelectors = [
       '#call-desktop-button', // Specific ID from user's example
       'button#call-desktop-button',
       'button:has-text("Mostra numero")',
-      'button:has-text("Mostra numero di telefono")',
       'a:has-text("Mostra numero")',
+      'button:has-text("Mostra numero di telefono")',
       'a:has-text("Mostra numero di telefono")',
+      '[data-cs-mask="true"]:has-text("Mostra numero")', // Match by data attribute and text
       'button[aria-label*="numero"]',
       'a[aria-label*="numero"]',
-      '[data-cs-mask="true"]:has-text("Mostra numero")', // Match by data attribute and text
     ];
 
     let buttonClicked = false;
@@ -73,7 +76,7 @@ async function main() {
       for (const sel of triggerSelectors) {
         try {
           const locator = page.locator(sel).first();
-          const isVisible = await locator.isVisible({ timeout: 3000 }).catch(() => false);
+          const isVisible = await locator.isVisible({ timeout: 5000 }).catch(() => false);
           
           if (isVisible) {
             // Check if it's already a phone link (don't click if already revealed)
@@ -138,15 +141,12 @@ async function main() {
       const callButton = document.querySelector('#call-desktop-button');
       if (callButton) {
         const href = callButton.getAttribute('href');
-        
-        // Check if it's already a phone link (button was clicked and transformed)
         if (href && href.startsWith('tel:')) {
           const phoneNum = href.replace(/^tel:/i, '').trim();
           if (phoneNum) {
             result.telLinks.push(href);
             result.phoneNumbers.push(phoneNum);
-            
-            // Also try to get the displayed text from span if available
+            // Also try to get the displayed text if available
             const spanElement = callButton.querySelector('span');
             const textContent = spanElement ? spanElement.textContent?.trim() : callButton.textContent?.trim();
             
@@ -203,7 +203,7 @@ async function main() {
         }
       }
 
-      // Also look for WhatsApp links
+      // Look for WhatsApp links (check entire page)
       const allAnchors = Array.from(document.querySelectorAll('a[href]'));
       for (const a of allAnchors) {
         const href = (a.getAttribute('href') || '').trim();
@@ -227,7 +227,6 @@ async function main() {
       // Remove duplicates and filter out empty values
       const uniquePhones = [...new Set(contacts.phoneNumbers.filter(p => p && p.trim()))];
       if (uniquePhones.length > 0) {
-        // Use the first phone number as primary
         phone = uniquePhones[0];
         
         // Log to stderr for debugging
@@ -259,17 +258,17 @@ async function main() {
       const match =
         raw.match(/phone=([0-9+]+)/i) ||
         raw.match(/wa\.me\/([0-9+]+)/i) ||
-        raw.match(/send\/([0-9+]+)/i);
+        raw.match(/send\/([0-9+]+)/i) ||
+        raw.match(/whatsapp\.com\/send\?phone=([0-9+]+)/i);
+      
       if (match && match[1]) {
         whatsapp = match[1].trim();
+        process.stderr.write(`Extracted WhatsApp number: ${whatsapp}\n`);
       } else {
         whatsapp = raw;
+        process.stderr.write(`WhatsApp link (raw): ${whatsapp}\n`);
       }
     }
-
-    // Only extract phone from contact container - don't use page text fallback
-    // to avoid getting fake/incorrect numbers. Only real numbers shown after
-    // clicking "Mostra numero" should be used.
 
     await browser.close();
     process.stdout.write(JSON.stringify({ phone, whatsapp }));

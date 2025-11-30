@@ -658,10 +658,21 @@ class ImportAutoscout24WithRealImages extends Command
                         $normalized = preg_replace('/[^\d\+]/', '', (string) $headlessPhone);
                         $contactPhone = $normalized !== '' ? $normalized : $headlessPhone;
                     }
+                    
+                    // Use WhatsApp if found, otherwise use phone number for both phone and WhatsApp
                     if ($headlessWhatsapp) {
                         $whatsappFromHeadless = $headlessWhatsapp;
+                    } elseif ($headlessPhone) {
+                        // If no WhatsApp found, use phone number for WhatsApp too
+                        $normalized = preg_replace('/[^\d\+]/', '', (string) $headlessPhone);
+                        $whatsappFromHeadless = $normalized !== '' ? $normalized : $headlessPhone;
                     }
                 }
+            }
+            
+            // If no WhatsApp from headless but we have a phone, use phone for WhatsApp
+            if (empty($whatsappFromHeadless) && $contactPhone) {
+                $whatsappFromHeadless = $contactPhone;
             }
 
             $provider = Provider::firstOrCreate(
@@ -696,9 +707,20 @@ class ImportAutoscout24WithRealImages extends Command
                 $provider->phone = $contactPhone;
                 $dirty = true;
             }
-            if (! $provider->whatsapp && ! empty($whatsappFromHeadless)) {
-                $provider->whatsapp = $whatsappFromHeadless;
-                $dirty = true;
+            if (! $provider->whatsapp) {
+                // Use WhatsApp from headless if available, otherwise use phone number
+                if (! empty($whatsappFromHeadless)) {
+                    $provider->whatsapp = $whatsappFromHeadless;
+                    $dirty = true;
+                } elseif ($contactPhone) {
+                    // If no WhatsApp found, use phone number for WhatsApp too
+                    $provider->whatsapp = $contactPhone;
+                    $dirty = true;
+                } elseif ($provider->phone) {
+                    // If we have phone but no contactPhone set, use existing phone for WhatsApp
+                    $provider->whatsapp = $provider->phone;
+                    $dirty = true;
+                }
             }
             if (! $provider->first_name && $dealerName) {
                 $provider->first_name = $dealerName;
@@ -929,22 +951,19 @@ class ImportAutoscout24WithRealImages extends Command
             return null;
         }
 
-        // Run script and capture output (stderr messages may be mixed in, but JSON should be on stdout)
         $command = sprintf(
             'node %s %s 2>&1',
             escapeshellarg($scriptPath),
-            escapeshellarg($adUrl)
+            escapeshellarg($adUrl),
         );
 
         $output = shell_exec($command);
-        
         if ($output === null || trim($output) === '') {
             $this->warn("Contact script returned empty output for ad URL {$adUrl}.");
             return null;
         }
 
-        // Extract JSON from output (stderr debug messages may be mixed in)
-        // JSON should be a single line starting with { and ending with }
+        // Extract JSON from output (stderr messages may be mixed in)
         $jsonOutput = '';
         $lines = explode("\n", trim($output));
         
@@ -961,13 +980,10 @@ class ImportAutoscout24WithRealImages extends Command
         if (empty($jsonOutput)) {
             $jsonOutput = trim($output);
         }
-
+        
         $decoded = json_decode($jsonOutput, true);
         if (! is_array($decoded)) {
-            $this->warn("Failed to parse JSON from contact script for URL {$adUrl}. Output: " . substr($output, 0, 200));
-            if ($stderr) {
-                $this->warn("Stderr: " . trim($stderr));
-            }
+            $this->warn("Failed to parse contact script JSON output for {$adUrl}: " . substr($output, 0, 200));
             return null;
         }
 
@@ -977,11 +993,6 @@ class ImportAutoscout24WithRealImages extends Command
         $whatsapp = isset($decoded['whatsapp']) && is_string($decoded['whatsapp']) && $decoded['whatsapp'] !== ''
             ? $decoded['whatsapp']
             : null;
-
-        // Log success if phone found
-        if ($phone) {
-            $this->info("✓ Extracted phone number: {$phone} from {$adUrl}");
-        }
 
         return [
             'phone' => $phone,
