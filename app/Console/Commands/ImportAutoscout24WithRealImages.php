@@ -929,20 +929,45 @@ class ImportAutoscout24WithRealImages extends Command
             return null;
         }
 
+        // Run script and capture output (stderr messages may be mixed in, but JSON should be on stdout)
         $command = sprintf(
             'node %s %s 2>&1',
             escapeshellarg($scriptPath),
-            escapeshellarg($adUrl),
+            escapeshellarg($adUrl)
         );
 
         $output = shell_exec($command);
+        
         if ($output === null || trim($output) === '') {
             $this->warn("Contact script returned empty output for ad URL {$adUrl}.");
             return null;
         }
 
-        $decoded = json_decode($output, true);
+        // Extract JSON from output (stderr debug messages may be mixed in)
+        // JSON should be a single line starting with { and ending with }
+        $jsonOutput = '';
+        $lines = explode("\n", trim($output));
+        
+        // Look for JSON line - it should be the one with { and }
+        foreach (array_reverse($lines) as $line) {
+            $trimmed = trim($line);
+            if (str_starts_with($trimmed, '{') && str_ends_with($trimmed, '}')) {
+                $jsonOutput = $trimmed;
+                break;
+            }
+        }
+        
+        // If no JSON found in lines, try parsing the whole output
+        if (empty($jsonOutput)) {
+            $jsonOutput = trim($output);
+        }
+
+        $decoded = json_decode($jsonOutput, true);
         if (! is_array($decoded)) {
+            $this->warn("Failed to parse JSON from contact script for URL {$adUrl}. Output: " . substr($output, 0, 200));
+            if ($stderr) {
+                $this->warn("Stderr: " . trim($stderr));
+            }
             return null;
         }
 
@@ -952,6 +977,11 @@ class ImportAutoscout24WithRealImages extends Command
         $whatsapp = isset($decoded['whatsapp']) && is_string($decoded['whatsapp']) && $decoded['whatsapp'] !== ''
             ? $decoded['whatsapp']
             : null;
+
+        // Log success if phone found
+        if ($phone) {
+            $this->info("✓ Extracted phone number: {$phone} from {$adUrl}");
+        }
 
         return [
             'phone' => $phone,

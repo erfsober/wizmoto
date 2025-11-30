@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GeocodingService
 {
@@ -11,8 +12,11 @@ class GeocodingService
      */
     public function geocode(string $city, ?string $zipCode = null, ?string $country = null): ?array
     {
+        // Normalize country parameter - don't use country codes or prefixes
+        $normalizedCountry = $this->normalizeCountry($country);
+        
         // Build the address string
-        $address = $this->buildAddressString($city, $zipCode, $country);
+        $address = $this->buildAddressString($city, $zipCode, $normalizedCountry);
         
         if (empty($address)) {
             return null;
@@ -21,7 +25,7 @@ class GeocodingService
         // Try multiple geocoding services in order of preference
         $services = [
             'openstreetmap' => fn() => $this->geocodeWithOpenStreetMap($address),
-            'fallback' => fn() => $this->geocodeWithFallback($city, $zipCode, $country),
+            'fallback' => fn() => $this->geocodeWithFallback($city, $zipCode, $normalizedCountry),
         ];
 
         foreach ($services as $serviceName => $service) {
@@ -31,10 +35,61 @@ class GeocodingService
                     return $result;
                 }
             } catch (\Exception $e) {
+                Log::warning("Geocoding failed with {$serviceName}", [
+                    'address' => $address,
+                    'error' => $e->getMessage()
+                ]);
                 continue;
             }
         }
 
+        Log::error('All geocoding services failed', ['address' => $address]);
+        return null;
+    }
+
+    /**
+     * Normalize country parameter - convert codes to full names and filter invalid values
+     */
+    private function normalizeCountry(?string $country): ?string
+    {
+        if (empty($country)) {
+            return null;
+        }
+
+        // Remove common prefixes that might be confused with countries
+        $country = trim($country);
+        
+        // If it's a phone prefix (starts with +), ignore it
+        if (str_starts_with($country, '+')) {
+            return null;
+        }
+
+        // Map country codes to full names
+        $countryCodeMap = [
+            'IT' => 'Italy',
+            'DE' => 'Germany',
+            'FR' => 'France',
+            'ES' => 'Spain',
+            'NL' => 'Netherlands',
+            'BE' => 'Belgium',
+            'AT' => 'Austria',
+            'CH' => 'Switzerland',
+            'GB' => 'United Kingdom',
+            'UK' => 'United Kingdom',
+        ];
+
+        $countryUpper = strtoupper($country);
+        if (isset($countryCodeMap[$countryUpper])) {
+            return $countryCodeMap[$countryUpper];
+        }
+
+        // If it's already a full country name, return as is
+        $knownCountries = array_values($countryCodeMap);
+        if (in_array(ucwords(strtolower($country)), array_map('ucwords', array_map('strtolower', $knownCountries)))) {
+            return ucwords(strtolower($country));
+        }
+
+        // For unknown values, default to null (will use default)
         return null;
     }
 
@@ -43,30 +98,55 @@ class GeocodingService
      */
     private function geocodeWithOpenStreetMap(string $address): ?array
     {
-        $response = Http::timeout(10)->get('https://nominatim.openstreetmap.org/search', [
-            'q' => $address,
-            'format' => 'json',
-            'limit' => 1,
-            'addressdetails' => 1,
-            'countrycodes' => $this->getCountryCode(),
-        ]);
-
-        if (!$response->successful()) {
-            return null;
-        }
-
-        $data = $response->json();
+        $maxRetries = 2; // Reduced retries to avoid long waits
+        $timeout = 15; // Reduced timeout to fail faster, will use fallback
         
-        if (empty($data) || !isset($data[0]['lat']) || !isset($data[0]['lon'])) {
-            return null;
+        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+            try {
+                $response = Http::timeout($timeout)
+                    ->withHeaders([
+                        'User-Agent' => 'Wizmoto/1.0 (Contact: support@wizmoto.com)',
+                    ])
+                    ->get('https://nominatim.openstreetmap.org/search', [
+                        'q' => $address,
+                        'format' => 'json',
+                        'limit' => 1,
+                        'addressdetails' => 1,
+                        'countrycodes' => $this->getCountryCode(),
+                    ]);
+
+                if ($response->successful()) {
+                    $data = $response->json();
+                    
+                    if (!empty($data) && isset($data[0]['lat']) && isset($data[0]['lon'])) {
+                        return [
+                            'latitude' => (float) $data[0]['lat'],
+                            'longitude' => (float) $data[0]['lon'],
+                            'source' => 'openstreetmap',
+                            'formatted_address' => $data[0]['display_name'] ?? $address,
+                        ];
+                    }
+                }
+                
+                // If not successful and not last attempt, wait before retry
+                if ($attempt < $maxRetries) {
+                    sleep(1 * $attempt); // Reduced backoff: 1s, 2s
+                }
+            } catch (\Exception $e) {
+                Log::warning('Geocoding failed with openstreetmap', [
+                    'address' => $address,
+                    'error' => $e->getMessage(),
+                    'attempt' => $attempt
+                ]);
+                
+                // If not last attempt, wait before retry
+                if ($attempt < $maxRetries) {
+                    sleep(1 * $attempt);
+                }
+            }
         }
 
-        return [
-            'latitude' => (float) $data[0]['lat'],
-            'longitude' => (float) $data[0]['lon'],
-            'source' => 'openstreetmap',
-            'formatted_address' => $data[0]['display_name'] ?? $address,
-        ];
+        return null;
     }
 
     /**
@@ -94,9 +174,27 @@ class GeocodingService
             'stuttgart' => ['latitude' => 48.7758, 'longitude' => 9.1829, 'country' => 'DE'],
             'düsseldorf' => ['latitude' => 51.2277, 'longitude' => 6.7735, 'country' => 'DE'],
             'barcelona' => ['latitude' => 41.3851, 'longitude' => 2.1734, 'country' => 'ES'],
+            // Italian cities (most common for Autoscout24)
             'milan' => ['latitude' => 45.4642, 'longitude' => 9.1900, 'country' => 'IT'],
+            'milano' => ['latitude' => 45.4642, 'longitude' => 9.1900, 'country' => 'IT'],
             'naples' => ['latitude' => 40.8518, 'longitude' => 14.2681, 'country' => 'IT'],
+            'napoli' => ['latitude' => 40.8518, 'longitude' => 14.2681, 'country' => 'IT'],
             'turin' => ['latitude' => 45.0703, 'longitude' => 7.6869, 'country' => 'IT'],
+            'torino' => ['latitude' => 45.0703, 'longitude' => 7.6869, 'country' => 'IT'],
+            'alessandria' => ['latitude' => 44.9133, 'longitude' => 8.6167, 'country' => 'IT'],
+            'bologna' => ['latitude' => 44.4949, 'longitude' => 11.3426, 'country' => 'IT'],
+            'florence' => ['latitude' => 43.7696, 'longitude' => 11.2558, 'country' => 'IT'],
+            'firenze' => ['latitude' => 43.7696, 'longitude' => 11.2558, 'country' => 'IT'],
+            'genoa' => ['latitude' => 44.4056, 'longitude' => 8.9463, 'country' => 'IT'],
+            'genova' => ['latitude' => 44.4056, 'longitude' => 8.9463, 'country' => 'IT'],
+            'venice' => ['latitude' => 45.4408, 'longitude' => 12.3155, 'country' => 'IT'],
+            'venezia' => ['latitude' => 45.4408, 'longitude' => 12.3155, 'country' => 'IT'],
+            'palermo' => ['latitude' => 38.1157, 'longitude' => 13.3613, 'country' => 'IT'],
+            'verona' => ['latitude' => 45.4384, 'longitude' => 10.9916, 'country' => 'IT'],
+            'padua' => ['latitude' => 45.4064, 'longitude' => 11.8768, 'country' => 'IT'],
+            'padova' => ['latitude' => 45.4064, 'longitude' => 11.8768, 'country' => 'IT'],
+            'bari' => ['latitude' => 41.1177, 'longitude' => 16.8719, 'country' => 'IT'],
+            'catania' => ['latitude' => 37.5079, 'longitude' => 15.0830, 'country' => 'IT'],
             'rotterdam' => ['latitude' => 51.9244, 'longitude' => 4.4777, 'country' => 'NL'],
             'the hague' => ['latitude' => 52.0705, 'longitude' => 4.3007, 'country' => 'NL'],
             'utrecht' => ['latitude' => 52.0907, 'longitude' => 5.1214, 'country' => 'NL'],
@@ -113,9 +211,15 @@ class GeocodingService
             ];
         }
 
-        // Try partial match
+        // Try partial match (case-insensitive)
         foreach ($predefinedLocations as $key => $location) {
-            if (str_contains($cityLower, $key) || str_contains($key, $cityLower)) {
+            // Normalize both strings for better matching
+            $cityNormalized = preg_replace('/[^a-z0-9]/', '', $cityLower);
+            $keyNormalized = preg_replace('/[^a-z0-9]/', '', strtolower($key));
+            
+            if ($cityNormalized === $keyNormalized || 
+                str_contains($cityLower, $key) || 
+                str_contains($key, $cityLower)) {
                 return [
                     'latitude' => $location['latitude'],
                     'longitude' => $location['longitude'],
@@ -152,10 +256,11 @@ class GeocodingService
 
     /**
      * Get default country if none specified
+     * Defaults to Italy since most ads are from autoscout24.it
      */
     private function getDefaultCountry(): string
     {
-        return 'Germany'; // You can make this configurable
+        return 'Italy'; // Default to Italy for autoscout24.it imports
     }
 
     /**

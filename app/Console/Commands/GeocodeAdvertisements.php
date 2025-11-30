@@ -60,10 +60,14 @@ class GeocodeAdvertisements extends Command
                 }
                 
                 try {
+                    // Don't pass international_prefix as country - it's a phone prefix, not a country
+                    // For Autoscout24 ads, default to Italy. For others, let the service determine.
+                    $country = null; // Let GeocodingService use its default (Italy)
+                    
                     $coordinates = $geocodingService->geocode(
                         $advertisement->city,
                         $advertisement->zip_code,
-                        $advertisement->international_prefix
+                        $country
                     );
                     
                     if ($coordinates) {
