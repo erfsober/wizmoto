@@ -1588,5 +1588,17 @@
     position: relative;
     top: 0;
 }
+
+/* Center content in contact-list image-box */
+.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
+    display: block;
+    margin: 0 auto;
+}
 </style>
 @endpush
