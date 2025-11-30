@@ -25,27 +25,62 @@ async function main() {
 
   const browser = await chromium.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-dev-shm-usage'],
+    args: [
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-blink-features=AutomationControlled',
+      '--disable-features=IsolateOrigins,site-per-process',
+    ],
   });
 
   const page = await browser.newPage({
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   });
+  
+  // Set additional headers to appear more like a real browser
+  await page.setExtraHTTPHeaders({
+    'Accept-Language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+  });
+  
+  // Remove webdriver detection
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', {
+      get: () => undefined,
+    });
+  });
 
   let phone = null;
   let whatsapp = null;
 
   try {
-    await page.goto(url, {
-      waitUntil: 'networkidle',
-      timeout: 60000,
-    });
-
-    // Wait a bit for page to fully load
-    await page.waitForTimeout(5000);
+    // Navigate to the page - use domcontentloaded (faster than networkidle)
+    process.stderr.write(`Navigating to: ${url}\n`);
+    try {
+      await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000, // 60 seconds should be enough
+      });
+      process.stderr.write(`✓ Page navigation successful\n`);
+    } catch (err) {
+      process.stderr.write(`⚠ Navigation warning: ${err.message}\n`);
+      process.stderr.write(`Continuing anyway - page may have partially loaded...\n`);
+      // Wait a bit for any ongoing loading
+      await page.waitForTimeout(5000);
+    }
     
-    process.stderr.write(`Page loaded: ${url}\n`);
+    // Wait for page to be fully interactive
+    await page.waitForTimeout(3000);
+    
+    // Verify page loaded
+    const pageTitle = await page.title().catch(() => '');
+    const currentUrl = page.url();
+    process.stderr.write(`Page title: ${pageTitle.substring(0, 60)}\n`);
+    process.stderr.write(`Current URL: ${currentUrl.substring(0, 80)}\n`);
 
     // Try to click the "Mostra numero" button - prioritize by ID selector first
     const triggerSelectors = [
