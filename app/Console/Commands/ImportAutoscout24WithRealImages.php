@@ -91,10 +91,26 @@ class ImportAutoscout24WithRealImages extends Command
 
                     foreach ($images as $imageUrl) {
                         try {
-                            // Try to download the image
+                            // Add media with non-queued conversions to ensure they generate immediately
+                            // This is important for scheduled tasks where conversions might not complete
                             $media = $advertisement
                                 ->addMediaFromUrl($imageUrl)
+                                ->usingName(basename($imageUrl))
+                                ->nonQueued() // Force immediate conversion generation, don't queue
                                 ->toMediaCollection('covers');
+                            
+                            // Trigger conversion generation by accessing URLs (similar to seeder approach)
+                            // This ensures conversions are generated immediately even in scheduled tasks
+                            try {
+                                $media->getUrl('card');
+                                $media->getUrl('preview');
+                                $media->getUrl('vehicle-card');
+                            } catch (\Exception $e) {
+                                // If conversions fail, log but don't fail the import
+                                \Illuminate\Support\Facades\Log::warning("Conversion generation triggered for media #{$media->id}", [
+                                    'error' => $e->getMessage()
+                                ]);
+                            }
                             
                             $successfulImages++;
                             
@@ -129,10 +145,22 @@ class ImportAutoscout24WithRealImages extends Command
 
                     if (file_exists($placeholderPath)) {
                         try {
-                            $advertisement
+                            // Add placeholder with non-queued conversions to ensure they generate immediately
+                            $media = $advertisement
                                 ->addMedia($placeholderPath)
+                                ->usingName('Placeholder Image')
                                 ->preservingOriginal()
+                                ->nonQueued() // Force immediate conversion generation
                                 ->toMediaCollection('covers');
+                            
+                            // Trigger conversion generation by accessing URLs
+                            try {
+                                $media->getUrl('card');
+                                $media->getUrl('preview');
+                                $media->getUrl('vehicle-card');
+                            } catch (\Exception $e) {
+                                // Conversions might fail silently
+                            }
                         } catch (\Throwable $e) {
                             // Silent in scheduled mode
                         }
