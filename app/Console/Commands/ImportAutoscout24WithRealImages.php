@@ -86,15 +86,40 @@ class ImportAutoscout24WithRealImages extends Command
                 // Attach up to 5 images to the 'covers' media collection.
                 if (! empty($galleryImages)) {
                     $images = array_slice($galleryImages, 0, 5);
+                    $successfulImages = 0;
+                    $failedImages = 0;
 
                     foreach ($images as $imageUrl) {
                         try {
-                            $advertisement
+                            // Try to download the image
+                            $media = $advertisement
                                 ->addMediaFromUrl($imageUrl)
                                 ->toMediaCollection('covers');
+                            
+                            $successfulImages++;
+                            
+                            if (!$this->scheduled) {
+                                $this->line("  ✓ Imported image " . ($successfulImages + $failedImages) . "/" . count($images));
+                            }
                         } catch (\Throwable $e) {
-                            // Silent in scheduled mode
+                            $failedImages++;
+                            // Always log errors so we can debug import issues
+                            \Illuminate\Support\Facades\Log::warning("Failed to import image for ad #{$advertisement->id}", [
+                                'image_url' => $imageUrl,
+                                'error' => $e->getMessage(),
+                                'exception' => get_class($e),
+                                'file' => $e->getFile(),
+                                'line' => $e->getLine()
+                            ]);
+                            
+                            if (!$this->scheduled) {
+                                $this->warn("  ✗ Failed to import image " . ($successfulImages + $failedImages) . "/" . count($images) . ": {$e->getMessage()}");
+                            }
                         }
+                    }
+                    
+                    if (!$this->scheduled && $failedImages > 0) {
+                        $this->warn("  {$successfulImages} images imported, {$failedImages} failed");
                     }
                 } else {
                     // No real images found for this Autoscout24 ad. Attach a single
@@ -1011,6 +1036,32 @@ class ImportAutoscout24WithRealImages extends Command
             'phone' => $phone,
             'whatsapp' => $whatsapp,
         ];
+    }
+
+    /**
+     * Make a normalized image URL downloadable by adding a size suffix if needed.
+     * The gallery script returns normalized URLs without size suffixes, which may not be directly downloadable.
+     * 
+     * @param string $url
+     * @return string
+     */
+    private function makeImageUrlDownloadable(string $url): string
+    {
+        // If URL already has a size suffix, return as-is
+        if (preg_match('/\/\d+x\d+\.(webp|jpg|jpeg|png)$/i', $url)) {
+            return $url;
+        }
+        
+        // If URL contains listing-images and doesn't end with a file extension, add a size suffix
+        if (str_contains($url, 'listing-images')) {
+            // Try to append a common size (1920x1080.webp is common on Autoscout24)
+            if (!preg_match('/\.(webp|jpg|jpeg|png)$/i', $url)) {
+                // Add /1920x1080.webp suffix
+                return rtrim($url, '/') . '/1920x1080.webp';
+            }
+        }
+        
+        return $url;
     }
 
     /**
