@@ -11,8 +11,10 @@ use Illuminate\Console\Command;
 
 class ImportAutoscout24WithRealImages extends Command
 {
-    protected $signature = 'import:autoscout24-images {--limit=200 : Number of ads to scrape}';
+    protected $signature = 'import:autoscout24-images {--limit=200 : Number of ads to scrape} {--scheduled : Run in scheduled mode (quiet output)}';
     protected $description = 'Scrape ads from Autoscout24 listing page and show basic data in the console';
+
+    private bool $scheduled = false;
 
     public function __construct(
         private readonly Autoscout24ScraperService $scraper,
@@ -23,28 +25,33 @@ class ImportAutoscout24WithRealImages extends Command
     public function handle()
     {
         $limit = (int) $this->option('limit');
+        $this->scheduled = $this->option('scheduled');
 
-        $this->info('Starting Autoscout24 scraping…');
-        $this->info("Limit: {$limit} ad(s)");
+        if (!$this->scheduled) {
+            $this->info('Starting Autoscout24 scraping…');
+            $this->info("Limit: {$limit} ad(s)");
+        }
 
         try {
             // Get up to $limit ad URLs from the listings page (via headless scraper / HTML fallback).
             $urls = $this->scraper->scrapePage($limit);
 
             if (empty($urls)) {
-                $this->warn('No listings found on the listings page.');
-
+                if (!$this->scheduled) {
+                    $this->warn('No listings found on the listings page.');
+                }
                 return;
             }
 
-            $this->info('Scraping and importing single ads…');
+            if (!$this->scheduled) {
+                $this->info('Scraping and importing single ads…');
+            }
 
             $count = 0;
 
             foreach ($urls as $index => $url) {
                 // Add a small delay between requests to avoid rate limiting
                 if ($index > 0 && $index % 10 === 0) {
-                    $this->info("Processed {$index} ads, pausing for 2 seconds...");
                     sleep(2);
                 } elseif ($index > 0) {
                     usleep(500000); // 0.5 second delay between requests
@@ -53,14 +60,11 @@ class ImportAutoscout24WithRealImages extends Command
                 $ad = $this->scraper->scrapeAd($url);
 
                 if ($ad === null) {
-                    $this->warn("Failed to scrape ad at URL: {$url}");
-
                     continue;
                 }
 
                 // Skip if this Autoscout24 ad was already imported.
                 if (isset($ad['url']) && Advertisement::where('source_url', $ad['url'])->exists()) {
-                    $this->warn("Already imported, skipping: {$ad['url']}");
                     continue;
                 }
 
@@ -89,7 +93,7 @@ class ImportAutoscout24WithRealImages extends Command
                                 ->addMediaFromUrl($imageUrl)
                                 ->toMediaCollection('covers');
                         } catch (\Throwable $e) {
-                            $this->warn("Failed to attach image for ad {$advertisement->id}: {$e->getMessage()}");
+                            // Silent in scheduled mode
                         }
                     }
                 } else {
@@ -105,7 +109,7 @@ class ImportAutoscout24WithRealImages extends Command
                                 ->preservingOriginal()
                                 ->toMediaCollection('covers');
                         } catch (\Throwable $e) {
-                            $this->warn("Failed to attach placeholder image for ad {$advertisement->id}: {$e->getMessage()}");
+                            // Silent in scheduled mode
                         }
                     }
                 }
@@ -133,16 +137,11 @@ class ImportAutoscout24WithRealImages extends Command
                 }
 
                 $count++;
-
-                $this->line('');
-                $this->line("Imported Ad #{$count} → Advertisement ID {$advertisement->id}");
-                $this->line('  Title: ' . ($ad['title'] ?? 'N/A'));
-                $this->line('  Price: ' . ($ad['price'] ?? 'N/A'));
-                $this->line('  URL:   ' . $ad['url']);
             }
 
-            $this->info('');
-            $this->info("Finished. Imported {$count} ad(s).");
+            if (!$this->scheduled) {
+                $this->info("Finished. Imported {$count} ad(s).");
+            }
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
         }
@@ -663,23 +662,12 @@ class ImportAutoscout24WithRealImages extends Command
                     // Not all phone numbers have WhatsApp
                     if ($headlessWhatsapp) {
                         $whatsappFromHeadless = $this->normalizeWhatsAppNumber($headlessWhatsapp);
-                        $this->info("  Using extracted WhatsApp: {$whatsappFromHeadless}");
-                    } else {
-                        $this->info("  No WhatsApp found (phone may not have WhatsApp)");
                     }
-                } else {
-                    $this->warn("  Contact extraction returned no data");
                 }
-            } else {
-                $this->warn("  No contact URL available for headless extraction");
             }
             
             // Note: WhatsApp number is already normalized at extraction (line 665)
             // Don't use phone as fallback - not all phones have WhatsApp
-            
-            $this->info("Creating/updating provider for username: {$username}");
-            $this->info("  Phone: " . ($contactPhone ?? 'NULL'));
-            $this->info("  WhatsApp: " . ($whatsappFromHeadless ?? 'NULL'));
             
             $provider = Provider::firstOrCreate(
                 ['username' => $username],
@@ -701,7 +689,6 @@ class ImportAutoscout24WithRealImages extends Command
             );
             
             $wasExisting = $provider->wasRecentlyCreated === false;
-            $this->info($wasExisting ? "  Provider already existed" : "  Provider created");
 
             // If provider existed before without these details, backfill them from real data.
             $dirty = false;
@@ -746,13 +733,6 @@ class ImportAutoscout24WithRealImages extends Command
             }
             if ($dirty) {
                 $provider->save();
-                $this->info("  Provider updated with new contact information");
-                $this->info("  Final phone: " . ($provider->phone ?? 'NULL'));
-                $this->info("  Final WhatsApp: " . ($provider->whatsapp ?? 'NULL'));
-            } else {
-                $this->info("  No updates needed");
-                $this->info("  Current phone: " . ($provider->phone ?? 'NULL'));
-                $this->info("  Current WhatsApp: " . ($provider->whatsapp ?? 'NULL'));
             }
 
             return $provider;
@@ -835,9 +815,7 @@ class ImportAutoscout24WithRealImages extends Command
 
         if ($adUrl) {
             $scriptPath = base_path('scripts/autoscout24-gallery.js');
-            if (! file_exists($scriptPath)) {
-                $this->warn("Gallery script not found at {$scriptPath}, using fallback images only.");
-            } else {
+            if (file_exists($scriptPath)) {
                 $command = sprintf(
                     'node %s %s 2>&1',
                     escapeshellarg($scriptPath),
@@ -845,9 +823,7 @@ class ImportAutoscout24WithRealImages extends Command
                 );
 
                 $output = shell_exec($command);
-                if ($output === null || trim($output) === '') {
-                    $this->warn("Gallery script returned empty output for ad URL {$adUrl}, using fallback images.");
-                } else {
+                if ($output !== null && trim($output) !== '') {
                     $decoded = json_decode($output, true);
                     if (is_array($decoded)) {
                         $images = array_values(
@@ -912,7 +888,6 @@ class ImportAutoscout24WithRealImages extends Command
 
         $scriptPath = base_path('scripts/autoscout24-dealer-logo.js');
         if (! file_exists($scriptPath)) {
-            $this->warn("Dealer logo script not found at {$scriptPath}, skipping provider logo import.");
             return;
         }
 
@@ -924,7 +899,6 @@ class ImportAutoscout24WithRealImages extends Command
 
         $output = shell_exec($command);
         if ($output === null || trim($output) === '') {
-            $this->warn("Dealer logo script returned empty output for provider {$provider->id}.");
             return;
         }
 
@@ -938,10 +912,8 @@ class ImportAutoscout24WithRealImages extends Command
             $provider
                 ->addMediaFromUrl($decoded['logoUrl'])
                 ->toMediaCollection('image');
-
-            $this->line("  Attached dealer logo for provider {$provider->id}");
         } catch (\Throwable $e) {
-            $this->warn("Failed to attach dealer logo for provider {$provider->id}: {$e->getMessage()}");
+            // Silent in scheduled mode
         }
     }
 
@@ -985,7 +957,6 @@ class ImportAutoscout24WithRealImages extends Command
         if (file_exists($stderrFile)) {
             $stderr = file_get_contents($stderrFile);
             if (!empty(trim($stderr))) {
-                $this->info("Contact script stderr: " . trim($stderr));
             }
             @unlink($stderrFile);
         }
@@ -1029,16 +1000,11 @@ class ImportAutoscout24WithRealImages extends Command
 
         // Log results for debugging
         if ($phone) {
-            $this->info("✓ Extracted phone: {$phone} from {$adUrl}");
-        } else {
-            $this->warn("✗ No phone number extracted from {$adUrl}");
-            if (!empty($stderr)) {
-                $this->warn("Script debug info: " . trim($stderr));
-            }
+            // Phone extracted
         }
-        
+
         if ($whatsapp) {
-            $this->info("✓ Extracted WhatsApp: {$whatsapp} from {$adUrl}");
+            // WhatsApp extracted
         }
 
         return [

@@ -150,14 +150,7 @@ class GeocodeAdvertisements extends Command
                 $this->info("Successful: {$successful}");
                 $this->info("Failed: {$failed}");
             } else {
-                // Log for scheduled runs
-                if ($processed > 0) {
-                    Log::info("GeocodeAdvertisements scheduled run completed", [
-                        'processed' => $processed,
-                        'successful' => $successful,
-                        'failed' => $failed
-                    ]);
-                }
+                // Silent in scheduled mode - only log errors
             }
             
             return Command::SUCCESS;
