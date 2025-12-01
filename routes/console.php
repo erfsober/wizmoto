@@ -11,7 +11,7 @@ Artisan::command('inspire', function () {
 Schedule::command('ads:recalculate-price-evaluations')->dailyAt('3:00')->withoutOverlapping();
 
 // Autoscout24 scraper - run at 3 AM daily to extract 50 ads
-Schedule::command('import:autoscout24-images --limit=20 --scheduled')->everyFifteenMinutes()->withoutOverlapping();
+Schedule::command('import:autoscout24-images --limit=20')->everyFifteenMinutes()->withoutOverlapping();
 
 // Geocode advertisements every 5 minutes
 Schedule::command('advertisements:geocode --scheduled --limit=20')->everyFiveMinutes()->withoutOverlapping();
