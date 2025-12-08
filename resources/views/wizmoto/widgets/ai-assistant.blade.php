@@ -591,24 +591,51 @@ body.modal-open .support-chat-widget {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .ai-support-alert {
-        bottom: 90px; /* Align with AI badge */
-        right: 90px; /* Position to the left of AI widget icon */
+        bottom: 75px; /* Align with AI widget button (same as widget bottom on mobile) */
+        right: 77px; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
         left: auto;
-        max-width: 250px;
+        max-width: 160px; /* Smaller width on mobile */
         margin: 0;
         transform: translateX(20px);
     }
     
     .ai-support-alert-content {
-        padding: 12px 14px;
+        padding: 8px 12px; /* Reduced padding */
+        gap: 8px; /* Smaller gap */
+    }
+    
+    .ai-support-alert-icon {
+        width: 24px; /* Smaller icon */
+        height: 24px;
+    }
+    
+    .ai-support-alert-icon svg {
+        width: 14px;
+        height: 14px;
     }
     
     .ai-support-alert-text h4 {
-        font-size: 13px;
+        font-size: 11px; /* Smaller text */
+        margin: 0;
+        line-height: 1.2;
     }
     
     .ai-support-alert-text p {
-        font-size: 11px;
+        font-size: 10px;
+        margin: 0;
+    }
+    
+    .ai-support-alert-close {
+        width: 20px;
+        height: 20px;
+        top: 4px;
+        right: 4px;
+        padding: 2px;
+    }
+    
+    .ai-support-alert-close svg {
+        width: 12px;
+        height: 12px;
     }
     
     .ai-quick-questions {
