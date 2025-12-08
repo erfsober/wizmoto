@@ -597,9 +597,9 @@ body.modal-open .support-chat-widget {
         right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
         left: auto !important;
         top: auto !important;
-        max-width: 280px !important; /* Wider width to fit text in one line */
+        max-width: 320px !important; /* Wider width to fit text in one line */
         width: auto !important;
-        min-width: auto !important;
+        min-width: 250px !important; /* Minimum width to ensure text fits */
         margin: 0 !important;
         transform: translateX(20px) !important;
         position: fixed !important;
@@ -936,25 +936,35 @@ document.addEventListener('DOMContentLoaded', function() {
             aiAlert.style.boxShadow = '0 8px 32px rgba(102, 126, 234, 0.3)';
             aiAlert.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             
-            // Responsive positioning
-            if (window.innerWidth <= 768) {
-                // Mobile: beside widget, smaller size
-                aiAlert.style.bottom = '75px';
-                aiAlert.style.right = '77px';
-                aiAlert.style.left = 'auto';
-                aiAlert.style.maxWidth = '280px';
-                aiAlert.style.minWidth = 'auto';
-                aiAlert.style.whiteSpace = 'nowrap';
-                aiAlert.style.transform = 'translateX(0)';
-            } else {
-                // Desktop: beside widget
-                aiAlert.style.bottom = '90px';
-                aiAlert.style.right = '90px';
-                aiAlert.style.left = 'auto';
-                aiAlert.style.maxWidth = '300px';
-                aiAlert.style.minWidth = 'auto';
-                aiAlert.style.transform = 'translateX(0)';
-            }
+            // Function to update alert styles
+            const updateAlertStyles = () => {
+                if (window.innerWidth <= 768) {
+                    // Mobile: beside widget, smaller size
+                    aiAlert.style.bottom = '75px';
+                    aiAlert.style.right = '77px';
+                    aiAlert.style.left = 'auto';
+                    aiAlert.style.maxWidth = '320px';
+                    aiAlert.style.minWidth = '250px';
+                    aiAlert.style.width = 'auto';
+                    aiAlert.style.whiteSpace = 'nowrap';
+                    aiAlert.style.transform = 'translateX(0)';
+                } else {
+                    // Desktop: beside widget
+                    aiAlert.style.bottom = '90px';
+                    aiAlert.style.right = '90px';
+                    aiAlert.style.left = 'auto';
+                    aiAlert.style.maxWidth = '300px';
+                    aiAlert.style.minWidth = 'auto';
+                    aiAlert.style.width = 'auto';
+                    aiAlert.style.transform = 'translateX(0)';
+                }
+            };
+            
+            // Set initial styles
+            updateAlertStyles();
+            
+            // Update on resize
+            window.addEventListener('resize', updateAlertStyles);
             
             // Make sure the content is visible
             const alertContent = aiAlert.querySelector('.ai-support-alert-content');
