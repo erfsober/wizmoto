@@ -597,13 +597,13 @@ body.modal-open .support-chat-widget {
         right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
         left: auto !important;
         top: auto !important;
-        max-width: 200px !important; /* Increased width on mobile */
+        max-width: 280px !important; /* Wider width to fit text in one line */
         width: auto !important;
         min-width: auto !important;
         margin: 0 !important;
         transform: translateX(20px) !important;
         position: fixed !important;
-        white-space: normal !important; /* Allow text to wrap if needed */
+        white-space: nowrap !important; /* Keep text in one line */
     }
     
     .ai-support-alert.show {
@@ -641,7 +641,7 @@ body.modal-open .support-chat-widget {
         margin: 0 !important;
         line-height: 1.2 !important;
         padding: 0 !important;
-        white-space: normal !important; /* Allow text to wrap */
+        white-space: nowrap !important; /* Keep text in one line */
         overflow: visible !important;
     }
     
@@ -942,8 +942,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 aiAlert.style.bottom = '75px';
                 aiAlert.style.right = '77px';
                 aiAlert.style.left = 'auto';
-                aiAlert.style.maxWidth = '200px';
+                aiAlert.style.maxWidth = '280px';
                 aiAlert.style.minWidth = 'auto';
+                aiAlert.style.whiteSpace = 'nowrap';
                 aiAlert.style.transform = 'translateX(0)';
             } else {
                 // Desktop: beside widget
