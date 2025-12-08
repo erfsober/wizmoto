@@ -236,7 +236,7 @@
 
         <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="row car-slider-three slider-layout-1" data-preview="4.8">
+                <div class="row car-slider-three slider-layout-1" data-preview="3.8">
                     @foreach($newAdvertisements as $newAdvertisement)
                         <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                             <div class="inner-box">
@@ -826,6 +826,20 @@
                 width: 35px;
                 height: 35px;
             }
+        }
+        
+        /* Increase card height on home page */
+        .cars-section-three .car-block-three .inner-box .image-box {
+            min-height: 280px;
+        }
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery,
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery .main-image,
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery .main-image img {
+            min-height: 280px;
+            object-fit: cover;
+        }
+        .cars-section-three .car-block-three .inner-box .content-box {
+            min-height: 200px;
         }
 
     </style>

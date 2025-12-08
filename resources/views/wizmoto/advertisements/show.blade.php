@@ -55,21 +55,21 @@
                                         }
                                     @endphp
                                     @if($squareUrl && $previewUrl)
-                                        <div class="image-column-two item2 col-6">
-                                            <div class="inner-column">
-                                                <div class="image-box">
-                                                    <figure class="image">
+                                <div class="image-column-two item2 col-6">
+                                    <div class="inner-column">
+                                        <div class="image-box">
+                                            <figure class="image">
                                                         <a href="{{ $previewUrl }}" data-fancybox="gallery"
-                                                            class="fancybox">
+                                                    class="fancybox">
                                                             <img src="{{ $squareUrl }}" 
                                                                 loading="lazy"
                                                                 alt="{{ $advertisement->title ?? 'Advertisement Image' }}"
                                                                 onerror="this.onerror=null; this.classList.add('broken'); const container = this.closest('.image-column-two'); if(container) { container.classList.add('image-error'); container.style.display='none'; }">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
+                                                </a>
+                                            </figure>
                                         </div>
+                                    </div>
+                                </div>
                                     @endif
                                 @endif
                             @endforeach
@@ -833,10 +833,10 @@
                 </div>
         
                 @if($relatedAdvertisements->count() > 0)
-                    <div class="row car-slider-three slider-layout-1" data-preview="4.8">
+                    <div class="row car-slider-three slider-layout-1" data-preview="3.8">
                         @foreach($relatedAdvertisements as $index => $relatedAd)
                             <!-- car-block-three -->
-                            <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
+                            <div class="box-car car-block-three col-lg-4 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image-box">
                                         <div class="fair-price-overlay">
@@ -878,7 +878,7 @@
                                         <h6 class="title">
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}">{{$relatedAd->brand?->localized_name}}{{' '}}{{$relatedAd->vehicleModel?->localized_name}}</a>
                                         </h6>
-                                       
+                                        <div class="text">{{$relatedAd->version_model}}</div>
                                         <ul>
                                             <li>
                                                 <i class="flaticon-gasoline-pump"></i>{{ $relatedAd->fuelType?->localized_name ?? 'N/A' }}
@@ -1095,6 +1095,20 @@
         .cars-section-three .car-slider-three .slick-next {
             right: 12px !important;
             left: auto !important;
+        }
+        
+        /* Increase card height */
+        .cars-section-three .car-block-three .inner-box .image-box {
+            min-height: 280px;
+        }
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery,
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery .main-image,
+        .cars-section-three .car-block-three .inner-box .image-box .image-gallery .main-image img {
+            min-height: 280px;
+            object-fit: cover;
+        }
+        .cars-section-three .car-block-three .inner-box .content-box {
+            min-height: 200px;
         }
     }
     /* No extra overrides for overview rows here; use global theme styles */
@@ -1777,15 +1791,15 @@
 
 /* Contact list image-box - desktop styles */
 @media (min-width: 992px) {
-    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
-        display: block;
-        margin: 0 auto;
+.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-section .side-bar-column .inner-column .contact-box .content-box .contact-list li a .image-box img {
+    display: block;
+    margin: 0 auto;
     }
 }
 </style>
