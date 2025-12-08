@@ -37,6 +37,7 @@ class TranslateAutoscout24Ads extends Command
         $this->translateEquipment($autoscoutAds);
         $this->translateColors($autoscoutAds);
         $this->translateAdvertisementFields($autoscoutAds);
+        $this->translateDescriptions($autoscoutAds);
     }
 
     private function translateFuelTypes($ads): void
@@ -265,6 +266,43 @@ class TranslateAutoscout24Ads extends Command
             }
 
             if ($updated) $ad->save();
+        }
+    }
+
+    private function translateDescriptions($ads): void
+    {
+        foreach ($ads as $index => $ad) {
+            if ($index > 0) usleep(1000000); // 1 second delay for longer text
+            
+            if ($ad->description && $this->isItalianText($ad->description)) {
+                $translated = $this->translateDescription($ad->description);
+                if ($translated && $translated !== $ad->description) {
+                    $ad->description = $translated;
+                    $ad->save();
+                }
+            }
+        }
+    }
+
+    private function translateDescription(string $italianText): ?string
+    {
+        try {
+            $prompt = "Translate the following Italian vehicle advertisement description to English. Keep the same tone and format. Return ONLY the English translation, nothing else.\n\nItalian description: {$italianText}";
+
+            try {
+                $translated = $this->openAiService->setTemperature(0.3)->generateResponseWithoutProcess($prompt);
+            } catch (\Exception $e) {
+                if (str_contains($e->getMessage(), 'temperature') || str_contains($e->getMessage(), 'unsupported')) {
+                    $translated = $this->openAiService->setTemperature(1.0)->generateResponseWithoutProcess($prompt);
+                } else {
+                    throw $e;
+                }
+            }
+
+            $translated = trim($translated);
+            return $translated ?: null;
+        } catch (\Exception $e) {
+            return null;
         }
     }
 
