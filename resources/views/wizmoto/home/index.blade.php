@@ -280,7 +280,7 @@
                                     <h6 class="title">
                                         <a href="{{ route('advertisements.show', $newAdvertisement->id) }}">{{$newAdvertisement->brand?->localized_name}}{{' '}}{{$newAdvertisement->vehicleModel?->localized_name}}</a>
                                     </h6>
-                                    <div class="text">{{$newAdvertisement->version_model}}</div>
+                                    <div class="text"> <span>€ {{ number_format($newAdvertisement->final_price, 0, ',', '.') }}</span></div>
                                     <ul>
                                         <li>
                                             <i class="flaticon-gasoline-pump"></i>{{ $newAdvertisement->fuelType?->localized_name ?? 'N/A' }}
@@ -292,7 +292,7 @@
                                             <i class="flaticon-gearbox"></i>{{ $newAdvertisement->motor_change ?? 'N/A' }}
                                         </li>
                                     </ul>
-                                    <div class="btn-box">
+                                    <div class="btn-box" >
                                         <span>€ {{ number_format($newAdvertisement->final_price, 0, ',', '.') }}</span>
                                         <a href="{{ route('advertisements.show', $newAdvertisement->id) }}" class="details">{{ __('messages.view_details') }}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
