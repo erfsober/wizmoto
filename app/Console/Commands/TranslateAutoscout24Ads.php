@@ -274,9 +274,10 @@ class TranslateAutoscout24Ads extends Command
         foreach ($ads as $index => $ad) {
             if ($index > 0) usleep(1000000); // 1 second delay for longer text
             
-            if ($ad->description && $this->isItalianText($ad->description)) {
-                $translated = $this->translateDescription($ad->description);
-                if ($translated && $translated !== $ad->description) {
+            // Only translate if description_it exists and description is missing or same as Italian
+            if ($ad->description_it && (!$ad->description || $ad->description === $ad->description_it)) {
+                $translated = $this->translateDescription($ad->description_it);
+                if ($translated && $translated !== $ad->description_it && strlen($translated) > 10) {
                     $ad->description = $translated;
                     $ad->save();
                 }

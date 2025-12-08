@@ -88,4 +88,16 @@ class Advertisement extends Model implements HasMedia {
     public function equipments () {
         return $this->belongsToMany(Equipment::class , 'advertisement_equipment');
     }
+
+    /**
+     * Get the localized description based on current locale
+     *
+     * @return string|null
+     */
+    public function getLocalizedDescriptionAttribute()
+    {
+        return app()->getLocale() === 'it' && $this->description_it
+            ? $this->description_it
+            : ($this->description ?: $this->description_it);
+    }
 }

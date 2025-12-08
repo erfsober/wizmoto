@@ -354,6 +354,8 @@ class ImportAutoscout24WithRealImages extends Command
         $priceString = $data['price'] ?? null;
         $description = $data['description'] ?? null;
         $sourceUrl   = $data['url'] ?? null;
+        
+        // Store Italian description in description_it, leave description null for translation
 
         // Extract version_model from title if present (e.g., "Honda CBR 600RR" -> version might be "600RR")
         // This is a simple extraction - the full model name usually contains version info
@@ -554,7 +556,8 @@ class ImportAutoscout24WithRealImages extends Command
             'combined_fuel_consumption' => $fuelConsumption,
             'co2_emissions'             => $co2Emissions,
             'emissions_class'           => $emissionsClass,
-            'description'               => $description,
+            'description'               => null, // Will be translated later
+            'description_it'            => $description, // Store Italian version
             'source_url'                => $sourceUrl,
             'price_negotiable'          => $priceNegotiable,
             'tax_deductible'            => false,

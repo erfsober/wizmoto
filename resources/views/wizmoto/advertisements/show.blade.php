@@ -669,10 +669,10 @@
 
                         </div>
                         <!-- description-sec -->
-                        @if($advertisement->description && trim($advertisement->description) !== '')
+                        @if($advertisement->localized_description && trim($advertisement->localized_description) !== '')
                         <div class="description-sec">
                             <h4 class="title">{{ __('messages.description') }}</h4>
-                            <div class="text two">{{ $advertisement->description }}</div>
+                            <div class="text two">{{ $advertisement->localized_description }}</div>
                         </div>
                         @endif
 
