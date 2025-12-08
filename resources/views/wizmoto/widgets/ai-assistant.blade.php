@@ -303,8 +303,8 @@
     bottom: 80px;
     right: 0;
     width: 360px; /* Bigger width */
-    height: 480px; /* Bigger height */
-    max-height: 480px;
+    height: 510px; /* Bigger height */
+    max-height: 500px;
     background: white;
     border-radius: 12px; /* Match support chat */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -463,9 +463,9 @@ body.modal-open .support-chat-widget {
 }
 
 .ai-message-welcome .ai-message-content {
-    font-size: 10px; /* Smaller font for welcome message */
-    padding: 7px 11px; /* Smaller padding */
-    line-height: 1.3; /* Tighter line spacing */
+    font-size: 8px; /* Smaller font for welcome message on desktop */
+    padding: 6px 10px; /* Smaller padding */
+    line-height: 1; /* Tighter line spacing */
 }
 
 .user-message {
@@ -617,8 +617,8 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-widget {
-        bottom: 15px; /* Same as support bot - in one line */
-        right: 75px; /* Position to the left of support bot (15px + 60px icon width) */
+        bottom: 75px !important; /* Position above support bot (15px + 50px height + 10px gap) */
+        right: 15px !important; /* Same as support bot - vertically aligned */
     }
     
     .ai-assistant-chat {
@@ -721,11 +721,14 @@ body.modal-open .support-chat-widget {
         max-height: 500px;
     }
     
+    .ai-assistant-widget {
+        bottom: 75px !important; /* Position above support bot (15px + 50px height + 10px gap) */
+        right: 15px !important; /* Same as support bot - vertically aligned */
+    }
+    
     .ai-assistant-toggle {
         width: 52px;
         height: 52px;
-        bottom: 50px;
-        
     }
     
     .ai-assistant-header {
