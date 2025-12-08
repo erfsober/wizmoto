@@ -591,51 +591,67 @@ body.modal-open .support-chat-widget {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .ai-support-alert {
-        bottom: 75px; /* Align with AI widget button (same as widget bottom on mobile) */
-        right: 77px; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
-        left: auto;
-        max-width: 160px; /* Smaller width on mobile */
-        margin: 0;
-        transform: translateX(20px);
+        bottom: 75px !important; /* Align with AI widget button (same as widget bottom on mobile) */
+        right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
+        left: auto !important;
+        top: auto !important;
+        max-width: 160px !important; /* Smaller width on mobile */
+        width: auto !important;
+        margin: 0 !important;
+        transform: translateX(20px) !important;
+        position: fixed !important;
+    }
+    
+    .ai-support-alert.show {
+        transform: translateX(0) !important;
     }
     
     .ai-support-alert-content {
-        padding: 8px 12px; /* Reduced padding */
-        gap: 8px; /* Smaller gap */
+        padding: 6px 10px !important; /* Reduced padding */
+        gap: 6px !important; /* Smaller gap */
+        min-height: auto !important;
     }
     
     .ai-support-alert-icon {
-        width: 24px; /* Smaller icon */
-        height: 24px;
+        width: 20px !important; /* Smaller icon */
+        height: 20px !important;
+        flex-shrink: 0 !important;
     }
     
     .ai-support-alert-icon svg {
-        width: 14px;
-        height: 14px;
+        width: 12px !important;
+        height: 12px !important;
+    }
+    
+    .ai-support-alert-text {
+        flex: 1 !important;
+        min-width: 0 !important;
     }
     
     .ai-support-alert-text h4 {
-        font-size: 11px; /* Smaller text */
-        margin: 0;
-        line-height: 1.2;
+        font-size: 10px !important; /* Smaller text */
+        margin: 0 !important;
+        line-height: 1.2 !important;
+        padding: 0 !important;
     }
     
     .ai-support-alert-text p {
-        font-size: 10px;
-        margin: 0;
+        font-size: 9px !important;
+        margin: 0 !important;
+        display: none !important; /* Hide paragraph on mobile to make it even smaller */
     }
     
     .ai-support-alert-close {
-        width: 20px;
-        height: 20px;
-        top: 4px;
-        right: 4px;
-        padding: 2px;
+        width: 18px !important;
+        height: 18px !important;
+        top: 3px !important;
+        right: 3px !important;
+        padding: 2px !important;
     }
     
     .ai-support-alert-close svg {
-        width: 12px;
-        height: 12px;
+        width: 10px !important;
+        height: 10px !important;
     }
     
     .ai-quick-questions {
