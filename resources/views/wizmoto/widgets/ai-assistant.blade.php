@@ -509,7 +509,7 @@
     }
     
     .ai-support-alert-content {
-        padding: 14px 16px;
+        padding: 12px 14px;
     }
     
     .ai-support-alert-text h4 {
@@ -521,17 +521,19 @@
     }
     
     .ai-quick-questions {
-        padding: 10px 0 0 0;
-        gap: 4px;
+        padding: 8px 0 0 0;
+        gap: 6px;
+        max-height: 120px;
+        overflow-y: auto;
     }
     
     .ai-question-item {
-        font-size: 11px;
-        padding: 6px 10px;
+        font-size: 12px;
+        padding: 8px 12px;
     }
     
     .ai-assistant-widget {
-        bottom: 75px;
+        bottom: 20px;
         right: 15px;
     }
     
@@ -539,17 +541,120 @@
         position: fixed;
         left: 0;
         right: 0;
-        bottom: calc(env(safe-area-inset-bottom, 0px));
+        bottom: 0;
         width: 100vw;
-        height: 80dvh;
-        max-height: calc(100dvh - 80px);
-        border-radius: 16px 16px 0 0;
+        height: 65vh;
+        max-height: 65vh;
+        border-radius: 20px 20px 0 0;
         margin: 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
     }
     
     .ai-assistant-toggle {
-        width: 50px;
-        height: 50px;
+        width: 56px;
+        height: 56px;
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    }
+    
+    .ai-assistant-header {
+        padding: 12px 16px;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .ai-assistant-avatar {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .ai-assistant-info h4 {
+        font-size: 15px;
+    }
+    
+    .ai-status {
+        font-size: 11px;
+    }
+    
+    .ai-assistant-messages {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .ai-message-content {
+        padding: 10px 14px;
+        font-size: 13px;
+        max-width: 85%;
+    }
+    
+    .ai-assistant-input-container {
+        padding: 12px 16px;
+    }
+    
+    .ai-assistant-input-wrapper {
+        margin-bottom: 10px;
+    }
+    
+    .ai-assistant-input-wrapper input {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+    
+    .ai-assistant-send {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        min-height: 36px;
+    }
+    
+    .ai-assistant-close {
+        min-width: 32px;
+        min-height: 32px;
+        padding: 6px;
+    }
+    
+    .ai-question-item {
+        min-height: 40px;
+        touch-action: manipulation;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .ai-assistant-chat {
+        height: 60vh;
+        max-height: 60vh;
+    }
+    
+    .ai-assistant-toggle {
+        width: 52px;
+        height: 52px;
+        bottom: 15px;
+        right: 12px;
+    }
+    
+    .ai-assistant-header {
+        padding: 10px 14px;
+    }
+    
+    .ai-assistant-messages {
+        padding: 12px;
+    }
+    
+    .ai-message-content {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .ai-assistant-input-container {
+        padding: 10px 14px;
+    }
+    
+    .ai-quick-questions {
+        max-height: 100px;
+    }
+    
+    .ai-question-item {
+        font-size: 11px;
+        padding: 6px 10px;
     }
 }
 
