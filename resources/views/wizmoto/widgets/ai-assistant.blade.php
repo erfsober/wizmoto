@@ -618,7 +618,7 @@ body.modal-open .support-chat-widget {
     
     .ai-assistant-widget {
         bottom: 20px;
-        right: 10px;
+        right: 15px;
     }
     
     .ai-assistant-chat {
