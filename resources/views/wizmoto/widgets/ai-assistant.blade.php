@@ -110,6 +110,8 @@
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Prevent text wrapping that might make it appear bigger */
+    white-space: nowrap;
 }
 
 .ai-support-alert.show {
@@ -595,11 +597,13 @@ body.modal-open .support-chat-widget {
         right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
         left: auto !important;
         top: auto !important;
-        max-width: 160px !important; /* Smaller width on mobile */
+        max-width: 140px !important; /* Smaller width on mobile */
         width: auto !important;
+        min-width: auto !important;
         margin: 0 !important;
         transform: translateX(20px) !important;
         position: fixed !important;
+        white-space: normal !important; /* Allow text to wrap if needed */
     }
     
     .ai-support-alert.show {
@@ -607,51 +611,57 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-support-alert-content {
-        padding: 6px 10px !important; /* Reduced padding */
-        gap: 6px !important; /* Smaller gap */
+        padding: 5px 8px !important; /* Even smaller padding */
+        gap: 5px !important; /* Smaller gap */
         min-height: auto !important;
+        height: auto !important;
+        display: flex !important;
+        align-items: center !important;
     }
     
     .ai-support-alert-icon {
-        width: 20px !important; /* Smaller icon */
-        height: 20px !important;
+        width: 18px !important; /* Even smaller icon */
+        height: 18px !important;
         flex-shrink: 0 !important;
     }
     
     .ai-support-alert-icon svg {
-        width: 12px !important;
-        height: 12px !important;
+        width: 10px !important;
+        height: 10px !important;
     }
     
     .ai-support-alert-text {
         flex: 1 !important;
         min-width: 0 !important;
+        overflow: hidden !important;
     }
     
     .ai-support-alert-text h4 {
-        font-size: 10px !important; /* Smaller text */
+        font-size: 9px !important; /* Even smaller text */
         margin: 0 !important;
-        line-height: 1.2 !important;
+        line-height: 1.1 !important;
         padding: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
     
     .ai-support-alert-text p {
-        font-size: 9px !important;
-        margin: 0 !important;
-        display: none !important; /* Hide paragraph on mobile to make it even smaller */
+        display: none !important; /* Hide paragraph on mobile */
     }
     
     .ai-support-alert-close {
-        width: 18px !important;
-        height: 18px !important;
-        top: 3px !important;
-        right: 3px !important;
-        padding: 2px !important;
+        width: 16px !important;
+        height: 16px !important;
+        top: 2px !important;
+        right: 2px !important;
+        padding: 1px !important;
+        flex-shrink: 0 !important;
     }
     
     .ai-support-alert-close svg {
-        width: 10px !important;
-        height: 10px !important;
+        width: 8px !important;
+        height: 8px !important;
     }
     
     .ai-quick-questions {
@@ -918,35 +928,48 @@ document.addEventListener('DOMContentLoaded', function() {
             // Force show the alert with inline styles for testing
             aiAlert.style.display = 'block';
             aiAlert.style.opacity = '1';
-            aiAlert.style.transform = 'translateY(0)';
             aiAlert.style.position = 'fixed';
-            // Responsive positioning
-            if (window.innerWidth <= 768) {
-                aiAlert.style.bottom = '140px'; // Closer to button on mobile
-                aiAlert.style.right = '15px';
-                aiAlert.style.left = '15px';
-                aiAlert.style.maxWidth = 'none';
-            } else {
-                aiAlert.style.bottom = '160px'; // Position above the AI assistant button
-                aiAlert.style.right = '20px';
-            }
             aiAlert.style.zIndex = '10000';
             aiAlert.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             aiAlert.style.color = 'white';
             aiAlert.style.padding = '0';
             aiAlert.style.borderRadius = '12px';
             aiAlert.style.boxShadow = '0 8px 32px rgba(102, 126, 234, 0.3)';
-            aiAlert.style.maxWidth = '320px';
-            aiAlert.style.minWidth = '280px';
             aiAlert.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            
+            // Responsive positioning
+            if (window.innerWidth <= 768) {
+                // Mobile: beside widget, smaller size
+                aiAlert.style.bottom = '75px';
+                aiAlert.style.right = '77px';
+                aiAlert.style.left = 'auto';
+                aiAlert.style.maxWidth = '140px';
+                aiAlert.style.minWidth = 'auto';
+                aiAlert.style.transform = 'translateX(0)';
+            } else {
+                // Desktop: beside widget
+                aiAlert.style.bottom = '90px';
+                aiAlert.style.right = '90px';
+                aiAlert.style.left = 'auto';
+                aiAlert.style.maxWidth = '300px';
+                aiAlert.style.minWidth = 'auto';
+                aiAlert.style.transform = 'translateX(0)';
+            }
             
             // Make sure the content is visible
             const alertContent = aiAlert.querySelector('.ai-support-alert-content');
             if (alertContent) {
                 alertContent.style.display = 'flex';
                 alertContent.style.alignItems = 'center';
-                alertContent.style.gap = '12px';
-                alertContent.style.padding = '16px 20px';
+                
+                // Mobile vs Desktop padding
+                if (window.innerWidth <= 768) {
+                    alertContent.style.gap = '5px';
+                    alertContent.style.padding = '5px 8px';
+                } else {
+                    alertContent.style.gap = '12px';
+                    alertContent.style.padding = '16px 20px';
+                }
                 alertContent.style.position = 'relative';
                 console.log('✅ Alert content found and styled');
                 
@@ -955,50 +978,76 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (alertText) {
                     alertText.style.flex = '1';
                     alertText.style.minWidth = '0';
-                    alertText.style.paddingRight = '30px'; // Make space for close button
+                    if (window.innerWidth <= 768) {
+                        alertText.style.paddingRight = '20px'; // Smaller space for close button on mobile
+                    } else {
+                        alertText.style.paddingRight = '30px';
+                    }
                 }
                 
                 const alertTitle = alertContent.querySelector('h4');
                 if (alertTitle) {
-                    alertTitle.style.margin = '0 0 4px 0';
-                    alertTitle.style.fontSize = '14px';
+                    alertTitle.style.margin = '0';
                     alertTitle.style.fontWeight = '600';
                     alertTitle.style.lineHeight = '1.2';
+                    if (window.innerWidth <= 768) {
+                        alertTitle.style.fontSize = '9px';
+                    } else {
+                        alertTitle.style.fontSize = '14px';
+                    }
                 }
                 
+                // Hide paragraph on mobile
+                const alertParagraph = alertContent.querySelector('p');
+                if (alertParagraph && window.innerWidth <= 768) {
+                    alertParagraph.style.display = 'none';
+                }
                 
                 // Style the icon
                 const alertIcon = alertContent.querySelector('.ai-support-alert-icon');
                 if (alertIcon) {
-                    alertIcon.style.width = '32px';
-                    alertIcon.style.height = '32px';
                     alertIcon.style.background = 'rgba(255, 255, 255, 0.2)';
                     alertIcon.style.borderRadius = '50%';
                     alertIcon.style.display = 'flex';
                     alertIcon.style.alignItems = 'center';
                     alertIcon.style.justifyContent = 'center';
                     alertIcon.style.flexShrink = '0';
+                    if (window.innerWidth <= 768) {
+                        alertIcon.style.width = '18px';
+                        alertIcon.style.height = '18px';
+                    } else {
+                        alertIcon.style.width = '32px';
+                        alertIcon.style.height = '32px';
+                    }
                 }
                 
                 // Style the close button
                 const closeBtn = alertContent.querySelector('.ai-support-alert-close');
                 if (closeBtn) {
                     closeBtn.style.position = 'absolute';
-                    closeBtn.style.top = '6px';
-                    closeBtn.style.right = '6px';
                     closeBtn.style.background = 'none';
                     closeBtn.style.border = 'none';
                     closeBtn.style.color = 'white';
                     closeBtn.style.cursor = 'pointer';
-                    closeBtn.style.padding = '6px';
                     closeBtn.style.borderRadius = '4px';
                     closeBtn.style.opacity = '0.8';
-                    closeBtn.style.width = '24px';
-                    closeBtn.style.height = '24px';
                     closeBtn.style.display = 'flex';
                     closeBtn.style.alignItems = 'center';
                     closeBtn.style.justifyContent = 'center';
                     closeBtn.style.transition = 'all 0.2s ease';
+                    if (window.innerWidth <= 768) {
+                        closeBtn.style.top = '2px';
+                        closeBtn.style.right = '2px';
+                        closeBtn.style.padding = '1px';
+                        closeBtn.style.width = '16px';
+                        closeBtn.style.height = '16px';
+                    } else {
+                        closeBtn.style.top = '6px';
+                        closeBtn.style.right = '6px';
+                        closeBtn.style.padding = '6px';
+                        closeBtn.style.width = '24px';
+                        closeBtn.style.height = '24px';
+                    }
                     
                     // Add hover effect
                     closeBtn.addEventListener('mouseenter', function() {
