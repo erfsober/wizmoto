@@ -177,6 +177,8 @@
     flex-direction: column;
     gap: 6px;
     margin-top: 8px;
+    margin-right: -6px; /* Negative margin to allow scrollbar outside border */
+    padding-right: 12px; /* Space for scrollbar outside the border */
     max-height: 100px; /* Smaller height to show first message and make scrollable */
     overflow-y: auto;
     overflow-x: hidden;
@@ -613,7 +615,7 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-widget {
-        bottom: 20px;
+        bottom: 90px; /* Position above support bot (which is at bottom: 20px) */
         right: 15px;
     }
     
