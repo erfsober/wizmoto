@@ -98,22 +98,22 @@
 <style>
 /* AI Support Alert Styles */
 .ai-support-alert {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
+    position: fixed;
+    bottom: 90px; /* Align bottom with widget bottom */
+    right: 90px; /* Position to the left of AI widget icon (20px widget position + 60px icon width + 10px gap) */
     z-index: 10000;
     max-width: 300px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-    transform: translateY(20px);
+    transform: translateX(20px);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .ai-support-alert.show {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
 }
 
@@ -168,6 +168,16 @@
 .ai-support-alert-close:hover {
     background: rgba(255, 255, 255, 0.1);
     opacity: 1;
+}
+
+/* Desktop: Ensure alert appears beside widget, not above */
+@media (min-width: 769px) {
+    .ai-support-alert {
+        bottom: 90px !important; /* Align bottom edge with widget bottom */
+        right: 90px !important; /* Position to the left of widget icon (20px + 60px + 10px gap) */
+        top: auto !important;
+        margin-bottom: 0 !important;
+    }
 }
 
 /* AI Quick Questions Styles */
@@ -581,11 +591,12 @@ body.modal-open .support-chat-widget {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .ai-support-alert {
-        bottom: 70px;
-        right: 0;
-        left: 0;
-        max-width: none;
-        margin: 0 15px;
+        bottom: 90px; /* Align with AI badge */
+        right: 90px; /* Position to the left of AI widget icon */
+        left: auto;
+        max-width: 250px;
+        margin: 0;
+        transform: translateX(20px);
     }
     
     .ai-support-alert-content {
