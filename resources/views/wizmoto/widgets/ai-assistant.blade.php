@@ -177,24 +177,50 @@
     flex-direction: column;
     gap: 6px;
     margin-top: 8px;
+    max-height: 100px; /* Smaller height to show first message and make scrollable */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.ai-quick-questions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ai-quick-questions::-webkit-scrollbar-track {
+    background: #f7fafc;
+    border-radius: 3px;
+}
+
+.ai-quick-questions::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+.ai-quick-questions::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
 }
 
 .ai-question-item {
     background: #ffffff;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 8px 12px; /* Better padding for readability */
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 12px;
+    font-size: 12px; /* Readable font size */
     font-weight: 500;
-    color: #495057;
+    color: #212529; /* Darker for better contrast */
     display: flex;
     align-items: center;
     margin: 0;
     width: 100%;
     box-sizing: border-box;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0; /* Prevent shrinking in scrollable container */
+    line-height: 1.4; /* Better line spacing */
 }
 
 .ai-question-item:hover {
@@ -216,7 +242,7 @@
     position: fixed;
     bottom: 90px;
     right: 20px;
-    z-index: 10002;
+    z-index: 10000; /* Above support chat (9999) */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -272,11 +298,12 @@
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 350px;
-    height: 500px;
+    width: 360px; /* Bigger width */
+    height: 480px; /* Bigger height */
+    max-height: 480px;
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border-radius: 12px; /* Match support chat */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
     display: none;
     flex-direction: column;
     overflow: hidden;
@@ -287,6 +314,37 @@
 .ai-assistant-chat.active {
     display: flex;
     animation: ai-slide-up 0.3s ease;
+}
+
+/* Hide support chat widget when AI chat is active */
+body.ai-chat-active .support-chat-widget {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    visibility: hidden !important;
+}
+
+
+
+/* Support chat widget should be above widget icons */
+.support-chat-widget.show {
+    z-index: 10002 !important; /* Above AI assistant widget (10000) and support bot icons */
+}
+
+/* Lower widget z-index and disable pointer events when modals are open */
+body.modal-open .ai-assistant-widget,
+body.modal-open .ai-assistant-toggle {
+    pointer-events: none !important; /* Don't block modal interactions */
+}
+
+body.modal-open #support-bot,
+body.modal-open #chat-widget {
+    z-index: 1000 !important; /* Lower than modals */
+}
+
+body.modal-open .support-chat-widget {
+    z-index: 1000 !important; /* Lower than modals */
 }
 
 @keyframes ai-slide-up {
@@ -301,7 +359,7 @@
 }
 
 .ai-assistant-header {
-    padding: 16px 20px;
+    padding: 20px 40px; /* Match support chat */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     display: flex;
@@ -321,13 +379,13 @@
 
 .ai-assistant-info h4 {
     margin: 0;
-    font-size: 16px;
+    font-size: 16px; /* Match support chat */
     font-weight: 600;
 }
 
 .ai-status {
-    font-size: 12px;
-    opacity: 0.8;
+    font-size: 12px; /* Match support chat */
+    opacity: 0.9; /* Match support chat */
 }
 
 .ai-assistant-close {
@@ -347,11 +405,12 @@
 
 .ai-assistant-messages {
     flex: 1;
-    padding: 20px;
+    padding: 10px 40px 10px; /* Minimal top padding to show first message */
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 0; /* Match support chat */
+    min-height: 0; /* Ensure flex child can shrink */
 }
 
 .ai-message {
@@ -377,20 +436,32 @@
 }
 
 .ai-message-content {
-    background: #f8f9fa;
-    padding: 12px 16px;
-    border-radius: 18px;
+    background: #f1f3f4; /* Match support chat */
+    padding: 10px 14px; /* Better padding for readability */
+    border-radius: 18px; /* Match support chat */
     max-width: 80%;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 13px; /* Readable font size */
+    line-height: 1.5; /* Better line spacing */
+    color: #212529; /* Darker for better contrast */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Match support chat */
 }
 
 .ai-message-content p {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px 0; /* Better spacing */
 }
 
 .ai-message-content p:last-child {
     margin-bottom: 0;
+}
+
+.ai-message-welcome {
+    margin-top: 0; /* Ensure welcome message is at top */
+}
+
+.ai-message-welcome .ai-message-content {
+    font-size: 10px; /* Smaller font for welcome message */
+    padding: 7px 11px; /* Smaller padding */
+    line-height: 1.3; /* Tighter line spacing */
 }
 
 .user-message {
@@ -411,9 +482,9 @@
 }
 
 .ai-assistant-input-container {
-    padding: 16px 20px;
-    border-top: 1px solid #e9ecef;
-    background: #f8f9fa;
+    padding: 20px; /* Match support chat */
+    border-top: 1px solid #e0e0e0; /* Match support chat */
+    background: white; /* Match support chat */
 }
 
 .ai-assistant-input-wrapper {
@@ -424,12 +495,17 @@
 
 .ai-assistant-input-wrapper input {
     flex: 1;
-    padding: 12px 16px;
-    border: 1px solid #e9ecef;
-    border-radius: 24px;
-    font-size: 14px;
+    padding: 12px 16px; /* Match support chat */
+    border: 1px solid #e0e0e0; /* Match support chat */
+    border-radius: 25px; /* Match support chat */
+    font-size: 14px; /* Match support chat */
     outline: none;
     transition: border-color 0.2s;
+}
+
+.ai-assistant-input-wrapper input::placeholder {
+    font-size: 12px; /* Smaller placeholder font */
+    color: #999;
 }
 
 .ai-assistant-input-wrapper input:focus {
@@ -523,13 +599,17 @@
     .ai-quick-questions {
         padding: 8px 0 0 0;
         gap: 6px;
-        max-height: 120px;
+        max-height: 90px; /* Smaller height to show first message and make scrollable */
         overflow-y: auto;
+        overflow-x: hidden;
     }
     
     .ai-question-item {
-        font-size: 12px;
-        padding: 8px 12px;
+        font-size: 12px; /* Readable font size */
+        padding: 8px 12px; /* Better padding for readability */
+        flex-shrink: 0;
+        color: #212529; /* Darker for better contrast */
+        line-height: 1.4;
     }
     
     .ai-assistant-widget {
@@ -539,15 +619,16 @@
     
     .ai-assistant-chat {
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        height: 65vh;
-        max-height: 65vh;
-        border-radius: 20px 20px 0 0;
-        margin: 0;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        width: calc(100vw - 30px);
+        max-width: 360px; /* Bigger width */
+        height: 500px; /* Bigger height */
+        max-height: 500px;
+        border-radius: 12px; /* Match support chat */
+        margin: 0 auto;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
     }
     
     .ai-assistant-toggle {
@@ -557,8 +638,8 @@
     }
     
     .ai-assistant-header {
-        padding: 12px 16px;
-        border-radius: 20px 20px 0 0;
+        padding: 20px 40px; /* Match support chat */
+        border-radius: 12px 12px 0 0;
     }
     
     .ai-assistant-avatar {
@@ -575,18 +656,26 @@
     }
     
     .ai-assistant-messages {
-        padding: 16px;
-        gap: 12px;
+        padding: 10px 20px 10px; /* Minimal top padding to show first message */
+        gap: 0;
     }
     
     .ai-message-content {
-        padding: 10px 14px;
-        font-size: 13px;
+        padding: 10px 14px; /* Better padding for readability */
+        font-size: 13px; /* Readable font size */
         max-width: 85%;
+        line-height: 1.5;
+        color: #212529; /* Darker for better contrast */
+    }
+    
+    .ai-message-welcome .ai-message-content {
+        font-size: 10px; /* Smaller font for welcome message */
+        padding: 7px 11px; /* Smaller padding */
+        line-height: 1.3; /* Tighter line spacing */
     }
     
     .ai-assistant-input-container {
-        padding: 12px 16px;
+        padding: 15px; /* Match support chat mobile */
     }
     
     .ai-assistant-input-wrapper {
@@ -596,6 +685,10 @@
     .ai-assistant-input-wrapper input {
         padding: 10px 14px;
         font-size: 14px;
+    }
+    
+    .ai-assistant-input-wrapper input::placeholder {
+        font-size: 11px; /* Smaller placeholder font for mobile */
     }
     
     .ai-assistant-send {
@@ -620,8 +713,8 @@
 /* Extra small mobile devices */
 @media (max-width: 480px) {
     .ai-assistant-chat {
-        height: 60vh;
-        max-height: 60vh;
+        height: 500px; /* Bigger height */
+        max-height: 500px;
     }
     
     .ai-assistant-toggle {
@@ -636,12 +729,20 @@
     }
     
     .ai-assistant-messages {
-        padding: 12px;
+        padding: 8px 15px 10px; /* Minimal top padding to show first message */
     }
     
     .ai-message-content {
-        font-size: 12px;
-        padding: 8px 12px;
+        font-size: 12px; /* Readable font size */
+        padding: 9px 12px; /* Better padding for readability */
+        line-height: 1.5;
+        color: #212529; /* Darker for better contrast */
+    }
+    
+    .ai-message-welcome .ai-message-content {
+        font-size: 9px; /* Smaller font for welcome message on very small screens */
+        padding: 6px 9px; /* Smaller padding */
+        line-height: 1.2; /* Tighter line spacing */
     }
     
     .ai-assistant-input-container {
@@ -649,12 +750,17 @@
     }
     
     .ai-quick-questions {
-        max-height: 100px;
+        max-height: 80px; /* Smaller height to show first message and make scrollable */
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     
     .ai-question-item {
-        font-size: 11px;
-        padding: 6px 10px;
+        font-size: 11px; /* Readable font size */
+        padding: 7px 10px; /* Better padding for readability */
+        flex-shrink: 0;
+        color: #212529; /* Darker for better contrast */
+        line-height: 1.4;
     }
 }
 
@@ -672,6 +778,14 @@
         pointer-events: none;
         transform: translateY(40px);
         transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    
+    /* Hide support chat widget when AI chat is active on mobile */
+    body.ai-chat-open .support-chat-widget {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
     }
 }
 </style>
@@ -976,11 +1090,41 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle chat
         isOpen = !isOpen;
         chat.classList.toggle('active', isOpen);
+        // Add/remove body class for CSS targeting
         if (isOpen) {
+            document.body.classList.add('ai-chat-active');
+        } else {
+            document.body.classList.remove('ai-chat-active');
+        }
+        if (isOpen) {
+            // Close support chat if it's open
+            const supportChat = document.querySelector('.support-chat-widget');
+            if (supportChat && supportChat.classList.contains('show')) {
+                // Use jQuery if available (support bot uses jQuery)
+                if (typeof $ !== 'undefined' && $.fn.removeClass) {
+                    $('.support-chat-widget').removeClass('show');
+                    $('body').removeClass('chat-modal-open');
+                } else {
+                    // Fallback to vanilla JS
+                    supportChat.classList.remove('show');
+                    document.body.classList.remove('chat-modal-open');
+                }
+                // Also trigger support bot's close function if available
+                if (window.supportBot && typeof window.supportBot.closeChatModal === 'function') {
+                    window.supportBot.closeChatModal();
+                }
+            }
+            
             input.focus();
             if (window.innerWidth <= 768) {
                 document.body.classList.add('ai-chat-open');
             }
+            // Scroll messages to top to show first message (with small delay to ensure DOM is updated)
+            setTimeout(() => {
+                if (messages) {
+                    messages.scrollTop = 0;
+                }
+            }, 50);
         }
     });
     }
@@ -989,8 +1133,40 @@ document.addEventListener('DOMContentLoaded', function() {
     close.addEventListener('click', function() {
         isOpen = false;
         chat.classList.remove('active');
+        document.body.classList.remove('ai-chat-active');
         if (window.innerWidth <= 768) {
             document.body.classList.remove('ai-chat-open');
+        }
+    });
+    
+    // Close chat when clicking outside
+    document.addEventListener('click', function(event) {
+        // Only close if chat is open
+        if (!isOpen) return;
+        
+        // Don't close if clicking inside the chat widget or toggle button
+        const aiWidget = document.getElementById('ai-assistant-widget');
+        const clickedElement = event.target;
+        
+        // Don't close if clicking on modals, dropdowns, or other interactive elements
+        if (clickedElement.closest('.modal') || 
+            clickedElement.closest('.dropdown-menu') ||
+            clickedElement.closest('.select2-container') ||
+            clickedElement.closest('.support-chat-widget')) {
+            return;
+        }
+        
+        // Check if click is outside the widget
+        if (aiWidget && !aiWidget.contains(clickedElement)) {
+            // Also check if it's not the toggle button
+            if (toggle && !toggle.contains(clickedElement)) {
+                isOpen = false;
+                chat.classList.remove('active');
+                document.body.classList.remove('ai-chat-active');
+                if (window.innerWidth <= 768) {
+                    document.body.classList.remove('ai-chat-open');
+                }
+            }
         }
     });
 
@@ -1136,6 +1312,88 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typing) {
             typing.remove();
         }
+    }
+    
+    // Ensure first message is visible on initial load
+    if (messages) {
+        setTimeout(() => {
+            messages.scrollTop = 0;
+        }, 100);
+    }
+    
+    // Ensure first question is visible on initial load
+    const quickQuestions = document.querySelector('.ai-quick-questions');
+    if (quickQuestions) {
+        setTimeout(() => {
+            quickQuestions.scrollTop = 0;
+        }, 100);
+    }
+    
+    // Function to close AI chat
+    function closeAIChat() {
+        if (isOpen) {
+            isOpen = false;
+            chat.classList.remove('active');
+            document.body.classList.remove('ai-chat-active');
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('ai-chat-open');
+            }
+        }
+    }
+    
+    // Make closeAIChat globally accessible so support bot can call it
+    window.closeAIAssistantChat = closeAIChat;
+    
+    // Listen for custom event to close AI chat (from support bot)
+    document.addEventListener('ai-chat-close', function() {
+        closeAIChat();
+    });
+    
+    // Also listen for jQuery event if jQuery is available
+    if (typeof $ !== 'undefined') {
+        $(document).on('ai-chat-close', function() {
+            closeAIChat();
+        });
+    }
+    
+    // Watch for support chat opening and close AI chat
+    const supportChat = document.querySelector('.support-chat-widget');
+    if (supportChat) {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    // Check if support chat just got the 'show' class
+                    if (supportChat.classList.contains('show') && isOpen) {
+                        // Support chat opened, close AI chat
+                        closeAIChat();
+                    }
+                }
+            });
+        });
+        
+        observer.observe(supportChat, {
+            attributes: true,
+            attributeFilter: ['class'],
+            attributeOldValue: true
+        });
+        
+        // Also check periodically for support chat opening (fallback)
+        setInterval(function() {
+            if (supportChat.classList.contains('show') && isOpen) {
+                closeAIChat();
+            }
+        }, 200);
+    }
+    
+    // Also hook into support bot's openChatModal if available
+    if (window.supportBot && typeof window.supportBot.openChatModal === 'function') {
+        const originalOpenChatModal = window.supportBot.openChatModal;
+        window.supportBot.openChatModal = function() {
+            // Close AI chat if open
+            closeAIChat();
+            // Call original function
+            return originalOpenChatModal.apply(this, arguments);
+        };
     }
     } // End of initializeAIAssistant function
 });

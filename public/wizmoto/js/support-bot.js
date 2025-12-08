@@ -116,6 +116,31 @@ $(document).ready(function() {
                 return;
             }
             
+            // Close AI chat if it's open
+            const aiChat = document.getElementById('ai-assistant-chat');
+            const isAIChatOpen = aiChat && (aiChat.classList.contains('active') || $('body').hasClass('ai-chat-active'));
+            
+            if (isAIChatOpen) {
+                // Method 1: Use global function if available (this properly updates isOpen variable)
+                if (typeof window.closeAIAssistantChat === 'function') {
+                    window.closeAIAssistantChat();
+                } else {
+                    // Fallback: manually close AI chat
+                    if (aiChat) {
+                        aiChat.classList.remove('active');
+                    }
+                    $('body').removeClass('ai-chat-active ai-chat-open');
+                    document.body.classList.remove('ai-chat-active', 'ai-chat-open');
+                    
+                    // Dispatch custom event to notify AI assistant
+                    if (typeof CustomEvent !== 'undefined') {
+                        const closeEvent = new CustomEvent('ai-chat-close');
+                        document.dispatchEvent(closeEvent);
+                    }
+                    $(document).trigger('ai-chat-close');
+                }
+            }
+            
             // Show the support chat widget
             $('.support-chat-widget').addClass('show');
             
