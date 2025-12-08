@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder {
                         EquipmentSeeder::class ,
                         // VehicleBodySeeder::class ,
                         // VehicleColorSeeder::class ,
-                        FuelTypeSeeder::class ,
+                        // FuelTypeSeeder::class ,
                         BlogCategorySeeder::class,
                         BlogPostSeeder::class,
                         AboutUsSeeder::class,
