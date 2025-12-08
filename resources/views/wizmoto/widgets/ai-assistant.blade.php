@@ -597,7 +597,7 @@ body.modal-open .support-chat-widget {
         right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
         left: auto !important;
         top: auto !important;
-        max-width: 140px !important; /* Smaller width on mobile */
+        max-width: 200px !important; /* Increased width on mobile */
         width: auto !important;
         min-width: auto !important;
         margin: 0 !important;
@@ -611,8 +611,8 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-support-alert-content {
-        padding: 5px 8px !important; /* Even smaller padding */
-        gap: 5px !important; /* Smaller gap */
+        padding: 8px 12px !important; /* Increased padding */
+        gap: 8px !important; /* Increased gap */
         min-height: auto !important;
         height: auto !important;
         display: flex !important;
@@ -620,14 +620,14 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-support-alert-icon {
-        width: 18px !important; /* Even smaller icon */
-        height: 18px !important;
+        width: 24px !important; /* Increased icon size */
+        height: 24px !important;
         flex-shrink: 0 !important;
     }
     
     .ai-support-alert-icon svg {
-        width: 10px !important;
-        height: 10px !important;
+        width: 14px !important;
+        height: 14px !important;
     }
     
     .ai-support-alert-text {
@@ -637,13 +637,12 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-support-alert-text h4 {
-        font-size: 9px !important; /* Even smaller text */
+        font-size: 11px !important; /* Increased text size */
         margin: 0 !important;
-        line-height: 1.1 !important;
+        line-height: 1.2 !important;
         padding: 0 !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
+        white-space: normal !important; /* Allow text to wrap */
+        overflow: visible !important;
     }
     
     .ai-support-alert-text p {
@@ -651,17 +650,17 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-support-alert-close {
-        width: 16px !important;
-        height: 16px !important;
-        top: 2px !important;
-        right: 2px !important;
-        padding: 1px !important;
+        width: 20px !important;
+        height: 20px !important;
+        top: 4px !important;
+        right: 4px !important;
+        padding: 2px !important;
         flex-shrink: 0 !important;
     }
     
     .ai-support-alert-close svg {
-        width: 8px !important;
-        height: 8px !important;
+        width: 10px !important;
+        height: 10px !important;
     }
     
     .ai-quick-questions {
@@ -943,7 +942,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 aiAlert.style.bottom = '75px';
                 aiAlert.style.right = '77px';
                 aiAlert.style.left = 'auto';
-                aiAlert.style.maxWidth = '140px';
+                aiAlert.style.maxWidth = '200px';
                 aiAlert.style.minWidth = 'auto';
                 aiAlert.style.transform = 'translateX(0)';
             } else {
@@ -964,8 +963,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Mobile vs Desktop padding
                 if (window.innerWidth <= 768) {
-                    alertContent.style.gap = '5px';
-                    alertContent.style.padding = '5px 8px';
+                    alertContent.style.gap = '8px';
+                    alertContent.style.padding = '8px 12px';
                 } else {
                     alertContent.style.gap = '12px';
                     alertContent.style.padding = '16px 20px';
@@ -991,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alertTitle.style.fontWeight = '600';
                     alertTitle.style.lineHeight = '1.2';
                     if (window.innerWidth <= 768) {
-                        alertTitle.style.fontSize = '9px';
+                        alertTitle.style.fontSize = '11px';
                     } else {
                         alertTitle.style.fontSize = '14px';
                     }
@@ -1013,8 +1012,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     alertIcon.style.justifyContent = 'center';
                     alertIcon.style.flexShrink = '0';
                     if (window.innerWidth <= 768) {
-                        alertIcon.style.width = '18px';
-                        alertIcon.style.height = '18px';
+                        alertIcon.style.width = '24px';
+                        alertIcon.style.height = '24px';
                     } else {
                         alertIcon.style.width = '32px';
                         alertIcon.style.height = '32px';
@@ -1036,11 +1035,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     closeBtn.style.justifyContent = 'center';
                     closeBtn.style.transition = 'all 0.2s ease';
                     if (window.innerWidth <= 768) {
-                        closeBtn.style.top = '2px';
-                        closeBtn.style.right = '2px';
-                        closeBtn.style.padding = '1px';
-                        closeBtn.style.width = '16px';
-                        closeBtn.style.height = '16px';
+                        closeBtn.style.top = '4px';
+                        closeBtn.style.right = '4px';
+                        closeBtn.style.padding = '2px';
+                        closeBtn.style.width = '20px';
+                        closeBtn.style.height = '20px';
                     } else {
                         closeBtn.style.top = '6px';
                         closeBtn.style.right = '6px';
@@ -1064,10 +1063,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             aiAlert.classList.add('show');
             
-            // Hide after 5 seconds
+            // Hide after 10 seconds (increased from 5 seconds)
             setTimeout(() => {
                 aiAlert.style.display = 'none';
-            }, 5000);
+            }, 10000);
         } else {
             // Create a simple fallback alert
             const fallbackAlert = document.createElement('div');
