@@ -617,8 +617,8 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-widget {
-        bottom: 20px;
-        right: 15px;
+        bottom: 15px; /* Same as support bot - in one line */
+        right: 75px; /* Position to the left of support bot (15px + 60px icon width) */
     }
     
     .ai-assistant-chat {
@@ -724,8 +724,8 @@ body.modal-open .support-chat-widget {
     .ai-assistant-toggle {
         width: 52px;
         height: 52px;
-        bottom: 15px;
-        right: 12px;
+        bottom: 50px;
+        
     }
     
     .ai-assistant-header {
