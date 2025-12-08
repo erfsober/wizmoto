@@ -13,7 +13,7 @@
                     <li><span>{{ __('messages.motors_for_sale') }}</span></li>
                 </ul>
                 <h2>{{ $advertisement->brand?->name }}{{ ' ' }}{{ $advertisement->vehicleModel?->name }}</h2>
-                <div class="text">{{ $advertisement->version_model }}</div>
+                <div class="text">{{ ''}}</div>
                 <div class="content-box">
                     <h3 class="title">€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</h3>
                     <div class="">
@@ -706,7 +706,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="side-bar-column style-1 col-lg-4 col-md-12 col-sm-12">
+                <div id="contact-message-section" class="side-bar-column style-1 col-lg-4 col-md-12 col-sm-12">
                     <div class="inner-column">
                         <div class="contact-box">
                             <div class="icon-box">
@@ -1802,5 +1802,85 @@
     margin: 0 auto;
     }
 }
+
+/* Mobile Scroll to Contact Button */
+.mobile-scroll-to-contact {
+    display: none;
+    position: fixed;
+    bottom: 140px;
+    right: 18px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    cursor: pointer;
+    z-index: 10001; /* Above AI assistant widget (10000) */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.mobile-scroll-to-contact:hover,
+.mobile-scroll-to-contact:active {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5);
+}
+
+.mobile-scroll-to-contact svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 991px) {
+    .mobile-scroll-to-contact {
+        display: flex !important;
+    }
+}
 </style>
+@endpush
+
+<!-- Mobile Scroll to Contact Button -->
+<button id="mobile-scroll-to-contact" class="mobile-scroll-to-contact" title="{{ __('messages.send_message') }}">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+    </svg>
+</button>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollButton = document.getElementById('mobile-scroll-to-contact');
+        const contactSection = document.getElementById('contact-message-section');
+        
+        if (!scrollButton) return;
+        
+        // Hide button if contact section doesn't exist
+        if (!contactSection) {
+            scrollButton.style.display = 'none';
+            return;
+        }
+        
+        // Add click handler
+        scrollButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Smooth scroll to contact section
+            contactSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            // Add highlight effect
+            contactSection.style.transition = 'box-shadow 0.3s ease';
+            contactSection.style.boxShadow = '0 0 20px rgba(37, 211, 102, 0.5)';
+            setTimeout(() => {
+                contactSection.style.boxShadow = '';
+            }, 2000);
+        });
+    });
+</script>
 @endpush

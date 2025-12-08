@@ -100,7 +100,9 @@ class Provider extends Authenticatable implements MustVerifyEmail, HasMedia
         if (empty($number)) {
             return null;
         }
-
+        if (substr($number, 0, 2) === '00' && strlen($number) > 2) {
+            $number = substr($number, 2);
+        }
         // If number is too short (less than 10 digits), add Italy country code (39)
         if (strlen($number) < 10) {
             $number = '39' . $number;
