@@ -1808,7 +1808,7 @@
     display: none;
     position: fixed;
     bottom: 140px;
-    right: 18px;
+    right: 16px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
