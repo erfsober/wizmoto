@@ -798,14 +798,59 @@ class ImportAutoscout24WithRealImages extends Command
         $desiredTitle = 'Motorcycle';
 
         if (is_string($bodyType) && $bodyType !== '') {
-            $bt = mb_strtolower($bodyType);
+            $bt = mb_strtolower(trim($bodyType));
 
-            if (str_contains($bt, 'scooter')) {
-                // Prefer your explicit "Scooter" type when Carrozzeria contains "Scooter".
+            // Motor Scooter category (check first to avoid matching regular scooters)
+            if (str_contains($bt, 'motor scooter') || 
+                str_contains($bt, 'motorscooter') ||
+                str_contains($bt, 'maxi scooter') ||
+                str_contains($bt, 'maxiscooter')) {
+                $desiredTitle = 'Motor Scooter';
+            }
+            // Scooter category (regular scooters, not motor scooters)
+            elseif (str_contains($bt, 'scooter') && !str_contains($bt, 'motor')) {
                 $desiredTitle = 'Scooter';
-            } elseif (str_contains($bt, 'bike')) {
+            }
+            // Bike category (mopeds, bicycles, e-bikes)
+            elseif (str_contains($bt, 'ciclomotori') ||
+                str_contains($bt, 'moped') ||
+                str_contains($bt, 'bike') ||
+                str_contains($bt, 'bicicletta') ||
+                str_contains($bt, 'e-bike') ||
+                str_contains($bt, 'ebike') ||
+                str_contains($bt, 'electric bike')) {
                 $desiredTitle = 'Bike';
-            } elseif (str_contains($bt, 'motor')) {
+            }
+            // Motorcycle category (everything else - enduro, naked, sport, touring, etc.)
+            elseif (str_contains($bt, 'enduro') ||
+                str_contains($bt, 'naked') ||
+                str_contains($bt, 'sport') ||
+                str_contains($bt, 'touring') ||
+                str_contains($bt, 'cruiser') ||
+                str_contains($bt, 'custom') ||
+                str_contains($bt, 'adventure') ||
+                str_contains($bt, 'superbike') ||
+                str_contains($bt, 'supersport') ||
+                str_contains($bt, 'crossover') ||
+                str_contains($bt, 'motard') ||
+                str_contains($bt, 'trial') ||
+                str_contains($bt, 'chopper') ||
+                str_contains($bt, 'bobber') ||
+                str_contains($bt, 'cafe racer') ||
+                str_contains($bt, 'scrambler') ||
+                str_contains($bt, 'classic') ||
+                str_contains($bt, 'vintage') ||
+                str_contains($bt, 'racing') ||
+                str_contains($bt, 'street') ||
+                str_contains($bt, 'off-road') ||
+                str_contains($bt, 'dual sport') ||
+                str_contains($bt, 'motocicletta') ||
+                str_contains($bt, 'motoveicolo') ||
+                str_contains($bt, 'motorcycle')) {
+                $desiredTitle = 'Motorcycle';
+            }
+            // If contains "motor" but doesn't match above patterns, it's likely a motorcycle
+            elseif (str_contains($bt, 'motor')) {
                 $desiredTitle = 'Motorcycle';
             }
         }
