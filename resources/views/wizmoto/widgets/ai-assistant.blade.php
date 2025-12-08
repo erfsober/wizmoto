@@ -177,14 +177,16 @@
     flex-direction: column;
     gap: 6px;
     margin-top: 8px;
-    margin-right: -6px; /* Negative margin to allow scrollbar outside border */
-    padding-right: 12px; /* Space for scrollbar outside the border */
+    margin-right: 0;
+    padding-right: 10px; /* Space for scrollbar */
     max-height: 100px; /* Smaller height to show first message and make scrollable */
     overflow-y: auto;
     overflow-x: hidden;
     /* Custom scrollbar */
     scrollbar-width: thin;
     scrollbar-color: #cbd5e0 #f7fafc;
+    /* Make container smaller to prevent scrollbar overlap */
+    box-sizing: border-box;
 }
 
 .ai-quick-questions::-webkit-scrollbar {
@@ -209,7 +211,7 @@
     background: #ffffff;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 8px 12px; /* Better padding for readability */
+    padding: 8px 10px; /* Slightly reduced padding to make box smaller */
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 12px; /* Readable font size */
@@ -218,7 +220,7 @@
     display: flex;
     align-items: center;
     margin: 0;
-    width: 100%;
+    width: calc(100% - 10px); /* Make slightly smaller to accommodate scrollbar */
     box-sizing: border-box;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     flex-shrink: 0; /* Prevent shrinking in scrollable container */
@@ -615,7 +617,7 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-widget {
-        bottom: 90px; /* Position above support bot (which is at bottom: 20px) */
+        bottom: 75px; /* Position above support bot (15px + 50px height + 10px gap) */
         right: 15px;
     }
     
