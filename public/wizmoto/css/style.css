@@ -10512,7 +10512,7 @@ Section Title
   display: -ms-flexbox;
   display: flex;
   justify-content: center;
-  /* border-bottom: 1px solid #e1e1e1; */
+  border-bottom: 1px solid #e1e1e1;
 }
 
 .car-block-three .inner-box .content-box ul li {
@@ -10556,11 +10556,14 @@ Section Title
   color: var(--theme-color-dark);
   line-height: 30px;
 }
+.car-block-three .inner-box .content-box .btn-box{
+  padding: 30px 0;
+}
 
 .car-block-three .inner-box .content-box .btn-box .details {
   position: absolute;
-  top: 23px;
-  right: 30px;
+  bottom: 23px;
+  right: 32px;
   font-size: 15px;
   font-weight: 500;
   color: var(--theme-color1);
