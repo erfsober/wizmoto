@@ -684,10 +684,7 @@ body.modal-open .support-chat-widget {
         line-height: 1.4;
     }
     
-    .ai-assistant-widget {
-        bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
-        right: 15px !important; /* Same as support bot - vertically aligned */
-    }
+  
 
     .support-bot {
             bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
