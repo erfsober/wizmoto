@@ -973,6 +973,14 @@
                                 <div class="offer-section">
                                     <label class="mb-3">{{ __('messages.make_an_offer') ?? 'Make an offer' }}</label>
                                     
+                                    @php
+                                        $formatPrice = function($price) {
+                                            $formatted = number_format($price, 2, ',', '.');
+                                            // Remove trailing ,00 but keep other decimals
+                                            return preg_replace('/,00$/', '', $formatted);
+                                        };
+                                    @endphp
+                                    
                                     {{-- Product Info --}}
                                     <div class="offer-product-info mb-3">
                                         <div class="d-flex align-items-center gap-3">
@@ -983,7 +991,7 @@
                                             @endif
                                             <div class="flex-grow-1">
                                                 <div class="offer-product-title">{{ $advertisement->title ?? $advertisement->brand?->name . ' ' . $advertisement->vehicleModel?->name }}</div>
-                                                <div class="offer-product-price">Item price: €{{ number_format($advertisement->final_price, 2, ',', '.') }}</div>
+                                                <div class="offer-product-price">Item price: €{{ $formatPrice($advertisement->final_price) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -993,13 +1001,13 @@
                                         <div class="row g-2">
                                             <div class="col-4">
                                                 <div class="offer-option" data-offer-type="percentage" data-offer-value="10">
-                                                    <div class="offer-price" id="offer-10-price">€{{ number_format($advertisement->final_price * 0.9, 2, ',', '.') }}</div>
+                                                    <div class="offer-price" id="offer-10-price">€{{ $formatPrice($advertisement->final_price * 0.9) }}</div>
                                                     <div class="offer-discount">10% off</div>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="offer-option" data-offer-type="percentage" data-offer-value="20">
-                                                    <div class="offer-price" id="offer-20-price">€{{ number_format($advertisement->final_price * 0.8, 2, ',', '.') }}</div>
+                                                    <div class="offer-price" id="offer-20-price">€{{ $formatPrice($advertisement->final_price * 0.8) }}</div>
                                                     <div class="offer-discount">20% off</div>
                                                 </div>
                                             </div>
@@ -1027,13 +1035,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- Total with Buyer Protection --}}
-                                    <div class="offer-total mb-3">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span>Total incl. Buyer Protection fee:</span>
-                                            <strong id="offer-total-price">€{{ number_format($advertisement->final_price * 1.087, 2, ',', '.') }}</strong>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -1637,8 +1638,6 @@
                     $('#custom-price-container .input-group-text').css('background-color', '#f8f9fa').css('opacity', '1');
                     selectedOfferValue = parseFloat($('#custom-offer-price').val()) || originalPrice;
                 }
-                
-                updateOfferTotal();
             });
 
             // Handle custom price input (only when enabled)
@@ -1655,15 +1654,7 @@
                 } else {
                     selectedOfferValue = newValue;
                 }
-                updateOfferTotal();
             });
-
-            // Update total with buyer protection fee (8.7%)
-            function updateOfferTotal() {
-                const buyerProtectionFee = 0.087; // 8.7%
-                const total = selectedOfferValue * (1 + buyerProtectionFee);
-                $('#offer-total-price').text('€' + total.toFixed(2).replace('.', ','));
-            }
 
             // Handle contact form submission
             $('#initiate-contact-form').on('submit', function(e) {
@@ -1736,9 +1727,28 @@
                 }
 
                 // Build offer message (concise format) - using translations
+                // Format prices with thousand separators and without trailing zeros
+                // e.g., 3861.00 -> 3.861, 4290.00 -> 4.290, 3861.50 -> 3.861,50
+                function formatPrice(price) {
+                    // Split into integer and decimal parts
+                    const parts = price.toFixed(2).split('.');
+                    const integerPart = parts[0];
+                    const decimalPart = parts[1];
+                    
+                    // Add thousand separators (dots) to integer part
+                    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    
+                    // Combine with decimal part (comma as separator)
+                    let formatted = formattedInteger + ',' + decimalPart;
+                    
+                    // Remove trailing ,00 but keep other decimals
+                    formatted = formatted.replace(/,00$/, '');
+                    return formatted;
+                }
+                
                 let offerMessage = '';
-                const offerPriceFormatted = selectedOfferValue.toFixed(2).replace('.', ',');
-                const originalPriceFormatted = originalPrice.toFixed(2).replace('.', ',');
+                const offerPriceFormatted = formatPrice(selectedOfferValue);
+                const originalPriceFormatted = formatPrice(originalPrice);
                 
                 if (selectedOfferType === 'percentage') {
                     const percentage = $('.offer-option.active').data('offer-value');
@@ -1841,7 +1851,6 @@
                 // Enable input for custom mode
                 $('#custom-offer-price').prop('disabled', false);
                 $('#custom-price-container .input-group-text').css('background-color', '#f8f9fa').css('opacity', '1');
-                updateOfferTotal();
                 
                 $('#send-contact-btn').prop('disabled', false).html(
                     '<span class="d-flex align-items-center gap-2">{{ __('messages.make_an_offer') ?? 'Make an offer' }} <i class="fa fa-paper-plane"></i></span>');
