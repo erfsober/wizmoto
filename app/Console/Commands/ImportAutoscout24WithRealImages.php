@@ -817,25 +817,27 @@ class ImportAutoscout24WithRealImages extends Command
         if (is_string($bodyType) && $bodyType !== '') {
             $bt = mb_strtolower(trim($bodyType));
 
-            // Motor Scooter category (check first to avoid matching regular scooters)
+            // Motor Scooter category - ALL scooters are motor scooters
+            // Check for explicit motor scooter terms first
             if (str_contains($bt, 'motor scooter') || 
                 str_contains($bt, 'motorscooter') ||
                 str_contains($bt, 'maxi scooter') ||
-                str_contains($bt, 'maxiscooter')) {
+                str_contains($bt, 'maxiscooter') ||
+                str_contains($bt, 'scooter')) {  // All scooters are motor scooters
                 $desiredTitle = 'Motor Scooter';
             }
-            // Scooter category (regular scooters, not motor scooters)
-            elseif (str_contains($bt, 'scooter') && !str_contains($bt, 'motor')) {
+            elseif (str_contains($bt, 'monopattina')) {
                 $desiredTitle = 'Scooter';
             }
-            // Bike category (mopeds, bicycles, e-bikes)
+            // Bike category (mopeds, bicycles, e-bikes, kick scooters - non-motorized)
             elseif (str_contains($bt, 'ciclomotori') ||
                 str_contains($bt, 'moped') ||
                 str_contains($bt, 'bike') ||
                 str_contains($bt, 'bicicletta') ||
                 str_contains($bt, 'e-bike') ||
                 str_contains($bt, 'ebike') ||
-                str_contains($bt, 'electric bike')) {
+                str_contains($bt, 'electric bike') ||
+                str_contains($bt, 'kick scooter')) {  // Non-motorized scooters
                 $desiredTitle = 'Bike';
             }
             // Motorcycle category (everything else - enduro, naked, sport, touring, etc.)
