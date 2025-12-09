@@ -564,15 +564,26 @@
                             <div class="mb-3">
                                 <i class="fa fa-check-circle text-success" style="font-size: 3rem;"></i>
                             </div>
-                            <h4 class="text-success">{{ __('messages.message_sent_successfully') }}</h4>
+                            <h4 class="text-success">{{ __('messages.message_sent_successfully') }}!</h4>
                             <p class="mb-3">{{ __('messages.message_sent_to') }} {{ $provider->full_name }}.</p>
                             <div class="alert alert-success">
                                 <strong>{{ __('messages.conversation_link') }}:</strong><br>
-                                <span id="conversation-link" class="text-break"></span>
+                                <div class="conversation-link-container mt-2">
+                                    <div class="conversation-link-box" id="conversation-link" onclick="selectAndCopyLink()">
+                                        <span class="link-text"></span>
+                                        <div class="action-buttons">
+                                            <button class="action-btn go-btn" id="go-to-conversation-btn" onclick="event.stopPropagation(); goToConversation()" title="Go to conversation">
+                                                <i class="fa fa-external-link"></i>
+                                            </button>
+                                            <button class="action-btn copy-btn" id="copy-link-btn" onclick="event.stopPropagation(); copyToClipboard()" title="Copy to clipboard">
+                                                <i class="fa fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <p class="text-muted">
-                                <i class="fa fa-bookmark"></i>
-                                <strong>{{ __('messages.bookmark_this_link') }}</strong> {{ __('messages.to_continue_conversation') }}!
+                                <i class="fa fa-bookmark"></i> <strong>{{ __('messages.bookmark_this_link') }}</strong> {{ __('messages.to_continue_conversation') }}!
                             </p>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close') }}</button>
                         </div>
@@ -732,7 +743,7 @@
                                                 // Show success message
                                                 $('#contact-form').addClass('d-none');
                                                 $('#contact-success').removeClass('d-none');
-                                                $('#conversation-link').text(response.conversation_link);
+                                                $('#conversation-link .link-text').text(response.conversation_link);
 
                                                 // Store email in localStorage for future use
                                                 localStorage.setItem('guest_email_' + providerId, email);
@@ -845,5 +856,198 @@
                             $('#guest-email').val(savedEmail);
                         }
                     });
+
+        // Global functions for conversation link
+        window.selectAndCopyLink = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            if (linkText) {
+                // Select the text
+                if (window.getSelection) {
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(document.querySelector('#conversation-link .link-text'));
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+                
+                // Copy to clipboard
+                copyToClipboard();
+            }
+        };
+
+        window.goToConversation = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            if (linkText) {
+                // Open the conversation link in a new tab
+                window.open(linkText, '_blank');
+            }
+        };
+
+        window.copyToClipboard = function() {
+            const linkText = $('#conversation-link .link-text').text();
+            
+            if (linkText) {
+                // Try modern clipboard API first
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(linkText).then(function() {
+                        showCopySuccess();
+                    }).catch(function(err) {
+                        console.error('Clipboard API failed:', err);
+                        fallbackCopy(linkText);
+                    });
+                } else {
+                    // Fallback for older browsers
+                    fallbackCopy(linkText);
+                }
+            }
+        };
+
+        function fallbackCopy(text) {
+            try {
+                // Create a temporary textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-999999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showCopySuccess();
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            }
+        }
+
+        function showCopySuccess() {
+            const copyBtn = $('#copy-link-btn');
+            const originalHTML = copyBtn.html();
+            copyBtn.addClass('copied').html('<i class="fa fa-check"></i>');
+            setTimeout(function() {
+                copyBtn.removeClass('copied').html(originalHTML);
+            }, 2000);
+        }
     </script>
+@endpush
+
+@push('styles')
+<style>
+.conversation-link-container {
+    width: 100%;
+}
+
+.conversation-link-box {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    word-break: break-all;
+}
+
+.conversation-link-box:hover {
+    background: #e9ecef;
+    border-color: #007bff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+}
+
+.conversation-link-box:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0,123,255,0.2);
+}
+
+.link-text {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #495057;
+    line-height: 1.4;
+    margin-right: 12px;
+    user-select: all;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    min-width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.go-btn {
+    background: #28a745;
+}
+
+.go-btn:hover {
+    background: #218838;
+    transform: scale(1.05);
+}
+
+.go-btn:active {
+    transform: scale(0.95);
+}
+
+.copy-btn {
+    background: #007bff;
+}
+
+.copy-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
+}
+
+.copy-btn.copied {
+    background: #28a745;
+}
+
+.copy-btn.copied i {
+    transform: scale(1.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .conversation-link-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .link-text {
+        margin-right: 0;
+        text-align: center;
+    }
+    
+    .action-buttons {
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .action-btn {
+        flex: 1;
+        max-width: 120px;
+    }
+}
+</style>
 @endpush
