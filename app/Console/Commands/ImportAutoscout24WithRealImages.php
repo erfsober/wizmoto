@@ -796,23 +796,34 @@ class ImportAutoscout24WithRealImages extends Command
     private function resolveAdvertisementTypeFromAutoscoutMeta(array $meta): AdvertisementType
     {
         $bodyType = $meta['body_type'] ?? null; // e.g. "Scooter", "Enduro", ...
+        $title = $meta['title'] ?? null; // Check title for additional context (e.g., "monopattino")
 
         // Default for motos if we can't detect anything better.
         $desiredTitle = 'Motorcycle';
 
         if (is_string($bodyType) && $bodyType !== '') {
             $bt = mb_strtolower(trim($bodyType));
+            $titleLower = is_string($title) ? mb_strtolower(trim($title)) : '';
+            
+            // Check if title contains "monopattino" to distinguish from motor scooters
+            $isMonopattino = str_contains($titleLower, 'monopattino') || str_contains($bt, 'monopattino');
 
-            // Motor Scooter category (check first to avoid matching regular scooters)
-            if (str_contains($bt, 'motor scooter') || 
+            // Scooter category (monopattino/electric kick scooters)
+            // Monopattino (Italian for electric kick scooter) should be classified as "Scooter"
+            if ($isMonopattino || 
+                str_contains($bt, 'electric scooter') ||
+                str_contains($bt, 'kick scooter')) {
+                $desiredTitle = 'Scooter';
+            }
+            // Motor Scooter category (motor scooters - regular scooters, maxi scooters, etc.)
+            // Yamaha TriCity type: body_type is "Scooter" but it's a motor scooter (NOT monopattino)
+            elseif (str_contains($bt, 'motor scooter') || 
                 str_contains($bt, 'motorscooter') ||
                 str_contains($bt, 'maxi scooter') ||
-                str_contains($bt, 'maxiscooter')) {
+                str_contains($bt, 'maxiscooter') ||
+                (str_contains($bt, 'scooter') && !$isMonopattino) ||
+                str_contains($bt, 'escooter')) {
                 $desiredTitle = 'Motor Scooter';
-            }
-            // Scooter category (regular scooters, not motor scooters)
-            elseif (str_contains($bt, 'scooter') && !str_contains($bt, 'motor')) {
-                $desiredTitle = 'Scooter';
             }
             // Bike category (mopeds, bicycles, e-bikes)
             elseif (str_contains($bt, 'ciclomotori') ||
