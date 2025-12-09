@@ -704,7 +704,7 @@ body.modal-open .support-chat-widget {
         position: fixed;
         left: 15px;
         right: 15px;
-        bottom: 15px;
+        bottom: calc(56px + 20px); /* 56px button height + 20px gap */
         width: calc(100vw - 30px);
         max-width: 450px; /* Bigger width */
         height: 500px; /* Bigger height */
