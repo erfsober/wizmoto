@@ -680,6 +680,21 @@
             height: auto;
             transition: all 0.3s ease;
         }
+
+        /* Image count indicator */
+        .image-gallery::after {
+            content: attr(data-count);
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 3;
+        }
     </style>
 @endpush
 @push('scripts')

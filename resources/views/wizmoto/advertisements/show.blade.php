@@ -1563,6 +1563,21 @@
             min-height: 200px;
         }
     }
+    
+    /* Image count indicator for related products - applies to all screen sizes */
+    .cars-section-three .image-gallery::after {
+        content: attr(data-count);
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 3;
+    }
     /* No extra overrides for overview rows here; use global theme styles */
     </style>
 @endpush
