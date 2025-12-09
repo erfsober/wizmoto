@@ -1004,6 +1004,146 @@
     @include('wizmoto.partials.footer')
 
 @endsection
+
+@push('styles')
+<style>
+    /* Image Gallery Styles - Preserve original image sizes */
+    .image-gallery {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .main-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .thumbnail-images {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        display: flex;
+        gap: 4px;
+        z-index: 2;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+        flex-wrap: wrap;
+        max-width: calc(100% - 16px);
+        justify-content: flex-end;
+    }
+
+    .image-gallery:hover .thumbnail-images,
+    .thumbnail-images.show {
+        opacity: 1;
+    }
+
+    .thumb-link {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .thumb-link:hover {
+        border-color: #405FF2;
+        transform: scale(1.1);
+    }
+
+    .thumb-link img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Image count indicator - Desktop: top-left */
+    .image-gallery::after {
+        content: attr(data-count);
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 3;
+    }
+
+    /* Desktop layout - preserve original service-block-thirteen image dimensions */
+    .service-block-thirteen .image-box .image-gallery {
+        height: 100%;
+    }
+
+    .service-block-thirteen .image-box .image-gallery .main-image {
+        height: 100%;
+    }
+
+    .service-block-thirteen .image-box .image-gallery .main-image img {
+        height: 100%;
+    }
+
+    /* Mobile layout - preserve original car-block-three image dimensions */
+    .car-block-three .image-box .image-gallery {
+        height: 100%;
+    }
+
+    .car-block-three .image-box .image-gallery .main-image {
+        height: 100%;
+    }
+
+    .car-block-three .image-box .image-gallery .main-image img {
+        height: 100%;
+    }
+
+    /* Mobile responsiveness for thumbnails */
+    @media (max-width: 768px) {
+        .thumbnail-images {
+            opacity: 1; /* Always show on mobile */
+        }
+
+        .thumb-link {
+            width: 35px;
+            height: 35px;
+        }
+
+        .image-gallery::after {
+            font-size: 11px;
+            padding: 3px 6px;
+            left: auto;
+            right: 8px; /* Keep on right for mobile */
+        }
+    }
+
+    /* Tablet and below - preserve original heights */
+    @media (max-width: 1199px) {
+        .service-block-thirteen .inner-box .image-box .image-gallery .main-image img {
+            height: 350px;
+            object-fit: cover;
+        }
+    }
+</style>
+@endpush
+
 @push('scripts')
     <script>
         // Function to handle URL parameters and pre-select filters

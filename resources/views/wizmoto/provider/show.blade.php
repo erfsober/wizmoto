@@ -413,7 +413,7 @@
                                                     @php
                                                         $images = $advertisement->getMedia('covers');
                                                         $firstImage = $images->first();
-                                                        $remainingImages = $images->skip(1)->take(2);
+                                                        $remainingImages = $images->skip(1);
                                                     @endphp
 
                                                     @if($firstImage)

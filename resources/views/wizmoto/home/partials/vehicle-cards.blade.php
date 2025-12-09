@@ -1,6 +1,8 @@
 @foreach ($advertisements as $advertisement)
     @php
-        $image = $advertisement->getMedia('covers')->first();
+        $images = $advertisement->getMedia('covers');
+        $firstImage = $images->first();
+        $remainingImages = $images->skip(1);
     @endphp
     {{-- Desktop Layout --}}
     <div class="service-block-thirteen vehicle-card-desktop">
@@ -9,13 +11,29 @@
                 <div class="fair-price-overlay">
                     @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
                 </div>
-                <figure class="image">
-                    <a href="{{ $image?->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
-                        <img src="{{ $image?->getUrl('vehicle-card') }}" 
-                             loading="lazy"
-                             alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
-                    </a>
-                </figure>
+                <div class="image-gallery" data-count="{{ $images->count() }}">
+                    @if($firstImage)
+                        <div class="main-image">
+                            <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}">
+                                <img src="{{ $firstImage->getUrl('vehicle-card') }}" 
+                                     loading="lazy"
+                                     alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                            </a>
+                        </div>
+                    @endif
+                    
+                    @if($remainingImages->count() > 0)
+                        <div class="thumbnail-images">
+                            @foreach($remainingImages as $image)
+                                <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-{{ $advertisement->id }}" class="thumb-link">
+                                    <img src="{{ $image->getUrl('card') }}" 
+                                         loading="lazy"
+                                         alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
             <div class="right-box">
                 <div class="content-box" style="display: flex;flex-direction: column;justify-content: space-around;">
@@ -98,13 +116,29 @@
                 <div class="fair-price-overlay">
                     @include('wizmoto.partials.price-evaluation-badge', ['value' => $advertisement->price_evaluation])
                 </div>
-                <figure class="image">
-                    <a href="{{ $image?->getUrl('preview') }}" data-fancybox="gallery-mobile-{{ $advertisement->id }}">
-                        <img src="{{ $image?->getUrl('card') }}" 
-                             loading="lazy"
-                             alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
-                    </a>
-                </figure>
+                <div class="image-gallery" data-count="{{ $images->count() }}">
+                    @if($firstImage)
+                        <div class="main-image">
+                            <a href="{{ $firstImage->getUrl('preview') }}" data-fancybox="gallery-mobile-{{ $advertisement->id }}">
+                                <img src="{{ $firstImage->getUrl('card') }}" 
+                                     loading="lazy"
+                                     alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                            </a>
+                        </div>
+                    @endif
+                    
+                    @if($remainingImages->count() > 0)
+                        <div class="thumbnail-images">
+                            @foreach($remainingImages as $image)
+                                <a href="{{ $image->getUrl('preview') }}" data-fancybox="gallery-mobile-{{ $advertisement->id }}" class="thumb-link">
+                                    <img src="{{ $image->getUrl('card') }}" 
+                                         loading="lazy"
+                                         alt="{{ $advertisement->title ?? 'Advertisement Image' }}">
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
             <div class="content-box">
                 <h6 class="title">
