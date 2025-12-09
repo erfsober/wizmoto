@@ -469,6 +469,8 @@ body.modal-open .support-chat-widget {
 
 .ai-message-content p {
     margin: 0 0 8px 0; /* Better spacing */
+    font-size: 15px; /* Readable font size */
+
 }
 
 .ai-message-content p:last-child {
@@ -597,6 +599,9 @@ body.modal-open .support-chat-widget {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .ai-message-content p {
+        font-size: 13px; /* Readable font size */
+    }
     .ai-support-alert {
         bottom: 75px !important; /* Align with AI widget button (same as widget bottom on mobile) */
         right: 77px !important; /* Position to the left of AI widget icon (15px widget + 52px icon + 10px gap) */
