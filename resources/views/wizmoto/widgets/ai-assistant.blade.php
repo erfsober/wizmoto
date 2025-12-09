@@ -732,11 +732,11 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-info h4 {
-        font-size: 15px;
+        font-size: 13px;
     }
     
     .ai-status {
-        font-size: 11px;
+        font-size: 10px;
     }
     
     .ai-assistant-messages {
@@ -746,16 +746,16 @@ body.modal-open .support-chat-widget {
     
     .ai-message-content {
         padding: 10px 14px; /* Better padding for readability */
-        font-size: 13px; /* Readable font size */
+        font-size: 12px; /* Smaller font size for mobile */
         max-width: 85%;
-        line-height: 1.5;
+        line-height: 1.4;
         color: #212529; /* Darker for better contrast */
     }
     
     .ai-message-welcome .ai-message-content {
-        font-size: 10px; /* Smaller font for welcome message */
+        font-size: 9px; /* Smaller font for welcome message */
         padding: 7px 11px; /* Smaller padding */
-        line-height: 1.3; /* Tighter line spacing */
+        line-height: 1; /* Tighter line spacing */
     }
     
     .ai-assistant-input-container {
@@ -768,11 +768,11 @@ body.modal-open .support-chat-widget {
     
     .ai-assistant-input-wrapper input {
         padding: 10px 14px;
-        font-size: 14px;
+        font-size: 13px; /* Smaller input font */
     }
     
     .ai-assistant-input-wrapper input::placeholder {
-        font-size: 11px; /* Smaller placeholder font for mobile */
+        font-size: 10px; /* Smaller placeholder font for mobile */
     }
     
     .ai-assistant-send {
@@ -820,14 +820,14 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-message-content {
-        font-size: 12px; /* Readable font size */
-        padding: 9px 12px; /* Better padding for readability */
-        line-height: 1.5;
+        font-size: 11px; /* Smaller font size for very small screens */
+        padding: 8px 12px; /* Better padding for readability */
+        line-height: 1.1;
         color: #212529; /* Darker for better contrast */
     }
     
     .ai-message-welcome .ai-message-content {
-        font-size: 9px; /* Smaller font for welcome message on very small screens */
+        font-size: 8px; /* Smaller font for welcome message on very small screens */
         padding: 6px 9px; /* Smaller padding */
         line-height: 1.2; /* Tighter line spacing */
     }
