@@ -25,6 +25,11 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
+    public function advertisement(): BelongsTo
+    {
+        return $this->belongsTo(Advertisement::class);
+    }
+
     protected static function booted()
     {
         static::creating(function ($model) {

@@ -1,5 +1,19 @@
 @extends('master')
 
+@php
+    $advertisementData = null;
+    if ($advertisement) {
+        $advertisementData = [
+            'id' => $advertisement->id,
+            'title' => $advertisement->title,
+            'image_url' => $advertisement->getMedia('covers')->first()?->getUrl('thumb'),
+            'final_price' => $advertisement->final_price,
+            'brand' => $advertisement->brand?->name,
+            'model' => $advertisement->vehicleModel?->name
+        ];
+    }
+@endphp
+
 @push('chat-config')
 <script>
     // Global chat configuration - Available before any JavaScript loads
@@ -8,6 +22,7 @@
         provider: @json($provider ?? null),
         guest: @json($guest ?? null),
         conversation: @json($conversation ?? null),
+        advertisement: @json($advertisementData),
         conversationUuid: '{{ $conversationUuid ?? "" }}',
         accessToken: '{{ $conversation->access_token ?? "" }}',
         urls: {
@@ -303,11 +318,33 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="card-body msg_card_body" id="chat-messages">
-                                                    <div class="text-center py-5" id="no-chat-selected">
-                                                        <i class="fa fa-comments fa-3x text-muted mb-3"></i>
-                                                        <h5 class="text-muted">{{ __('messages.select_conversation') }}</h5>
-                                                        <p class="text-muted">{{ __('messages.click_contact_to_chat') }}</p>
+                                                <div class="card-body msg_card_body">
+                                                    {{-- Advertisement Header --}}
+                                                    <div id="advertisement-header" style="display: none; margin-bottom: 16px;">
+                                                        <div class="advertisement-card" id="advertisement-card-clickable">
+                                                            <div class="d-flex align-items-center advertisement-card-content">
+                                                                <div id="advertisement-image-container" class="advertisement-image-wrapper">
+                                                                    <img id="advertisement-image" src="" alt="">
+                                                                </div>
+                                                                <div class="flex-grow-1 advertisement-info">
+                                                                    <div id="advertisement-brand-model" class="py-2"></div>
+                                                                    <div class="d-flex align-items-center gap-2 flex-row" style="margin-top: 4px;">
+                                                                        <div id="advertisement-price"></div>
+                                                                        <div class="advertisement-arrow-icon">
+                                                                            <i class="fa fa-arrow-right"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div id="chat-messages">
+                                                        <div class="text-center py-5" id="no-chat-selected">
+                                                            <i class="fa fa-comments fa-3x text-muted mb-3"></i>
+                                                            <h5 class="text-muted">{{ __('messages.select_conversation') }}</h5>
+                                                            <p class="text-muted">{{ __('messages.click_contact_to_chat') }}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -536,6 +573,128 @@
 .contact-item .info {
     font-size: 11px;
 }
+
+/* Advertisement Header Card Styles */
+#advertisement-header {
+    margin-bottom: 20px;
+}
+
+#advertisement-header .advertisement-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#advertisement-header .advertisement-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+    border-color: #405FF2;
+}
+
+#advertisement-header .advertisement-card:active {
+    transform: translateY(0);
+}
+
+.advertisement-card-content {
+    padding: 14px;
+}
+
+.advertisement-image-wrapper {
+    flex-shrink: 0;
+    margin-right: 14px;
+}
+
+#advertisement-header #advertisement-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+#advertisement-header .advertisement-card:hover #advertisement-image {
+    transform: scale(1.05);
+}
+
+.advertisement-info {
+    min-width: 0;
+}
+
+#advertisement-header #advertisement-brand-model {
+    font-weight: 700;
+    font-size: 15px;
+    color: #050B20;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#advertisement-header #advertisement-price {
+    font-size: 17px;
+    font-weight: 600;
+    color: #405FF2;
+    margin: 0;
+}
+
+.advertisement-arrow-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #405FF2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+#advertisement-header .advertisement-card:hover .advertisement-arrow-icon {
+    background: #2d4fd8;
+    transform: translateX(2px);
+}
+
+@media (max-width: 576px) {
+    #advertisement-header .advertisement-card {
+        border-radius: 8px;
+    }
+    
+    .advertisement-card-content {
+        padding: 12px;
+    }
+    
+    .advertisement-image-wrapper {
+        margin-right: 12px;
+    }
+    
+    #advertisement-header #advertisement-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    #advertisement-header #advertisement-brand-model {
+        font-size: 14px;
+    }
+    
+    #advertisement-header #advertisement-price {
+        font-size: 16px;
+    }
+    
+    .advertisement-arrow-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
 </style>
 @endpush
 
@@ -608,6 +767,11 @@ $(document).ready(function() {
         currentProviderId = currentConversation.provider_id;
         currentProvider = currentConversation.provider;
 
+        // Initialize advertisement header if available
+        if (window.CHAT_CONFIG && window.CHAT_CONFIG.advertisement) {
+            updateAdvertisementHeader(window.CHAT_CONFIG.advertisement);
+        }
+
         // For guest chat, show the chat header and footer immediately
         // since there's always one active conversation
         $('#chat-header').show();
@@ -634,6 +798,14 @@ $(document).ready(function() {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
+            }
+        });
+        
+        // Handle advertisement card click
+        $(document).on('click', '#advertisement-card-clickable', function() {
+            const advertisement = window.CHAT_CONFIG && window.CHAT_CONFIG.advertisement;
+            if (advertisement && advertisement.id) {
+                window.open('/advertisements/' + advertisement.id, '_blank');
             }
         });
 
@@ -707,6 +879,14 @@ $(document).ready(function() {
             timeout: 10000,
             success: function(response) {
                 if (response.success) {
+                    // Update advertisement in config if available
+                    if (response.advertisement) {
+                        window.CHAT_CONFIG.advertisement = response.advertisement;
+                        updateAdvertisementHeader(response.advertisement);
+                    } else {
+                        hideAdvertisementHeader();
+                    }
+                    
                     displayMessages(response.messages);
                     updateProviderInfo(response.provider);
 
@@ -758,6 +938,55 @@ $(document).ready(function() {
         // Keep the avatar as initials, don't change to image
                 }
             }
+
+            // Update advertisement header
+            function updateAdvertisementHeader(advertisement) {
+                if (!advertisement || !advertisement.id) {
+                    hideAdvertisementHeader();
+                    return;
+                }
+                
+                // Update image
+                if (advertisement.image_url) {
+                    $('#advertisement-image').attr('src', advertisement.image_url).attr('alt', (advertisement.brand || '') + ' ' + (advertisement.model || ''));
+                    $('#advertisement-image-container').show();
+                } else {
+                    $('#advertisement-image-container').hide();
+                }
+                
+                // Update brand and model
+                let brandModelText = '';
+                if (advertisement.brand && advertisement.model) {
+                    brandModelText = advertisement.brand + ' ' + advertisement.model;
+                } else if (advertisement.brand) {
+                    brandModelText = advertisement.brand;
+                } else if (advertisement.model) {
+                    brandModelText = advertisement.model;
+                } else if (advertisement.title) {
+                    brandModelText = advertisement.title;
+                } else {
+                    brandModelText = 'Advertisement';
+                }
+                $('#advertisement-brand-model').text(brandModelText);
+                
+                // Update price
+                let priceText = '';
+                if (advertisement.final_price) {
+                    const price = parseFloat(advertisement.final_price);
+                    const formattedPrice = price.toFixed(2).replace('.', ',').replace(/,00$/, '');
+                    priceText = '€' + formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                }
+                $('#advertisement-price').text(priceText);
+                
+                // Show header
+                $('#advertisement-header').fadeIn(200);
+            }
+
+            // Hide advertisement header
+            function hideAdvertisementHeader() {
+                $('#advertisement-header').hide();
+            }
+
 
     function sendMessage() {
         const message = $('#message-input').val().trim();
@@ -893,6 +1122,16 @@ $(document).ready(function() {
         
         senderName = isGuest ? 'You' : providerName;
         const timeFormatted = formatMessageTime(message.created_at);
+        
+        // Check if this is an offer message (contains "Offerta:" or "Offer:" anywhere in the message)
+        const isOfferMessage = message.message && (message.message.includes('Offerta:') || message.message.includes('Offer:'));
+        const advertisement = window.CHAT_CONFIG && window.CHAT_CONFIG.advertisement;
+        
+        // Debug logging
+        if (isOfferMessage) {
+            console.log('💰 Offer message detected:', message.message.substring(0, 50));
+            console.log('📦 Advertisement data:', advertisement);
+        }
         
         // For provider messages, try to use provider image or fallback to initials
         let avatarHtml;

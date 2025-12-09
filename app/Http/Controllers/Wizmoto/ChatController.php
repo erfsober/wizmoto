@@ -49,16 +49,26 @@ class ChatController extends Controller
             ]);
         }
 
-        $conversation = Conversation::where('provider_id', $request->provider_id)
-            ->where('guest_id', $guest->id)
-            ->first();
+        // Find or create conversation - if advertisement_id is provided, try to find conversation with same advertisement
+        $conversationQuery = Conversation::where('provider_id', $request->provider_id)
+            ->where('guest_id', $guest->id);
+        
+        if ($request->advertisement_id) {
+            $conversationQuery->where('advertisement_id', $request->advertisement_id);
+        }
+        
+        $conversation = $conversationQuery->first();
 
         if (!$conversation) {
-            // Create conversation
+            // Create conversation with advertisement_id if provided
             $conversation = Conversation::create([
                 'provider_id' => $request->provider_id,
                 'guest_id' => $guest->id,
+                'advertisement_id' => $request->advertisement_id,
             ]);
+        } elseif ($request->advertisement_id && !$conversation->advertisement_id) {
+            // Update existing conversation with advertisement_id if it wasn't set
+            $conversation->update(['advertisement_id' => $request->advertisement_id]);
         }
 
         // Create context message about the advertisement
@@ -163,8 +173,8 @@ class ChatController extends Controller
             ], 422);
         }
 
-        // Find conversation by access token
-        $conversation = Conversation::where('access_token', $request->access_token)->first();
+        // Find conversation by access token with advertisement relationship
+        $conversation = Conversation::with('advertisement')->where('access_token', $request->access_token)->first();
         if (!$conversation) {
             return response()->json([
                 'success' => false,
@@ -181,15 +191,30 @@ class ChatController extends Controller
         // Get provider with avatar URL
         $provider = $conversation->provider;
         $provider->avatar = $provider->getFirstMediaUrl('image');
-
-        // Debug: Log provider data from API
+        
+        // Load advertisement if exists
+        $advertisement = null;
+        if ($conversation->advertisement) {
+            $advertisement = $conversation->advertisement;
+            $advertisement->image_url = $advertisement->getMedia('covers')->first()?->getUrl('thumb');
+            // Load relationships for display
+            $advertisement->load('brand', 'vehicleModel');
+        }
 
         return response()->json([
             'success' => true,
             'messages' => $messages,
             'guest' => $conversation->guest,
             'provider' => $provider,
-            'conversation' => $conversation
+            'conversation' => $conversation,
+            'advertisement' => $advertisement ? [
+                'id' => $advertisement->id,
+                'title' => $advertisement->title,
+                'image_url' => $advertisement->image_url,
+                'final_price' => $advertisement->final_price,
+                'brand' => $advertisement->brand?->name,
+                'model' => $advertisement->vehicleModel?->name
+            ] : null
         ]);
     }
 
@@ -207,10 +232,14 @@ class ChatController extends Controller
         $provider = $conversation->provider;
         $provider->avatar = $provider->getFirstMediaUrl('image');
         $guest = $conversation->guest;
+        
+        // Load advertisement if exists
+        $advertisement = null;
+        if ($conversation->advertisement_id) {
+            $advertisement = Advertisement::with('brand', 'vehicleModel')->find($conversation->advertisement_id);
+        }
 
-        // Debug: Log provider data
-
-        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation'))->with([
+        return view('wizmoto.chat.guest-chat', compact('provider', 'guest', 'conversation', 'advertisement'))->with([
             'conversationUuid' => $conversation->uuid
         ]);
     }
