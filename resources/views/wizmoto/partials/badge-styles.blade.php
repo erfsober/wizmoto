@@ -88,12 +88,7 @@
     
     /* Mobile Responsive */
     @media (max-width: 991px) {
-        /* General car-block-three rule - exclude vehicle-card-mobile */
-        .car-block-three:not(.vehicle-card-mobile) .inner-box .image-box .fair-price-overlay,
-        #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
-            top: 8px;
-            left: 8px;
-        }
+      
         
         .car-slider-three .car-block-three .inner-box .image-box .fair-price-overlay {
             bottom: 8px;
@@ -135,16 +130,12 @@
     }
     
     @media (max-width: 767px) {
-        /* General car-block-three rule - exclude vehicle-card-mobile */
-        .car-block-three:not(.vehicle-card-mobile) .inner-box .image-box .fair-price-overlay,
-        #vehicle-cards-container .service-block-thirteen .inner-box .image-box .fair-price-overlay {
-            top: 10px;
-            left: 10px;
-        }
+       
         
         .car-slider-three .car-block-three .inner-box .image-box .fair-price-overlay {
             bottom: 10px;
         }
+
         
         /* Vehicle Cards Mobile - Bottom Left Position - Target element with both classes */
         .vehicle-card-mobile.car-block-three .inner-box .image-box .fair-price-overlay {

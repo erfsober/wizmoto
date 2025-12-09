@@ -22670,7 +22670,7 @@ Chat Widget
   font-size: 15px;
   font-weight: 500;
   height: 54px;
-  line-height: 54px;
+  /* line-height: 54px; */
   text-align: center;
   display: inline-block;
   width: 100%;

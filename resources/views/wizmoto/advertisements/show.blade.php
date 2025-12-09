@@ -22,27 +22,137 @@
                 </div>
             </div>
             <div class="gallery-sec">
-                <div class="row">
-                    <div class="image-column item1 col-lg-7 col-md-12 col-sm-12">
+                @php $images = $advertisement->getMedia('covers'); @endphp
+                
+                {{-- Main Image and Provider Info Row --}}
+                <div class="row gallery-main-row">
+                    {{-- Main Image --}}
+                    <div class="image-column item1 col-lg-8 col-md-12 col-sm-12">
                         <div class="inner-column">
-                            @php $images = $advertisement->getMedia('covers'); @endphp
-                            <div class="image-box">
+                            <div class="image-box main-image-box">
                                 <figure class="image">
-                                    <a href="{{ $images->first()->getUrl('preview') }}" data-fancybox="gallery">
-                                        <img src="{{ $images->first()->getUrl('preview') }}" alt="">
+                                    <a href="{{ $images->first()->getUrl('preview') }}" data-fancybox="gallery" id="main-image-link">
+                                        <img id="main-image" src="{{ $images->first()->getUrl('preview') }}" alt="{{ $advertisement->title ?? 'Advertisement Image' }}" data-preview-url="{{ $images->first()->getUrl('preview') }}">
                                     </a>
                                 </figure>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{-- Provider Info Box --}}
+                    <div id="contact-message-section" class="side-bar-column style-1 col-lg-4 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            <div class="contact-box provider-info-box">
+                                <div class="icon-box">
+                                    @if($advertisement->provider?->getFirstMediaUrl('image', 'thumb'))
+                                        <div class="provider-image-wrapper">
+                                            <img src="{{ $advertisement->provider->getFirstMediaUrl('image', 'thumb') }}"
+                                                alt="Provider Image">
+                                        </div>
+                                    @else
+                                        <div class="provider-image-wrapper provider-image-placeholder">
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#666"/>
+                                                <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#666"/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="content-box">
-                                    <ul class="video-list">
-                                        {{--                                        <li><a href="https://www.youtube.com/watch?v=7e90gBu4pas" data-fancybox="gallery2"><img src="images/resource/video1-1.svg">Video</a></li> --}}
-                                        {{--                                        <li><a href="#"><img src="images/resource/video1-2.svg">360 View</a></li> --}}
+                                    {{-- Dealer / Provider Name --}}
+                                    <h6 class="title">{{ $advertisement->provider->full_name ?? 'Unknown Dealer' }}</h6>
+
+                                    {{-- Seller Type Badge --}}
+                                    @if($advertisement->provider && $advertisement->provider->seller_type)
+                                        <div class="seller-type-badge">
+                                            <span class="badge badge-{{ $advertisement->provider->seller_type == \App\Enums\SellerTypeEnum::DEALER ? 'primary' : 'secondary' }}">
+                                                {{ $advertisement->provider->seller_type->getLabel() }}
+                                            </span>
+                                        </div>
+                                    @endif
+
+                                    {{-- Address --}}
+                                    <div class="text">
+                                        {{ $advertisement->city ?? '' }}
+                                        {{ $advertisement->zip_code ? ', ' . $advertisement->zip_code : '' }}
+                                    </div>
+
+                                    {{-- Contact List --}}
+                                    <ul class="contact-list">
+                                        {{-- Directions --}}
+                                        <li>
+                                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}"
+                                                target="_blank">
+                                                <div class="image-box">
+                                                    <img src="{{ asset('wizmoto/images/resource/phone1-1.svg') }}">
+                                                </div>
+                                                {{ __('messages.get_directions') }}
+                                            </a>
+                                        </li>
+
+                                        {{-- Phone (only if allowed) --}}
+                                        @if ($advertisement->show_phone && $advertisement->telephone)
+                                            <li>
+                                                <a
+                                                    href="tel:{{ $advertisement->international_prefix }}{{ $advertisement->prefix }}{{ $advertisement->telephone }}">
+                                                    <div class="image-box">
+                                                        <img src="{{ asset('wizmoto/images/resource/phone1-2.svg') }}">
+                                                    </div>
+                                                    {{ $advertisement->international_prefix }} {{ $advertisement->prefix }}
+                                                    {{ $advertisement->telephone }}
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
+
+                                    {{-- Buttons --}}
+                                    <div class="btn-box">
+                                        <a href="#" id="initiate-chat-btn" class="side-btn" data-bs-toggle="modal"
+                                            data-bs-target="#contactModal">{{ __('messages.send_message') }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
+                                                viewbox="0 0 15 14" fill="none">
+                                                <g clip-path="url(#clip0_881_16253)">
+                                                    <path
+                                                        d="M14.1111 0H5.55558C5.34062 0 5.16668 0.173943 5.16668 0.388901C5.16668 0.603859 5.34062 0.777802 5.55558 0.777802H13.1723L0.613941 13.3362C0.46202 13.4881 0.46202 13.7342 0.613941 13.8861C0.689884 13.962 0.789415 14 0.88891 14C0.988405 14 1.0879 13.962 1.16388 13.8861L13.7222 1.3277V8.94447C13.7222 9.15943 13.8962 9.33337 14.1111 9.33337C14.3261 9.33337 14.5 9.15943 14.5 8.94447V0.388901C14.5 0.173943 14.3261 0 14.1111 0Z"
+                                                        fill="white"></path>
+                                                </g>
+                                                <defs>
+                                                    <clippath id="clip0_881_16253">
+                                                        <rect width="14" height="14" fill="white"
+                                                            transform="translate(0.5)"></rect>
+                                                    </clippath>
+                                                </defs>
+                                            </svg>
+                                        </a>
+                                        @if($advertisement->provider->whatsapp_link)
+                                        <a href="{{ $advertisement->provider->whatsapp_link }}" class="side-btn two"
+                                            target="_blank">
+                                            {{ __('messages.chat_via_whatsapp') }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                viewBox="0 0 14 14" fill="none">
+                                                <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
+                                            </svg>
+                                        </a>
+                                        @endif
+                                        <a href="{{ route('provider.show', $advertisement->provider_id) }}"
+                                            class="side-btn-three">{{ __('messages.view_all_stock_dealer') }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                viewBox="0 0 14 14" fill="none">
+                                                <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-12 col-sm-12">
-                        <div class="row">
+                </div>
+                
+                {{-- Thumbnail Grid Below Main Image --}}
+                @if($images->count() > 1)
+                <div class="row gallery-thumbnails-row">
+                    <div class="col-lg-8 col-md-12 col-sm-12">
+                        <div class="thumbnail-grid-container">
                             @foreach ($images->skip(1) as $image)
                                 @if($image)
                                     @php
@@ -55,16 +165,16 @@
                                         }
                                     @endphp
                                     @if($squareUrl && $previewUrl)
-                                <div class="image-column-two item2 col-6">
+                                <div class="image-column-two item2 thumbnail-item" data-preview-url="{{ $previewUrl }}" data-square-url="{{ $squareUrl }}">
                                     <div class="inner-column">
-                                        <div class="image-box">
+                                        <div class="image-box thumbnail-box">
                                             <figure class="image">
-                                                        <a href="{{ $previewUrl }}" data-fancybox="gallery"
-                                                    class="fancybox">
-                                                            <img src="{{ $squareUrl }}" 
-                                                                loading="lazy"
-                                                                alt="{{ $advertisement->title ?? 'Advertisement Image' }}"
-                                                                onerror="this.onerror=null; this.classList.add('broken'); const container = this.closest('.image-column-two'); if(container) { container.classList.add('image-error'); container.style.display='none'; }">
+                                                <a href="{{ $previewUrl }}" data-fancybox="gallery" class="fancybox thumbnail-link">
+                                                    <img src="{{ $squareUrl }}" 
+                                                        loading="lazy"
+                                                        alt="{{ $advertisement->title ?? 'Advertisement Image' }}"
+                                                        data-preview-url="{{ $previewUrl }}"
+                                                        onerror="this.onerror=null; this.classList.add('broken'); const container = this.closest('.image-column-two'); if(container) { container.classList.add('image-error'); container.style.display='none'; }">
                                                 </a>
                                             </figure>
                                         </div>
@@ -76,10 +186,11 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
             </div>
             <div class="row">
-                <div class="inspection-column col-lg-8 col-md-12 col-sm-12">
+                <div class="inspection-column col-lg-12 col-md-12 col-sm-12">
                     <div class="inner-column">
                         <!-- overview-sec -->
                         <div class="overview-sec">
@@ -706,111 +817,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="contact-message-section" class="side-bar-column style-1 col-lg-4 col-md-12 col-sm-12">
-                    <div class="inner-column">
-                        <div class="contact-box">
-                            <div class="icon-box">
-                                @if($advertisement->provider?->getFirstMediaUrl('image', 'thumb'))
-                                    <img src="{{ $advertisement->provider->getFirstMediaUrl('image', 'thumb') }}"
-                                        alt="Provider Image"
-                                        style="width: 80px; height: 80px; border-radius: 80%; object-fit: contain;">
-                                @else
-                                    <div style="width: 80px; height: 80px; border-radius: 80%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#666"/>
-                                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#666"/>
-                                        </svg>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="content-box">
-                                {{-- Dealer / Provider Name (assuming from provider relation) --}}
-                                <h6 class="title">{{ $advertisement->provider->full_name ?? 'Unknown Dealer' }}</h6>
-
-                                {{-- Seller Type Badge --}}
-                                @if($advertisement->provider && $advertisement->provider->seller_type)
-                                    <div class="seller-type-badge">
-                                        <span class="badge badge-{{ $advertisement->provider->seller_type == \App\Enums\SellerTypeEnum::DEALER ? 'primary' : 'secondary' }}">
-                                            {{ $advertisement->provider->seller_type->getLabel() }}
-                                        </span>
-                                    </div>
-                                @endif
-
-                                {{-- Address --}}
-                                <div class="text">
-                                    {{ $advertisement->city ?? '' }}
-                                    {{ $advertisement->zip_code ? ', ' . $advertisement->zip_code : '' }}
-                                </div>
-
-                                {{-- Contact List --}}
-                                <ul class="contact-list">
-                                    {{-- Directions --}}
-                                    <li>
-                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($advertisement->city . ' ' . $advertisement->zip_code) }}"
-                                            target="_blank">
-                                            <div class="image-box">
-                                                <img src="{{ asset('wizmoto/images/resource/phone1-1.svg') }}">
-                                            </div>
-                                            {{ __('messages.get_directions') }}
-                                        </a>
-                                    </li>
-
-                                    {{-- Phone (only if allowed) --}}
-                                    @if ($advertisement->show_phone && $advertisement->telephone)
-                                        <li>
-                                            <a
-                                                href="tel:{{ $advertisement->international_prefix }}{{ $advertisement->prefix }}{{ $advertisement->telephone }}">
-                                                <div class="image-box">
-                                                    <img src="{{ asset('wizmoto/images/resource/phone1-2.svg') }}">
-                                                </div>
-                                                {{ $advertisement->international_prefix }} {{ $advertisement->prefix }}
-                                                {{ $advertisement->telephone }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                </ul>
-
-                                {{-- Buttons --}}
-                                <div class="btn-box">
-                                    <a href="#" id="initiate-chat-btn" class="side-btn" data-bs-toggle="modal"
-                                        data-bs-target="#contactModal">{{ __('messages.send_message') }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14"
-                                            viewbox="0 0 15 14" fill="none">
-                                            <g clip-path="url(#clip0_881_16253)">
-                                                <path
-                                                    d="M14.1111 0H5.55558C5.34062 0 5.16668 0.173943 5.16668 0.388901C5.16668 0.603859 5.34062 0.777802 5.55558 0.777802H13.1723L0.613941 13.3362C0.46202 13.4881 0.46202 13.7342 0.613941 13.8861C0.689884 13.962 0.789415 14 0.88891 14C0.988405 14 1.0879 13.962 1.16388 13.8861L13.7222 1.3277V8.94447C13.7222 9.15943 13.8962 9.33337 14.1111 9.33337C14.3261 9.33337 14.5 9.15943 14.5 8.94447V0.388901C14.5 0.173943 14.3261 0 14.1111 0Z"
-                                                    fill="white"></path>
-                                            </g>
-                                            <defs>
-                                                <clippath id="clip0_881_16253">
-                                                    <rect width="14" height="14" fill="white"
-                                                        transform="translate(0.5)"></rect>
-                                                </clippath>
-                                            </defs>
-                                        </svg>
-                                    </a>
-                                    @if($advertisement->provider->whatsapp_link)
-                                    <a href="{{ $advertisement->provider->whatsapp_link }}" class="side-btn two"
-                                        target="_blank">
-                                        {{ __('messages.chat_via_whatsapp') }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 14 14" fill="none">
-                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#60C961"></path>
-                                        </svg>
-                                    </a>
-                                    @endif
-                                    <a href="{{ route('provider.show', $advertisement->provider_id) }}"
-                                        class="side-btn-three">{{ __('messages.view_all_stock_dealer') }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 14 14" fill="none">
-                                            <path d="M13.6111 0H5.05558C4.84062 0..." fill="#050B20"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- cars-section-three -->
@@ -1029,49 +1035,420 @@
 
 @push('styles')
     <style>
-    /* Reduce space between related-cars slider arrows and cards on mobile */
+    /* Professional AutoScout-style Gallery Layout */
+    .gallery-sec {
+        margin-bottom: 30px;
+    }
+    
     @media (max-width: 768px) {
-        /* Gallery main image responsive */
-        .gallery-sec .image-column .image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 10px;
+        /* Use CSS Grid for reliable ordering */
+        .inventory-section .gallery-sec,
+        .gallery-sec {
+            display: grid !important;
+            grid-template-rows: auto auto auto;
+            gap: 0;
         }
-        /* Thumbnails grid: consistent squares with small gaps */
-        .gallery-sec .col-lg-5 .row {
-            margin-left: -6px;
-            margin-right: -6px;
+        
+        /* Force order using grid-row */
+        .gallery-sec > .gallery-main-row {
+            grid-row: 1;
         }
-        .gallery-sec .image-column-two.item2 {
-            padding-left: 6px;
-            padding-right: 6px;
+        
+        .gallery-sec > .gallery-main-row .image-column {
+            grid-row: 1;
             margin-bottom: 12px;
-            min-height: 0; /* Allow empty boxes to collapse */
-        }
-        /* Hide empty or broken image containers */
-        .gallery-sec .image-column-two.item2.hidden,
-        .gallery-sec .image-column-two.item2.image-error {
-            display: none !important;
-        }
-        .gallery-sec .image-column-two.item2 .image {
             width: 100%;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            border-radius: 10px;
-            position: relative;
-            background-color: #f5f5f5; /* Light gray background for loading state */
+            max-width: 100%;
         }
-        .gallery-sec .image-column-two.item2 img {
+        
+        .gallery-sec > .gallery-main-row .side-bar-column {
+            grid-row: 3;
+            margin-bottom: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            max-width: 100%;
         }
-        /* Hide broken images and empty image containers */
-        .gallery-sec .image-column-two.item2 img.broken,
-        .gallery-sec .image-column-two.item2:has(img.broken) {
-            display: none !important;
+        
+        .gallery-sec > .gallery-thumbnails-row {
+            grid-row: 2;
+            margin-top: 0;
+            margin-bottom: 20px;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* Override Bootstrap row behavior */
+        .gallery-sec > .gallery-main-row.row {
+            display: grid !important;
+            grid-template-rows: auto auto;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+        
+        .gallery-sec .gallery-thumbnails-row .col-lg-8 {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    
+    /* Active thumbnail style */
+    .gallery-thumbnails-row .image-column-two.thumbnail-item.active .image-box {
+        border-color: rgba(64, 95, 242, 0.8);
+        box-shadow: 0 4px 12px rgba(64, 95, 242, 0.3);
+    }
+    
+    /* Main Row: Image + Provider Info */
+    .gallery-main-row {
+        margin-bottom: 24px;
+        align-items: stretch;
+        gap: 0;
+    }
+    
+    .gallery-main-row > div {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
+    .gallery-main-row > div:first-child {
+        padding-left: 0;
+    }
+    
+    .gallery-main-row > div:last-child {
+        padding-right: 0;
+    }
+    
+    @media (min-width: 992px) {
+        .gallery-main-row > div:first-child {
+            padding-right: 16px;
+        }
+        
+        .gallery-main-row > div:last-child {
+            padding-left: 16px;
+        }
+    }
+    
+    /* Main Image Box */
+    .gallery-sec .main-image-box {
+        height: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        background: #f8f9fa;
+        position: relative;
+    }
+    
+    .gallery-sec .main-image-box .image {
+        width: 100%;
+        height: 100%;
+        min-height: 480px;
+        max-height: 520px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        padding: 15px;
+    }
+    
+    .gallery-sec .main-image-box .image img {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+        display: block;
+    }
+    
+    /* Provider Info Box */
+    .gallery-sec .provider-info-box {
+        height: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        background: #fff;
+        padding: 26px 22px;
+        display: flex;
+        flex-direction: column;
+        min-height: 480px;
+        max-height: 520px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .gallery-sec .provider-info-box .icon-box {
+        margin-bottom: 18px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .gallery-sec .provider-info-box .provider-image-wrapper {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        /* overflow: hidden; */
+        border: 3px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+    
+    .gallery-sec .provider-info-box .provider-image-wrapper.provider-image-placeholder {
+        background-color: #f0f0f0;
+    }
+    
+    .gallery-sec .provider-info-box .provider-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+    }
+    
+    .gallery-sec .provider-info-box .content-box {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .gallery-sec .provider-info-box .content-box .title {
+        font-size: 19px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-align: center;
+        color: #050B20;
+        line-height: 1.3;
+    }
+    
+    .gallery-sec .provider-info-box .seller-type-badge {
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    
+    .gallery-sec .provider-info-box .text {
+        text-align: center;
+        margin-bottom: 18px;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    .gallery-sec .provider-info-box .contact-list {
+        margin-bottom: 18px;
+        flex: 1;
+        min-height: 0;
+    }
+    
+    .gallery-sec .provider-info-box .contact-list li {
+        margin-bottom: 12px;
+    }
+    
+    .gallery-sec .provider-info-box .contact-list li:last-child {
+        margin-bottom: 0;
+    }
+    
+    .gallery-sec .provider-info-box .btn-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 4px;
+    }
+    
+    .gallery-sec .provider-info-box .btn-box .side-btn,
+    .gallery-sec .provider-info-box .btn-box .side-btn-two,
+    .gallery-sec .provider-info-box .btn-box .side-btn-three {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 14px 20px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-sec .provider-info-box .btn-box .side-btn:hover,
+    .gallery-sec .provider-info-box .btn-box .side-btn-two:hover,
+    .gallery-sec .provider-info-box .btn-box .side-btn-three:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Thumbnail Grid - Small thumbnails under main image */
+    .gallery-thumbnails-row {
+        margin-top: 12px;
+    }
+    
+    .gallery-thumbnails-row .thumbnail-grid-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .gallery-thumbnails-row .image-column-two {
+        padding: 0;
+        margin: 0;
+        flex: 0 0 auto;
+    }
+    
+    .gallery-thumbnails-row .image-column-two .inner-column {
+        height: 100%;
+    }
+    
+    .gallery-thumbnails-row .image-column-two .image-box {
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        aspect-ratio: 1 / 1;
+        background: #f8f9fa;
+        cursor: pointer;
+        position: relative;
+        border: 1px solid #e9ecef;
+    }
+    
+    .gallery-thumbnails-row .image-column-two .image-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        border-color: rgba(64, 95, 242, 0.5);
+    }
+    
+    .gallery-thumbnails-row .image-column-two .image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .gallery-thumbnails-row .image-column-two .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-thumbnails-row .image-column-two .image-box:hover img {
+        transform: scale(1.08);
+    }
+    
+    /* Hide broken images */
+    .gallery-thumbnails-row .image-column-two.image-error,
+    .gallery-thumbnails-row .image-column-two:has(img.broken) {
+        display: none !important;
+    }
+    
+    /* Desktop: 4 small columns - Limited to main image width */
+    @media (min-width: 992px) {
+        .gallery-thumbnails-row .thumbnail-grid-container {
+            justify-content: center;
+        }
+        
+        .gallery-thumbnails-row .image-column-two {
+            flex: 0 0 auto;
+        }
+        
+        .gallery-thumbnails-row .image-column-two .image-box {
+            width: 120px;
+            height: 120px;
+            max-width: 120px;
+            max-height: 120px;
+        }
+    }
+    
+    /* Tablet: 4 columns */
+    @media (min-width: 768px) and (max-width: 991px) {
+        .gallery-thumbnails-row .thumbnail-grid-container {
+            justify-content: center;
+        }
+        
+        .gallery-thumbnails-row .image-column-two {
+            flex: 0 0 auto;
+        }
+        
+        .gallery-thumbnails-row .image-column-two .image-box {
+            width: 100px;
+            height: 100px;
+            max-width: 100px;
+            max-height: 100px;
+        }
+    }
+    
+    /* Mobile Responsive - Additional overrides */
+    @media (max-width: 768px) {
+        /* Main Row: Stack vertically on mobile */
+        .gallery-sec .gallery-main-row.row > div {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        
+        /* Main Image Box - Mobile */
+        .gallery-sec .main-image-box {
+            margin-bottom: 0;
+        }
+        
+        .gallery-sec .main-image-box .image {
+            min-height: 280px;
+            max-height: 320px;
+            padding: 15px;
+        }
+        
+        .gallery-sec .main-image-box .image img {
+            object-fit: contain;
+        }
+        
+        /* Provider Info Box - Mobile */
+        .gallery-sec .provider-info-box {
+            min-height: auto;
+            max-height: none;
+            padding: 22px 18px;
+        }
+        
+        .gallery-sec .provider-info-box .content-box .title {
+            font-size: 18px;
+        }
+        
+        /* Thumbnail Grid - Mobile: 4 small columns */
+        .gallery-thumbnails-row {
+            margin-top: 12px;
+        }
+        
+        .gallery-thumbnails-row .thumbnail-grid-container {
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .gallery-thumbnails-row .image-column-two {
+            flex: 0 0 auto;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .gallery-thumbnails-row .image-column-two .image-box {
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 80px;
+            height: 80px;
+            max-width: 80px;
+            max-height: 80px;
+            border-width: 1px;
+        }
+        
+        .gallery-thumbnails-row .image-column-two .image-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
         }
 
         .cars-section-three .car-slider-three {
@@ -1852,35 +2229,124 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Mobile scroll button functionality
         const scrollButton = document.getElementById('mobile-scroll-to-contact');
         const contactSection = document.getElementById('contact-message-section');
         
-        if (!scrollButton) return;
-        
-        // Hide button if contact section doesn't exist
-        if (!contactSection) {
-            scrollButton.style.display = 'none';
-            return;
+        if (scrollButton) {
+            // Hide button if contact section doesn't exist
+            if (!contactSection) {
+                scrollButton.style.display = 'none';
+            } else {
+                // Add click handler
+                scrollButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Smooth scroll to contact section
+                    contactSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                    
+                    // Add highlight effect
+                    contactSection.style.transition = 'box-shadow 0.3s ease';
+                    contactSection.style.boxShadow = '0 0 20px rgba(37, 211, 102, 0.5)';
+                    setTimeout(() => {
+                        contactSection.style.boxShadow = '';
+                    }, 2000);
+                });
+            }
         }
         
-        // Add click handler
-        scrollButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        // Mobile layout reordering - physically move elements in DOM
+        function reorderMobileLayout() {
+            const gallerySec = document.querySelector('.gallery-sec');
+            const mainRow = document.querySelector('.gallery-main-row');
+            const thumbnailsRow = document.querySelector('.gallery-thumbnails-row');
+            const sideBarColumn = document.querySelector('.gallery-main-row .side-bar-column');
             
-            // Smooth scroll to contact section
-            contactSection.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            if (!gallerySec || !mainRow || !thumbnailsRow || !sideBarColumn) {
+                return;
+            }
+            
+            if (window.innerWidth <= 768) {
+                // Mobile: Move thumbnails INSIDE mainRow, between image and sidebar
+                if (!gallerySec.classList.contains('mobile-reordered')) {
+                    // Move thumbnails row inside mainRow, before sidebar
+                    mainRow.insertBefore(thumbnailsRow, sideBarColumn);
+                    gallerySec.classList.add('mobile-reordered');
+                }
+            } else {
+                // Desktop: Move thumbnails back to after mainRow
+                if (gallerySec.classList.contains('mobile-reordered')) {
+                    gallerySec.insertBefore(thumbnailsRow, mainRow.nextSibling);
+                    gallerySec.classList.remove('mobile-reordered');
+                }
+            }
+        }
+        
+        // Run on load and resize
+        reorderMobileLayout();
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(reorderMobileLayout, 100);
+        });
+        
+        // Gallery image swap functionality
+        const mainImage = document.getElementById('main-image');
+        const mainImageLink = document.getElementById('main-image-link');
+        const thumbnailItems = document.querySelectorAll('.thumbnail-item');
+        
+        if (mainImage && thumbnailItems.length > 0) {
+            // Store original main image data
+            const originalMainImageSrc = mainImage.src;
+            const originalMainImagePreview = mainImage.getAttribute('data-preview-url');
+            
+            // Function to update active thumbnail
+            function updateActiveThumbnail(previewUrl) {
+                thumbnailItems.forEach(function(item) {
+                    const itemPreviewUrl = item.getAttribute('data-preview-url');
+                    if (itemPreviewUrl === previewUrl) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Add click handler to each thumbnail
+            thumbnailItems.forEach(function(thumbnail) {
+                const thumbnailImg = thumbnail.querySelector('img');
+                const thumbnailLink = thumbnail.querySelector('.thumbnail-link');
+                
+                if (thumbnailImg && thumbnailLink) {
+                    const previewUrl = thumbnail.getAttribute('data-preview-url');
+                    
+                    // Prevent default fancybox on thumbnail click, swap image instead
+                    thumbnailLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Swap main image
+                        mainImage.src = previewUrl;
+                        mainImage.setAttribute('data-preview-url', previewUrl);
+                        mainImageLink.href = previewUrl;
+                        
+                        // Update active state
+                        updateActiveThumbnail(previewUrl);
+                    });
+                }
             });
             
-            // Add highlight effect
-            contactSection.style.transition = 'box-shadow 0.3s ease';
-            contactSection.style.boxShadow = '0 0 20px rgba(37, 211, 102, 0.5)';
-            setTimeout(() => {
-                contactSection.style.boxShadow = '';
-            }, 2000);
-        });
+            // Make main image clickable to open preview (fancybox)
+            // The fancybox attribute already handles this, but we ensure it works
+            if (mainImageLink) {
+                // Fancybox will handle the preview automatically
+                // No additional code needed
+            }
+        }
     });
 </script>
 @endpush

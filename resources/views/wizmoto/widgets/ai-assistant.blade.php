@@ -977,8 +977,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     alertContent.style.gap = '8px';
                     alertContent.style.padding = '8px 12px';
                 } else {
-                    alertContent.style.gap = '12px';
-                    alertContent.style.padding = '16px 20px';
+                alertContent.style.gap = '12px';
+                alertContent.style.padding = '16px 20px';
                 }
                 alertContent.style.position = 'relative';
                 console.log('✅ Alert content found and styled');
