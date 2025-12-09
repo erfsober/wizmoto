@@ -1203,7 +1203,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const input = document.getElementById('ai-assistant-input');
                     if (input) {
                         input.value = question;
-                        input.focus();
+                       
                         
                         // Send the message
                         setTimeout(() => {
@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Re-enable input and send button
             input.disabled = false;
             send.disabled = false;
-            input.focus();
+            // input.focus();
         })
         .catch(error => {
             clearTimeout(typingTimeout); // Clear the timeout
@@ -1384,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Re-enable input and send button
             input.disabled = false;
             send.disabled = false;
-            input.focus();
+            // input.focus();
         });
     }
 
