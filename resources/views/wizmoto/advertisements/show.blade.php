@@ -936,7 +936,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contactModalLabel">💬 {{ __('messages.contact') }} {{ $advertisement->provider->full_name }}
+                    <h5 class="modal-title" id="contactModalLabel">{{ __('messages.make_an_offer') ?? 'Make an offer' }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -944,7 +944,7 @@
                     <div id="contact-form" class="inventroy-widget">
                         <p class="text-muted mb-4">{{ __('messages.send_message_cta') }}</p>
 
-                        <form id="initiate-contact-form" method="POST" action="{{ route('chat.initiate') }}">
+                        <form id="initiate-contact-form" method="POST" action="{{ route('chat.initiate') }}" novalidate>
                             @csrf
                             <input type="hidden" name="advertisement_id" value="{{ $advertisement->id }}">
                             <div class="form-column col-lg-12">
@@ -968,15 +968,77 @@
                                 </div>
                             </div>
 
+                            {{-- Price Offer Section --}}
+                            <div class="form-column col-lg-12 mb-4">
+                                <div class="offer-section">
+                                    <label class="mb-3">{{ __('messages.make_an_offer') ?? 'Make an offer' }}</label>
+                                    
+                                    {{-- Product Info --}}
+                                    <div class="offer-product-info mb-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($advertisement->getMedia('covers')->first())
+                                                <img src="{{ $advertisement->getMedia('covers')->first()->getUrl('thumb') }}" 
+                                                     alt="{{ $advertisement->title }}" 
+                                                     class="offer-product-image">
+                                            @endif
+                                            <div class="flex-grow-1">
+                                                <div class="offer-product-title">{{ $advertisement->title ?? $advertisement->brand?->name . ' ' . $advertisement->vehicleModel?->name }}</div>
+                                                <div class="offer-product-price">Item price: €{{ number_format($advertisement->final_price, 2, ',', '.') }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="form-column col-lg-12">
-                                <div class="form_boxes v2">
-                                    <label>{{ __('messages.message') }} *</label>
-                                    <textarea id="contact-message"
-                                        placeholder="{{ __('messages.message') }}"
-                                        required></textarea>
+                                    {{-- Offer Options --}}
+                                    <div class="offer-options mb-3">
+                                        <div class="row g-2">
+                                            <div class="col-4">
+                                                <div class="offer-option" data-offer-type="percentage" data-offer-value="10">
+                                                    <div class="offer-price" id="offer-10-price">€{{ number_format($advertisement->final_price * 0.9, 2, ',', '.') }}</div>
+                                                    <div class="offer-discount">10% off</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="offer-option" data-offer-type="percentage" data-offer-value="20">
+                                                    <div class="offer-price" id="offer-20-price">€{{ number_format($advertisement->final_price * 0.8, 2, ',', '.') }}</div>
+                                                    <div class="offer-discount">20% off</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="offer-option active" data-offer-type="custom">
+                                                    <div class="offer-price">Custom</div>
+                                                    <div class="offer-discount">Set a price</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Custom Price Input --}}
+                                    <div class="custom-price-input mb-3" id="custom-price-container">
+                                        <div class="input-group">
+                                            <span class="input-group-text">€</span>
+                                            <input type="number" 
+                                                   id="custom-offer-price" 
+                                                   class="form-control" 
+                                                   step="0.01" 
+                                                   min="0.01" 
+                                                   max="{{ $advertisement->final_price }}"
+                                                   value="{{ number_format($advertisement->final_price, 2, '.', '') }}"
+                                                   placeholder="Enter your offer">
+                                        </div>
+                                    </div>
+
+                                    {{-- Total with Buyer Protection --}}
+                                    <div class="offer-total mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Total incl. Buyer Protection fee:</span>
+                                            <strong id="offer-total-price">€{{ number_format($advertisement->final_price * 1.087, 2, ',', '.') }}</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            {{-- Hidden message field - message is auto-generated from offer --}}
+                            <input type="hidden" id="contact-message" value="">
 
 
                             <div class="alert alert-info">
@@ -990,7 +1052,7 @@
                                 <button type="submit" class="theme-btn" id="send-contact-btn"
                                     data-url="{{ route('chat.initiate') }}">
                                     <span class="d-flex align-items-center gap-2">
-                                        {{ __('messages.send_message') }} <i class="fa fa-paper-plane"></i>
+                                        {{ __('messages.make_an_offer') ?? 'Make an offer' }} <i class="fa fa-paper-plane"></i>
                                     </span>
                                 </button>
                             </div>
@@ -1542,19 +1604,155 @@
                 $(this).closest('.list-box').find('input[name="stars"]').val(index + 1);
             });
 
+            // Price offer functionality
+            const originalPrice = {{ $advertisement->final_price }};
+            let selectedOfferType = 'custom';
+            let selectedOfferValue = originalPrice;
+            
+            // Translation strings for offer messages
+            const offerPrefix = @json(__('messages.offer_message_prefix'));
+            const offerDiscount = @json(__('messages.offer_message_discount'));
+            const offerFrom = @json(__('messages.offer_message_from'));
+            
+            // Initialize: Custom is default, so input should be enabled
+            $('#custom-offer-price').prop('disabled', false);
+
+            // Handle offer option selection
+            $('.offer-option').on('click', function() {
+                $('.offer-option').removeClass('active');
+                $(this).addClass('active');
+                
+                selectedOfferType = $(this).data('offer-type');
+                
+                if (selectedOfferType === 'percentage') {
+                    const percentage = $(this).data('offer-value');
+                    selectedOfferValue = originalPrice * (1 - percentage / 100);
+                    $('#custom-offer-price').val(selectedOfferValue.toFixed(2));
+                    // Disable input for percentage options
+                    $('#custom-offer-price').prop('disabled', true);
+                    $('#custom-price-container .input-group-text').css('background-color', '#f8f9fa').css('opacity', '0.7');
+                } else {
+                    // Custom - enable input and use current value
+                    $('#custom-offer-price').prop('disabled', false);
+                    $('#custom-price-container .input-group-text').css('background-color', '#f8f9fa').css('opacity', '1');
+                    selectedOfferValue = parseFloat($('#custom-offer-price').val()) || originalPrice;
+                }
+                
+                updateOfferTotal();
+            });
+
+            // Handle custom price input (only when enabled)
+            $('#custom-offer-price').on('input', function() {
+                // Only process if input is enabled (custom mode)
+                if ($(this).prop('disabled')) {
+                    return;
+                }
+                
+                const newValue = parseFloat($(this).val()) || originalPrice;
+                if (newValue > originalPrice) {
+                    selectedOfferValue = originalPrice;
+                    $(this).val(originalPrice.toFixed(2));
+                } else {
+                    selectedOfferValue = newValue;
+                }
+                updateOfferTotal();
+            });
+
+            // Update total with buyer protection fee (8.7%)
+            function updateOfferTotal() {
+                const buyerProtectionFee = 0.087; // 8.7%
+                const total = selectedOfferValue * (1 + buyerProtectionFee);
+                $('#offer-total-price').text('€' + total.toFixed(2).replace('.', ','));
+            }
+
             // Handle contact form submission
             $('#initiate-contact-form').on('submit', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
 
-                const name = $('#guest-name').val();
-                const email = $('#guest-email').val();
-                const phone = $('#guest-phone').val();
-                const message = $('#contact-message').val();
+                const name = $('#guest-name').val().trim();
+                const email = $('#guest-email').val().trim();
+                const phone = $('#guest-phone').val().trim();
                 const providerId = {{ $advertisement->provider->id }};
+
+                // Validate required fields
+                if (!name) {
+                    swal.fire({
+                        toast: true,
+                        title: '{{ __('messages.error') ?? 'Error' }}',
+                        text: '{{ __('messages.your_name') }} is required',
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    $('#guest-name').focus();
+                    return;
+                }
+
+                if (!email) {
+                    swal.fire({
+                        toast: true,
+                        title: '{{ __('messages.error') ?? 'Error' }}',
+                        text: '{{ __('messages.your_email') }} is required',
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    $('#guest-email').focus();
+                    return;
+                }
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    swal.fire({
+                        toast: true,
+                        title: '{{ __('messages.error') ?? 'Error' }}',
+                        text: 'Please enter a valid email address',
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    $('#guest-email').focus();
+                    return;
+                }
+
+                // Validate offer price
+                if (!selectedOfferValue || selectedOfferValue <= 0) {
+                    swal.fire({
+                        toast: true,
+                        title: '{{ __('messages.error') ?? 'Error' }}',
+                        text: 'Please enter a valid offer price',
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    $('#custom-offer-price').focus();
+                    return;
+                }
+
+                // Build offer message (concise format) - using translations
+                let offerMessage = '';
+                const offerPriceFormatted = selectedOfferValue.toFixed(2).replace('.', ',');
+                const originalPriceFormatted = originalPrice.toFixed(2).replace('.', ',');
+                
+                if (selectedOfferType === 'percentage') {
+                    const percentage = $('.offer-option.active').data('offer-value');
+                    offerMessage = `${offerPrefix} €${offerPriceFormatted} (${percentage}% ${offerDiscount} €${originalPriceFormatted})`;
+                } else {
+                    offerMessage = `${offerPrefix} €${offerPriceFormatted} (${offerFrom} €${originalPriceFormatted})`;
+                }
+
+                // Set the hidden message field
+                $('#contact-message').val(offerMessage);
 
                 // Disable submit button
                 $('#send-contact-btn').prop('disabled', true).html(
-                    '<i class="fa fa-spinner fa-spin"></i> Sending...');
+                    '<i class="fa fa-spinner fa-spin"></i> {{ __('messages.sending') ?? 'Sending...' }}');
 
                 // Send message via AJAX
                 $.ajax({
@@ -1565,7 +1763,8 @@
                         name: name,
                         email: email,
                         phone: phone,
-                        message: message,
+                        message: offerMessage,
+                        advertisement_id: {{ $advertisement->id }},
                         _token: @json(csrf_token())
                     },
                     success: function(response) {
@@ -1622,7 +1821,7 @@
                     complete: function() {
                         // Re-enable submit button
                         $('#send-contact-btn').prop('disabled', false).html(
-                            '<i class="fa fa-paper-plane"></i> Send Message');
+                            '<span class="d-flex align-items-center gap-2">{{ __('messages.make_an_offer') ?? 'Make an offer' }} <i class="fa fa-paper-plane"></i></span>');
                     }
                 });
             });
@@ -1632,8 +1831,20 @@
                 $('#contact-form').removeClass('d-none');
                 $('#contact-success').addClass('d-none');
                 $('#initiate-contact-form')[0].reset();
+                
+                // Reset offer selection
+                $('.offer-option').removeClass('active');
+                $('.offer-option[data-offer-type="custom"]').addClass('active');
+                selectedOfferType = 'custom';
+                selectedOfferValue = originalPrice;
+                $('#custom-offer-price').val(originalPrice.toFixed(2));
+                // Enable input for custom mode
+                $('#custom-offer-price').prop('disabled', false);
+                $('#custom-price-container .input-group-text').css('background-color', '#f8f9fa').css('opacity', '1');
+                updateOfferTotal();
+                
                 $('#send-contact-btn').prop('disabled', false).html(
-                    '<i class="fa fa-paper-plane"></i> Send Message');
+                    '<span class="d-flex align-items-center gap-2">{{ __('messages.make_an_offer') ?? 'Make an offer' }} <i class="fa fa-paper-plane"></i></span>');
             });
 
             // Fix modal blocking issues
@@ -2215,6 +2426,153 @@
 @media (max-width: 991px) {
     .mobile-scroll-to-contact {
         display: flex !important;
+    }
+}
+
+/* Price Offer Section Styles */
+.offer-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.offer-section label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #050B20;
+    display: block;
+}
+
+.offer-product-info {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.offer-product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.offer-product-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #050B20;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.offer-product-price {
+    font-size: 13px;
+    color: #666;
+}
+
+.offer-options {
+    margin-top: 16px;
+}
+
+.offer-option {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.offer-option:hover {
+    border-color: #405FF2;
+    background: #f8f9ff;
+}
+
+.offer-option.active {
+    border-color: #17a2b8;
+    background: #e6f7fa;
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
+}
+
+.offer-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #050B20;
+    margin-bottom: 4px;
+}
+
+.offer-discount {
+    font-size: 12px;
+    color: #666;
+}
+
+.custom-price-input {
+    margin-top: 12px;
+}
+
+.custom-price-input .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.custom-price-input .form-control:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+.custom-price-input .form-control:disabled {
+    background-color: #f8f9fa !important;
+    cursor: not-allowed !important;
+    opacity: 0.7;
+    color: #6c757d;
+}
+
+
+.custom-price-input .input-group-text {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    font-weight: 500;
+    color: #050B20;
+}
+
+.offer-total {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    font-size: 14px;
+}
+
+.offer-total strong {
+    color: #050B20;
+    font-size: 16px;
+}
+
+@media (max-width: 576px) {
+    .offer-option {
+        min-height: 70px;
+        padding: 10px 6px;
+    }
+    
+    .offer-price {
+        font-size: 14px;
+    }
+    
+    .offer-discount {
+        font-size: 11px;
     }
 }
 </style>

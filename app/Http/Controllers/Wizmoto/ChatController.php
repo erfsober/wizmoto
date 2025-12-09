@@ -49,35 +49,28 @@ class ChatController extends Controller
             ]);
         }
 
-        // Create context message about the advertisement
-        $contextMessage = $request->message;
-        if ($request->advertisement_id) {
-            $advertisement = Advertisement::find($request->advertisement_id);
-            if ($advertisement) {
-                $contextMessage = "Regarding: {$advertisement->title}\n\n" . $request->message;
-            }
-        }
-
         $conversation = Conversation::where('provider_id', $request->provider_id)
             ->where('guest_id', $guest->id)
             ->first();
 
         if (!$conversation) {
-
             // Create conversation
             $conversation = Conversation::create([
                 'provider_id' => $request->provider_id,
                 'guest_id' => $guest->id,
-
             ]);
         }
 
         // Create context message about the advertisement
+        // For offer messages (starting with "Offerta:" or "Offer:"), use as-is (already concise)
+        // For other messages, add advertisement title
         $contextMessage = $request->message;
-        if ($request->advertisement_id) {
+        $isOfferMessage = str_starts_with($request->message, 'Offerta:') || str_starts_with($request->message, 'Offer:');
+        
+        if ($request->advertisement_id && !$isOfferMessage) {
             $advertisement = Advertisement::find($request->advertisement_id);
             if ($advertisement) {
-                $contextMessage = "Regarding: {$advertisement->title}\n\n" . $request->message;
+                $contextMessage = "{$advertisement->title}\n\n" . $request->message;
             }
         }
         // Create the initial message
