@@ -1252,7 +1252,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            input.focus();
+            // Don't auto-focus input (like support bot behavior)
+            // input.focus();
             if (window.innerWidth <= 768) {
                 document.body.classList.add('ai-chat-open');
             }
