@@ -433,6 +433,11 @@ body.modal-open .support-chat-widget {
     display: flex;
     gap: 12px;
     align-items: flex-start;
+    margin-bottom: 12px; /* Add margin between messages */
+}
+
+.ai-message:last-child {
+    margin-bottom: 0; /* Remove margin from last message */
 }
 
 .ai-message-avatar {

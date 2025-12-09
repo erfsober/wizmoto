@@ -82,7 +82,7 @@ class PopulateAllItalianTranslationsSeeder extends Seeder
         $translations = [
             'Motorcycle' => 'Moto',
             'Motor Scooter' => 'Scooter',
-            'Scooter' => 'Motorino',
+            'Scooter' => 'Monopattino',
             'Bike' => 'Bicicletta',
         ];
 

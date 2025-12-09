@@ -12705,7 +12705,7 @@ Section Title
 .service-block-thirteen .inner-box .right-box .content-box-two::before {
   content: "";
   position: absolute;
-  top: -6px;
+  top: 37px;
   left: -31px;
   width: 1px;
   height: 220px;
