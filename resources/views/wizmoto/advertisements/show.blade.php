@@ -2626,34 +2626,36 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Mobile scroll button functionality
-        const scrollButton = document.getElementById('mobile-scroll-to-contact');
-        const contactSection = document.getElementById('contact-message-section');
+        // Mobile button to open contact modal
+        const mobileButton = document.getElementById('mobile-scroll-to-contact');
+        const contactModal = document.getElementById('contactModal');
         
-        if (scrollButton) {
-            // Hide button if contact section doesn't exist
-            if (!contactSection) {
-                scrollButton.style.display = 'none';
-            } else {
-                // Add click handler
-                scrollButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Smooth scroll to contact section
-                    contactSection.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                    
-                    // Add highlight effect
-                    contactSection.style.transition = 'box-shadow 0.3s ease';
-                    contactSection.style.boxShadow = '0 0 20px rgba(37, 211, 102, 0.5)';
-                    setTimeout(() => {
-                        contactSection.style.boxShadow = '';
-                    }, 2000);
-                });
-            }
+        if (mobileButton && contactModal) {
+            // Add click handler to open modal
+            mobileButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Open the contact modal using Bootstrap
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const modal = new bootstrap.Modal(contactModal);
+                    modal.show();
+                } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                    // Fallback to jQuery Bootstrap modal
+                    $(contactModal).modal('show');
+                } else {
+                    // Fallback: manually show modal
+                    contactModal.classList.add('show');
+                    contactModal.style.display = 'block';
+                    document.body.classList.add('modal-open');
+                    const backdrop = document.createElement('div');
+                    backdrop.className = 'modal-backdrop fade show';
+                    document.body.appendChild(backdrop);
+                }
+            });
+        } else if (mobileButton && !contactModal) {
+            // Hide button if modal doesn't exist
+            mobileButton.style.display = 'none';
         }
         
         // Mobile layout reordering - physically move elements in DOM
