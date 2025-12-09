@@ -599,6 +599,18 @@
 @include('wizmoto.partials.badge-styles')
 @push('styles')
     <style>
+          @media (max-width: 768px) {
+       
+        .cars-section-three .car-slider-three .car-block-three {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        .cars-section-three .car-slider-three .slick-list {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
         .rating-list .list li i.gray {
             color: #ccc;
             /* gray for empty stars */
