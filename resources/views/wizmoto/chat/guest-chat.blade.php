@@ -250,8 +250,10 @@
                                                 <div class="card-body contacts_body">
                                                     <ul class="contacts">
                                                         @php
-                                                            $provider = $conversation->first()->provider;
-                                                            $lastMessage = $conversation
+                                                            $conversationItem = $conversation;
+                                                            $provider = $conversationItem->provider;
+                                                            $guest = $conversationItem->guest;
+                                                            $lastMessage = $conversationItem
                                                                 ->messages()
                                                                 ->orderByDesc('created_at')
                                                                 ->first();
@@ -261,11 +263,11 @@
                                                                 <div class="d-flex bd-highlight">
                                                                     <div class="img_cont">
                                                                         <div class="rounded-circle user_img bg-primary text-white d-flex align-items-center justify-content-center">
-                                                                            {{ strtoupper(substr($provider->full_name, 0, 1)) }}
+                                                                            {{ strtoupper(substr($guest->name ?? 'G', 0, 1)) }}
                                                                         </div>
                                                                     </div>
                                                                     <div class="user_info">
-                                                                        <span>{{ $provider->full_name }}</span>
+                                                                        <span>{{ $guest->name ?? 'Guest' }}</span>
                                                                         <p>{{ $lastMessage ? Str::limit($lastMessage->message, 30) : 'No messages yet' }}</p>
                                                                     </div>
                                                                     <span class="info">

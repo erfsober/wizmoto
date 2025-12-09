@@ -62,15 +62,21 @@ class ChatController extends Controller
         }
 
         // Create context message about the advertisement
-        // For offer messages (starting with "Offerta:" or "Offer:"), use as-is (already concise)
+        // For offer messages, add item information before the offer
         // For other messages, add advertisement title
         $contextMessage = $request->message;
         $isOfferMessage = str_starts_with($request->message, 'Offerta:') || str_starts_with($request->message, 'Offer:');
         
-        if ($request->advertisement_id && !$isOfferMessage) {
+        if ($request->advertisement_id) {
             $advertisement = Advertisement::find($request->advertisement_id);
             if ($advertisement) {
-                $contextMessage = "{$advertisement->title}\n\n" . $request->message;
+                if ($isOfferMessage) {
+                    // For offer messages, add item name before the offer
+                    $contextMessage = "{$advertisement->title}\n\n" . $request->message;
+                } else {
+                    // For regular messages, add advertisement title
+                    $contextMessage = "{$advertisement->title}\n\n" . $request->message;
+                }
             }
         }
         // Create the initial message
