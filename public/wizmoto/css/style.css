@@ -10511,7 +10511,8 @@ Section Title
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border-bottom: 1px solid #e1e1e1;
+  justify-content: center;
+  /* border-bottom: 1px solid #e1e1e1; */
 }
 
 .car-block-three .inner-box .content-box ul li {
@@ -10558,7 +10559,7 @@ Section Title
 
 .car-block-three .inner-box .content-box .btn-box .details {
   position: absolute;
-  bottom: 11px;
+  top: 23px;
   right: 30px;
   font-size: 15px;
   font-weight: 500;

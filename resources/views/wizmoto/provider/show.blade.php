@@ -397,7 +397,7 @@
                     <div class="tab-content wow fadeInUp" data-wow-delay="200ms" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                             aria-labelledby="nav-home-tab">
-                            <div class="row car-slider-three slider-layout-1" data-preview="3.8">
+                            <div class="row car-slider-three slider-layout-1" data-preview="2.8">
                                 @foreach ($advertisements as $advertisement)
                                     @php
                                         $image = $advertisement->getMedia('covers')->first();
@@ -447,7 +447,7 @@
                                                         {{ $advertisement->brand?->localized_name }} {{ $advertisement->vehicleModel?->localized_name }}
                                                     </a>
                                                 </h6>
-                                                <div class="text">{{ $advertisement->version_model }}</div>
+                                                <div class="text">€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</div>
                                                 <ul>
                                                     <li>
                                                         <i class="flaticon-gasoline-pump"></i>{{ $advertisement->fuelType?->localized_name ?? __('messages.not_specified') }}
@@ -456,11 +456,12 @@
                                                         <i class="flaticon-speedometer"></i>
                                                         {{ $advertisement->mileage ? number_format($advertisement->mileage) . ' ' . __('messages.miles') : __('messages.not_specified') }}
                                                     </li>
+                                                    <li>
+                                                        <i class="flaticon-gearbox"></i>{{ $newAdvertisement->motor_change ?? 'N/A' }}
+                                                    </li>
                                                 </ul>
                                                 <div class="btn-box">
-                                                    <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}
-
-                                                    </span>
+                                                  
                                                     <a href="{{ route('advertisements.show', $advertisement->id) }}"
                                                        class="details">
                                                         {{ __('messages.view_details') }}

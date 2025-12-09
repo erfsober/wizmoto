@@ -4251,6 +4251,9 @@
             padding: 20px 0;
             border-top: 1px solid #e0e0e0;
         }
+        .service-block-thirteen .inner-box .right-box{
+            padding: 10px 30px 10px;
+        }
         
         .pagination {
             display: flex;

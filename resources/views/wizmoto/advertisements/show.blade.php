@@ -839,10 +839,10 @@
                 </div>
         
                 @if($relatedAdvertisements->count() > 0)
-                    <div class="row car-slider-three slider-layout-1" data-preview="3.8">
+                    <div class="row car-slider-three slider-layout-1" data-preview="2.8">
                         @foreach($relatedAdvertisements as $index => $relatedAd)
                             <!-- car-block-three -->
-                            <div class="box-car car-block-three col-lg-4 col-md-6 col-sm-12">
+                            <div class="box-car car-block-three col-lg-3 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image-box">
                                         <div class="fair-price-overlay">
@@ -884,7 +884,7 @@
                                         <h6 class="title">
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}">{{$relatedAd->brand?->localized_name}}{{' '}}{{$relatedAd->vehicleModel?->localized_name}}</a>
                                         </h6>
-                                        <div class="text">{{$relatedAd->version_model}}</div>
+                                        <div class="text">€ {{ number_format($relatedAd->final_price, 0, ',', '.') }}</div>
                                         <ul>
                                             <li>
                                                 <i class="flaticon-gasoline-pump"></i>{{ $relatedAd->fuelType?->localized_name ?? 'N/A' }}
@@ -897,7 +897,7 @@
                                             </li>
                                         </ul>
                                         <div class="btn-box">
-                                            <span>€ {{ number_format($relatedAd->final_price, 0, ',', '.') }}</span>
+                                            
                                             <a href="{{ route('advertisements.show', $relatedAd->id) }}" class="details">{{ __('messages.view_details') }}
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                                                     <g clip-path="url(#clip0_601_4346)">
@@ -2165,6 +2165,7 @@
     position: relative;
     top: 0;
 }
+
 
 /* Contact list image-box - desktop styles */
 @media (min-width: 992px) {

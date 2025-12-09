@@ -21,10 +21,11 @@
                 <div class="content-box" style="display: flex;flex-direction: column;justify-content: space-around;">
                     <h4 class="title">
                         <a href="{{ route('advertisements.show', $advertisement->id) }}">{{ $advertisement->brand?->localized_name }}{{ ' ' }}{{ $advertisement->vehicleModel?->localized_name }}</a>
+                        <div class="text" style="margin-bottom: 15px; padding-top: 10px;">
+                            <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</span>
+                        </div>
                     </h4>
-                    <div class="text" style="margin-bottom: 15px;">
-                        <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</span>
-                    </div>
+                   
                     
                     <div class="inspection-sec">
                         <div class="inspection-box">
@@ -124,7 +125,7 @@
                     </li>
                 </ul>
                 <div class="btn-box">
-                    <span>€ {{ number_format($advertisement->final_price, 0, ',', '.') }}</span>
+                    
                     <a href="{{ route('advertisements.show', $advertisement->id) }}" class="details">{{ __('messages.view_details') }}
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" fill="none">
                             <g clip-path="url(#clip0_601_4346)">
