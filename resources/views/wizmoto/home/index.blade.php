@@ -817,6 +817,9 @@
 
         /* Mobile responsiveness for thumbnails */
         @media (max-width: 768px) {
+            .cars-section-three .car-block-three .inner-box .content-box .title {
+            font-size: 16px;
+        }
             .thumbnail-images {
                 opacity: 1; /* Always show on mobile */
             }
