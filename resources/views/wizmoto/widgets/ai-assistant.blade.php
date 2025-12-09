@@ -685,9 +685,23 @@ body.modal-open .support-chat-widget {
     }
     
     .ai-assistant-widget {
-        bottom: 75px !important; /* Position above support bot (15px + 50px height + 10px gap) */
+        bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
         right: 15px !important; /* Same as support bot - vertically aligned */
     }
+
+    .support-bot {
+            bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
+        }
+        
+        /* Support chat widget - position above sticky button */
+        .support-chat-widget {
+            bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
+        }
+        
+        .ai-assistant-widget {
+            bottom: calc(56px + 80px) !important; /* Above support bot (56px + 20px + 60px widget height + 4px gap) */
+            right: 15px !important;
+        }
     
     .ai-assistant-chat {
         position: fixed;
