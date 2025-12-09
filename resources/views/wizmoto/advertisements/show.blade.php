@@ -1250,7 +1250,7 @@
         width: 90px;
         height: 90px;
         border-radius: 50%;
-        /* overflow: hidden; */
+        overflow: hidden;
         border: 3px solid #f0f0f0;
         display: flex;
         align-items: center;
