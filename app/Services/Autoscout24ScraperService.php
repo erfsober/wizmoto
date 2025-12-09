@@ -387,8 +387,42 @@ class Autoscout24ScraperService
             'contact_email'    => null,
         ];
 
-        if (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
+        // Try multiple patterns to find the JSON data object
+        // The JSON object contains vehicle metadata and contains "cockpit" field
+        // We try different starting fields since not all vehicles have all fields
+        $json = null;
+        
+        // Try patterns in order of likelihood
+        // Pattern 1: JSON starting with zip (very common, like the SEAT ad)
+        if (preg_match('/\{"zip":.*?"cockpit":".*?"\}/s', $html, $m)) {
             $json = $m[0];
+        }
+        // Pattern 2: JSON starting with stmak (brand) - very common
+        elseif (preg_match('/\{"stmak":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        // Pattern 3: JSON starting with stmod (model)
+        elseif (preg_match('/\{"stmod":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        // Pattern 4: JSON starting with stmil (mileage)
+        elseif (preg_match('/\{"stmil":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        // Pattern 5: JSON starting with sthp (for vehicles with horsepower)
+        elseif (preg_match('/\{"sthp":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        // Pattern 6: JSON starting with did (dealer ID)
+        elseif (preg_match('/\{"did":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        // Pattern 7: More flexible - any JSON object containing known fields and cockpit
+        elseif (preg_match('/\{[^}]*"(?:stmak|stmod|stmil|styea|stmon|did|fuel|gear|city|zip|make|model)":.*?"cockpit":".*?"\}/s', $html, $m)) {
+            $json = $m[0];
+        }
+        
+        if ($json !== null) {
             $decoded = json_decode($json, true);
 
             if (is_array($decoded)) {

@@ -516,14 +516,28 @@ class ImportAutoscout24WithRealImages extends Command
 
         // Vehicle condition / category: map Autoscout24 "condition" (e.g. "used","new")
         // into your existing vehicle_category values ("Used", "Era", ...).
+        // The 'fr' field in AutoScout24 JSON is a code: "10" = Used, "20" = New, etc.
         $vehicleCategory = null;
         $condition       = $meta['condition'] ?? null;
-        if (is_string($condition) && $condition !== '') {
-            $cond = mb_strtolower($condition);
-            if (str_contains($cond, 'used') || str_contains($cond, 'usato')) {
-                $vehicleCategory = 'Used';
-            } elseif (str_contains($cond, 'vintage') || str_contains($cond, 'classic') || str_contains($cond, 'epoca')) {
-                $vehicleCategory = 'Era';
+        if ($condition !== null) {
+            // Handle numeric codes from AutoScout24
+            if (is_numeric($condition)) {
+                $conditionCode = (string) $condition;
+                // AutoScout24 condition codes: 10 = Used, 20 = New, etc.
+                if ($conditionCode === '10' || $conditionCode === 'U') {
+                    $vehicleCategory = 'Used';
+                } elseif ($conditionCode === '20' || $conditionCode === 'N') {
+                    $vehicleCategory = 'New';
+                }
+            } elseif (is_string($condition) && $condition !== '') {
+                $cond = mb_strtolower($condition);
+                if (str_contains($cond, 'used') || str_contains($cond, 'usato') || $cond === 'u' || $cond === '10') {
+                    $vehicleCategory = 'Used';
+                } elseif (str_contains($cond, 'new') || str_contains($cond, 'nuovo') || $cond === 'n' || $cond === '20') {
+                    $vehicleCategory = 'New';
+                } elseif (str_contains($cond, 'vintage') || str_contains($cond, 'classic') || str_contains($cond, 'epoca')) {
+                    $vehicleCategory = 'Era';
+                }
             }
         }
 
