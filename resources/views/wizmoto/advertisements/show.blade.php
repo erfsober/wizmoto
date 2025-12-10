@@ -1,4 +1,5 @@
 @extends('master')
+@section('body-class', 'advertisement-show-page')
 @section('content')
     @include('wizmoto.partials.inner-header')
 

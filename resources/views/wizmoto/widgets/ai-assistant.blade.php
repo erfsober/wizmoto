@@ -689,22 +689,31 @@ body.modal-open .support-chat-widget {
         line-height: 1.4;
     }
     
-  
-
+    /* Default positioning for all pages on mobile - badges at bottom */
     .support-bot {
-            bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
-        }
-        
-        /* Support chat widget - position above sticky button */
-        .support-chat-widget {
-            bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
-        }
-        
-        /* AI assistant widget - position above support bot */
-        .ai-assistant-widget {
-            bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
-            right: 15px !important;
-        }
+        bottom: 15px !important; /* Match style.css mobile positioning */
+        right: 15px !important;
+    }
+    
+    .ai-assistant-widget {
+        bottom: 80px !important; /* Above support bot (15px + 50px height + 15px gap) */
+        right: 15px !important;
+    }
+    
+    /* Special positioning only for advertisement show page on mobile (with sticky button) */
+    body.advertisement-show-page .support-bot {
+        bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
+        right: 15px !important;
+    }
+    
+    body.advertisement-show-page .support-chat-widget {
+        bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
+    }
+    
+    body.advertisement-show-page .ai-assistant-widget {
+        bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
+        right: 15px !important;
+    }
     .ai-assistant-chat {
         position: fixed;
         left: 15px;
@@ -806,9 +815,26 @@ body.modal-open .support-chat-widget {
         max-height: 500px;
     }
     
+    /* Default positioning for all pages - badges at bottom */
     .ai-assistant-widget {
+        bottom: 90px !important;
+        right: 15px !important;
+    }
+    
+    .support-bot {
+        bottom: 20px !important;
+        right: 15px !important;
+    }
+    
+    /* Special positioning only for advertisement show page */
+    body.advertisement-show-page .ai-assistant-widget {
         bottom: 75px !important; /* Position above support bot (15px + 50px height + 10px gap) */
-        right: 15px !important; /* Same as support bot - vertically aligned */
+        right: 15px !important;
+    }
+    
+    body.advertisement-show-page .support-bot {
+        bottom: calc(56px + 80px) !important;
+        right: 15px !important;
     }
     
     .ai-assistant-toggle {
