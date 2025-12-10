@@ -1125,6 +1125,11 @@
             gap: 0;
         }
         
+        /* Reduce spacing between main image and thumbnails on mobile */
+        .gallery-sec .gallery-main-row {
+            margin-bottom: 0;
+        }
+        
         /* Force order using grid-row */
         .gallery-sec > .gallery-main-row {
             grid-row: 1;
@@ -1132,9 +1137,15 @@
         
         .gallery-sec > .gallery-main-row .image-column {
             grid-row: 1;
-            margin-bottom: 12px;
+            margin-bottom: 0;
             width: 100%;
             max-width: 100%;
+            padding: 0;
+        }
+        
+        .gallery-sec > .gallery-main-row .image-column .inner-column {
+            padding: 0;
+            margin: 0;
         }
         
         .gallery-sec > .gallery-main-row .side-bar-column {
@@ -1146,7 +1157,7 @@
         
         .gallery-sec > .gallery-thumbnails-row {
             grid-row: 2;
-            margin-top: 0;
+            margin-top: 8px;
             margin-bottom: 20px;
             margin-left: 0;
             margin-right: 0;
@@ -1473,16 +1484,24 @@
         /* Main Image Box - Mobile */
         .gallery-sec .main-image-box {
             margin-bottom: 0;
+            border-radius: 8px;
         }
         
         .gallery-sec .main-image-box .image {
-            min-height: 280px;
-            max-height: 320px;
-            padding: 15px;
+            min-height: auto;
+            max-height: none;
+            height: auto;
+            padding: 0;
+            background: #fff;
         }
         
         .gallery-sec .main-image-box .image img {
-            object-fit: contain;
+            object-fit: cover;
+            width: 100%;
+            height: auto;
+            max-height: 50vh;
+            border-radius: 8px;
+            display: block;
         }
         
         /* Provider Info Box - Mobile */
@@ -1498,7 +1517,7 @@
         
         /* Thumbnail Grid - Mobile: 4 small columns */
         .gallery-thumbnails-row {
-            margin-top: 12px;
+            margin-top: 8px;
         }
         
         .gallery-thumbnails-row .thumbnail-grid-container {
