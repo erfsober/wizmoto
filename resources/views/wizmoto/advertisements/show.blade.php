@@ -1141,11 +1141,15 @@
             width: 100%;
             max-width: 100%;
             padding: 0;
+            display: flex;
+            justify-content: center;
         }
         
         .gallery-sec > .gallery-main-row .image-column .inner-column {
             padding: 0;
             margin: 0;
+            width: 100%;
+            max-width: 100%;
         }
         
         .gallery-sec > .gallery-main-row .side-bar-column {
@@ -1177,6 +1181,9 @@
             padding-right: 0;
             width: 100%;
             max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
     
@@ -1518,11 +1525,18 @@
         /* Thumbnail Grid - Mobile: 4 small columns */
         .gallery-thumbnails-row {
             margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .gallery-thumbnails-row .thumbnail-grid-container {
             justify-content: center;
+            align-items: center;
             gap: 6px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
         }
         
         .gallery-thumbnails-row .image-column-two {
