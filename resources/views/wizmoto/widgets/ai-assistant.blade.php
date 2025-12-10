@@ -702,7 +702,8 @@ body.modal-open .support-chat-widget {
     
     /* Special positioning only for advertisement show page on mobile (with sticky button) */
     body.advertisement-show-page .support-bot {
-        bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
+    
+        bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
         right: 15px !important;
     }
     
@@ -711,9 +712,16 @@ body.modal-open .support-chat-widget {
     }
     
     body.advertisement-show-page .ai-assistant-widget {
-        bottom: calc(56px + 20px) !important; /* Above sticky button (56px) + gap (20px) */
+        bottom: calc(56px + 80px) !important; /* Above sticky button (56px) + AI widget space (60px + 20px gap) */
         right: 15px !important;
     }
+    @media (max-width: 768px) {
+    body.advertisement-show-page .ai-support-alert {
+        bottom: calc(56px + 80px + 10px ) !important; /* Above AI widget: sticky button (56px) + AI widget bottom (80px) + AI widget height (60px) + gap (10px) */
+        right: 77px !important; /* Beside AI widget (to the left: 15px widget position + 56px icon width + 6px gap) */
+        left: auto !important;
+    }
+}
     .ai-assistant-chat {
         position: fixed;
         left: 15px;

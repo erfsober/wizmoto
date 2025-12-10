@@ -1099,6 +1099,7 @@
 
 @push('styles')
     <style>
+   
     /* Professional AutoScout-style Gallery Layout */
     .gallery-sec {
         margin-bottom: 30px;
